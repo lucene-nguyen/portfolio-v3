@@ -1,10 +1,11 @@
 import type { ThemeDefinition } from "../types";
 
-// "Portfolio v3" design system tokens.
+// "Portfolio v3" design system tokens. Design rules: design-system/portfolio-v3/pages/night-terminal.md
 export const nightTerminal: ThemeDefinition = {
   id: "night-terminal",
   name: "Night terminal",
   colorScheme: "dark",
+  features: [() => import("./command-bar")],
   tokens: {
     bg: "#0B0F14",
     bgAlt: "#0E131A",
