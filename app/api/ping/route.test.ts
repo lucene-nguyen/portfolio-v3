@@ -40,7 +40,14 @@ describe("/api/ping", () => {
     expect(res.headers.get("X-RateLimit-Limit")).toBe("5");
     expect(res.headers.get("Retry-After")).toBeNull();
     expect(res.headers.get("X-RateLimit-Store")).toBe("memory");
-    expect(await res.json()).toEqual({ ok: true, algo: "token", remaining: 4, limit: 5 });
+    expect(await res.json()).toEqual({
+      ok: true,
+      algo: "token",
+      remaining: 4,
+      limit: 5,
+      resetMs: 1000,
+    });
+    expect(res.headers.get("X-RateLimit-Reset-Ms")).toBe("1000");
   });
 
   it("limits per visitor IP", async () => {

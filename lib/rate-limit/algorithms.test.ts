@@ -22,7 +22,8 @@ describe("tokenBucket (capacity 5, 1 token/s)", () => {
     const ds = hits<BucketState>(tokenBucket, [0, 0, 0, 0, 0, 0]);
     expect(ds.map((d) => d.allowed)).toEqual([true, true, true, true, true, false]);
     expect(ds.map((d) => d.remaining)).toEqual([4, 3, 2, 1, 0, 0]);
-    expect(ds[5]).toMatchObject({ retryAfterMs: 1000, limit: 5 });
+    expect(ds[5]).toMatchObject({ retryAfterMs: 1000, limit: 5, resetMs: 5000 });
+    expect(ds[0].resetMs).toBe(1000);
   });
 
   it("refills exactly one token after 1000ms, not at 999ms", () => {
@@ -52,7 +53,8 @@ describe("fixedWindow (capacity 5, 5s window)", () => {
   it("allows 5 per window and denies the rest until the window ends", () => {
     const ds = hits<WindowState>(fixedWindow, [0, 100, 200, 300, 400, 500, 4999]);
     expect(ds.map((d) => d.allowed)).toEqual([true, true, true, true, true, false, false]);
-    expect(ds[5]).toMatchObject({ remaining: 0, retryAfterMs: 4500 });
+    expect(ds[5]).toMatchObject({ remaining: 0, retryAfterMs: 4500, resetMs: 4500 });
+    expect(ds[0].resetMs).toBe(5000);
     expect(ds[6]).toMatchObject({ retryAfterMs: 1 });
   });
 

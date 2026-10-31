@@ -16,6 +16,8 @@ export interface Decision {
   remaining: number;
   /** Milliseconds until the next request can succeed; 0 when allowed. */
   retryAfterMs: number;
+  /** Milliseconds until capacity is fully restored (bucket full / window over). */
+  resetMs: number;
 }
 
 export interface BucketState {
@@ -32,7 +34,13 @@ export function tokenBucket(prev: BucketState | undefined, now: number): [Decisi
   if (allowed) tokens -= 1;
   const retryAfterMs = allowed ? 0 : Math.ceil((1 - tokens) / refillPerMs);
   return [
-    { allowed, limit: capacity, remaining: Math.floor(tokens), retryAfterMs },
+    {
+      allowed,
+      limit: capacity,
+      remaining: Math.floor(tokens),
+      retryAfterMs,
+      resetMs: Math.ceil((capacity - tokens) / refillPerMs),
+    },
     { tokens, ts: now },
   ];
 }
@@ -54,6 +62,7 @@ export function fixedWindow(prev: WindowState | undefined, now: number): [Decisi
       limit: capacity,
       remaining: Math.max(0, capacity - count),
       retryAfterMs: allowed ? 0 : state.resetAt - now,
+      resetMs: state.resetAt - now,
     },
     { count, resetAt: state.resetAt },
   ];

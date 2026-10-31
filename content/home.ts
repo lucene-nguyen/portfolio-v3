@@ -109,6 +109,20 @@ export const lab = {
   intro:
     "Hit the endpoint as fast as you like. Watch how token bucket and fixed window treat the same burst differently — the same trade-off I work through in",
   repo: { label: "rate-limiting-lab", href: "https://github.com/lucene-nguyen/rate-limiting-lab" },
+  ui: {
+    algorithm: "Algorithm",
+    token: "Token bucket",
+    window: "Fixed window",
+    tokensLabel: "tokens in bucket",
+    windowLabel: "requests left in window",
+    send: "Send request",
+    burst: "Burst × 10",
+    reset: "Reset",
+    resetDone: "Limiter and log reset.",
+    counters: "Response counts",
+    logLabel: "Request log, newest first",
+    empty: "$ waiting for requests…",
+  },
   facts: [
     "Capacity: 5 requests",
     "Token bucket refills 1 token / second",
