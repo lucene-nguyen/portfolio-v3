@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { container } from "@/components/home/ui";
-import { kits, profile, systemMap, work } from "@/content/home";
+import { kits, lab, profile, systemMap, work } from "@/content/home";
 
 interface MapNode {
   href: string;
   title: string;
   tech: string;
   impact: string;
+  external?: boolean;
   /** Position on the 1000×440 drawing (center of the node). */
   x: number;
   y: number;
@@ -20,7 +21,7 @@ const SLOTS = [
   { x: 810, y: 360 },
 ];
 
-const repo = kits.items.find((k) => k.href.startsWith("https://"));
+const repo = kits.items.find((k) => k.href === lab.repo.href);
 
 export const mapNodes: MapNode[] = [
   ...work.items.map((c) => ({
@@ -30,7 +31,7 @@ export const mapNodes: MapNode[] = [
     impact: `${c.metrics[0].value} ${c.metrics[0].label}`,
   })),
   ...(repo
-    ? [{ href: repo.href, title: repo.name, tech: repo.stack, impact: repo.description }]
+    ? [{ href: repo.href, title: repo.name, tech: repo.stack, impact: repo.status, external: true }]
     : []),
 ]
   .slice(0, SLOTS.length)
@@ -49,7 +50,7 @@ export function SystemMap() {
           <p className="mt-3 max-w-[620px] text-text-secondary">{systemMap.intro}</p>
         </div>
 
-        <div className="relative md:aspect-[1000/440]">
+        <div className="relative md:mb-20 md:aspect-[1000/440]">
           <svg
             viewBox="0 0 1000 440"
             aria-hidden
@@ -100,8 +101,11 @@ export function SystemMap() {
                     aria-hidden
                     className="absolute -right-px -bottom-px size-2 border-r border-b border-accent"
                   />
-                  <span className="block font-semibold text-text">{n.title}</span>
-                  <span className="sr-only group-hover:not-sr-only group-focus-visible:not-sr-only group-hover:mt-2 group-hover:block group-focus-visible:mt-2 group-focus-visible:block">
+                  <span className="block font-semibold text-text">
+                    {n.title}
+                    {n.external && <span className="sr-only"> (GitHub)</span>}
+                  </span>
+                  <span className="sr-only group-hover:not-sr-only group-hover:mt-2 group-hover:block group-focus-visible:not-sr-only group-focus-visible:mt-2 group-focus-visible:block md:group-hover:absolute md:group-hover:inset-x-[-1px] md:group-hover:top-full md:group-hover:z-10 md:group-hover:mt-0 md:group-hover:border md:group-hover:border-accent md:group-hover:bg-surface md:group-hover:p-3 md:group-focus-visible:absolute md:group-focus-visible:inset-x-[-1px] md:group-focus-visible:top-full md:group-focus-visible:z-10 md:group-focus-visible:mt-0 md:group-focus-visible:border md:group-focus-visible:border-accent md:group-focus-visible:bg-surface md:group-focus-visible:p-3">
                     <span className="block text-xs text-text-muted">{n.tech}</span>
                     <span className="block text-xs text-accent">{n.impact}</span>
                   </span>

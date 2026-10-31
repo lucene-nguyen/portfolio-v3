@@ -66,8 +66,14 @@ test.describe("system map", () => {
 
   test("list view offers the same links", async ({ page }) => {
     await map(page).getByText("View as list").click();
-    const list = map(page).locator("details ul");
-    await expect(list.getByRole("link")).toHaveCount(4);
+    const listHrefs = await map(page)
+      .locator("details ul a")
+      .evaluateAll((els) => els.map((e) => e.getAttribute("href")));
+    const nodeHrefs = await map(page)
+      .locator("div.relative > ul > li > a")
+      .evaluateAll((els) => els.map((e) => e.getAttribute("href")));
+    expect(listHrefs).toHaveLength(4);
+    expect(listHrefs).toEqual(nodeHrefs);
   });
 
   test("no axe violations; no horizontal scroll at 375px", async ({ page }) => {

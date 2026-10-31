@@ -37,10 +37,10 @@
 
 ## Typography & shape
 - Headings in JetBrains Mono (technical labels); body stays Inter Tight.
-- Radius 2px feel; 1px lines; 24px grid-paper background (decorative, `border` at 35%).
+- Radius 2px feel; 1px dashed connectors; 24px grid-paper background (decorative, `border` at 35%).
 
 ## System map (theme feature, home page)
-- One node per case study / public project; a hub node for the owner. Connectors are 1px `borderStrong` lines.
+- One node per case study / public project; a hub node for the owner. Connectors are 1px dashed `borderStrong` lines.
 - Each node is a real link (accessible name = title + tech + impact); details show on hover **and** keyboard focus.
 - "View as list" (`<details>`) gives the same links as a plain list.
 - Pure HTML/SVG/CSS: renders and navigates without JavaScript.
