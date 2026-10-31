@@ -1,17 +1,7 @@
 @import "tailwindcss";
 
-/* "Portfolio v3" tokens (default theme). Components use the Tailwind names below, never raw hex. */
-:root {
-  --bg: #0b0f14;
-  --surface: #121821;
-  --border: #1f2a37;
-  --text: #e6edf3;
-  --text-muted: #8b98a9;
-  --text-subtle: #7a8798;
-  --accent: #7ee787;
-  --accent-contrast: #0b0f14;
-}
-
+/* Token values come from themes/<id>/index.ts, rendered per [data-theme] in the root layout.
+   Components use the Tailwind names below, never raw hex. */
 @theme inline {
   --color-bg: var(--bg);
   --color-surface: var(--surface);
@@ -23,9 +13,23 @@
   --color-accent-contrast: var(--accent-contrast);
   --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-heading: var(--font-sans);
+  --radius-theme: var(--radius, 0.5rem);
 }
 
 body {
   background: var(--bg);
   color: var(--text);
+}
+
+/* Global reduced-motion switch: no theme animation survives it. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
