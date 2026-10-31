@@ -131,6 +131,7 @@ export const hudCopy = {
   client: "CLIENT",
   firewall: "FIREWALL",
   server: "/api/ping",
+  packet: "PKT",
   blocked: "BLOCKED",
 };
 

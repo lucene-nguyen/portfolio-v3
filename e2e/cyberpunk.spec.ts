@@ -12,6 +12,7 @@ test("no glow; glitch and scanlines run with motion allowed", async ({ page }) =
   await page.goto("/?theme=cyberpunk");
   await expect(page.getByTestId("cp-hud")).toBeAttached();
   await expect(page.getByRole("heading", { level: 1 })).toHaveCSS("text-shadow", "none");
+  await expect(page.locator("#work h2")).toHaveCSS("text-shadow", "none");
   expect(await page.locator("body").evaluate((b) => getComputedStyle(b).backgroundImage)).toContain(
     "gradient",
   );
@@ -54,6 +55,34 @@ test("burst: packets and a BLOCKED packet; firewall flashes ≤ 3 per second", a
   for (const t of flashes)
     expect(flashes.filter((u) => u >= t && u < t + 1000).length).toBeLessThanOrEqual(3);
   await expect(hud).toHaveAttribute("aria-hidden", "true");
+});
+
+test("HUD survives client-side navigation", async ({ page }) => {
+  await page.goto("/?theme=cyberpunk");
+  await expect(page.getByTestId("cp-hud")).toBeAttached();
+  await page
+    .getByRole("link", { name: /Read case study: A non-blocking AI image pipeline/ })
+    .click();
+  await expect(page).toHaveURL(/\/work\/ai-image-pipeline$/);
+  await page.getByRole("link", { name: "All case studies" }).click();
+  await expect(page.getByTestId("cp-hud")).toBeAttached();
+  await page.locator("#lab").getByRole("button", { name: "Send request" }).click();
+  await expect(page.getByTestId("cp-hud").getByText("PKT 200")).toBeAttached();
+  await expect(page.locator("#lab")).toHaveClass(/cp-glitch/);
+});
+
+test("reduced motion: packets stay visible", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/?theme=cyberpunk");
+  await expect(page.getByTestId("cp-hud")).toBeAttached();
+  await page.locator("#lab").getByRole("button", { name: "Send request" }).click();
+  const hud = page.getByTestId("cp-hud");
+  const packet = hud.getByText("PKT 200");
+  await expect(packet).toBeAttached();
+  const [h, p] = [await hud.boundingBox(), await packet.boundingBox()];
+  // Inside the HUD box, not clipped away at the end of a finished animation.
+  expect(p!.x).toBeGreaterThanOrEqual(h!.x);
+  expect(p!.x + p!.width).toBeLessThanOrEqual(h!.x + h!.width);
 });
 
 test("axe clean; 375px", async ({ page }) => {

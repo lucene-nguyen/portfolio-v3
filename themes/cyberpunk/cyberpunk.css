@@ -8,6 +8,7 @@
 /* Chamfered HUD frames. */
 [data-theme="cyberpunk"] #work article,
 [data-theme="cyberpunk"] #lab .bg-surface {
+  border-radius: 0;
   clip-path: polygon(
     14px 0,
     100% 0,
@@ -31,6 +32,7 @@
 }
 .cp-hud__label {
   position: absolute;
+  font-size: 10px;
   top: 4px;
   color: var(--text-muted);
 }
@@ -55,11 +57,25 @@
 }
 .cp-packet[data-ok="true"] {
   color: var(--meter-fill);
-  animation: cp-pass 900ms linear forwards;
+  animation: cp-pass 900ms linear both;
 }
 .cp-packet[data-ok="false"] {
   color: var(--danger);
-  animation: cp-block 900ms linear forwards;
+  animation: cp-block 900ms linear both;
+}
+/* Reduced motion: packets sit still where they end up, so the HUD is never empty. */
+@media (prefers-reduced-motion: reduce) {
+  .cp-packet {
+    animation: none !important;
+  }
+  .cp-packet[data-ok="true"] {
+    left: auto;
+    right: 6px;
+    top: 30px;
+  }
+  .cp-packet[data-ok="false"] {
+    left: calc(62% - 90px);
+  }
 }
 @keyframes cp-pass {
   to {

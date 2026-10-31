@@ -1,4 +1,4 @@
-/** Fired on window for every /api/ping response the lab receives (themes can visualize it). */
+/** Fired on window for every HTTP response from /api/ping in the lab (themes can visualize it). */
 export const LAB_RESPONSE = "lab:response";
 export type LabResponseDetail = { status: number };
 
