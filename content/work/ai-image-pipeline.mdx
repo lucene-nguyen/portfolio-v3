@@ -1,0 +1,57 @@
+{/* Facts from the owner's approved mockup only. Client details generalized (NDA). */}
+
+## Context
+
+An AI image processing product for a Japanese client, running models on Databricks. I worked on it at FPT Software.
+
+## Problem
+
+Large image uploads had to reach Model Serving without blocking the API or running out of memory, and users needed to see results as soon as they were ready. [PLACEHOLDER: what went wrong before]
+
+## Constraints
+
+- Large uploads must not exhaust server memory.
+- Model Serving calls can fail and must be retried safely.
+- [PLACEHOLDER: volumes, file sizes, latency targets]
+
+## Architecture
+
+<ArchitectureDiagram
+  title="Non-blocking image pipeline: stream in, return a job ID, push results back"
+  flow={[
+    { label: "Upload", tech: "Node.js streams", icon: "upload" },
+    { label: "API returns job ID", tech: "Node.js", icon: "service" },
+    { label: "Preprocessing", tech: "Worker Threads", icon: "worker" },
+    { label: "Retries + dead-letter queue", tech: "[PLACEHOLDER]", icon: "cache" },
+    { label: "Model Serving", tech: "Databricks", icon: "model" },
+    { label: "Live results", tech: "WebSocket", icon: "realtime" },
+  ]}
+  side={[{ label: "Job data", tech: "PostgreSQL", icon: "database" }]}
+/>
+
+## Decisions & trade-offs
+
+### Stream uploads, answer with a job ID
+
+Uploads are streamed instead of buffered, and the API returns a job ID immediately so the client never waits on processing.
+
+### Preprocess in Worker Threads
+
+Image preprocessing runs in Worker Threads so CPU-heavy work stays off the main event loop. [PLACEHOLDER: pool size and back-pressure]
+
+### Retries and dead-letter queues before Model Serving
+
+Failed jobs are retried, and jobs that keep failing go to a dead-letter queue instead of being lost. [PLACEHOLDER: retry policy and queue technology]
+
+### Results over WebSocket
+
+Clients receive results over WebSocket as soon as a job finishes. [PLACEHOLDER: reconnect and missed-message handling]
+
+## Results
+
+- **0** out-of-memory errors on large uploads.
+- p95 job latency: **[PLACEHOLDER]**.
+
+## Learnings
+
+[PLACEHOLDER]

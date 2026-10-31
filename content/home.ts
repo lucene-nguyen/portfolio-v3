@@ -58,6 +58,7 @@ export interface CaseStudySummary {
 export const work = {
   eyebrow: "01 / selected work",
   title: "Case studies",
+  backLabel: "All case studies",
   intro:
     "Problem, constraints, architecture and the trade-offs behind each decision. Client details are generalized where NDAs apply.",
   items: [
