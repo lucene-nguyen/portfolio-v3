@@ -38,6 +38,7 @@ bloat the default page or flash the wrong colors on load.
 - Every theme's tokens are validated by `themes/registry.test.ts` (WCAG 4.5:1 for text, muted, subtle
   on bg and surface; accent-contrast on accent).
 - Themes with a custom layout show the standard layout during hydration, then swap; colors never flash.
-- Switching to or from a layout theme remounts page content (client state inside it resets; content does not change).
+- Switching to or from a layout theme, or a hard load with a stored layout theme, remounts page content
+  (client state inside it resets; content does not change).
   Global chrome that must survive a switch (the switcher itself) lives in the root layout, outside `ThemeRuntime`.
 - Font overrides are emitted as `--theme-font-*` because Tailwind owns `--font-sans`/`--font-mono`/`--font-heading`.

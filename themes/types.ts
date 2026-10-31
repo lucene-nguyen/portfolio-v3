@@ -4,6 +4,7 @@ import type { ComponentType, ReactNode } from "react";
 export interface ThemeTokens {
   bg: string;
   surface: string;
+  /** Decorative dividers only; control outlines need a token with at least 3:1 contrast (e.g. textSubtle). */
   border: string;
   text: string;
   textMuted: string;

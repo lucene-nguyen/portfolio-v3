@@ -17,7 +17,7 @@
   --font-heading:
     var(--theme-font-heading, var(--theme-font-sans, var(--font-inter-tight))), ui-sans-serif,
     system-ui, sans-serif;
-  --radius-theme: var(--radius, 0.5rem);
+  --radius-theme: var(--theme-radius, 0.5rem);
 }
 
 body {

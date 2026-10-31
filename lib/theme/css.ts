@@ -1,9 +1,9 @@
 import type { ThemeDefinition } from "@/themes/types";
 
 const kebab = (s: string) => s.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
-// Font overrides use their own names; Tailwind owns --font-sans/--font-mono/--font-heading.
+// Font/radius overrides use their own names; Tailwind owns --font-*, shadcn owns --radius.
 const cssVar = (key: string) =>
-  key.startsWith("font") ? `--theme-${kebab(key)}` : `--${kebab(key)}`;
+  key.startsWith("font") || key === "radius" ? `--theme-${kebab(key)}` : `--${kebab(key)}`;
 
 /** One CSS rule per theme; the default theme also applies to `:root`. */
 export function themesToCss(themes: readonly ThemeDefinition[], defaultId: string): string {
