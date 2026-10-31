@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+/* "Portfolio v3" tokens (default theme). Components use the Tailwind names below, never raw hex. */
+:root {
+  --bg: #0b0f14;
+  --surface: #121821;
+  --border: #1f2a37;
+  --text: #e6edf3;
+  --text-muted: #8b98a9;
+  --text-subtle: #7a8798;
+  --accent: #7ee787;
+  --accent-contrast: #0b0f14;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-text-subtle: var(--text-subtle);
+  --color-accent: var(--accent);
+  --color-accent-contrast: var(--accent-contrast);
+  --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
