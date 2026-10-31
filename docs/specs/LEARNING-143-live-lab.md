@@ -19,7 +19,7 @@ HUD/mana-bar variants (themes 11 and 12).
 - AC1: Given the lab, then the toggle, Send, Burst × 10 and Reset controls are buttons with visible labels and the selected algorithm has `aria-pressed="true"`.
 - AC2: Given "Send request", then a log row shows time, `200` and `X-RateLimit-Remaining: 4`, and the meter's `aria-valuenow` is 4.
 - AC3: Given "Burst × 10" from a fresh limiter, then the log keeps only the last 8 rows, counters add up to 10, and at least one `429` appears.
-- AC4: Given "Reset", then the log and counters clear and the next request returns 200.
+- AC4: Given "Reset", then both algorithms' limiters, the log and counters clear and the next request returns 200; a failed reset is announced and leaves state unchanged.
 - AC5: Given the lab, then it links to the `rate-limiting-lab` repo.
 - AC6: Given the token bucket after a burst, when 1 s passes, then the meter rises by one without a new request.
 - AC7: Given the lab after a burst, then axe reports no violations; the result summary is announced via `role="status"`.

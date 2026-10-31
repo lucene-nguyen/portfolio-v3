@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 import { lab } from "@/content/home";
 import { project, windowResetsIn, type Snapshot } from "@/lib/lab/meter";
-import type { Algo } from "@/lib/rate-limit/algorithms";
-import { LIMITS } from "@/lib/rate-limit/algorithms";
+import { LIMITS, type Algo } from "@/lib/rate-limit/algorithms";
 import { cn } from "@/lib/utils";
 
 interface LogRow {
@@ -12,6 +11,7 @@ interface LogRow {
   time: string;
   code: number;
   msg: string;
+  snapshot?: Snapshot;
 }
 
 const LOG_SIZE = 8;
@@ -23,6 +23,14 @@ const ALGOS: { id: Algo; label: string }[] = [
 let seq = 0;
 const stamp = (d = new Date()) =>
   `${d.toTimeString().slice(0, 8)}.${String(d.getMilliseconds()).padStart(3, "0")}`;
+
+/** Responses of a burst arrive out of order; the most-drained one is closest to the server state. */
+function mostDrained(rows: LogRow[]): Snapshot | undefined {
+  return rows
+    .map((r) => r.snapshot)
+    .filter((s): s is Snapshot => !!s)
+    .sort((a, b) => a.remaining - b.remaining || b.resetMs - a.resetMs)[0];
+}
 
 export function RateLimitLab() {
   const [algo, setAlgo] = useState<Algo>("token");
@@ -37,55 +45,76 @@ export function RateLimitLab() {
   const level = project(algo, snapshot, now);
 
   // Tick only while capacity is still coming back.
+  const refilling = !!snapshot && level < snapshot.limit;
   useEffect(() => {
-    if (!snapshot || project(algo, snapshot, Date.now()) >= snapshot.limit) return;
+    if (!refilling) return;
     const t = setInterval(() => setNow(Date.now()), 250);
     return () => clearInterval(t);
-  }, [algo, snapshot, now]);
+  }, [refilling]);
 
   async function ping(): Promise<LogRow> {
     try {
       const res = await fetch(`/api/ping?algo=${algo}`, { cache: "no-store" });
       const remaining = Number(res.headers.get("X-RateLimit-Remaining") ?? 0);
       const resetMs = Number(res.headers.get("X-RateLimit-Reset-Ms") ?? 0);
-      const at = Date.now();
-      if (res.status === 200 || res.status === 429) {
-        setSnapshots((s) => ({
-          ...s,
-          [algo]: { remaining, resetMs, limit: LIMITS.capacity, at },
-        }));
-        setNow(at);
-      }
+      const limited = res.status === 200 || res.status === 429;
       const msg =
         res.status === 200
-          ? `OK · X-RateLimit-Remaining: ${remaining}`
+          ? `${lab.ui.ok} · X-RateLimit-Remaining: ${remaining}`
           : res.status === 429
-            ? `Too Many Requests · Retry-After: ${res.headers.get("Retry-After")}s`
-            : `Error · ${res.statusText || "unavailable"}`;
-      return { id: ++seq, time: stamp(), code: res.status, msg };
+            ? `${lab.ui.tooMany} · Retry-After: ${res.headers.get("Retry-After")}s`
+            : `${lab.ui.error} · ${res.status}`;
+      return {
+        id: ++seq,
+        time: stamp(),
+        code: res.status,
+        msg,
+        snapshot: limited
+          ? { remaining, resetMs, limit: LIMITS.capacity, at: Date.now() }
+          : undefined,
+      };
     } catch {
-      return { id: ++seq, time: stamp(), code: 0, msg: "Network error" };
+      return { id: ++seq, time: stamp(), code: 0, msg: lab.ui.networkError };
     }
   }
 
   async function send(n: number) {
+    if (busy) return;
     setBusy(true);
     const rows = await Promise.all(Array.from({ length: n }, ping));
+    const latest = mostDrained(rows);
+    if (latest) {
+      setSnapshots((s) => ({ ...s, [algo]: latest }));
+      setNow(Date.now());
+    }
     const ok = rows.filter((r) => r.code === 200).length;
     const blocked = rows.filter((r) => r.code === 429).length;
     setCounts((c) => ({ ok: c.ok + ok, blocked: c.blocked + blocked }));
-    setLog((l) => [...rows.toReversed(), ...l].slice(0, LOG_SIZE));
-    setSummary(`${n} sent: ${ok} × 200, ${blocked} × 429.`);
+    setLog((l) => [...[...rows].reverse(), ...l].slice(0, LOG_SIZE));
+    setSummary(`${stamp()}: ${lab.ui.sent(n, ok, blocked)}`);
     setBusy(false);
   }
 
   async function reset() {
+    if (busy) return;
     setBusy(true);
-    await fetch(`/api/ping?algo=${algo}`, { method: "DELETE" }).catch(() => {});
-    setSnapshots((s) => ({ ...s, [algo]: undefined }));
-    setCounts({ ok: 0, blocked: 0 });
-    setLog([]);
-    setSummary(lab.ui.resetDone);
+    // Counters and log cover both algorithms, so reset both limiters.
+    const results = await Promise.all(
+      ALGOS.map((a) =>
+        fetch(`/api/ping?algo=${a.id}`, { method: "DELETE" }).then(
+          (r) => r.ok,
+          () => false,
+        ),
+      ),
+    );
+    if (results.every(Boolean)) {
+      setSnapshots({});
+      setCounts({ ok: 0, blocked: 0 });
+      setLog([]);
+      setSummary(`${stamp()}: ${lab.ui.resetDone}`);
+    } else {
+      setSummary(`${stamp()}: ${lab.ui.resetFailed}`);
+    }
     setBusy(false);
   }
 
@@ -96,7 +125,7 @@ export function RateLimitLab() {
     algo === "token"
       ? lab.ui.tokensLabel
       : resetsIn
-        ? `${lab.ui.windowLabel} · resets in ${resetsIn}s`
+        ? `${lab.ui.windowLabel} · ${lab.ui.resetsIn(resetsIn)}`
         : lab.ui.windowLabel;
 
   return (
@@ -115,7 +144,10 @@ export function RateLimitLab() {
               key={a.id}
               type="button"
               aria-pressed={algo === a.id}
-              onClick={() => setAlgo(a.id)}
+              onClick={() => {
+                setAlgo(a.id);
+                setNow(Date.now());
+              }}
               className={cn(
                 "min-h-11 rounded-[7px] px-3.5 text-sm font-semibold transition-colors duration-150",
                 algo === a.id ? "bg-surface-2 text-text" : "text-text-muted hover:text-text",
@@ -143,7 +175,7 @@ export function RateLimitLab() {
             aria-valuemin={0}
             aria-valuemax={LIMITS.capacity}
             aria-valuenow={level}
-            aria-valuetext={`${level} of ${LIMITS.capacity} requests left`}
+            aria-valuetext={lab.ui.meterText(level, LIMITS.capacity)}
             className="h-3 overflow-hidden rounded-md bg-bg"
           >
             <div
@@ -159,29 +191,33 @@ export function RateLimitLab() {
         <div className="flex flex-wrap items-center gap-2.5">
           <button
             type="button"
-            disabled={busy}
+            aria-disabled={busy}
             onClick={() => send(1)}
-            className="min-h-11 rounded-[10px] bg-accent px-5 text-[15px] font-semibold text-accent-contrast disabled:opacity-60"
+            className="min-h-11 rounded-[10px] bg-accent px-5 text-[15px] font-semibold text-accent-contrast aria-disabled:opacity-60"
           >
             {lab.ui.send}
           </button>
           <button
             type="button"
-            disabled={busy}
+            aria-disabled={busy}
             onClick={() => send(10)}
-            className="min-h-11 rounded-[10px] border border-border-strong px-5 text-[15px] font-medium text-text disabled:opacity-60"
+            className="min-h-11 rounded-[10px] border border-border-strong px-5 text-[15px] font-medium text-text aria-disabled:opacity-60"
           >
             {lab.ui.burst}
           </button>
           <button
             type="button"
-            disabled={busy}
+            aria-disabled={busy}
             onClick={reset}
-            className="min-h-11 rounded-[10px] px-4 text-[15px] text-text-muted hover:text-text disabled:opacity-60"
+            className="min-h-11 rounded-[10px] px-4 text-[15px] text-text-muted hover:text-text aria-disabled:opacity-60"
           >
             {lab.ui.reset}
           </button>
-          <div className="ml-auto flex gap-4 font-mono text-sm" aria-label={lab.ui.counters}>
+          <div
+            role="group"
+            className="ml-auto flex gap-4 font-mono text-sm"
+            aria-label={lab.ui.counters}
+          >
             <span className="text-accent" data-testid="count-200">
               200 × {counts.ok}
             </span>
