@@ -61,7 +61,12 @@ test("keyboard: skip link first, then nav, with visible focus ring", async ({ pa
 
 test("keyboard: every link and control is reachable and shows a focus ring", async ({ page }) => {
   await page.goto("/");
-  const expected = await page.locator("a[href], button, select").count();
+  // Theme features load lazily; wait so the count is stable.
+  await expect(page.getByRole("button", { name: "Terminal" })).toBeVisible();
+  // Closed dialogs are not tabbable.
+  const expected = await page
+    .locator("a[href], button, select")
+    .evaluateAll((els) => els.filter((e) => !e.closest("dialog:not([open])")).length);
   const seen = new Set<string>();
   for (let i = 0; i < expected + 2; i++) {
     await page.keyboard.press("Tab");
