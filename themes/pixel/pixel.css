@@ -8,15 +8,22 @@
 }
 
 /* Dialog-box cards: hard pixel shadow. */
-[data-theme="pixel"] article,
+[data-theme="pixel"] #work article,
 [data-theme="pixel"] #lab .bg-surface {
   box-shadow: 4px 4px 0 var(--border-strong);
 }
 
-/* The rate-limit meter becomes a segmented mana bar. */
+/* The rate-limit meter becomes a segmented mana bar: dividers drawn above the fill. */
 [data-theme="pixel"] #lab [role="meter"] {
+  position: relative;
   height: 20px;
   border: 2px solid var(--border-strong);
+}
+[data-theme="pixel"] #lab [role="meter"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
   background-image: repeating-linear-gradient(
     90deg,
     transparent 0 calc(20% - 2px),
@@ -24,6 +31,6 @@
   );
 }
 [data-theme="pixel"] #lab-meter-label::before {
-  content: "MANA · ";
+  content: "MANA · " / "";
   color: var(--accent);
 }

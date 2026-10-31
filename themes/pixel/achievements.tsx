@@ -166,7 +166,10 @@ export default function PixelAchievements() {
           {achievementsCopy.sound}
         </label>
         <form method="dialog" className="mt-4">
-          <button className="min-h-11 border-2 border-border-strong px-4 font-mono text-sm">
+          <button
+            type="submit"
+            className="min-h-11 border-2 border-border-strong px-4 font-mono text-sm"
+          >
             {achievementsCopy.close}
           </button>
         </form>

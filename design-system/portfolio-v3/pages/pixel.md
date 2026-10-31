@@ -27,7 +27,7 @@
 | text2 | #E0E3F2 | tags |
 | textSecondary | #C8CCE4 | body |
 | textMuted | #AEB4D6 | meta |
-| textSubtle | #A1A8CE | fine print (5.1:1 on surface2) |
+| textSubtle | #A1A8CE | fine print; on bg, bgAlt, surface (project rule: never on surface2) |
 | accent | #A7F070 | XP green: CTA, unlocked, focus ring |
 | accentContrast | #1A1C2C | text on accent |
 | warning | #FFCD75 | planned |

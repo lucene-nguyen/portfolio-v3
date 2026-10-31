@@ -79,6 +79,18 @@ test("mana bar, axe clean, 375px", async ({ page }) => {
   const btn = await button(page).boundingBox();
   const last = await page.locator("footer span").last().boundingBox();
   expect(last!.y + last!.height).toBeLessThanOrEqual(btn!.y + 1);
+  // Segment dividers sit above the fill; low mana switches to the danger color.
+  const meter = page.locator("#lab [role=meter]");
+  expect(await meter.evaluate((el) => getComputedStyle(el, "::after").backgroundImage)).toContain(
+    "repeating-linear-gradient",
+  );
+  await page.locator("#lab").getByRole("button", { name: "Burst × 10" }).click();
+  await expect(meter).toHaveAttribute("aria-valuenow", "0");
+  const danger = await page.evaluate(() =>
+    getComputedStyle(document.documentElement).getPropertyValue("--danger").trim(),
+  );
+  expect(danger.toLowerCase()).toBe("#ff9a8a");
+  await expect(meter.locator("div")).toHaveCSS("background-color", "rgb(255, 154, 138)");
   const label = await page
     .locator("#lab-meter-label")
     .evaluate((el) => getComputedStyle(el, "::before").content);

@@ -56,6 +56,11 @@ html {
   letter-spacing: 0;
 }
 
+[data-theme="pixel"] main h3 {
+  font-size: clamp(14px, 2.4vw, 18px);
+  line-height: 1.5;
+}
+
 /* Global reduced-motion switch: no theme animation survives it. */
 @media (prefers-reduced-motion: reduce) {
   *,
