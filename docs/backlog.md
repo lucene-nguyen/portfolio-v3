@@ -11,7 +11,7 @@ Work top to bottom. One task = one branch `feat/<KEY>-<slug>` merged into `devel
 | 4  | LEARNING-141 | Home page from mockup (content in `content/`)                         | done |
 | 5  | LEARNING-148 | Theme 01 Night terminal (default) + command bar                         | done |
 | 6  | LEARNING-142 | Rate limiter `/api/ping` (Redis; in-memory fallback when env missing) | done |
-| 7  | LEARNING-143 | Live lab UI                                                             | todo              |
+| 7  | LEARNING-143 | Live lab UI                                                             | done |
 | 8  | LEARNING-144 | Case study pages (MDX, 3 studies, `[placeholders]` for unknown facts) | todo              |
 | 9  | LEARNING-152 | Theme 05 Blueprint + system map                                         | todo              |
 | 10 | LEARNING-159 | Theme 12 Pixel + mana bar, achievements                                 | todo              |
