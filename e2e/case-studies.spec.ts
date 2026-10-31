@@ -21,33 +21,31 @@ for (const { slug, title } of studies) {
       "Results",
       "Learnings",
     ]);
-    const flow = page.getByRole("list", { name: /request flow/ });
-    expect(await flow.getByRole("listitem").count()).toBeGreaterThanOrEqual(3);
-    await expect(page.locator("figure svg").first()).toBeVisible();
-    const { violations } = await new AxeBuilder({ page }).analyze();
+    const nodes = page.getByRole("list", { name: /request flow/ }).getByRole("listitem");
+    expect(await nodes.count()).toBeGreaterThanOrEqual(3);
+    for (const node of await nodes.all()) await expect(node.locator("svg")).toHaveCount(1);
+    const { violations } = await new AxeBuilder({ page }).exclude("nextjs-portal").analyze();
     expect(violations.map((v) => v.id)).toEqual([]);
   });
-}
 
-test("home cards open the matching case study", async ({ page }) => {
-  await page.goto("/");
-  await page
-    .getByRole("link", { name: /Read case study: A non-blocking AI image pipeline/ })
-    .click();
-  await expect(page).toHaveURL(/\/work\/ai-image-pipeline$/);
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(studies[1].title);
-});
+  test(`${slug}: home card opens it`, async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("link", { name: `Read case study: ${title}` }).click();
+    await expect(page).toHaveURL(new RegExp(`/work/${slug}$`));
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(title);
+  });
+
+  test(`${slug}: no horizontal scroll at 375px`, async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 800 });
+    await page.goto(`/work/${slug}`);
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    );
+    expect(overflow).toBeLessThanOrEqual(0);
+  });
+}
 
 test("unknown slug is a 404", async ({ page }) => {
   const res = await page.goto("/work/does-not-exist");
   expect(res?.status()).toBe(404);
-});
-
-test("no horizontal scroll at 375px", async ({ page }) => {
-  await page.setViewportSize({ width: 375, height: 800 });
-  await page.goto("/work/ai-image-pipeline");
-  const overflow = await page.evaluate(
-    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
-  );
-  expect(overflow).toBeLessThanOrEqual(0);
 });

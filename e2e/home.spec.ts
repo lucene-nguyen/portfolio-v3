@@ -72,6 +72,7 @@ test("keyboard: every link and control is reachable and shows a focus ring", asy
           .length,
     );
   const seen = new Set<string>();
+  // Headroom: dev-only overlays (Next.js dev tools) can take a few Tab stops.
   for (let i = 0; i < expected + 10; i++) {
     await page.keyboard.press("Tab");
     const info = await page.evaluate(() => {
