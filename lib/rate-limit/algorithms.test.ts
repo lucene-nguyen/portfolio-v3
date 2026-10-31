@@ -8,10 +8,7 @@ import {
   type WindowState,
 } from "./algorithms";
 
-function hits<S>(
-  fn: (s: S | undefined, now: number) => [Decision, S],
-  times: number[],
-) {
+function hits<S>(fn: (s: S | undefined, now: number) => [Decision, S], times: number[]) {
   let state: S | undefined;
   return times.map((t) => {
     const [d, next] = fn(state, t);

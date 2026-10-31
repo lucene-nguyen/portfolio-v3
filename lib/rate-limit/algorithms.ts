@@ -1,4 +1,4 @@
-// Hand-written limiters. The Redis Lua scripts in ./redis.ts implement the same rules atomically.
+// Hand-written limiters. The Redis Lua scripts in ./store.ts implement the same rules atomically.
 
 export type Algo = "token" | "window";
 

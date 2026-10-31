@@ -41,14 +41,16 @@ return {count, redis.call('PTTL', KEYS[1])}
 
 export function redisLimiter(redis: Redis, now = () => Date.now()): Limiter {
   const { capacity, refillPerMs, windowMs } = LIMITS;
+  // EVALSHA with EVAL fallback: still one atomic script call per decision.
+  const bucket = redis.createScript<[number, string]>(TOKEN_BUCKET_LUA);
+  const window = redis.createScript<[number, number]>(FIXED_WINDOW_LUA);
   return {
     kind: "redis",
     async hit(algo, key) {
       if (algo === "token") {
-        const [allowed, raw] = await redis.eval<[number, number, number], [number, string]>(
-          TOKEN_BUCKET_LUA,
+        const [allowed, raw] = await bucket.exec(
           [key],
-          [capacity, refillPerMs, now()],
+          [String(capacity), String(refillPerMs), String(now())],
         );
         const tokens = Number(raw);
         return {
@@ -58,17 +60,14 @@ export function redisLimiter(redis: Redis, now = () => Date.now()): Limiter {
           retryAfterMs: allowed === 1 ? 0 : Math.ceil((1 - tokens) / refillPerMs),
         };
       }
-      const [count, ttl] = await redis.eval<[number], [number, number]>(
-        FIXED_WINDOW_LUA,
-        [key],
-        [windowMs],
-      );
+      const [count, ttl] = await window.exec([key], [String(windowMs)]);
       const allowed = count <= capacity;
       return {
         allowed,
         limit: capacity,
         remaining: Math.max(0, capacity - count),
-        retryAfterMs: allowed ? 0 : Math.max(0, ttl),
+        // PTTL is -1/-2 if the key vanished meanwhile; never tell a blocked client to retry at 0.
+        retryAfterMs: allowed ? 0 : Math.max(1, ttl),
       };
     },
     async reset(_algo, key) {
@@ -77,7 +76,8 @@ export function redisLimiter(redis: Redis, now = () => Date.now()): Limiter {
   };
 }
 
-// shortcut: per server instance and lost on cold start; fine for local dev and previews without Redis.
+// shortcut: per server instance, lost on cold start, and cleared wholesale past 10k keys;
+// fine for local dev and previews without Redis, never used in production (see getLimiter).
 export function memoryLimiter(now = () => Date.now()): Limiter {
   const buckets = new Map<string, BucketState>();
   const windows = new Map<string, WindowState>();
@@ -107,9 +107,14 @@ let limiter: Limiter | undefined;
 
 /** Redis when Upstash env is configured, otherwise an in-memory fallback. */
 export function getLimiter(): Limiter {
-  limiter ??=
-    process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
-      ? redisLimiter(Redis.fromEnv())
-      : memoryLimiter();
+  if (limiter) return limiter;
+  if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
+    limiter = redisLimiter(Redis.fromEnv());
+  } else if (process.env.VERCEL_ENV === "production") {
+    // Fail loudly (503) instead of silently giving each instance its own limit.
+    throw new Error("UPSTASH_REDIS_REST_URL/TOKEN are required in production");
+  } else {
+    limiter = memoryLimiter();
+  }
   return limiter;
 }
