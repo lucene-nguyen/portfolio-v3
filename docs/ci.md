@@ -4,7 +4,7 @@ Workflow: `.github/workflows/ci.yml`.
 
 | Job | Runs on | Steps |
 |---|---|---|
-| `checks` | every push and PR | `npm ci`, lint, typecheck, unit tests, build |
+| `checks` | push to main/develop, every PR | `npm ci`, lint, typecheck, unit tests, build |
 | `e2e` | pull requests | Playwright against a production build |
 
 ## Branch protection (owner action, needs repo admin)
