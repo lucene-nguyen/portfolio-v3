@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { lab } from "@/content/home";
 import { recordRateLimited } from "@/lib/achievements";
+import { emitLabResponse } from "@/lib/lab/events";
 import { project, windowResetsIn, type Snapshot } from "@/lib/lab/meter";
 import { LIMITS, type Algo } from "@/lib/rate-limit/algorithms";
 import { cn } from "@/lib/utils";
@@ -59,6 +60,7 @@ export function RateLimitLab() {
       const remaining = Number(res.headers.get("X-RateLimit-Remaining") ?? 0);
       const resetMs = Number(res.headers.get("X-RateLimit-Reset-Ms") ?? 0);
       const limited = res.status === 200 || res.status === 429;
+      emitLabResponse(res.status);
       const msg =
         res.status === 200
           ? `${lab.ui.ok} · X-RateLimit-Remaining: ${remaining}`
