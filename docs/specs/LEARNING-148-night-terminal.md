@@ -18,7 +18,7 @@ Case study pages (LEARNING-144): `open` navigates to `/work/<slug>`, which exist
 - AC2: Given the home page, when the visitor presses `/` (outside a text field) or Ctrl+K, then the command line opens with the input focused; Esc closes it and focus returns to where it was.
 - AC3: Given the command line, when typing `th`+Tab, then the input becomes `theme `; ↑ recalls the previous command.
 - AC4: Given commands `ls projects`, `cat resume`, `theme`, `help`, then output appears in a `role="log"` region; unknown commands print an `error:` line.
-- AC5: Given `contact`, `open <slug>` or `theme <id>`, then the visitor is taken to `/#contact`, `/work/<slug>`, or the theme changes. Each has a normal-link equivalent on the page (contact section, case study cards, theme switcher).
+- AC5: Given `contact`, `open <slug>` or `theme <id>`, then (`theme <id>` E2E follows once a second theme exists; unit-tested now) the visitor is taken to `/#contact`, `/work/<slug>`, or the theme changes. Each has a normal-link equivalent on the page (contact section, case study cards, theme switcher).
 - AC6: Given a 375px viewport, then only a "Terminal" button shows (no docked bar), it opens the command line, and there is no horizontal scroll.
 - AC7: Given the open command line, then axe reports no violations and focused controls show the accent focus ring.
 

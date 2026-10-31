@@ -55,6 +55,11 @@ test("Ctrl+K opens; commands print to the log; tab completion and history", asyn
   await page.keyboard.press("Tab");
   await expect(input(page)).toHaveValue("theme ");
   await expect(input(page)).toBeFocused();
+  // No completion possible: Tab moves focus instead of trapping it.
+  await input(page).fill("help ");
+  await page.keyboard.press("Tab");
+  await expect(input(page)).not.toBeFocused();
+  await input(page).focus();
 
   await input(page).fill("");
   await page.keyboard.press("ArrowUp");
@@ -90,7 +95,7 @@ test("slash inside a text field does not open the terminal", async ({ page }) =>
 test("375px: button only, opens the command line, no horizontal scroll", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 800 });
   await ready(page);
-  await expect(page.getByText("press / or ⌘K")).toBeHidden();
+  await expect(page.getByText("press / or Ctrl K")).toBeHidden();
   await page.getByRole("button", { name: "Terminal" }).click();
   await expect(input(page)).toBeFocused();
   const overflow = await page.evaluate(

@@ -2,7 +2,6 @@ export interface TerminalContext {
   projects: { slug: string; title: string }[];
   themes: { id: string; name: string }[];
   resume: string[];
-  contact: string[];
 }
 
 export type Line = { kind: "out" | "err"; text: string };
@@ -23,7 +22,7 @@ const HELP = [
   "cat resume        print a short resume",
   "open <slug>       open a case study",
   "theme [id]        list themes or switch to one",
-  "contact           show contact details",
+  "contact           go to the contact section",
   "clear             clear the screen",
 ];
 
@@ -62,7 +61,7 @@ export function run(input: string, ctx: TerminalContext): Result {
       return { lines: out(`theme set to ${t.name}`), action: { type: "theme", id: t.id } };
     }
     case "contact":
-      return { lines: out(...ctx.contact), action: { type: "navigate", href: "/#contact" } };
+      return { lines: [], action: { type: "navigate", href: "/#contact" } };
     default:
       return { lines: err(`command not found: ${cmd}. Try: help`) };
   }

@@ -11,7 +11,6 @@ const ctx: TerminalContext = {
     { id: "editorial", name: "Editorial" },
   ],
   resume: ["Name", "Role"],
-  contact: ["email: a@b.c"],
 };
 
 describe("run", () => {

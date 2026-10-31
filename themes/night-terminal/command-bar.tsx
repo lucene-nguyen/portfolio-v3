@@ -15,7 +15,6 @@ const ctx: TerminalContext = {
     `${profile.name} — ${profile.title}`,
     ...experience.roles.map((r) => `${r.period}  ${r.company}`),
   ],
-  contact: [`email   ${profile.email}`, `github  ${profile.github}`],
 };
 
 const WELCOME: Line[] = [
@@ -51,7 +50,8 @@ export default function CommandBar() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      const slash = e.key === "/" && !isTyping(e.target);
+      const plain = !e.ctrlKey && !e.metaKey && !e.altKey && !e.isComposing;
+      const slash = e.key === "/" && plain && !isTyping(e.target);
       const k = e.key.toLowerCase() === "k" && (e.ctrlKey || e.metaKey);
       if (slash || k) {
         e.preventDefault();
@@ -59,7 +59,7 @@ export default function CommandBar() {
       }
     };
     window.addEventListener("keydown", onKey);
-    // Shortcuts work only after hydration; lets tests (and styles) know they are live.
+    // Shortcuts work only after hydration; e2e tests wait for this marker.
     if (buttonRef.current) buttonRef.current.dataset.shortcuts = "on";
     return () => window.removeEventListener("keydown", onKey);
   }, []);
@@ -71,7 +71,7 @@ export default function CommandBar() {
     const result = run(input, ctx);
     setValue("");
     setCursor(null);
-    if (input.trim()) setHistory((h) => [...h, input]);
+    if (input.trim()) setHistory((h) => (h.at(-1) === input ? h : [...h, input].slice(-50)));
     if (result.action?.type === "clear") return setLines([]);
     setLines((l) => [...l, { kind: "out", text: `$ ${input}` }, ...result.lines]);
     if (result.action?.type === "navigate") {
@@ -87,7 +87,7 @@ export default function CommandBar() {
     if (e.key === "Enter") {
       e.preventDefault();
       submit();
-    } else if (e.key === "Tab" && value.trim()) {
+    } else if (e.key === "Tab" && !e.shiftKey && complete(value, ctx) !== value) {
       e.preventDefault();
       setValue(complete(value, ctx));
     } else if (e.key === "ArrowUp" && history.length) {
@@ -105,6 +105,8 @@ export default function CommandBar() {
 
   return (
     <>
+      {/* Keeps the floating button from covering the end of the page. */}
+      <div aria-hidden className="h-20" />
       <button
         ref={buttonRef}
         type="button"
@@ -116,7 +118,7 @@ export default function CommandBar() {
         <SquareTerminal size={18} aria-hidden className="text-accent" />
         <span>Terminal</span>
         <span className="ml-auto hidden text-text-subtle sm:inline" aria-hidden>
-          press / or ⌘K
+          press / or Ctrl K
         </span>
       </button>
       <dialog
@@ -133,7 +135,10 @@ export default function CommandBar() {
             onClick={close}
             className="min-h-11 rounded-md px-3 hover:text-text"
           >
-            Close <span className="text-text-subtle">esc</span>
+            Close{" "}
+            <span className="text-text-subtle" aria-hidden>
+              esc
+            </span>
           </button>
         </div>
         <div
