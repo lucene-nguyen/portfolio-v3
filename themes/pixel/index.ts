@@ -22,6 +22,7 @@ export const pixel: ThemeDefinition = {
     accentContrast: "#1A1C2C",
     warning: "#FFCD75",
     danger: "#FF9A8A",
+    meterFill: "#5FCDE4",
     // Defined by the Pixel feature chunk; falls back to the sans until it loads.
     fontHeading: "var(--font-press-start, var(--font-inter-tight))",
     radius: "0px",

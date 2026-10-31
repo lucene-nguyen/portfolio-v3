@@ -183,7 +183,7 @@ export function RateLimitLab() {
             <div
               className={cn(
                 "h-full rounded-md transition-[width] duration-200",
-                low ? "bg-danger" : "bg-accent",
+                low ? "bg-danger" : "bg-meter",
               )}
               style={{ width: `${pct}%` }}
             />

@@ -26,6 +26,8 @@ export interface ThemeTokens {
   warning: string;
   /** HTTP 429, low meter. Always paired with the code text. */
   danger: string;
+  /** Fill of capacity meters (non-text, ≥ 3:1 on bg); defaults to accent. */
+  meterFill?: string;
   /** Optional font stacks; default to the root fonts. */
   fontSans?: string;
   fontMono?: string;

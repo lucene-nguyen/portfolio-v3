@@ -3,18 +3,6 @@
   border-radius: 0 !important;
 }
 
-/* Press Start 2P is very wide: smaller sizes, generous line-height, headings only. */
-[data-theme="pixel"] h1 {
-  font-size: clamp(20px, 4.2vw, 36px);
-  line-height: 1.5;
-  letter-spacing: 0;
-}
-[data-theme="pixel"] h2 {
-  font-size: clamp(18px, 3.2vw, 26px);
-  line-height: 1.5;
-  letter-spacing: 0;
-}
-
 [data-theme="pixel"] img {
   image-rendering: pixelated;
 }
@@ -34,9 +22,6 @@
     transparent 0 calc(20% - 2px),
     var(--bg) calc(20% - 2px) 20%
   );
-}
-[data-theme="pixel"] #lab [role="meter"] > div:not(.bg-danger) {
-  background-color: #5fcde4;
 }
 [data-theme="pixel"] #lab-meter-label::before {
   content: "MANA · ";

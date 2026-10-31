@@ -121,7 +121,7 @@ export const achievementsCopy = {
   sound: "Sound effects",
   close: "Close",
   items: {
-    reader: { name: "Bookworm", hint: "Read a case study." },
+    reader: { name: "Bookworm", hint: "Open a case study." },
     "rate-limited": { name: "Slow down!", hint: "Trigger a 429 in the live lab." },
     explorer: { name: "Explorer", hint: "Try every theme." },
   },

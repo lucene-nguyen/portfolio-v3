@@ -38,3 +38,5 @@
 - Mana bar: the lab meter, 5 segments, label prefixed "MANA".
 - Achievements: Bookworm (read a case study), Slow down! (trigger a 429), Explorer (try every theme). Status always in words.
 - Sound: square-wave blip on unlock, off by default, checkbox in the dialog.
+- Unlock toasts appear for unlocks that happen while Pixel is active; Explorer may unlock silently on the first Pixel load (recorded before the panel subscribes) and then simply shows as Unlocked.
+- Mana fill is the optional `meterFill` token (#5FCDE4).

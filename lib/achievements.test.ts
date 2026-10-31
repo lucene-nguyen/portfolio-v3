@@ -42,6 +42,12 @@ describe("achievements", () => {
     });
   });
 
+  it("ignores well-formed JSON of the wrong shape", () => {
+    localStorage.setItem("achievements:v1", JSON.stringify({ themesSeen: "a", hit429: "yes" }));
+    expect(loadProgress()).toEqual({ readCaseStudy: false, hit429: false, themesSeen: [] });
+    expect(() => recordThemeSeen("a")).not.toThrow();
+  });
+
   it("survives corrupt storage", () => {
     localStorage.setItem("achievements:v1", "{nope");
     expect(loadProgress()).toEqual({ readCaseStudy: false, hit429: false, themesSeen: [] });

@@ -12,7 +12,14 @@ const EMPTY: Progress = { readCaseStudy: false, hit429: false, themesSeen: [] };
 
 export function loadProgress(): Progress {
   try {
-    return { ...EMPTY, ...JSON.parse(localStorage.getItem(KEY) ?? "{}") };
+    const p = JSON.parse(localStorage.getItem(KEY) ?? "{}");
+    return {
+      readCaseStudy: p?.readCaseStudy === true,
+      hit429: p?.hit429 === true,
+      themesSeen: Array.isArray(p?.themesSeen)
+        ? p.themesSeen.filter((x: unknown) => typeof x === "string")
+        : [],
+    };
   } catch {
     return EMPTY;
   }

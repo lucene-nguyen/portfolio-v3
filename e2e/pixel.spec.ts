@@ -74,6 +74,11 @@ test("sound is off by default, has a visible toggle that persists", async ({ pag
 test("mana bar, axe clean, 375px", async ({ page }) => {
   await page.goto("/?theme=pixel");
   await expect(button(page)).toBeVisible();
+  // The fixed button must not cover the end of the page.
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  const btn = await button(page).boundingBox();
+  const last = await page.locator("footer span").last().boundingBox();
+  expect(last!.y + last!.height).toBeLessThanOrEqual(btn!.y + 1);
   const label = await page
     .locator("#lab-meter-label")
     .evaluate((el) => getComputedStyle(el, "::before").content);

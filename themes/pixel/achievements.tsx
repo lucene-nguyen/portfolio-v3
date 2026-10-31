@@ -41,6 +41,7 @@ function beep() {
     osc.frequency.setValueAtTime(990, ctx.currentTime + 0.08);
     gain.gain.setValueAtTime(0.05, ctx.currentTime);
     osc.connect(gain).connect(ctx.destination);
+    osc.onended = () => ctx.close();
     osc.start();
     osc.stop(ctx.currentTime + 0.16);
   } catch {}
@@ -87,6 +88,12 @@ export default function PixelAchievements() {
     if (sound) beep();
   }, [unlockedKey, sound]);
 
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(""), 4000);
+    return () => clearTimeout(t);
+  }, [toast]);
+
   const toggleSound = (on: boolean) => {
     setSound(on);
     try {
@@ -98,6 +105,8 @@ export default function PixelAchievements() {
 
   return (
     <>
+      {/* Keeps the fixed button from covering the end of the page. */}
+      <div aria-hidden className="h-20" />
       <button
         type="button"
         onClick={() => dialogRef.current?.showModal()}
@@ -108,7 +117,7 @@ export default function PixelAchievements() {
         {achievementsCopy.button} {done}/{list.length}
       </button>
 
-      <p role="status" className="fixed right-4 bottom-20 z-40 max-w-xs empty:hidden">
+      <p role="status" className="fixed right-4 bottom-20 z-40 max-w-xs">
         {toast && (
           <span className="block border-2 border-accent bg-bg px-3 py-2 font-mono text-sm text-text">
             {toast}

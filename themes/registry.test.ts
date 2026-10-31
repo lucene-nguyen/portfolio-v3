@@ -16,7 +16,8 @@ describe("theme registry", () => {
   describe.each(themes.map((t) => [t.id, t] as const))("%s", (_, t) => {
     const k = t.tokens;
     it("uses #RRGGBB colors", () => {
-      const { fontSans, fontMono, fontHeading, radius, ...colors } = k;
+      const { fontSans, fontMono, fontHeading, radius, meterFill, ...colors } = k;
+      if (meterFill) expect(meterFill).toMatch(HEX);
       void [fontSans, fontMono, fontHeading, radius];
       Object.values(colors).forEach((c) => expect(c).toMatch(HEX));
     });
@@ -42,6 +43,9 @@ describe("theme registry", () => {
       for (const [name, ground] of Object.entries(grounds)) {
         expect(contrast(fg, ground), name).toBeGreaterThanOrEqual(4.5);
       }
+    });
+    it("meter fill (if set) reaches 3:1 on bg", () => {
+      if (k.meterFill) expect(contrast(k.meterFill, k.bg)).toBeGreaterThanOrEqual(3);
     });
     it("accentContrast reaches 4.5:1 on accent", () => {
       expect(contrast(k.accentContrast, k.accent)).toBeGreaterThanOrEqual(4.5);
