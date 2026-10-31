@@ -11,7 +11,9 @@ export default defineConfig({
   use: { baseURL: `http://localhost:${PORT}`, trace: "on-first-retry" },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
-    command: `npm run build && npm run start -- -p ${PORT}`,
+    command: process.env.CI
+      ? `npm run build && npm run start -- -p ${PORT}`
+      : `npm run dev -- -p ${PORT}`,
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
     timeout: 240_000,

@@ -9,7 +9,7 @@ A buildable Next.js app with the full toolchain so later tasks only add features
 - Next.js App Router + TypeScript, Tailwind CSS, shadcn/ui (config + `cn` helper), Lucide.
 - Fonts via `next/font/google`: Inter Tight (sans) and JetBrains Mono (mono), exposed as Tailwind tokens.
 - "Portfolio v3" color tokens as CSS variables mapped to Tailwind theme colors:
-  bg #0B0F14, surface #121821, border #1F2A37, text #E6EDF3, text-muted #8B98A9, text-subtle #7A8798, accent #7EE787.
+  bg #0B0F14, surface #121821, border #1F2A37, text #E6EDF3, text-muted #8B98A9, text-subtle #7A8798, accent #7EE787, plus accent-contrast (text on accent fills).
 - Scripts: `dev`, `build`, `lint`, `typecheck`, `test` (Vitest), `test:e2e` (Playwright).
 - `.env.example` with `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`.
 
