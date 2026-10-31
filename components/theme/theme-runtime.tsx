@@ -1,6 +1,7 @@
 "use client";
 
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
+import { recordThemeSeen } from "@/lib/achievements";
 import { themes } from "@/themes/registry";
 import { useTheme } from "./theme-provider";
 
@@ -16,6 +17,9 @@ const modules = new Map(
 export function ThemeRuntime({ children }: { children: React.ReactNode }) {
   const { theme } = useTheme();
   const { Layout, features } = modules.get(theme.id)!;
+  // Exploration progress (shown by the Pixel theme's achievements).
+  // Read the DOM: during hydration `theme` is still the server default, not what the visitor sees.
+  useEffect(() => recordThemeSeen(document.documentElement.dataset.theme ?? theme.id), [theme.id]);
 
   return (
     <>

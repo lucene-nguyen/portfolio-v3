@@ -112,6 +112,21 @@ export const systemMap = {
   listToggle: "View as list",
 };
 
+export const achievementsCopy = {
+  button: "Achievements",
+  title: "Achievements",
+  unlocked: "Achievement unlocked",
+  statusUnlocked: "Unlocked",
+  statusLocked: "Locked",
+  sound: "Sound effects",
+  close: "Close",
+  items: {
+    reader: { name: "Bookworm", hint: "Read a case study." },
+    "rate-limited": { name: "Slow down!", hint: "Trigger a 429 in the live lab." },
+    explorer: { name: "Explorer", hint: "Try every theme." },
+  },
+};
+
 export const lab = {
   eyebrow: "02 / live lab",
   title: "Try to break my rate limiter",
