@@ -12,7 +12,7 @@ Work top to bottom. One task = one branch `feat/<KEY>-<slug>` merged into `devel
 | 5  | LEARNING-148 | Theme 01 Night terminal (default) + command bar                         | done |
 | 6  | LEARNING-142 | Rate limiter `/api/ping` (Redis; in-memory fallback when env missing) | done |
 | 7  | LEARNING-143 | Live lab UI                                                             | done |
-| 8  | LEARNING-144 | Case study pages (MDX, 3 studies, `[placeholders]` for unknown facts) | todo              |
+| 8  | LEARNING-144 | Case study pages (MDX, 3 studies, `[placeholders]` for unknown facts) | done |
 | 9  | LEARNING-152 | Theme 05 Blueprint + system map                                         | todo              |
 | 10 | LEARNING-159 | Theme 12 Pixel + mana bar, achievements                                 | todo              |
 | 11 | LEARNING-158 | Theme 11 Cyberpunk + HUD lab                                            | todo              |
