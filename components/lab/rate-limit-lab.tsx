@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { lab } from "@/content/home";
+import { recordRateLimited } from "@/lib/achievements";
 import { project, windowResetsIn, type Snapshot } from "@/lib/lab/meter";
 import { LIMITS, type Algo } from "@/lib/rate-limit/algorithms";
 import { cn } from "@/lib/utils";
@@ -89,6 +90,7 @@ export function RateLimitLab() {
     }
     const ok = rows.filter((r) => r.code === 200).length;
     const blocked = rows.filter((r) => r.code === 429).length;
+    if (blocked) recordRateLimited();
     setCounts((c) => ({ ok: c.ok + ok, blocked: c.blocked + blocked }));
     setLog((l) => [...[...rows].reverse(), ...l].slice(0, LOG_SIZE));
     setSummary(`${stamp()}: ${lab.ui.sent(n, ok, blocked)}`);
@@ -181,7 +183,7 @@ export function RateLimitLab() {
             <div
               className={cn(
                 "h-full rounded-md transition-[width] duration-200",
-                low ? "bg-danger" : "bg-accent",
+                low ? "bg-danger" : "bg-meter",
               )}
               style={{ width: `${pct}%` }}
             />

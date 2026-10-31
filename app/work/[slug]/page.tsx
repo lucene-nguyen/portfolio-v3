@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { container, Tag } from "@/components/home/ui";
+import { TrackCaseStudyRead } from "@/components/work/track-read";
 import { labels, work } from "@/content/home";
 
 const find = (slug: string) => work.items.find((c) => c.slug === slug);
@@ -60,6 +61,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
           </ul>
         </header>
         <Body />
+        <TrackCaseStudyRead />
       </article>
     </main>
   );
