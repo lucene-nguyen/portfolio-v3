@@ -1,0 +1,59 @@
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
+
+test("renders sections in mockup order", async ({ page }) => {
+  await page.goto("/");
+  const ids = await page
+    .locator("#top, #work, #lab, #kits, #experience, #contact")
+    .evaluateAll((els) => els.map((e) => e.id));
+  expect(ids).toEqual(["top", "work", "lab", "kits", "experience", "contact"]);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("I build backends");
+  for (const name of [
+    "Case studies",
+    "Try to break my rate limiter",
+    "Starter kits & labs",
+    "Where I've shipped",
+  ]) {
+    await expect(page.getByRole("heading", { level: 2, name })).toBeVisible();
+  }
+});
+
+test("case study cards link to their pages", async ({ page }) => {
+  await page.goto("/");
+  const hrefs = await page
+    .getByRole("link", { name: /Read case study/ })
+    .evaluateAll((els) => els.map((e) => e.getAttribute("href")));
+  expect(hrefs).toEqual([
+    "/work/pharmacy-inventory",
+    "/work/ai-image-pipeline",
+    "/work/aws-file-ingestion",
+  ]);
+});
+
+test("no horizontal scroll at 375px", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 800 });
+  await page.goto("/");
+  const overflow = await page.evaluate(
+    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  );
+  expect(overflow).toBeLessThanOrEqual(0);
+});
+
+test("has no axe violations", async ({ page }) => {
+  await page.goto("/");
+  const { violations } = await new AxeBuilder({ page }).analyze();
+  expect(violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(", ")}`)).toEqual([]);
+});
+
+test("keyboard: skip link first, then nav, with visible focus ring", async ({ page }) => {
+  await page.goto("/");
+  await page.keyboard.press("Tab");
+  const skip = page.getByRole("link", { name: "Skip to content" });
+  await expect(skip).toBeFocused();
+  await expect(skip).toBeVisible();
+  await page.keyboard.press("Tab");
+  const home = page.getByRole("link", { name: "cuong.dev" });
+  await expect(home).toBeFocused();
+  await expect(home).toHaveCSS("outline-style", "solid");
+  await expect(home).toHaveCSS("outline-color", "rgb(126, 231, 135)");
+});

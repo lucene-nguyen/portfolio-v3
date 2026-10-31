@@ -4,13 +4,20 @@
    Components use the Tailwind names below, never raw hex. */
 @theme inline {
   --color-bg: var(--bg);
+  --color-bg-alt: var(--bg-alt);
   --color-surface: var(--surface);
+  --color-surface-2: var(--surface2);
   --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
   --color-text: var(--text);
+  --color-text-2: var(--text2);
+  --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);
   --color-text-subtle: var(--text-subtle);
   --color-accent: var(--accent);
   --color-accent-contrast: var(--accent-contrast);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
   --font-sans:
     var(--theme-font-sans, var(--font-inter-tight)), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--theme-font-mono, var(--font-jetbrains-mono)), ui-monospace, monospace;
@@ -23,6 +30,15 @@
 body {
   background: var(--bg);
   color: var(--text);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 /* Global reduced-motion switch: no theme animation survives it. */

@@ -4,7 +4,14 @@ import type { ThemeDefinition } from "@/themes/types";
 
 const tokens = {
   bg: "#000000",
+  bgAlt: "#050505",
   surface: "#111111",
+  surface2: "#151515",
+  borderStrong: "#333333",
+  text2: "#eeeeee",
+  textSecondary: "#dddddd",
+  warning: "#ffff00",
+  danger: "#ff8888",
   border: "#222222",
   text: "#ffffff",
   textMuted: "#cccccc",

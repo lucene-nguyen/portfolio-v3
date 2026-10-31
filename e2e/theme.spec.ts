@@ -14,7 +14,7 @@ test("unknown ?theme falls back to the default", async ({ page }) => {
 test("switcher is labelled and keyboard-focusable", async ({ page }) => {
   await page.goto("/");
   const select = page.getByLabel("Theme");
-  await page.keyboard.press("Tab");
+  await select.focus();
   await expect(select).toBeFocused();
   await expect(select).toHaveValue("night-terminal");
 });

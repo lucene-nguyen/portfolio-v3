@@ -1,8 +1,21 @@
+import { ContactSection } from "@/components/home/contact-section";
+import { ExperienceSection } from "@/components/home/experience-section";
+import { Hero } from "@/components/home/hero";
+import { KitsSection } from "@/components/home/kits-section";
+import { LabSection } from "@/components/home/lab-section";
+import { WorkSection } from "@/components/home/work-section";
+
 export default function Home() {
   return (
-    <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-16">
-      <h1 className="text-3xl font-semibold">Nguyen Manh Cuong</h1>
-      <p className="mt-2 font-mono text-text-muted">Fullstack Software Engineer</p>
-    </main>
+    <>
+      <main id="main" className="flex-1">
+        <Hero />
+        <WorkSection />
+        <LabSection />
+        <KitsSection />
+        <ExperienceSection />
+      </main>
+      <ContactSection />
+    </>
   );
 }
