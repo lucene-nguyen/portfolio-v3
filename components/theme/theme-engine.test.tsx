@@ -39,14 +39,16 @@ vi.mock("@/themes/registry", () => {
   };
 });
 
-import { ThemeProvider } from "./theme-provider";
+import { ThemeProvider, useTheme } from "./theme-provider";
 import { ThemeRuntime } from "./theme-runtime";
 import { ThemeSwitcher } from "./theme-switcher";
 
-function renderApp() {
+// Mirrors app/layout.tsx: switcher outside ThemeRuntime.
+function renderApp(extra?: React.ReactNode) {
   return render(
     <ThemeProvider>
       <ThemeSwitcher />
+      {extra}
       <ThemeRuntime>
         <main>Shared content</main>
       </ThemeRuntime>
@@ -77,14 +79,18 @@ describe("theme engine", () => {
   it("switches theme, persists it, announces it, and keeps content", async () => {
     renderApp();
     const before = screen.getByRole("main").textContent;
+    const select = screen.getByLabelText("Theme");
+    select.focus();
 
     await pick("beta");
 
+    expect(await screen.findByTestId("beta-layout")).toBeInTheDocument();
+    expect(await screen.findByText("beta feature")).toBeInTheDocument();
     expect(document.documentElement.dataset.theme).toBe("beta");
     expect(localStorage.getItem("theme")).toBe("beta");
+    // After the lazy layout resolved: focus and announcement survive the swap.
     expect(screen.getByRole("status")).toHaveTextContent("Theme: Beta");
-    expect(await screen.findByText("beta feature")).toBeInTheDocument();
-    expect(await screen.findByTestId("beta-layout")).toBeInTheDocument();
+    expect(document.activeElement).toBe(select);
     expect(screen.getByRole("main").textContent).toBe(before);
     expect(loaders.feature).toHaveBeenCalledTimes(1);
   });
@@ -98,8 +104,13 @@ describe("theme engine", () => {
   });
 
   it("ignores unknown ids", async () => {
-    renderApp();
-    await pick("nope");
+    function SetUnknown() {
+      const { setTheme } = useTheme();
+      return <button onClick={() => setTheme("nope")}>unknown</button>;
+    }
+    renderApp(<SetUnknown />);
+    await act(async () => fireEvent.click(screen.getByText("unknown")));
     expect(document.documentElement.dataset.theme).toBe("alpha");
+    expect(localStorage.getItem("theme")).toBeNull();
   });
 });

@@ -27,6 +27,9 @@ describe("theme registry", () => {
         k.accentContrast,
       ].forEach((c) => expect(c).toMatch(HEX));
     });
+    it("has no token value that could break the generated CSS", () => {
+      Object.values(k).forEach((v) => expect(v).not.toMatch(/[;{}<]/));
+    });
     it.each([
       ["text", k.text],
       ["textMuted", k.textMuted],

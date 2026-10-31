@@ -23,6 +23,11 @@ describe("themesToCss", () => {
     expect(css).toContain('[data-theme="b"]{color-scheme:light;');
     expect(css).not.toContain(':root,[data-theme="b"]');
   });
+
+  it("emits font overrides as --theme-font-* so Tailwind font utilities can read them", () => {
+    const css = themesToCss([{ ...a, tokens: { ...tokens, fontHeading: "serif" } }], "a");
+    expect(css).toContain("--theme-font-heading:serif;");
+  });
 });
 
 describe("themeScript", () => {

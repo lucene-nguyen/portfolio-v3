@@ -11,9 +11,12 @@
   --color-text-subtle: var(--text-subtle);
   --color-accent: var(--accent);
   --color-accent-contrast: var(--accent-contrast);
-  --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
-  --font-heading: var(--font-sans);
+  --font-sans:
+    var(--theme-font-sans, var(--font-inter-tight)), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--theme-font-mono, var(--font-jetbrains-mono)), ui-monospace, monospace;
+  --font-heading:
+    var(--theme-font-heading, var(--theme-font-sans, var(--font-inter-tight))), ui-sans-serif,
+    system-ui, sans-serif;
   --radius-theme: var(--radius, 0.5rem);
 }
 
@@ -29,6 +32,8 @@ body {
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-delay: 0s !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }

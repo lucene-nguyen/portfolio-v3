@@ -1,6 +1,9 @@
 import type { ThemeDefinition } from "@/themes/types";
 
 const kebab = (s: string) => s.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
+// Font overrides use their own names; Tailwind owns --font-sans/--font-mono/--font-heading.
+const cssVar = (key: string) =>
+  key.startsWith("font") ? `--theme-${kebab(key)}` : `--${kebab(key)}`;
 
 /** One CSS rule per theme; the default theme also applies to `:root`. */
 export function themesToCss(themes: readonly ThemeDefinition[], defaultId: string): string {
@@ -8,7 +11,7 @@ export function themesToCss(themes: readonly ThemeDefinition[], defaultId: strin
     .map((t) => {
       const selector = `[data-theme="${t.id}"]`;
       const vars = Object.entries(t.tokens)
-        .map(([k, v]) => `--${kebab(k)}:${v};`)
+        .map(([k, v]) => `${cssVar(k)}:${v};`)
         .join("");
       return `${t.id === defaultId ? `:root,${selector}` : selector}{color-scheme:${t.colorScheme};${vars}}`;
     })

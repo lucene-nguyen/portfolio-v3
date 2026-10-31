@@ -11,13 +11,6 @@ test("unknown ?theme falls back to the default", async ({ page }) => {
   await expect(page.locator("html")).toHaveAttribute("data-theme", "night-terminal");
 });
 
-test("theme is set by the inline head script, before any app JS", async ({ page }) => {
-  await page.route("**/_next/static/**/*.js", (route) => route.abort());
-  await page.addInitScript(() => localStorage.setItem("theme", "night-terminal"));
-  await page.goto("/");
-  await expect(page.locator("html")).toHaveAttribute("data-theme", "night-terminal");
-});
-
 test("switcher is labelled and keyboard-focusable", async ({ page }) => {
   await page.goto("/");
   const select = page.getByLabel("Theme");

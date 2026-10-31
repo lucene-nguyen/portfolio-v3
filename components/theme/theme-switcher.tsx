@@ -23,7 +23,7 @@ export function ThemeSwitcher() {
           setTheme(next.id);
           setAnnouncement(`Theme: ${next.name}`);
         }}
-        className="rounded-md border border-border bg-surface px-2 py-1 text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        className="rounded-md border border-text-subtle bg-surface px-2 py-1 text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
       >
         {themes.map((t) => (
           <option key={t.id} value={t.id}>
