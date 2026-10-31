@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Inter_Tight, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ThemeRuntime } from "@/components/theme/theme-runtime";
-import { ThemeSwitcher } from "@/components/theme/theme-switcher";
+import { SiteNav } from "@/components/home/site-nav";
+import { profile } from "@/content/home";
 import { themeScript, themesToCss } from "@/lib/theme/css";
 import { defaultTheme, themes } from "@/themes/registry";
 import "./globals.css";
@@ -17,7 +18,7 @@ const initScript = themeScript(
 );
 
 export const metadata: Metadata = {
-  title: "Nguyen Manh Cuong — Fullstack Software Engineer",
+  title: `${profile.name} — ${profile.title}`,
   description: "Case studies, a live rate-limiting lab, and starter kits.",
 };
 
@@ -35,10 +36,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body className="flex min-h-full flex-col bg-bg font-sans text-text">
         <ThemeProvider>
-          {/* Outside ThemeRuntime: a layout swap must not remount the switcher (focus, announcement). */}
-          <header className="mx-auto flex w-full max-w-5xl justify-end px-4 pt-4">
-            <ThemeSwitcher />
-          </header>
+          <a
+            href="#main"
+            className="sr-only z-50 rounded-md bg-accent px-4 py-2 text-accent-contrast focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+          >
+            Skip to content
+          </a>
+          {/* Outside ThemeRuntime: a layout swap must not remount the nav/switcher (focus, announcement). */}
+          <SiteNav />
           <ThemeRuntime>{children}</ThemeRuntime>
         </ThemeProvider>
       </body>
