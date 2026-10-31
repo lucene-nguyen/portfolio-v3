@@ -39,10 +39,10 @@ export function WorkSection() {
               </ul>
               <Link
                 href={`/work/${c.slug}`}
+                aria-label={`${labels.readCaseStudy}: ${c.title}`}
                 className="mt-auto text-[15px] font-semibold text-accent hover:underline"
               >
                 {labels.readCaseStudy} <span aria-hidden>→</span>
-                <span className="sr-only">: {c.title}</span>
               </Link>
             </article>
           ))}

@@ -1,0 +1,57 @@
+{/* Facts from the owner's approved mockup only. Everything else stays [PLACEHOLDER] until the owner fills it in. */}
+
+## Context
+
+A pharmacy retail platform built as a NestJS microservice platform, serving millions of users across 2,500+ stores. I worked on it at FPT Software.
+
+## Problem
+
+Inventory lookups averaged around 300ms and put heavy load on the database. [PLACEHOLDER: what this cost the stores or the business]
+
+Reports and large Excel imports also had to run without slowing down the services that answer stores. [PLACEHOLDER: what happened before]
+
+## Constraints
+
+- 2,500+ stores and millions of users on the same platform.
+- [PLACEHOLDER: consistency requirements for stock levels]
+- [PLACEHOLDER: team, timeline or infrastructure constraints]
+
+## Architecture
+
+<ArchitectureDiagram
+  title="Inventory services with a Redis read path and a separate worker service"
+  flow={[
+    { label: "Pharmacy stores", tech: "2,500+ stores", icon: "stores" },
+    { label: "Inventory service", tech: "NestJS", icon: "service" },
+    { label: "Inventory cache", tech: "Redis", icon: "cache" },
+    { label: "Primary database", tech: "[PLACEHOLDER]", icon: "database" },
+  ]}
+  side={[
+    { label: "Reports & Excel imports", tech: "Worker service · Worker Threads", icon: "worker" },
+    { label: "Search", tech: "Elasticsearch", icon: "search" },
+  ]}
+/>
+
+## Decisions & trade-offs
+
+### Redis in front of inventory reads
+
+Inventory services read through Redis instead of hitting the database for every lookup. [PLACEHOLDER: cache keys, invalidation strategy and how stale stock is avoided]
+
+### A dedicated worker service
+
+Reports and large Excel imports run in a separate worker service using Worker Threads, so heavy jobs do not compete with request handling. [PLACEHOLDER: queueing, retries, progress reporting]
+
+### Elasticsearch
+
+[PLACEHOLDER: what Elasticsearch is used for and why]
+
+## Results
+
+- Average inventory API latency: **300ms → 20ms** (15×).
+- Database load: **−40%**.
+- [PLACEHOLDER: import/report throughput]
+
+## Learnings
+
+[PLACEHOLDER: what you would do again, and what you would change]

@@ -1,0 +1,56 @@
+{/* Facts from the owner's approved mockup only. Client details generalized (NDA). */}
+
+## Context
+
+A data platform for an Australian client, built on AWS. I worked on it at FPT Software.
+
+## Problem
+
+CSV files arrived and had to become one up-to-date dataset that downstream services could use, without manual work. [PLACEHOLDER: how it was done before]
+
+## Constraints
+
+- The dataset must refresh every five minutes.
+- Large files must be handled asynchronously.
+- Failures must alert someone.
+- [PLACEHOLDER: file volumes and sizes]
+
+## Architecture
+
+<ArchitectureDiagram
+  title="Scheduled aggregation of CSV drops into one JSON dataset"
+  flow={[
+    { label: "CSV drops", tech: "S3", icon: "file" },
+    { label: "Aggregation every 5 min", tech: "Scheduled AWS Lambda", icon: "schedule" },
+    { label: "JSON dataset", tech: "[PLACEHOLDER: storage]", icon: "storage" },
+    { label: "Downstream API", tech: "NestJS", icon: "service" },
+  ]}
+  side={[{ label: "Alerts", tech: "SES", icon: "alert" }]}
+/>
+
+## Decisions & trade-offs
+
+### Scheduled Lambdas instead of a long-running service
+
+Scheduled Lambdas aggregate the CSV drops into one JSON dataset every five minutes. [PLACEHOLDER: why scheduled rather than event-driven]
+
+### Async large-file handling
+
+Large files are handled asynchronously. [PLACEHOLDER: how]
+
+### NestJS serves the dataset downstream
+
+[PLACEHOLDER: caching, versioning of the dataset]
+
+### SES alerts
+
+Failures send alerts through SES. [PLACEHOLDER: what triggers an alert]
+
+## Results
+
+- Dataset refresh cycle: **5 minutes**.
+- Manual work saved: **[PLACEHOLDER] hours / week**.
+
+## Learnings
+
+[PLACEHOLDER]

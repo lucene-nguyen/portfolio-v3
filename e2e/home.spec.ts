@@ -63,12 +63,17 @@ test("keyboard: every link and control is reachable and shows a focus ring", asy
   await page.goto("/");
   // Theme features load lazily; wait so the count is stable.
   await expect(page.getByRole("button", { name: "Terminal" })).toBeVisible();
-  // Closed dialogs are not tabbable.
+  // Closed dialogs are not tabbable; the Next.js dev-tools button exists only in dev.
   const expected = await page
     .locator("a[href], button, select")
-    .evaluateAll((els) => els.filter((e) => !e.closest("dialog:not([open])")).length);
+    .evaluateAll(
+      (els) =>
+        els.filter((e) => !e.closest("dialog:not([open])") && !e.hasAttribute("data-next-mark"))
+          .length,
+    );
   const seen = new Set<string>();
-  for (let i = 0; i < expected + 2; i++) {
+  // Headroom: dev-only overlays (Next.js dev tools) can take a few Tab stops.
+  for (let i = 0; i < expected + 10; i++) {
     await page.keyboard.press("Tab");
     const info = await page.evaluate(() => {
       const el = document.activeElement as HTMLElement | null;

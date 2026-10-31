@@ -18,7 +18,7 @@ const initScript = themeScript(
 );
 
 export const metadata: Metadata = {
-  title: `${profile.name} — ${profile.title}`,
+  title: { default: `${profile.name} — ${profile.title}`, template: `%s — ${profile.name}` },
   description: "Case studies, a live rate-limiting lab, and starter kits.",
 };
 
