@@ -28,12 +28,20 @@ function respond(algo: Algo, d: Decision, kind: string) {
     "Cache-Control": "no-store",
     "X-RateLimit-Limit": String(d.limit),
     "X-RateLimit-Remaining": String(d.remaining),
+    "X-RateLimit-Reset-Ms": String(d.resetMs),
     "X-RateLimit-Store": kind,
   });
   if (!d.allowed) headers.set("Retry-After", String(Math.ceil(d.retryAfterMs / 1000)));
   const body = d.allowed
-    ? { ok: true, algo, remaining: d.remaining, limit: d.limit }
-    : { ok: false, algo, error: "Too Many Requests", retryAfterMs: d.retryAfterMs, limit: d.limit };
+    ? { ok: true, algo, remaining: d.remaining, limit: d.limit, resetMs: d.resetMs }
+    : {
+        ok: false,
+        algo,
+        error: "Too Many Requests",
+        retryAfterMs: d.retryAfterMs,
+        limit: d.limit,
+        resetMs: d.resetMs,
+      };
   return Response.json(body, { status: d.allowed ? 200 : 429, headers });
 }
 

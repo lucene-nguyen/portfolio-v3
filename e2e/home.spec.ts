@@ -77,7 +77,8 @@ test("keyboard: every link and control is reachable and shows a focus ring", asy
       const all = [...document.querySelectorAll("a[href], button, select")];
       return { key: `${all.indexOf(el)} ${el.outerHTML.slice(0, 80)}`, outline: s.outlineStyle };
     });
-    if (!info) continue;
+    // Skip nothing-focused and dev-only overlays (e.g. the Next.js dev tools portal).
+    if (!info || info.key.startsWith("-1 ")) continue;
     expect(info.outline, info.key).toBe("solid");
     seen.add(info.key);
   }

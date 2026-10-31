@@ -58,6 +58,7 @@ export function redisLimiter(redis: Redis, now = () => Date.now()): Limiter {
           limit: capacity,
           remaining: Math.floor(tokens),
           retryAfterMs: allowed === 1 ? 0 : Math.ceil((1 - tokens) / refillPerMs),
+          resetMs: Math.ceil((capacity - tokens) / refillPerMs),
         };
       }
       const [count, ttl] = await window.exec([key], [String(windowMs)]);
@@ -68,6 +69,7 @@ export function redisLimiter(redis: Redis, now = () => Date.now()): Limiter {
         remaining: Math.max(0, capacity - count),
         // PTTL is -1/-2 if the key vanished meanwhile; never tell a blocked client to retry at 0.
         retryAfterMs: allowed ? 0 : Math.max(1, ttl),
+        resetMs: Math.max(1, ttl),
       };
     },
     async reset(_algo, key) {
