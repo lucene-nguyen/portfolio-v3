@@ -135,6 +135,14 @@ export const hudCopy = {
   blocked: "BLOCKED",
 };
 
+export const readingCopy = {
+  progress: "Reading progress",
+  readTime: (min: number) => `${min} min read`,
+  textSize: "Text size",
+  sizes: { s: "Small", m: "Medium", l: "Large" },
+  toc: "On this page",
+};
+
 export const lab = {
   eyebrow: "02 / live lab",
   title: "Try to break my rate limiter",

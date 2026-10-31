@@ -60,6 +60,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
             ))}
           </ul>
         </header>
+        <div id="theme-slot-article" />
         <Body />
         <TrackCaseStudyRead />
       </article>

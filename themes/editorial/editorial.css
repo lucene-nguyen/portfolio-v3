@@ -1,0 +1,38 @@
+/* Scoped to the Editorial theme. */
+[data-theme="editorial"] h1,
+[data-theme="editorial"] h2 {
+  letter-spacing: -0.01em;
+}
+
+/* Long-form measure: 60–75 characters, line-height ≥ 1.6, adjustable size. */
+html[data-reading-size="s"] {
+  --reading-scale: 0.9;
+}
+html[data-reading-size="l"] {
+  --reading-scale: 1.15;
+}
+[data-theme="editorial"] article p,
+[data-theme="editorial"] article li {
+  max-width: 66ch;
+  font-size: calc(19px * var(--reading-scale, 1));
+  line-height: 1.7;
+}
+
+/* Drop cap on the opening paragraph. */
+[data-theme="editorial"] article h2:first-of-type + p::first-letter {
+  float: left;
+  font-family: var(--font-heading);
+  font-size: 3.4em;
+  line-height: 0.85;
+  padding: 0.08em 0.1em 0 0;
+  color: var(--accent);
+}
+
+.ed-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  height: 3px;
+  background: var(--accent);
+  transform-origin: left;
+}
