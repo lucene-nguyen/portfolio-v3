@@ -13,7 +13,7 @@ Work top to bottom. One task = one branch `feat/<KEY>-<slug>` merged into `devel
 | 6  | LEARNING-142 | Rate limiter `/api/ping` (Redis; in-memory fallback when env missing) | done |
 | 7  | LEARNING-143 | Live lab UI                                                             | done |
 | 8  | LEARNING-144 | Case study pages (MDX, 3 studies, `[placeholders]` for unknown facts) | done |
-| 9  | LEARNING-152 | Theme 05 Blueprint + system map                                         | todo              |
+| 9  | LEARNING-152 | Theme 05 Blueprint + system map                                         | done |
 | 10 | LEARNING-159 | Theme 12 Pixel + mana bar, achievements                                 | todo              |
 | 11 | LEARNING-158 | Theme 11 Cyberpunk + HUD lab                                            | todo              |
 | 12 | LEARNING-149 | Theme 02 Editorial + reading mode                                       | todo              |
