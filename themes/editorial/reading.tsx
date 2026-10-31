@@ -143,8 +143,15 @@ export default function EditorialReading() {
   // key: fresh read time and contents per article.
   return (
     <>
-      <ProgressBar key={`p${pathname}`} />
-      {createPortal(<ReadingTools key={pathname} />, slot)}
+      {createPortal(
+        // Inside <main> (via the slot) so the fixed bar sits in a landmark.
+        <>
+          <ProgressBar />
+          <ReadingTools />
+        </>,
+        slot,
+        pathname,
+      )}
     </>
   );
 }
