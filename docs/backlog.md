@@ -9,7 +9,7 @@ Work top to bottom. One task = one branch `feat/<KEY>-<slug>` merged into `devel
 | 2  | LEARNING-140 | CI with GitHub Actions                                                  | blocked: branch protection on main needs repo admin (workflow merged) |
 | 3  | LEARNING-147 | Theme engine (ThemeDefinition, data-theme, lazy features, switcher)     | done |
 | 4  | LEARNING-141 | Home page from mockup (content in `content/`)                         | done |
-| 5  | LEARNING-148 | Theme 01 Night terminal (default) + command bar                         | todo              |
+| 5  | LEARNING-148 | Theme 01 Night terminal (default) + command bar                         | done |
 | 6  | LEARNING-142 | Rate limiter `/api/ping` (Redis; in-memory fallback when env missing) | todo              |
 | 7  | LEARNING-143 | Live lab UI                                                             | todo              |
 | 8  | LEARNING-144 | Case study pages (MDX, 3 studies, `[placeholders]` for unknown facts) | todo              |
