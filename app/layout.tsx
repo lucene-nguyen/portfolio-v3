@@ -3,6 +3,7 @@ import { Inter_Tight, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ThemeRuntime } from "@/components/theme/theme-runtime";
 import { SiteNav } from "@/components/home/site-nav";
+import { profile } from "@/content/home";
 import { themeScript, themesToCss } from "@/lib/theme/css";
 import { defaultTheme, themes } from "@/themes/registry";
 import "./globals.css";
@@ -17,7 +18,7 @@ const initScript = themeScript(
 );
 
 export const metadata: Metadata = {
-  title: "Nguyen Manh Cuong — Fullstack Software Engineer",
+  title: `${profile.name} — ${profile.title}`,
   description: "Case studies, a live rate-limiting lab, and starter kits.",
 };
 

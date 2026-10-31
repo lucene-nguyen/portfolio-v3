@@ -23,7 +23,7 @@ export function KitsSection() {
                   <span aria-hidden>{k.state === "active" ? "● " : "○ "}</span>
                   {k.status}
                 </span>
-                <span className="text-xl font-semibold">{k.name}</span>
+                <h3 className="text-xl font-semibold">{k.name}</h3>
                 <span className="text-[15px] leading-normal text-text-muted">{k.description}</span>
                 <span className="mt-auto font-mono text-[13px] text-text-secondary">{k.stack}</span>
               </>

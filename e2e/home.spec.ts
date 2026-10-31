@@ -13,6 +13,7 @@ test("renders sections in mockup order", async ({ page }) => {
     "Try to break my rate limiter",
     "Starter kits & labs",
     "Where I've shipped",
+    "Have a system that needs to scale? Let's talk.",
   ]) {
     await expect(page.getByRole("heading", { level: 2, name })).toBeVisible();
   }
@@ -56,4 +57,24 @@ test("keyboard: skip link first, then nav, with visible focus ring", async ({ pa
   await expect(home).toBeFocused();
   await expect(home).toHaveCSS("outline-style", "solid");
   await expect(home).toHaveCSS("outline-color", "rgb(126, 231, 135)");
+});
+
+test("keyboard: every link and control is reachable and shows a focus ring", async ({ page }) => {
+  await page.goto("/");
+  const expected = await page.locator("a[href], button, select").count();
+  const seen = new Set<string>();
+  for (let i = 0; i < expected + 2; i++) {
+    await page.keyboard.press("Tab");
+    const info = await page.evaluate(() => {
+      const el = document.activeElement as HTMLElement | null;
+      if (!el || el === document.body) return null;
+      const s = getComputedStyle(el);
+      const all = [...document.querySelectorAll("a[href], button, select")];
+      return { key: `${all.indexOf(el)} ${el.outerHTML.slice(0, 80)}`, outline: s.outlineStyle };
+    });
+    if (!info) continue;
+    expect(info.outline, info.key).toBe("solid");
+    seen.add(info.key);
+  }
+  expect(seen.size).toBe(expected);
 });

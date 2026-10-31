@@ -15,6 +15,16 @@ export const profile = {
   status: "open to work",
 };
 
+export const labels = {
+  viewWork: "View case studies",
+  readCaseStudy: "Read case study",
+  technologies: "Technologies",
+  intro: "Introduction",
+  github: "GitHub",
+  linkedin: "LinkedIn",
+  resume: "resume.pdf",
+};
+
 export const nav = [
   { href: "/#work", label: "Work" },
   { href: "/#lab", label: "Live lab" },

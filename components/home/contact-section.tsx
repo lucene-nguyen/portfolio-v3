@@ -1,5 +1,5 @@
 import { Mail } from "lucide-react";
-import { contact, isPlaceholder, profile } from "@/content/home";
+import { contact, isPlaceholder, labels, profile } from "@/content/home";
 import { buttonPrimary, buttonSecondary, container } from "./ui";
 
 export function ContactSection() {
@@ -24,15 +24,16 @@ export function ContactSection() {
             {profile.email}
           </a>
           <a href={profile.github} className={`${buttonSecondary} min-h-[52px]`}>
-            GitHub
+            {labels.github}
           </a>
           {isPlaceholder(profile.linkedin) ? (
-            <span className={`${buttonSecondary} min-h-[52px] hover:bg-transparent`}>
-              LinkedIn {profile.linkedin}
+            // Not a control until the owner provides the URL.
+            <span className="inline-flex min-h-[52px] items-center px-2 text-text-muted">
+              {labels.linkedin} {profile.linkedin}
             </span>
           ) : (
             <a href={profile.linkedin} className={`${buttonSecondary} min-h-[52px]`}>
-              LinkedIn
+              {labels.linkedin}
             </a>
           )}
         </div>

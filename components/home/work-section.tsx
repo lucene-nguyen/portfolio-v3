@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { work } from "@/content/home";
+import { labels, work } from "@/content/home";
 import { container, SectionHeader, Tag } from "./ui";
 
 export function WorkSection() {
@@ -22,7 +22,7 @@ export function WorkSection() {
               </div>
               <h3 className="font-heading text-2xl leading-tight font-semibold">{c.title}</h3>
               <p className="leading-[1.55] text-text-secondary">{c.summary}</p>
-              <dl className="flex gap-6 border-y border-border py-4">
+              <dl className="flex flex-wrap gap-6 border-y border-border py-4">
                 {c.metrics.map((m) => (
                   <div key={m.label} className="flex flex-col-reverse">
                     <dt className="text-[13px] text-text-muted">{m.label}</dt>
@@ -30,7 +30,7 @@ export function WorkSection() {
                   </div>
                 ))}
               </dl>
-              <ul className="flex flex-wrap gap-2" aria-label="Technologies">
+              <ul className="flex flex-wrap gap-2" aria-label={labels.technologies}>
                 {c.tags.map((t) => (
                   <li key={t}>
                     <Tag>{t}</Tag>
@@ -41,7 +41,7 @@ export function WorkSection() {
                 href={`/work/${c.slug}`}
                 className="mt-auto text-[15px] font-semibold text-accent hover:underline"
               >
-                Read case study <span aria-hidden>→</span>
+                {labels.readCaseStudy} <span aria-hidden>→</span>
                 <span className="sr-only">: {c.title}</span>
               </Link>
             </article>

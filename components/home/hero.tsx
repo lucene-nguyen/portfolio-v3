@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import { hero, profile } from "@/content/home";
+import { hero, labels, profile } from "@/content/home";
 import { cn } from "@/lib/utils";
 import { buttonPrimary, buttonSecondary, container, GithubIcon } from "./ui";
 
@@ -8,7 +8,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      aria-label="Introduction"
+      aria-label={labels.intro}
       className={`${container} flex flex-wrap items-center gap-16 pt-16 pb-20 sm:pt-24`}
     >
       <div className="flex min-w-0 flex-[999_1_560px] flex-col gap-7">
@@ -19,7 +19,7 @@ export function Hero() {
         <p className="max-w-[620px] text-xl leading-[1.55] text-text-secondary">{hero.lead}</p>
         <div className="flex flex-wrap gap-3">
           <a href="#work" className={buttonPrimary}>
-            View case studies
+            {labels.viewWork}
             <ArrowRight size={18} aria-hidden />
           </a>
           <a href={profile.github} className={buttonSecondary}>
@@ -52,7 +52,7 @@ export function Hero() {
             width={900}
             height={1200}
             priority
-            sizes="(max-width: 768px) 100vw, 420px"
+            sizes="(max-width: 768px) calc(100vw - 48px), 420px"
             className="aspect-[4/5] w-full rounded-xl object-cover object-[center_20%]"
           />
         </div>

@@ -37,7 +37,7 @@ describe("theme registry", () => {
       expect(contrast(fg, k.surface)).toBeGreaterThanOrEqual(4.5);
     });
     it("muted and subtle text also read on bgAlt and surface2", () => {
-      [k.textMuted, k.textSubtle].forEach((fg) => {
+      [k.text, k.text2, k.textSecondary, k.textMuted, k.textSubtle, k.accent].forEach((fg) => {
         expect(contrast(fg, k.bgAlt)).toBeGreaterThanOrEqual(4.5);
       });
       expect(contrast(k.textMuted, k.surface2)).toBeGreaterThanOrEqual(4.5);
