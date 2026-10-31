@@ -1,0 +1,7 @@
+/* Grid paper; scoped so it is inert when another theme is active. */
+[data-theme="blueprint"] body {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--border) 35%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--border) 35%, transparent) 1px, transparent 1px);
+  background-size: 24px 24px;
+}

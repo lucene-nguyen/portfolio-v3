@@ -23,25 +23,25 @@ describe("theme registry", () => {
     it("has no token value that could break the generated CSS", () => {
       Object.values(k).forEach((v) => expect(v).not.toMatch(/[;{}<]/));
     });
-    it.each([
-      ["text", k.text],
-      ["text2", k.text2],
-      ["textSecondary", k.textSecondary],
-      ["textMuted", k.textMuted],
-      ["textSubtle", k.textSubtle],
-      ["accent", k.accent],
-      ["warning", k.warning],
-      ["danger", k.danger],
-    ])("%s reaches 4.5:1 on bg and surface", (_, fg) => {
-      expect(contrast(fg, k.bg)).toBeGreaterThanOrEqual(4.5);
-      expect(contrast(fg, k.surface)).toBeGreaterThanOrEqual(4.5);
+    const grounds = { bg: k.bg, bgAlt: k.bgAlt, surface: k.surface, surface2: k.surface2 };
+    const texts = {
+      text: k.text,
+      text2: k.text2,
+      textSecondary: k.textSecondary,
+      textMuted: k.textMuted,
+      accent: k.accent,
+      warning: k.warning,
+      danger: k.danger,
+    };
+    it("textSubtle reaches 4.5:1 on bg, bgAlt and surface (never used on surface2)", () => {
+      for (const ground of [k.bg, k.bgAlt, k.surface]) {
+        expect(contrast(k.textSubtle, ground)).toBeGreaterThanOrEqual(4.5);
+      }
     });
-    it("muted and subtle text also read on bgAlt and surface2", () => {
-      [k.text, k.text2, k.textSecondary, k.textMuted, k.textSubtle, k.accent].forEach((fg) => {
-        expect(contrast(fg, k.bgAlt)).toBeGreaterThanOrEqual(4.5);
-      });
-      expect(contrast(k.textMuted, k.surface2)).toBeGreaterThanOrEqual(4.5);
-      expect(contrast(k.text2, k.surface2)).toBeGreaterThanOrEqual(4.5);
+    it.each(Object.entries(texts))("%s reaches 4.5:1 on every ground", (_, fg) => {
+      for (const [name, ground] of Object.entries(grounds)) {
+        expect(contrast(fg, ground), name).toBeGreaterThanOrEqual(4.5);
+      }
     });
     it("accentContrast reaches 4.5:1 on accent", () => {
       expect(contrast(k.accentContrast, k.accent)).toBeGreaterThanOrEqual(4.5);

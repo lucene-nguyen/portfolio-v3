@@ -32,7 +32,7 @@
 | text2 | #C9D3DF | tag labels |
 | textSecondary | #A9B4C2 | body in cards |
 | textMuted | #8B98A9 | meta, nav links |
-| textSubtle | #7A8798 | timestamps, fine print (lowest allowed) |
+| textSubtle | #7A8798 | timestamps, fine print (lowest allowed); on bg, bgAlt, surface only — 4.3:1 on surface2, so never there |
 | accent | #7EE787 | one accent: CTA, eyebrows, key numbers, 200, focus ring |
 | accentContrast | #0B0F14 | text on accent |
 | warning | #F2C66D | "planned" |

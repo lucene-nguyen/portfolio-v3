@@ -104,6 +104,14 @@ export const work = {
   ] satisfies CaseStudySummary[],
 };
 
+export const systemMap = {
+  eyebrow: "00 / system map",
+  title: "System map",
+  intro:
+    "Each node is a project. Hover or focus a node for its stack and impact; select it to open the case study.",
+  listToggle: "View as list",
+};
+
 export const lab = {
   eyebrow: "02 / live lab",
   title: "Try to break my rate limiter",

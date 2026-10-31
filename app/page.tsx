@@ -10,6 +10,8 @@ export default function Home() {
   return (
     <>
       <main id="main" className="flex-1">
+        {/* Themes can portal home-page extras here (e.g. Blueprint's system map). */}
+        <div id="theme-slot-home" />
         <Hero />
         <WorkSection />
         <LabSection>
