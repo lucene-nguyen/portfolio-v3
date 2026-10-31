@@ -6,7 +6,7 @@ Work top to bottom. One task = one branch `feat/<KEY>-<slug>` merged into `devel
 | #  | Jira         | Task                                                                    | Status            |
 | -- | ------------ | ----------------------------------------------------------------------- | ----------------- |
 | 1  | LEARNING-139 | Initialize Next.js project with tooling                                 | done |
-| 2  | LEARNING-140 | CI with GitHub Actions                                                  | todo              |
+| 2  | LEARNING-140 | CI with GitHub Actions                                                  | blocked: branch protection on main needs repo admin (workflow merged) |
 | 3  | LEARNING-147 | Theme engine (ThemeDefinition, data-theme, lazy features, switcher)     | todo              |
 | 4  | LEARNING-141 | Home page from mockup (content in `content/`)                         | todo              |
 | 5  | LEARNING-148 | Theme 01 Night terminal (default) + command bar                         | todo              |
