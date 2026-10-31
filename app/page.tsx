@@ -16,6 +16,7 @@ export default function Home() {
         <WorkSection />
         <LabSection>
           <RateLimitLab />
+          <div id="theme-slot-lab" />
         </LabSection>
         <KitsSection />
         <ExperienceSection />

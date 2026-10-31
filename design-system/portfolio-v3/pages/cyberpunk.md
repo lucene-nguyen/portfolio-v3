@@ -1,0 +1,43 @@
+# Cyberpunk Page Overrides
+
+> **PROJECT:** Portfolio v3
+> **Generated:** 2026-11-01 with ui-ux-pro-max (`"cyberpunk neon hud" --design-system --persist --page cyberpunk`; `"cyberpunk neon dystopian" --domain style`), then reconciled.
+> **Theme id:** `cyberpunk` · **Tokens:** `themes/cyberpunk/index.ts`
+
+> ⚠️ Rules in this file **override** `MASTER.md`.
+
+## Verified from ui-ux-pro-max
+- Style **Cyberpunk UI**: near-black ground, magenta/cyan neon, glitch (skew/offset), scanlines, terminal font. Requires contrast 4.5, keyboard, visible focus, reduced motion.
+
+## Rejected suggestions (and why)
+- Neon glow `text-shadow`: forbidden by the brief — glow must not fake contrast. Neon colors pass 4.5:1 on their own.
+- Scanlines as an overlay above content: would lower text contrast → drawn as a static body background behind content.
+- Matrix green: magenta accent + cyan meter keep one accent per region.
+
+## Color (exact)
+| Token | Hex | Use |
+|---|---|---|
+| bg | #0A0A12 | ground |
+| bgAlt | #0E0E18 | alternate band |
+| surface | #13131F | HUD frames |
+| surface2 | #1B1B2B | chips |
+| border | #2A2A40 | hairlines (decorative) |
+| borderStrong | #8A8AB8 | frame outlines, firewall (6.0:1 on bg) |
+| text | #F2F2FF | headings |
+| text2 | #E0E0F5 | tags |
+| textSecondary | #C6C6E0 | body |
+| textMuted | #A9A9CC | meta |
+| textSubtle | #9A9AC0 | fine print (bg, bgAlt, surface) |
+| accent | #FF5CDB | neon magenta: CTA, eyebrows, focus ring |
+| accentContrast | #0A0A12 | text on accent |
+| warning | #FFE14D | planned |
+| danger | #FF7070 | 429, blocked packets, firewall hit |
+| meterFill | #2DE2E6 | neon cyan meter, passing packets |
+
+## Motion
+- Glitch: one-shot 280ms translate/skew on a section heading when it first enters view (no luminance flash).
+- Packets: 900ms travel; the firewall flashes for 250ms at most once every 400ms (< 3 flashes/s).
+- `prefers-reduced-motion`: no scanlines, no glitch; packets are clamped by the global rule.
+
+## Shape & type
+- Chamfered corners (clip-path, 14px) on cards and the lab panel; headings JetBrains Mono, uppercase.

@@ -127,6 +127,13 @@ export const achievementsCopy = {
   },
 };
 
+export const hudCopy = {
+  client: "CLIENT",
+  firewall: "FIREWALL",
+  server: "/api/ping",
+  blocked: "BLOCKED",
+};
+
 export const lab = {
   eyebrow: "02 / live lab",
   title: "Try to break my rate limiter",

@@ -1,0 +1,103 @@
+/* Scoped to the Cyberpunk theme. No glow: contrast comes from the colors alone. */
+[data-theme="cyberpunk"] h1,
+[data-theme="cyberpunk"] h2 {
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* Chamfered HUD frames. */
+[data-theme="cyberpunk"] #work article,
+[data-theme="cyberpunk"] #lab .bg-surface {
+  clip-path: polygon(
+    14px 0,
+    100% 0,
+    100% calc(100% - 14px),
+    calc(100% - 14px) 100%,
+    0 100%,
+    0 14px
+  );
+}
+
+/* Packet stream (decorative mirror of the lab log). */
+.cp-hud {
+  position: relative;
+  margin-top: 16px;
+  height: 56px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg);
+  overflow: hidden;
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 11px;
+}
+.cp-hud__label {
+  position: absolute;
+  top: 4px;
+  color: var(--text-muted);
+}
+.cp-hud__wall {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 62%;
+  width: 4px;
+  background: var(--border-strong);
+}
+.cp-hud__wall[data-hit="true"] {
+  background: var(--danger);
+}
+.cp-packet {
+  position: absolute;
+  top: 26px;
+  left: 0;
+  padding: 1px 6px;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+}
+.cp-packet[data-ok="true"] {
+  color: var(--meter-fill);
+  animation: cp-pass 900ms linear forwards;
+}
+.cp-packet[data-ok="false"] {
+  color: var(--danger);
+  animation: cp-block 900ms linear forwards;
+}
+@keyframes cp-pass {
+  to {
+    left: 100%;
+  }
+}
+@keyframes cp-block {
+  80% {
+    left: calc(62% - 90px);
+  }
+  to {
+    left: calc(62% - 90px);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Scanlines: static, behind all content (never over text). */
+  [data-theme="cyberpunk"] body {
+    background-image: repeating-linear-gradient(
+      0deg,
+      color-mix(in srgb, var(--text) 3%, transparent) 0 1px,
+      transparent 1px 3px
+    );
+  }
+  /* One-shot glitch when a section first enters view: movement only, no luminance flash. */
+  [data-theme="cyberpunk"] .cp-glitch h2 {
+    animation: cp-glitch 280ms steps(2, end) 1;
+  }
+}
+@keyframes cp-glitch {
+  0% {
+    transform: translateX(-3px) skewX(-6deg);
+  }
+  50% {
+    transform: translateX(2px) skewX(4deg);
+  }
+  100% {
+    transform: none;
+  }
+}
