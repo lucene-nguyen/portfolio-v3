@@ -16,3 +16,11 @@ Spec: [docs/specs/ui-round-1.md](../specs/ui-round-1.md). Before = `docs/screens
 - Tests: `e2e/hero-first.spec.ts` (hero first + slot filled for the 6 block themes, empty for the others), 3D tests updated (entry, axe on the entry, lazy Three.js).
 - Before/after: 6 themes previously opened with their block (3D world fully covered the page) → all 13 open with the hero.
 - Review: APPROVE; fixed slot assertions, duplicate landmark name, stale spec/JSDoc, screenshots refreshed.
+
+## fix/ui-mobile-nav (item 5)
+- `SiteNav` (client): < 768px one line — logo, theme switcher (label sr-only, select capped), Menu button (`aria-expanded`/`aria-controls`); the menu holds the links, resume link and theme actions; closes on link/action, Esc returns focus to the toggle. ≥ 768px unchanged inline nav.
+- `#theme-slot-nav` in the menu: Night terminal "Terminal" and Pixel "Achievements" entries on mobile; their floating buttons and spacers are desktop-only. Dialog openers keep the menu open so focus returns to them. Docs' own drawer button renamed "Pages" (no two "Menu" buttons).
+- Tests: `e2e/mobile-nav.spec.ts` (one-line header + no visible fixed control in all 13 themes, menu keyboard/Esc/focus/axe, Pixel entry focus return, desktop unchanged); Terminal 375px test via the menu; home tab test counts visible controls only.
+- Screenshots: sweep now also saves `mobile-375-menu.png` per theme.
+- Before/after (375px): nav wrapped to 3 lines with "Theme" label and placeholder resume; Terminal/Achievements buttons floated over hero content → one-line header, menu panel, no floating controls.
+- Review: APPROVE; fixed focus loss after menu dialogs, Esc focus, fixed-control check that couldn't fail, comment, screenshots.
