@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
+import { features } from "../lib/features";
 
 const region = (page: Page) => page.getByRole("region", { name: "Sticker board" });
 const board = (page: Page) => page.getByTestId("sticker-board");
@@ -10,12 +11,13 @@ test.beforeEach(async ({ page }) => {
   await expect(region(page)).toBeVisible();
 });
 
+// Case studies parked (LEARNING-164): the board filters the starter kits.
 test("clicking a sticker filters projects; clicking again clears", async ({ page }) => {
-  await board(page).getByRole("button", { name: "Databricks" }).click();
-  await expect(region(page).getByRole("status")).toHaveText("1 project using Databricks");
-  await expect(region(page).getByRole("link", { name: /Read case study/ })).toHaveCount(1);
-  await board(page).getByRole("button", { name: "Databricks" }).click();
-  await expect(region(page).getByRole("status")).toHaveText("All 3 projects");
+  await board(page).getByRole("button", { name: "Redis" }).click();
+  await expect(region(page).getByRole("status")).toHaveText("1 project using Redis");
+  await expect(region(page).getByRole("link", { name: /View on GitHub/ })).toHaveCount(1);
+  await board(page).getByRole("button", { name: "Redis" }).click();
+  await expect(region(page).getByRole("status")).toHaveText("All 4 projects");
 });
 
 test("plain list of filter buttons does the same, by keyboard", async ({ page }) => {
@@ -27,9 +29,9 @@ test("plain list of filter buttons does the same, by keyboard", async ({ page })
     "aria-pressed",
     "true",
   );
-  await expect(region(page).getByRole("status")).toHaveText("2 projects using NestJS");
+  await expect(region(page).getByRole("status")).toHaveText("1 project using NestJS");
   await list(page).getByRole("button", { name: "Show all" }).click();
-  await expect(region(page).getByRole("status")).toHaveText("All 3 projects");
+  await expect(region(page).getByRole("status")).toHaveText("All 4 projects");
 });
 
 test("dragging a sticker moves it without filtering", async ({ page }) => {
@@ -75,21 +77,24 @@ test("axe clean; 375px", async ({ page }) => {
 
 test("shared sections are restyled as stickers", async ({ page }) => {
   const shadow = "rgb(0, 0, 0) 6px 6px 0px 0px";
-  await expect(page.locator('#work [data-part="eyebrow"]')).toHaveCSS(
+  await expect(page.locator('#kits [data-part="eyebrow"]')).toHaveCSS(
     "background-color",
     "rgb(255, 214, 10)",
   );
-  const metas = page.locator('#work [data-part="case-meta"]');
-  await expect(metas.nth(0)).toHaveCSS("background-color", "rgb(255, 214, 10)");
-  await expect(metas.nth(1)).toHaveCSS("background-color", "rgb(124, 242, 156)");
-  await expect(metas.nth(2)).toHaveCSS("background-color", "rgb(94, 200, 255)");
-  // Header strip runs edge to edge inside the card's 3px border.
-  const [card, meta] = await Promise.all([
-    page.locator('#work [data-part="case-card"]').first().boundingBox(),
-    metas.first().boundingBox(),
-  ]);
-  expect(meta!.x - card!.x).toBe(3);
-  expect(card!.width - meta!.width).toBe(6);
+  // Case cards are parked (LEARNING-164); checked when they come back.
+  if (features.caseStudies) {
+    const metas = page.locator('#work [data-part="case-meta"]');
+    await expect(metas.nth(0)).toHaveCSS("background-color", "rgb(255, 214, 10)");
+    await expect(metas.nth(1)).toHaveCSS("background-color", "rgb(124, 242, 156)");
+    await expect(metas.nth(2)).toHaveCSS("background-color", "rgb(94, 200, 255)");
+    // Header strip runs edge to edge inside the card's 3px border.
+    const [card, meta] = await Promise.all([
+      page.locator('#work [data-part="case-card"]').first().boundingBox(),
+      metas.first().boundingBox(),
+    ]);
+    expect(meta!.x - card!.x).toBe(3);
+    expect(card!.width - meta!.width).toBe(6);
+  }
   const fills = [
     "rgb(255, 214, 10)",
     "rgb(124, 242, 156)",
@@ -98,10 +103,13 @@ test("shared sections are restyled as stickers", async ({ page }) => {
   ];
   for (const [i, fill] of fills.entries())
     await expect(page.locator('[data-part="stat"]').nth(i)).toHaveCSS("background-color", fill);
-  await expect(page.locator('[data-part="case-metrics"]').first()).toHaveCSS(
-    "border-top-width",
-    "3px",
-  );
+  // Case cards are parked (LEARNING-164); checked when they come back.
+  if (features.caseStudies) {
+    await expect(page.locator('[data-part="case-metrics"]').first()).toHaveCSS(
+      "border-top-width",
+      "3px",
+    );
+  }
   const contact = page.locator('[data-part="contact-actions"] [data-part="button"]').first();
   await expect(contact).toHaveCSS("border-top-width", "3px");
   await expect(contact).toHaveCSS("box-shadow", "rgb(0, 0, 0) 4px 4px 0px 0px");

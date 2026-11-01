@@ -4,15 +4,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRef } from "react";
 import { Menu, Search } from "lucide-react";
-import { docsCopy, experience, kits, lab, work } from "@/content/home";
+import { docsCopy, experience, kits, lab, publicStudies, work } from "@/content/home";
+import { features } from "@/lib/features";
 import { SearchDialog, type SearchHandle } from "./search";
 
 const homeLinks = [
   { href: "/#top", label: docsCopy.home },
-  { href: "/#work", label: work.title },
-  { href: "/#lab", label: lab.title },
-  { href: "/#kits", label: kits.title },
   { href: "/#experience", label: experience.title },
+  ...(features.caseStudies ? [{ href: "/#work", label: work.title }] : []),
+  ...(features.lab ? [{ href: "/#lab", label: lab.title }] : []),
+  { href: "/#kits", label: kits.title },
 ];
 
 function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
@@ -28,10 +29,11 @@ function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
           </li>
         ))}
       </ul>
+      {publicStudies.length > 0 && (
       <div>
         <p className="mb-1 px-2 font-mono text-xs text-text-muted uppercase">{work.title}</p>
         <ul className="flex flex-col gap-0.5">
-          {work.items.map((c) => {
+          {publicStudies.map((c) => {
             const href = `/work/${c.slug}`;
             return (
               <li key={c.slug}>
@@ -48,6 +50,7 @@ function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
           })}
         </ul>
       </div>
+      )}
     </nav>
   );
 }

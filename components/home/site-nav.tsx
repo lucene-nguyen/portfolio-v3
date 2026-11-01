@@ -34,11 +34,13 @@ export function SiteNav() {
     <header className="border-b border-border">
       <nav
         aria-label="Main"
-        className={`${container} flex flex-wrap items-center gap-x-3 gap-y-3 py-[18px] md:gap-x-4`}
+        className={`${container} flex flex-wrap items-center gap-x-2 gap-y-3 py-[18px] sm:gap-x-3 md:gap-x-4`}
       >
-        <Link href="/" className="font-mono text-lg font-bold text-text">
-          {profile.handle}
-          <span className="text-accent">.dev</span>
+        <Link
+          href="/"
+          className="font-mono text-base font-bold whitespace-nowrap text-text sm:text-lg"
+        >
+          {profile.logo}
         </Link>
         <div className="ml-auto md:order-last md:ml-0">
           <ThemeSwitcher />

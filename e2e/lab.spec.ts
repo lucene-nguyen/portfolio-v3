@@ -1,5 +1,8 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
+import { features } from "../lib/features";
+
+test.skip(!features.lab, "lab parked (LEARNING-164)");
 
 // Each test is its own "visitor" so parallel workers never share a bucket.
 test.beforeEach(async ({ page }, info) => {

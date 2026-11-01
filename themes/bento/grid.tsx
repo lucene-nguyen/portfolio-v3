@@ -5,7 +5,16 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowUp, GripVertical, RotateCcw } from "lucide-react";
 import { container } from "@/components/home/ui";
-import { bentoCopy as c, experience, hero, lab, labels, profile, work } from "@/content/home";
+import {
+  bentoCopy as c,
+  experience,
+  hero,
+  lab,
+  labels,
+  profile,
+  publicStudies,
+} from "@/content/home";
+import { features } from "@/lib/features";
 import { move, moveTo, sanitizeOrder } from "@/lib/bento";
 import { cn } from "@/lib/utils";
 
@@ -72,7 +81,7 @@ const tiles: Tile[] = [
       </dl>
     ),
   },
-  ...work.items.map((w) => ({
+  ...publicStudies.map((w) => ({
     id: `work-${w.slug}`,
     name: w.title,
     size: "md:col-span-1",
@@ -117,23 +126,28 @@ const tiles: Tile[] = [
       </ul>
     ),
   },
-  {
-    id: "lab",
-    name: c.tiles.lab,
-    size: "md:col-span-1",
-    tone: "surface2",
-    body: (
-      <div className="flex h-full flex-col gap-2">
-        <p className="font-semibold">{lab.title}</p>
-        <a
-          href="#lab"
-          className="mt-auto text-sm font-semibold text-accent underline underline-offset-2"
-        >
-          {c.labCta}
-        </a>
-      </div>
-    ),
-  },
+  // The lab is parked (LEARNING-164).
+  ...(features.lab
+    ? ([
+        {
+          id: "lab",
+          name: c.tiles.lab,
+          size: "md:col-span-1",
+          tone: "surface2",
+          body: (
+            <div className="flex h-full flex-col gap-2">
+              <p className="font-semibold">{lab.title}</p>
+              <a
+                href="#lab"
+                className="mt-auto text-sm font-semibold text-accent underline underline-offset-2"
+              >
+                {c.labCta}
+              </a>
+            </div>
+          ),
+        },
+      ] satisfies Tile[])
+    : []),
   {
     id: "contact",
     name: c.tiles.contact,

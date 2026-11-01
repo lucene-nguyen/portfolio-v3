@@ -138,7 +138,7 @@ function World({ onExit }: { onExit: (zone?: Zone["id"]) => void }) {
         <nav aria-label={c.zonesLabel}>
           <p className="mb-1 text-xs text-text-muted">{c.zonesLabel}</p>
           <ul className="flex flex-wrap gap-2">
-            {(Object.keys(c.zones) as Zone["id"][]).map((id) => (
+            {zones.map(({ id }) => (
               <li key={id}>
                 <button
                   type="button"

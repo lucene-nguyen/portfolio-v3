@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { experience, kits, lab, profile, work } from "@/content/home";
+import { experience, kits, lab, profile, publicStudies, work } from "@/content/home";
+import { features } from "@/lib/features";
 import { SHOW_PLACEHOLDERS, stripPlaceholders } from "@/lib/placeholder";
 import { mdxToDocs, type SearchDoc } from "@/lib/search";
 
@@ -19,7 +20,7 @@ export async function GET() {
       href: "/#top",
       text: `${profile.title}. ${profile.email}`,
     },
-    ...work.items.map((c) => ({
+    ...publicStudies.map((c) => ({
       title: c.title,
       section: work.title,
       href: `/work/${c.slug}`,
@@ -27,12 +28,16 @@ export async function GET() {
         " ",
       ),
     })),
-    {
-      title: lab.title,
-      section: "Live lab",
-      href: "/#lab",
-      text: [lab.intro, ...lab.facts].join(" "),
-    },
+    ...(features.lab
+      ? [
+          {
+            title: lab.title,
+            section: "Live lab",
+            href: "/#lab",
+            text: [lab.intro, ...lab.facts].join(" "),
+          },
+        ]
+      : []),
     ...kits.items.map((k) => ({
       title: k.name,
       section: kits.title,
@@ -53,7 +58,7 @@ export async function GET() {
     },
   ];
   const studies = await Promise.all(
-    work.items.map(async (c) =>
+    publicStudies.map(async (c) =>
       mdxToDocs(
         withoutUnfinishedItems(
           await readFile(path.join(process.cwd(), "content/work", `${c.slug}.mdx`), "utf8"),

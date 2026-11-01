@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { container } from "@/components/home/ui";
-import { kits, lab, profile, systemMap, work } from "@/content/home";
+import { experience, kits, lab, profile, systemMap, work } from "@/content/home";
+import { features } from "@/lib/features";
 
 interface MapNode {
   href: string;
@@ -23,7 +24,23 @@ const SLOTS = [
 
 const repo = kits.items.find((k) => k.href === lab.repo.href);
 
-export const mapNodes: MapNode[] = [
+// Case studies parked (LEARNING-164): the map shows the roles and the starter kits instead.
+const careerNodes = [
+  ...experience.roles.map((r) => ({
+    href: "#experience",
+    title: r.company,
+    tech: r.summary,
+    impact: r.period,
+  })),
+  {
+    href: "#kits",
+    title: kits.title,
+    tech: kits.items.map((k) => k.name).join(" · "),
+    impact: kits.items.map((k) => k.status).join(" · "),
+  },
+];
+
+const projectNodes = [
   ...work.items.map((c) => ({
     href: `/work/${c.slug}`,
     title: c.title,
@@ -33,7 +50,9 @@ export const mapNodes: MapNode[] = [
   ...(repo
     ? [{ href: repo.href, title: repo.name, tech: repo.stack, impact: repo.status, external: true }]
     : []),
-]
+];
+
+export const mapNodes: MapNode[] = (features.caseStudies ? projectNodes : careerNodes)
   .slice(0, SLOTS.length)
   .map((n, i) => ({ ...n, ...SLOTS[i] }));
 
@@ -59,7 +78,7 @@ export function SystemMap() {
           >
             {mapNodes.map((n) => (
               <line
-                key={n.href}
+                key={n.title}
                 x1={HUB.x}
                 y1={HUB.y}
                 x2={n.x}
@@ -84,7 +103,7 @@ export function SystemMap() {
             </li>
             {mapNodes.map((n) => (
               <li
-                key={n.href}
+                key={n.title}
                 className="md:absolute md:w-[30%] md:-translate-x-1/2 md:-translate-y-1/2"
                 style={{ left: `${n.x / 10}%`, top: `${(n.y / 440) * 100}%` }}
               >
@@ -121,7 +140,7 @@ export function SystemMap() {
           </summary>
           <ul className="mt-3 flex flex-col gap-2">
             {mapNodes.map((n) => (
-              <li key={n.href}>
+              <li key={n.title}>
                 <Link href={n.href} className="text-accent underline underline-offset-2">
                   {n.title}
                 </Link>

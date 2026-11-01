@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { features } from "../lib/features";
 
 const studies = [
   { slug: "pharmacy-inventory", title: "Cutting inventory latency 15× for 2,500+ pharmacy stores" },
@@ -28,6 +29,7 @@ for (const { slug, title } of studies) {
   });
 
   test(`${slug}: home card opens it`, async ({ page }) => {
+    test.skip(!features.caseStudies, "case studies parked (LEARNING-164)");
     await page.goto("/");
     await page.getByRole("link", { name: `Read case study: ${title}` }).click();
     await expect(page).toHaveURL(new RegExp(`/work/${slug}$`));

@@ -1,3 +1,4 @@
+import { features } from "@/lib/features";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -23,6 +24,8 @@ export async function generateMetadata({ params }: PageProps<"/work/[slug]">): P
     title: study.title,
     description: study.summary,
     alternates: { canonical: `/work/${study.slug}` },
+    // Parked (LEARNING-164): the page still renders, but search engines skip it.
+    ...(features.caseStudies ? {} : { robots: { index: false, follow: false } }),
     openGraph: {
       ...ogBase,
       type: "article",

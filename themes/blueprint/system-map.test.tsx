@@ -11,11 +11,11 @@ it("renders to static HTML with real links (no JavaScript needed)", () => {
   expect(html).toContain("<details");
 });
 
-it("has one node per case study plus the public repo", () => {
-  expect(mapNodes.map((n) => n.href)).toEqual([
-    "/work/pharmacy-inventory",
-    "/work/ai-image-pipeline",
-    "/work/aws-file-ingestion",
-    "https://github.com/lucene-nguyen/rate-limiting-lab",
+it("maps the roles and the starter kits while case studies are parked", () => {
+  expect(mapNodes.map((n) => [n.title, n.href])).toEqual([
+    ["FPT Software", "#experience"],
+    ["NEOX", "#experience"],
+    ["Faboshop", "#experience"],
+    ["Starter kits & labs", "#kits"],
   ]);
 });

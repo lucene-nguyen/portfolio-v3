@@ -89,15 +89,19 @@ for (const theme of THEMES) {
   const page = await browser.newPage();
   await page.goto(`${BASE}/`, { waitUntil: "networkidle" });
   const lab = page.locator("#lab");
-  // Start from a full limiter (earlier sweeps share this IP in the in-memory store).
-  await lab.getByRole("button", { name: "Reset" }).click();
-  await page.waitForTimeout(300);
-  await lab.getByRole("button", { name: "Burst × 10" }).click();
-  await page.waitForTimeout(1500);
-  report.lab = {
-    ok: await page.getByTestId("count-200").textContent(),
-    blocked: await page.getByTestId("count-429").textContent(),
-  };
+  // Parked behind a feature flag (LEARNING-164): nothing to check.
+  if (!(await lab.count())) report.lab = "parked";
+  else {
+    // Start from a full limiter (earlier sweeps share this IP in the in-memory store).
+    await lab.getByRole("button", { name: "Reset" }).click();
+    await page.waitForTimeout(300);
+    await lab.getByRole("button", { name: "Burst × 10" }).click();
+    await page.waitForTimeout(1500);
+    report.lab = {
+      ok: await page.getByTestId("count-200").textContent(),
+      blocked: await page.getByTestId("count-429").textContent(),
+    };
+  }
   await page.close();
 }
 

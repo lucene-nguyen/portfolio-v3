@@ -16,8 +16,9 @@ describe("world", () => {
   });
   it("detects zones", () => {
     expect(zoneAt({ x: 0, z: 0 })).toBeUndefined();
-    expect(zoneAt({ x: 7, z: 0.5 })?.id).toBe("lab");
-    expect(new Set(zones.map((z) => z.id))).toEqual(new Set(["work", "lab", "kits", "contact"]));
+    expect(zoneAt({ x: 0, z: -6.5 })?.id).toBe("experience");
+    expect(zoneAt({ x: 7, z: 0.5 })).toBeUndefined(); // the lab is parked
+    expect(new Set(zones.map((z) => z.id))).toEqual(new Set(["experience", "kits", "contact"]));
   });
   it("maps arrows and WASD", () => {
     expect(keyToDir("ArrowUp")).toBe("forward");

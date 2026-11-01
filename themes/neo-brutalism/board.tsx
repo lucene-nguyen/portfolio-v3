@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { container } from "@/components/home/ui";
-import { labels, stickerCopy as c, work } from "@/content/home";
-import { projectsWith, skills, STICKER_FILLS } from "./stickers";
+import { stickerCopy as c } from "@/content/home";
+import { projects, projectsWith, skills, STICKER_FILLS } from "./stickers";
 
 const DRAG_THRESHOLD = 4;
 // Deterministic scatter so server and client agree and the board looks hand-placed.
@@ -24,7 +24,7 @@ export function StickerBoard() {
   const suppressClick = useRef(false);
 
   const toggle = (skill: string) => setSelected((s) => (s === skill ? null : skill));
-  const shown = selected ? projectsWith(selected) : work.items;
+  const shown = selected ? projectsWith(selected) : projects;
 
   return (
     <section aria-labelledby="stickers-title" className="border-b-[3px] border-border">
@@ -147,17 +147,21 @@ export function StickerBoard() {
             {selected ? c.results(selected, shown.length) : c.all(shown.length)}
           </p>
           <ul className="grid gap-4 md:grid-cols-3">
-            {shown.map((w) => (
-              <li key={w.slug} className="nb-card bg-surface p-4">
-                <p className="font-bold">{w.title}</p>
-                <p className="mt-1 font-mono text-xs text-text-muted">{w.tags.join(" · ")}</p>
-                <Link
-                  href={`/work/${w.slug}`}
-                  aria-label={`${labels.readCaseStudy}: ${w.title}`}
-                  className="mt-3 inline-block font-bold text-accent underline underline-offset-2"
-                >
-                  {labels.readCaseStudy}
-                </Link>
+            {shown.map((p) => (
+              <li key={p.key} className="nb-card bg-surface p-4">
+                <p className="font-bold">{p.title}</p>
+                {p.tags.length > 0 && (
+                  <p className="mt-1 font-mono text-xs text-text-muted">{p.tags.join(" · ")}</p>
+                )}
+                {p.href && (
+                  <Link
+                    href={p.href}
+                    aria-label={`${p.linkLabel}: ${p.title}`}
+                    className="mt-3 inline-block font-bold text-accent underline underline-offset-2"
+                  >
+                    {p.linkLabel}
+                  </Link>
+                )}
               </li>
             ))}
           </ul>

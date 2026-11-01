@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
+import { features } from "../lib/features";
 
 const grid = (page: Page) => page.getByRole("region", { name: "At a glance" });
 const order = (page: Page) =>
@@ -22,7 +23,9 @@ test("keyboard: move controls reorder, keep focus, announce, persist; reset rest
   await page.keyboard.press("Enter");
   expect((await order(page)).slice(0, 2)).toEqual(["photo", "about"]);
   await expect(grid(page).getByRole("button", { name: "Move About later" })).toBeFocused();
-  await expect(grid(page).getByRole("status")).toHaveText("About moved to position 2 of 9.");
+  await expect(grid(page).getByRole("status")).toHaveText(
+    `About moved to position 2 of ${initial.length}.`,
+  );
   await page.reload();
   await expect(grid(page)).toBeVisible();
   expect((await order(page)).slice(0, 2)).toEqual(["photo", "about"]);
@@ -80,9 +83,12 @@ test("desktop: mixed sizes and axe clean", async ({ page }) => {
 
 test("shared sections are restyled as tiles", async ({ page }) => {
   const cards = page.locator('#work [data-part="case-card"]');
-  await expect(cards.first()).toHaveCSS("border-top-left-radius", "24px");
-  await expect(cards.first()).toHaveCSS("border-top-width", "0px");
-  await expect(page.locator('#work [data-part="eyebrow"]')).toHaveCSS(
+  if (features.caseStudies) {
+    await expect(cards.first()).toHaveCSS("border-top-left-radius", "24px");
+    await expect(cards.first()).toHaveCSS("border-top-width", "0px");
+    await expect(cards.first()).not.toHaveCSS("box-shadow", "none");
+  }
+  await expect(page.locator('#kits [data-part="eyebrow"]')).toHaveCSS(
     "border-top-left-radius",
     "999px",
   );
@@ -98,23 +104,25 @@ test("shared sections are restyled as tiles", async ({ page }) => {
     "border-top-left-radius",
     "16px",
   );
-  await expect(cards.first()).not.toHaveCSS("box-shadow", "none");
+  await expect(page.locator('[data-part="kit"] > *').first()).not.toHaveCSS("box-shadow", "none");
   const bg = (part: string) =>
     page
       .locator(`[data-part="${part}"]`)
       .first()
       .evaluate((e) => getComputedStyle(e).backgroundColor);
   expect(await bg("stack")).not.toBe(await bg("role"));
-  // Wide feature tile: the first study spans both columns at desktop width.
-  const [a, b] = await cards.evaluateAll((els) =>
-    els.slice(0, 2).map((e) => e.getBoundingClientRect()),
-  );
-  expect(a.width).toBeGreaterThan(b.width * 1.8);
+  if (features.caseStudies) {
+    // Wide feature tile: the first study spans both columns at desktop width.
+    const [a, b] = await cards.evaluateAll((els) =>
+      els.slice(0, 2).map((e) => e.getBoundingClientRect()),
+    );
+    expect(a.width).toBeGreaterThan(b.width * 1.8);
+  }
   // One column on phones.
   await page.setViewportSize({ width: 375, height: 800 });
-  const widths = await cards.evaluateAll((els) =>
-    els.map((e) => Math.round(e.getBoundingClientRect().width)),
-  );
+  const widths = await page
+    .locator('[data-part="kit"] > *')
+    .evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().width)));
   expect(new Set(widths).size).toBe(1);
   // Hero numbers: 2×2 tiles on phones.
   const lefts = await page

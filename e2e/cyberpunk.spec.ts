@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { features } from "../lib/features";
 
 test.beforeEach(async ({ page }, info) => {
   await page.setExtraHTTPHeaders({
@@ -10,27 +11,26 @@ test.beforeEach(async ({ page }, info) => {
 test("no glow; glitch and scanlines run with motion allowed", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/?theme=cyberpunk");
-  await expect(page.getByTestId("cp-hud")).toBeAttached();
   await expect(page.getByRole("heading", { level: 1 })).toHaveCSS("text-shadow", "none");
-  await expect(page.locator("#work h2")).toHaveCSS("text-shadow", "none");
+  await expect(page.locator("#experience h2")).toHaveCSS("text-shadow", "none");
   expect(await page.locator("body").evaluate((b) => getComputedStyle(b).backgroundImage)).toContain(
     "gradient",
   );
-  await page.locator("#work").scrollIntoViewIfNeeded();
-  await expect(page.locator("#work")).toHaveClass(/cp-glitch/);
-  await expect(page.locator("#work h2")).toHaveCSS("animation-name", "cp-glitch");
+  await page.locator("#experience").scrollIntoViewIfNeeded();
+  await expect(page.locator("#experience")).toHaveClass(/cp-glitch/);
+  await expect(page.locator("#experience h2")).toHaveCSS("animation-name", "cp-glitch");
 });
 
 test("reduced motion: no scanlines, no glitch", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/?theme=cyberpunk");
-  await expect(page.getByTestId("cp-hud")).toBeAttached();
   await expect(page.locator("body")).toHaveCSS("background-image", "none");
-  await page.locator("#work").scrollIntoViewIfNeeded();
-  await expect(page.locator("#work h2")).toHaveCSS("animation-name", "none");
+  await page.locator("#experience").scrollIntoViewIfNeeded();
+  await expect(page.locator("#experience h2")).toHaveCSS("animation-name", "none");
 });
 
 test("burst: packets and a BLOCKED packet; firewall flashes ≤ 3 per second", async ({ page }) => {
+  test.skip(!features.lab, "the HUD lives in the parked lab (LEARNING-164)");
   await page.goto("/?theme=cyberpunk");
   const hud = page.getByTestId("cp-hud");
   await expect(hud).toBeAttached();
@@ -58,6 +58,7 @@ test("burst: packets and a BLOCKED packet; firewall flashes ≤ 3 per second", a
 });
 
 test("HUD survives client-side navigation", async ({ page }) => {
+  test.skip(!features.lab, "the HUD lives in the parked lab (LEARNING-164)");
   await page.goto("/?theme=cyberpunk");
   await expect(page.getByTestId("cp-hud")).toBeAttached();
   await page
@@ -72,6 +73,7 @@ test("HUD survives client-side navigation", async ({ page }) => {
 });
 
 test("reduced motion: packets stay visible", async ({ page }) => {
+  test.skip(!features.lab, "the HUD lives in the parked lab (LEARNING-164)");
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/?theme=cyberpunk");
   await expect(page.getByTestId("cp-hud")).toBeAttached();
@@ -87,7 +89,8 @@ test("reduced motion: packets stay visible", async ({ page }) => {
 
 test("axe clean; 375px", async ({ page }) => {
   await page.goto("/?theme=cyberpunk");
-  await expect(page.getByTestId("cp-hud")).toBeAttached();
+  await page.locator("#experience").scrollIntoViewIfNeeded();
+  await expect(page.locator("#experience")).toHaveClass(/cp-glitch/);
   const { violations } = await new AxeBuilder({ page }).exclude("nextjs-portal").analyze();
   expect(violations.map((v) => v.id)).toEqual([]);
   await page.setViewportSize({ width: 375, height: 800 });
@@ -99,13 +102,17 @@ test("axe clean; 375px", async ({ page }) => {
 
 test("shared sections are restyled as HUD, not just recolored", async ({ page }) => {
   await page.goto("/?theme=cyberpunk");
-  await expect(page.getByTestId("cp-hud")).toBeAttached();
-  const eyebrow = page.locator('#work [data-part="eyebrow"]');
+  await page.locator("#experience").scrollIntoViewIfNeeded();
+  await expect(page.locator("#experience")).toHaveClass(/cp-glitch/);
+  const eyebrow = page.locator('#kits [data-part="eyebrow"]');
   expect(await eyebrow.evaluate((el) => getComputedStyle(el, "::before").content)).toContain("[");
-  await expect(page.locator('[data-part="case-meta"]').first()).toHaveCSS(
-    "text-transform",
-    "uppercase",
-  );
+  // Case cards are parked (LEARNING-164); checked when they come back.
+  if (features.caseStudies) {
+    await expect(page.locator('[data-part="case-meta"]').first()).toHaveCSS(
+      "text-transform",
+      "uppercase",
+    );
+  }
   expect(
     await page
       .locator('[data-part="stat"]')
