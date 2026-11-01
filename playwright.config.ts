@@ -5,6 +5,8 @@ const PORT = 3100;
 export default defineConfig({
   testDir: "./e2e",
   fullyParallel: true,
+  // The dev server compiles heavy theme pages on demand; fewer local workers avoid load timeouts.
+  workers: process.env.CI ? undefined : "50%",
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [["github"], ["html", { open: "never" }]] : "list",
