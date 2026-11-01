@@ -37,7 +37,7 @@
 - Square corners, no shadows, tight negative tracking on headings.
 
 ## Print (one-page CV)
-- `@media print`: no nav, skip link, lab, kits, avatar, buttons, selects or dialogs; elements marked `data-print="hide"` are dropped (CTAs, card summaries, tags, card links, contact headline).
+- `@media print`: no nav, skip link, lab, kits, Work with me, avatar, buttons, selects or dialogs; elements marked `data-print="hide"` are dropped (CTAs, card summaries, tags, card links, contact headline).
 - Black on white, 9–9.5pt body; case studies in 3 columns; experience and stack side by side; contact links print their URL; placeholders are not printed. Fits one A4 or Letter page (12mm margins).
 
 ## Layout
@@ -57,3 +57,7 @@ Rules:
 ### Skills section (round 2, LEARNING-165)
 - Searches: `"skills showcase logos grid" --domain landing` (Feature-Rich Showcase and Bento Grid Showcase: scannable groups, a stack on mobile, nothing hidden behind hover) and `"icon with text label" --domain ux` (Compact Label Overflow: chip labels never wrap).
 - The skills panel is `data-part="stack"` and now sits in its own `#skills` section after the hero, not beside Experience, so this theme's stack-panel rule above styles it. The group headings are `h3`s inside that panel. Icons are monochrome (`currentColor`), so they follow the theme's text colour. "Also familiar with" is smaller and muted.
+
+### Work with me section (round 2, LEARNING-166)
+- Searches: `"services offering process steps" --domain landing` and `"call to action specific label" --domain ux` (results in docs/prs/LEARNING-166.md).
+- Service cards are `data-part="kit"` and the "How I work" steps are `data-part="roles"`/`"role"`, so this theme's kit-card and roles/timeline rules above style them. Each CTA is a text link with a verb label and an arrow icon (`aria-hidden`), min 44px tall.

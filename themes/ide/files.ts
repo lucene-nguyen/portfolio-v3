@@ -15,6 +15,7 @@ export const files: IdeFile[] = [
   ...publicStudies.map((c) => ({ path: `work/${c.slug}.md`, href: `/work/${c.slug}` })),
   ...(features.lab ? [{ path: "lab/rate-limiter.ts", href: "/#lab" }] : []),
   { path: "kits/README.md", href: "/#kits" },
+  { path: "services.md", href: "/#work-with-me" },
   { path: "contact.md", href: "/#contact" },
 ];
 

@@ -100,7 +100,7 @@ test("shared sections are restyled as panels, not just recolored", async ({ page
   );
   expect(
     await page
-      .locator('[data-part="roles"]')
+      .locator('#experience [data-part="roles"]')
       .evaluate((el) => getComputedStyle(el, "::before").content),
   ).toContain("PERIOD");
   await expect(page.locator('[data-part="role"]').nth(1)).toHaveCSS(

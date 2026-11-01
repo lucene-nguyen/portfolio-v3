@@ -41,6 +41,7 @@ const sections = [
   ...(features.caseStudies ? ["work"] : []),
   ...(features.lab ? ["lab"] : []),
   "kits",
+  "work-with-me",
   "contact",
 ];
 const no = (id: string) => String(sections.indexOf(id) + 1).padStart(2, "0");
@@ -51,6 +52,7 @@ export const nav = [
   ...(features.caseStudies ? [{ href: "/#work", label: "Work" }] : []),
   ...(features.lab ? [{ href: "/#lab", label: "Live lab" }] : []),
   { href: "/#kits", label: "Starter kits" },
+  { href: "/#work-with-me", label: "Work with me" },
   { href: "/#contact", label: "Contact" },
 ];
 
@@ -60,8 +62,7 @@ export const hero = {
   subline:
     "My goal is to become an expert in web development, so I keep learning and improving every day.",
   lead: "Fullstack Software Engineer with 5+ years building web apps end to end — React and Next.js on the front end, Node.js and NestJS APIs on the back end, PostgreSQL, MongoDB and Redis for data, and AWS to run it in production.",
-  // Work with me lands in LEARNING-166; until then the CTA goes to Contact.
-  workWithMeHref: "#contact",
+  workWithMeHref: "#work-with-me",
   stats: [
     { value: "5+ yrs", label: "building production backends" },
     { value: "2,500+", label: "stores on services I shipped" },
@@ -374,6 +375,71 @@ export const kits = {
       href: "https://github.com/lucene-nguyen/rate-limiting-lab",
     },
   ] as const,
+};
+/** Collaboration types (LEARNING-166/167): Work with me CTAs preselect one in the Contact form. */
+export const collabTypes = [
+  { id: "full-time", label: "Full-time" },
+  { id: "part-time", label: "Part-time" },
+  { id: "freelance", label: "Freelance project" },
+  { id: "consulting", label: "Consulting" },
+] as const;
+export type CollabType = (typeof collabTypes)[number]["id"];
+
+// Service names and steps from the owner; one-line copy via design:ux-copy (no claims, no prices).
+export const workWithMe = {
+  eyebrow: `${no("work-with-me")} / work with me`,
+  title: "Work with me",
+  intro:
+    "Need a web app built, a backend scaled, or a second opinion on your architecture? Here's how I can help.",
+  services: [
+    {
+      name: "End-to-end web apps",
+      description: "I design and build the whole app: front end, API, database and deployment.",
+      cta: "Discuss a web app",
+      type: "freelance",
+    },
+    {
+      name: "Backend, API and AWS",
+      description:
+        "APIs, background jobs and data pipelines in Node.js and NestJS, running on AWS.",
+      cta: "Discuss a backend",
+      type: "freelance",
+    },
+    {
+      name: "Industry starter kits",
+      description:
+        "Foundations for restaurant ordering (TableTap), appointment booking and a small-team CRM, tailored to your business.",
+      cta: "Ask about a kit",
+      type: "freelance",
+      kits: ["TableTap", "Booking kit", "CRM kit"],
+    },
+    {
+      name: "Architecture consulting",
+      description: "A second pair of eyes on your architecture, performance and scaling decisions.",
+      cta: "Request a review",
+      type: "consulting",
+    },
+  ] satisfies {
+    name: string;
+    description: string;
+    cta: string;
+    type: CollabType;
+    kits?: string[];
+  }[],
+  stepsTitle: "How I work",
+  stepLabel: (n: number) => `Step ${n}`,
+  steps: [
+    { name: "Discuss", description: "We talk through your goals, users and constraints." },
+    { name: "Proposal", description: "You get a written scope and plan to agree on." },
+    {
+      name: "Build",
+      description: "Spec → code → test → review, in small steps you can follow.",
+    },
+    {
+      name: "Hand-over and support",
+      description: "You get the code and docs, with support during the hand-over.",
+    },
+  ],
 };
 
 // Owner-provided (LEARNING-165). Icons: components/home/skill-icon.tsx.

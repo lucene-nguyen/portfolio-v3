@@ -56,7 +56,7 @@ html {
   letter-spacing: 0;
 }
 
-[data-theme="pixel"] main h3 {
+[data-theme="pixel"] main :is(h3, h4) {
   font-size: clamp(14px, 2.4vw, 18px);
   line-height: 1.5;
 }
