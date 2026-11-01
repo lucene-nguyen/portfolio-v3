@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { container, Tag } from "@/components/home/ui";
 import { TrackCaseStudyRead } from "@/components/work/track-read";
-import { labels, work } from "@/content/home";
+import { labels, profile, work } from "@/content/home";
+import { ogBase } from "@/lib/site";
 
 const find = (slug: string) => work.items.find((c) => c.slug === slug);
 
@@ -16,7 +17,20 @@ export const dynamicParams = false;
 
 export async function generateMetadata({ params }: PageProps<"/work/[slug]">): Promise<Metadata> {
   const study = find((await params).slug);
-  return study ? { title: study.title, description: study.summary } : {};
+  if (!study) return {};
+  return {
+    title: study.title,
+    description: study.summary,
+    alternates: { canonical: `/work/${study.slug}` },
+    openGraph: {
+      ...ogBase,
+      type: "article",
+      url: `/work/${study.slug}`,
+      title: study.title,
+      description: study.summary,
+      authors: [profile.name],
+    },
+  };
 }
 
 export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]">) {

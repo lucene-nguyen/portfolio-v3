@@ -46,6 +46,10 @@ test("achievements: list shows locked/unlocked; unlocking announces a toast", as
 
 test("reading a case study unlocks Bookworm (tracked in any theme)", async ({ page }) => {
   await page.goto("/work/pharmacy-inventory");
+  // The read is recorded after hydration; do not navigate away before it lands.
+  await expect
+    .poll(() => page.evaluate(() => localStorage.getItem("achievements:v1") ?? ""))
+    .toContain('"readCaseStudy":true');
   await page.goto("/?theme=pixel");
   await button(page).click();
   await expect(

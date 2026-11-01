@@ -5,6 +5,7 @@ export const profile = {
   name: "Nguyen Manh Cuong",
   handle: "cuong",
   title: "Fullstack Software Engineer",
+  siteDescription: "Case studies, a live rate-limiting lab, and starter kits.",
   email: "manhcuongmvc@gmail.com",
   github: "https://github.com/lucene-nguyen",
   githubLabel: "github.com/lucene-nguyen",
