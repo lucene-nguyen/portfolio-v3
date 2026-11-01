@@ -76,3 +76,17 @@ Spec: [docs/specs/ui-round-1.md](../specs/ui-round-1.md). Before = `docs/screens
   - N/A for this site: safe-area insets/Dynamic Type (native), dark+light parity (each theme is single-mode, contrast-tested), forms/auth, auto-rotating content.
 - Before/after: night-terminal layout in magenta → HUD language (`docs/screenshots/cyberpunk/`).
 - Review: APPROVE; fixed mobile UPLINK balance, highlight colour, hooks, label size, email-case test; screenshots and progress row on the branch.
+
+## fix/ui-editorial (item 2)
+- ui-ux-pro-max layout pass: landing searches → no verified match (built-in defaults); ux: 65–75 character line length verified, ellipsis truncation rejected. "## Layout" appended to `pages/editorial.md`.
+- Restyle: small-caps kickers, case studies as box-less feature teasers (rule on top, serif headlines, serif pull-figure metrics, middot-separated small-caps tags), hero stats as a "by the numbers" band, experience as a masthead list, kits as ruled teasers, contact as a sign-off with outlined square buttons; lab panel squared.
+- Tests: restyle assertions in `e2e/editorial.spec.ts`; checklist extended to editorial.
+- Pre-delivery checklist (ui-ux-pro-max `references/pro-rules.md`; web-applicable items):
+  - Process: theme-specific `--domain landing` + `--domain ux` searches ✅ · 375px and landscape 812×375 ✅ (e2e) · reduced motion ✅ (no running animations, e2e) · 200% zoom (720px viewport) ✅ · contrast per theme ✅ (registry tests: every text token on every ground) · touch targets ≥ 44px for buttons/selects ✅ (e2e, strict)
+  - Visual: no emoji icons ✅ (Lucide only) · one icon family ✅ · no layout-shifting press states ✅ · tokens only, no ad-hoc hex ✅
+  - Interaction: visible focus ring ✅ · focus order = DOM order ✅ (home tab test) · descriptive labels ✅ (axe clean) · drag has button alternatives ✅ (where present)
+  - Layout: nothing hidden behind fixed UI ✅ (no fixed controls on mobile) · 4/8px spacing rhythm ✅ · readable measure ✅
+  - Accessibility: decorative icons/labels hidden from AT ✅ · colour never the only indicator ✅ · reduced motion ✅
+  - N/A for this site: safe-area insets/Dynamic Type (native), dark+light parity (each theme is single-mode, contrast-tested), forms/auth, auto-rotating content.
+- Before/after: boxed default layout on paper → magazine layout (`docs/screenshots/editorial/`).
+- Review: CHANGES REQUESTED (screenshots) → screenshots on the branch; Should items fixed (outlined sign-off, list separators, documented square buttons, progress row); nits (no !important, scoped lab rule, more assertions). No second round.
