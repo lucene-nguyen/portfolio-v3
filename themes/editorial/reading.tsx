@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { Libre_Bodoni } from "next/font/google";
 import { useThemeSlot } from "@/components/theme/use-theme-slot";
 import { readingCopy } from "@/content/home";
-import "./editorial.css";
 
 // Loaded only with this chunk, i.e. only while the Editorial theme is active.
 const bodoni = Libre_Bodoni({

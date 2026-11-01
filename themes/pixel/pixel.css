@@ -51,12 +51,13 @@
 [data-theme="pixel"] [data-part="case-card"]::before {
   content: "QUEST" / "";
   position: absolute;
-  top: -16px;
+  top: -16px; /* tab is 14px tall (10px font, line-height 1, 2px padding): it sits on the 6px top border */
   left: 16px;
   padding: 2px 8px;
   background: var(--accent);
   color: var(--accent-contrast);
   font: 10px var(--font-heading);
+  line-height: 1;
 }
 [data-theme="pixel"] [data-part="case-metrics"] dd {
   font-family: var(--font-heading);
@@ -91,9 +92,16 @@
   border-bottom: 2px dashed var(--border) !important;
 }
 [data-theme="pixel"] [data-part="stat"] dt {
-  order: -1;
   text-transform: uppercase;
   font-size: 12px;
+}
+[data-theme="pixel"] [data-part="stat"]:last-child {
+  border-bottom: 0 !important;
+}
+@media (min-width: 640px) {
+  [data-theme="pixel"] [data-part="stat"]:nth-last-child(-n + 2) {
+    border-bottom: 0 !important;
+  }
 }
 [data-theme="pixel"] [data-part="stat"] dd {
   font-family: var(--font-heading);

@@ -52,4 +52,5 @@
 - Case study cards → **quest dialog boxes**: double 6px border, hard 4px shadow, "QUEST" tab; metrics in the pixel font as rewards; tags as square inventory slots.
 - Hero stats → **character sheet**: double-bordered panel, each stat a row (label left, value right in the pixel font).
 - Experience → **save slots**: each role a bordered box with hard shadow; date in mono.
+- Starter kits → bordered item cards (3px border, hard shadow), like save slots.
 - Contact → **"CONTINUE?" box**: double-bordered actions panel; buttons are pixel buttons (3px border, hard shadow, press = shadow drops via transform, no layout shift).

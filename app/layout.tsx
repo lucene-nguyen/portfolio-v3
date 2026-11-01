@@ -8,6 +8,15 @@ import { ogBase, siteUrl } from "@/lib/site";
 import { themeScript, themesToCss } from "@/lib/theme/css";
 import { defaultTheme, themes } from "@/themes/registry";
 import "./globals.css";
+// Theme stylesheets are static and scoped by [data-theme]: a stored theme is styled on first paint
+// (no restyle when its lazy chunk loads) and the Swiss print CV works without JS.
+import "@/themes/anime/anime.css";
+import "@/themes/blueprint/blueprint.css";
+import "@/themes/cyberpunk/cyberpunk.css";
+import "@/themes/editorial/editorial.css";
+import "@/themes/neo-brutalism/neo.css";
+import "@/themes/pixel/pixel.css";
+import "@/themes/swiss-minimal/swiss.css";
 
 const interTight = Inter_Tight({ variable: "--font-inter-tight", subsets: ["latin"] });
 const jetbrainsMono = JetBrains_Mono({ variable: "--font-jetbrains-mono", subsets: ["latin"] });

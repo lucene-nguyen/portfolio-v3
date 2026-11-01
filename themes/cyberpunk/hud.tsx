@@ -6,7 +6,6 @@ import { createPortal } from "react-dom";
 import { useThemeSlot } from "@/components/theme/use-theme-slot";
 import { hudCopy } from "@/content/home";
 import { LAB_RESPONSE, type LabResponseDetail } from "@/lib/lab/events";
-import "./cyberpunk.css";
 
 // The firewall may light up at most every 400ms: well under 3 flashes per second.
 const FLASH_MS = 250;

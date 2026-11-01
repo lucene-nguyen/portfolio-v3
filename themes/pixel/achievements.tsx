@@ -8,7 +8,6 @@ import { useThemeSlot } from "@/components/theme/use-theme-slot";
 import { achievementsCopy } from "@/content/home";
 import { CHANGE_EVENT, evaluate, loadProgress, type Achievement } from "@/lib/achievements";
 import { themes } from "@/themes/registry";
-import "./pixel.css";
 
 // Loaded only with this chunk, i.e. only while the Pixel theme is active.
 const pressStart = Press_Start_2P({
