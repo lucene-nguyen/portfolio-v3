@@ -46,7 +46,7 @@ test("derived panels come from content", async ({ page }) => {
   await expect(page.getByRole("region", { name: "Career uptime" })).toContainText("since Jan 2021");
   await expect(
     page.getByRole("region", { name: "Stack usage" }).getByRole("listitem").first(),
-  ).toContainText("NestJS2");
+  ).toContainText("NestJS: 2");
   await expect(page.getByTestId("panel-github")).toContainText("7 public repos");
 });
 

@@ -4,7 +4,11 @@ import { getStats } from "@/lib/rate-limit/stats";
 export async function GET() {
   try {
     const seconds = await getStats().last();
-    return Response.json({ seconds }, { headers: { "Cache-Control": "no-store" } });
+    // Many open dashboards share one Redis read every ~2 s via the CDN.
+    return Response.json(
+      { seconds },
+      { headers: { "Cache-Control": "public, s-maxage=2, stale-while-revalidate=3" } },
+    );
   } catch (e) {
     console.error("stats unavailable", e);
     return Response.json(

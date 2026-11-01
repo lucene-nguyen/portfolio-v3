@@ -1,5 +1,6 @@
 // Metrics derived only from content/ (no invented numbers).
 
+// Expects "MM/YYYY"; an end month counts from its 1st (roles appear ~1 month shorter).
 const parseMonth = (mmYYYY: string) => {
   const [m, y] = mmYYYY.trim().split("/").map(Number);
   return new Date(Date.UTC(y, m - 1, 1));

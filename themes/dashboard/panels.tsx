@@ -41,8 +41,9 @@ function usePolled<T>(url: string, intervalMs?: number) {
   const [failed, setFailed] = useState(false);
   useEffect(() => {
     let alive = true;
-    const load = () => {
-      if (document.hidden) return;
+    // The first load always runs (even in a background tab); polling pauses while hidden.
+    const load = (force = false) => {
+      if (!force && document.hidden) return;
       fetch(url, { cache: "no-store" })
         .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
         .then((d: T) => {
@@ -52,8 +53,8 @@ function usePolled<T>(url: string, intervalMs?: number) {
         })
         .catch(() => alive && setFailed(true));
     };
-    load();
-    const t = intervalMs ? setInterval(load, intervalMs) : undefined;
+    load(true);
+    const t = intervalMs ? setInterval(() => load(), intervalMs) : undefined;
     return () => {
       alive = false;
       clearInterval(t);
@@ -117,13 +118,19 @@ function TrafficPanel() {
           <dd className="text-2xl font-bold text-text">{data ? last10.toFixed(1) : "—"}</dd>
         </div>
         <div className="flex flex-col-reverse">
-          <dt className="text-xs text-text-muted">— {c.traffic.ok}</dt>
+          <dt className="text-xs text-text-muted">
+            <span aria-hidden>— </span>
+            {c.traffic.ok}
+          </dt>
           <dd className="text-2xl font-bold text-meter" data-testid="stat-ok">
             {data ? ok : "—"}
           </dd>
         </div>
         <div className="flex flex-col-reverse">
-          <dt className="text-xs text-text-muted">- - {c.traffic.limited}</dt>
+          <dt className="text-xs text-text-muted">
+            <span aria-hidden>- - </span>
+            {c.traffic.limited}
+          </dt>
           <dd className="text-2xl font-bold text-danger" data-testid="stat-limited">
             {data ? limited : "—"}
           </dd>
@@ -231,7 +238,10 @@ export function Panels() {
             <ul className="flex flex-col gap-1.5 font-mono text-xs" aria-label={c.stack.caption}>
               {usage.slice(0, 6).map((u) => (
                 <li key={u.tag} className="flex items-center gap-2">
-                  <span className="w-28 shrink-0 truncate text-text-secondary">{u.tag}</span>
+                  <span className="w-28 shrink-0 truncate text-text-secondary">
+                    {u.tag}
+                    <span className="sr-only">: </span>
+                  </span>
                   <span
                     aria-hidden
                     className="h-2 rounded-sm bg-accent"
@@ -245,7 +255,7 @@ export function Panels() {
           <Panel title={c.timeline.title} source={c.timeline.source}>
             <ol className="flex flex-col gap-2 font-mono text-xs">
               {t.spans.map((s) => (
-                <li key={s.company}>
+                <li key={s.company + s.from.toISOString()}>
                   <span className="text-text-secondary">
                     {s.company} · {monthYear(s.from)} – {monthYear(s.to)}
                   </span>

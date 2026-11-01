@@ -1,6 +1,9 @@
 // @vitest-environment node
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+// `after` needs a Next request scope; run the callback inline in unit tests.
+vi.mock("next/server", () => ({ after: (fn: () => unknown) => void fn() }));
+
 // Always the in-memory limiter here, even when a dev Redis is configured for the integration test.
 vi.stubEnv("UPSTASH_REDIS_REST_URL", "");
 vi.stubEnv("UPSTASH_REDIS_REST_TOKEN", "");
