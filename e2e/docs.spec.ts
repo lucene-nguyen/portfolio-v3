@@ -132,4 +132,9 @@ test("shared sections are restyled as Notion blocks", async ({ page }) => {
     "background-color",
     rgb(docs.tokens.bgAlt),
   );
+  // Database list: role titles line up regardless of period length.
+  const lefts = await page
+    .locator('[data-part="role"] h3')
+    .evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().left)));
+  expect(new Set(lefts).size).toBe(1);
 });
