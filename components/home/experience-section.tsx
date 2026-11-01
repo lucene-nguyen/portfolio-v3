@@ -11,7 +11,7 @@ export function ExperienceSection() {
             eyebrow={experience.eyebrow}
             title={experience.title}
           />
-          <ol>
+          <ol data-part="roles">
             {experience.roles.map((r) => (
               <li
                 key={r.company}

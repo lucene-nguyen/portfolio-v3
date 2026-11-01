@@ -41,3 +41,18 @@
 
 ## Shape & type
 - Chamfered corners (clip-path, 14px) on cards and the lab panel; headings JetBrains Mono, uppercase.
+
+## Layout
+> ui-ux-pro-max (UI round 1): `"cyberpunk futuristic tech" --domain landing` and retry `"dark mode portfolio" --domain landing` → **no verified match**; section order follows the skill's built-in defaults (hero first). `"neon dark interface readability" --domain ux`.
+
+**Section order:** Hero → Case studies → Live lab (HUD packet stream) → Starter kits → Experience + stack → Contact.
+- Verified (ux): readable contrast without glow; body line-height 1.5–1.75; formatted numbers.
+- Rejected: chamfered (clip-path) buttons — clip-path would cut off the focus ring; buttons stay square with a 1px frame.
+
+**How the shared sections look** (HUD language; labels are CSS with empty alt text)
+- Eyebrows → bracketed HUD labels `[ 01 / selected work ]`.
+- Case study cards → **dossiers**: chamfered frame (existing), meta line as a status bar (uppercase, rule below), metrics as cyan readouts, tags as bracketed chips.
+- Hero stats → **HUD readouts**: each stat in its own frame with cyan corner brackets; values in cyan mono; the highlighted stat stays magenta (accent).
+- Experience → **access log**: framed list, each role prefixed with a `>` prompt, dashed separators.
+- Contact → **"UPLINK" panel**: chamfered magenta frame around the actions; buttons uppercase mono, square.
+- Starter kits → framed modules with a 1px `borderStrong` frame.

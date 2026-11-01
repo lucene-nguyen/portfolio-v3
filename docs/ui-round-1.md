@@ -11,7 +11,7 @@ Per theme (item 2): ui-ux-pro-max `--domain landing` + `--domain ux` → "## Lay
 | 4 Swiss grid toggle | done | `fix/ui-swiss-grid` |
 | 2 blueprint | done | `fix/ui-blueprint` |
 | 2 pixel | done | `fix/ui-pixel` |
-| 2 cyberpunk | todo | `fix/ui-cyberpunk` |
+| 2 cyberpunk | done | `fix/ui-cyberpunk` |
 | 2 editorial | todo | `fix/ui-editorial` |
 | 2 night-terminal | todo | `fix/ui-night-terminal` |
 | 2 dashboard | todo | `fix/ui-dashboard` |

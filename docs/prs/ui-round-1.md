@@ -61,3 +61,18 @@ Spec: [docs/specs/ui-round-1.md](../specs/ui-round-1.md). Before = `docs/screens
   - N/A for this site: safe-area insets/Dynamic Type (native), dark+light parity (each theme is single-mode, contrast-tested), forms/auth, auto-rotating content.
 - Before/after: night-terminal layout in purple → game-UI language (`docs/screenshots/pixel/`).
 - Review round 1: REQUEST CHANGES (screenshots missing; restyle-on-load, kits undocumented) → fixed. Round 2: REQUEST CHANGES (screenshots still missing; font swap, clip risk, no first-paint test) → fixed and screenshots committed on the branch. No third round.
+
+## fix/ui-cyberpunk (item 2)
+- ui-ux-pro-max layout pass: landing searches → no verified match (built-in defaults, hero first); ux: contrast without glow, line-height, number formatting verified; clip-path buttons rejected (would cut the focus ring). "## Layout" appended to `pages/cyberpunk.md`.
+- Restyle: bracketed HUD eyebrows, dossier cards (status-bar meta, cyan readouts, bracketed tags), hero stats as HUD readouts with cyan corner brackets (highlight stays magenta), experience as an access log with `>` prompts, contact as a chamfered UPLINK panel, square mono buttons (email keeps its case), framed kit modules.
+- Shared hooks added: `data-part="roles"`, `data-part="kit"`.
+- Tests: restyle assertions in `e2e/cyberpunk.spec.ts`; checklist extended to cyberpunk.
+- Pre-delivery checklist (ui-ux-pro-max `references/pro-rules.md`; web-applicable items):
+  - Process: theme-specific `--domain landing` + `--domain ux` searches ✅ · 375px and landscape 812×375 ✅ (e2e) · reduced motion ✅ (no running animations, e2e) · 200% zoom (720px viewport) ✅ · contrast per theme ✅ (registry tests: every text token on every ground) · touch targets ≥ 44px for buttons/selects ✅ (e2e, strict)
+  - Visual: no emoji icons ✅ (Lucide only) · one icon family ✅ · no layout-shifting press states ✅ · tokens only, no ad-hoc hex ✅
+  - Interaction: visible focus ring ✅ · focus order = DOM order ✅ (home tab test) · descriptive labels ✅ (axe clean) · drag has button alternatives ✅ (where present)
+  - Layout: nothing hidden behind fixed UI ✅ (no fixed controls on mobile) · 4/8px spacing rhythm ✅ · readable measure ✅
+  - Accessibility: decorative icons/labels hidden from AT ✅ · colour never the only indicator ✅ · reduced motion ✅
+  - N/A for this site: safe-area insets/Dynamic Type (native), dark+light parity (each theme is single-mode, contrast-tested), forms/auth, auto-rotating content.
+- Before/after: night-terminal layout in magenta → HUD language (`docs/screenshots/cyberpunk/`).
+- Review: APPROVE; fixed mobile UPLINK balance, highlight colour, hooks, label size, email-case test; screenshots and progress row on the branch.

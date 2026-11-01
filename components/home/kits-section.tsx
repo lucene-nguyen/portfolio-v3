@@ -35,7 +35,7 @@ export function KitsSection() {
             );
             // No link until the owner provides one.
             return (
-              <li key={k.name} className="flex min-w-0 flex-[1_1_250px]">
+              <li key={k.name} data-part="kit" className="flex min-w-0 flex-[1_1_250px]">
                 {shown(k.href) ? (
                   <a
                     href={k.href}
