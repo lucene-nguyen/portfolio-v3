@@ -152,7 +152,7 @@ export const readingCopy = {
 export const docsCopy = {
   sidebar: "Docs",
   home: "Home",
-  menu: "Menu",
+  menu: "Pages",
   close: "Close",
   search: "Search",
   searchHint: "/ or Ctrl/⌘ K",
