@@ -39,3 +39,18 @@ Sticker fills (black text, each ≥ 4.5:1, tested in `themes/neo-brutalism/stick
 ## Sticker board
 - One sticker per case-study skill; drag (pointer) only repositions; click/Enter toggles the filter.
 - Same filter as a plain list of buttons ("Show all" + one per skill, `aria-pressed`); result count announced.
+
+## Layout
+Shared sections (UI round 1). Searches:
+- `"neo brutalism bold portfolio" --domain landing` returned 0 results; the retry `"portfolio grid creative"` verified Portfolio Grid (work first, contact last; keep the sections in that order).
+- `"neubrutalism" --domain style` verified Neubrutalism: 3px black borders, hard offset shadows, flat high-saturation fills, bold type, no gradients or blur.
+- ux `"bold borders visual hierarchy contrast"`: Contrast Readability applied (only black text on sticker fills). Hover States are already handled by the shared components; Breadcrumbs were ignored as off-topic (flat site).
+
+Rules:
+- Sticker fills are theme-scoped CSS variables (`--nb-yellow`, `--nb-green`, `--nb-blue`, `--nb-orange`, `--nb-pink`, `--nb-violet`), the same values as `STICKER_FILLS`; black (`--border`/`--text`) is the only colour drawn on them.
+- Eyebrows: uppercase yellow label, 2px black border.
+- Case studies: a 3px colour header strip per card (yellow, green, blue, repeating), edge to edge; metrics in a bordered bgAlt box.
+- Hero numbers: four separate stickers (yellow, green, blue, orange) with the 6px hard shadow instead of a divided strip.
+- Experience: each role is a bordered card with a black period label; the stack is a pink (surface2) panel with the hard shadow.
+- Contact actions: 3px border + 4px hard shadow.
+- Rejected: press-to-sink transforms (no motion in this theme), rotated cards (hurts reading at 375px).

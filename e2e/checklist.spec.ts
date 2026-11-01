@@ -12,6 +12,7 @@ const THEMES = [
   "ide",
   "docs",
   "bento",
+  "neo-brutalism",
 ];
 
 const overflow = (page: Page) =>

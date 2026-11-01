@@ -72,3 +72,26 @@ test("axe clean; 375px", async ({ page }) => {
   );
   expect(overflow).toBeLessThanOrEqual(0);
 });
+
+test("shared sections are restyled as stickers", async ({ page }) => {
+  const shadow = "rgb(0, 0, 0) 6px 6px 0px 0px";
+  await expect(page.locator('#work [data-part="eyebrow"]')).toHaveCSS(
+    "background-color",
+    "rgb(255, 214, 10)",
+  );
+  const metas = page.locator('#work [data-part="case-meta"]');
+  await expect(metas.nth(0)).toHaveCSS("background-color", "rgb(255, 214, 10)");
+  await expect(metas.nth(1)).toHaveCSS("background-color", "rgb(124, 242, 156)");
+  const stat = page.locator('[data-part="stat"]').first();
+  await expect(stat).toHaveCSS("border-top-width", "3px");
+  await expect(stat).toHaveCSS("box-shadow", shadow);
+  await expect(page.locator('[data-part="role"]').first()).toHaveCSS("box-shadow", shadow);
+  await expect(page.locator('[data-part="stack"]')).toHaveCSS(
+    "background-color",
+    "rgb(255, 227, 246)",
+  );
+  await expect(page.locator('[data-part="role"] > span').first()).toHaveCSS(
+    "background-color",
+    "rgb(0, 0, 0)",
+  );
+});
