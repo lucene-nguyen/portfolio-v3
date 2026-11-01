@@ -45,6 +45,21 @@ test("print view has no nav or interactive elements, keeps CV content", async ({
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.locator("#experience")).toContainText("FPT Software");
   await expect(page.locator("#contact")).toContainText("manhcuongmvc@gmail.com");
+  const github = await page
+    .locator('#contact a[href^="https://github.com"]')
+    .evaluate((el) => getComputedStyle(el, "::after").content);
+  expect(github).toContain("https://github.com/lucene-nguyen");
+  await expect(page.locator("#contact").getByText(/PLACEHOLDER/)).toBeHidden();
+});
+
+test("print rules do not touch case study pages", async ({ page }) => {
+  await page.goto("/work/ai-image-pipeline?theme=swiss-minimal");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "swiss-minimal");
+  await page.goto("/?theme=swiss-minimal");
+  await expect(page.getByTestId("swiss-grid")).toBeAttached();
+  await page.getByRole("link", { name: /Read case study: A non-blocking/ }).click();
+  await page.emulateMedia({ media: "print" });
+  await expect(page.locator("figure").first()).toBeVisible();
 });
 
 test("axe clean; 375px", async ({ page }) => {

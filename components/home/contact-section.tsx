@@ -28,7 +28,10 @@ export function ContactSection() {
           </a>
           {isPlaceholder(profile.linkedin) ? (
             // Not a control until the owner provides the URL.
-            <span className="inline-flex min-h-[52px] items-center px-2 text-text-muted">
+            <span
+              data-print="hide"
+              className="inline-flex min-h-[52px] items-center px-2 text-text-muted"
+            >
               {labels.linkedin} {profile.linkedin}
             </span>
           ) : (

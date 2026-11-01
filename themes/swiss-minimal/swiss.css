@@ -32,116 +32,122 @@
   }
 }
 
-/* One-page CV. */
+/* One-page CV: home page only (it owns #theme-slot-home). */
 @media print {
-  @page {
+  /* Named page: these margins never apply to other themes or pages. */
+  @page cv {
     size: auto;
     margin: 12mm;
   }
-  [data-theme="swiss-minimal"] body {
-    background: #fff !important;
-    color: #000 !important;
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) body {
+    page: cv;
+    background: var(--bg) !important;
+    color: var(--text) !important;
     font-size: 9.5pt;
     line-height: 1.35;
   }
   /* No navigation, interactive or decorative parts. */
-  [data-theme="swiss-minimal"] :is(header, .sw-grid, #lab, #kits, figure, button, select, dialog),
-  [data-theme="swiss-minimal"] a[href="#main"],
-  [data-theme="swiss-minimal"] [data-print="hide"],
-  [data-theme="swiss-minimal"] .h-20 {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home)
+    :is(header, .sw-grid, #lab, #kits, figure, button, select, dialog),
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) a[href="#main"],
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) [data-print="hide"] {
     display: none !important;
   }
-  [data-theme="swiss-minimal"] :is(section, footer) {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) :is(section, footer) {
     border: 0 !important;
     background: none !important;
   }
-  [data-theme="swiss-minimal"] :is(section, footer) > div {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) :is(section, footer) > div {
     padding: 0 !important;
     max-width: none !important;
     gap: 6pt !important;
   }
-  [data-theme="swiss-minimal"] #top {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #top {
     padding: 0 0 8pt !important;
     gap: 0 !important;
     max-width: none !important;
   }
-  [data-theme="swiss-minimal"] #top > div {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #top > div {
     gap: 6pt !important;
   }
-  [data-theme="swiss-minimal"] h1 {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) h1 {
     font-size: 16pt !important;
     line-height: 1.2 !important;
   }
-  [data-theme="swiss-minimal"] h2 {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) h2 {
     font-size: 12pt !important;
     margin: 8pt 0 2pt !important;
   }
-  [data-theme="swiss-minimal"] h3 {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) h3 {
     font-size: 10pt !important;
   }
-  [data-theme="swiss-minimal"] :is(p, li, span, dd, dt, a) {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) :is(p, li, span, dd, dt, a) {
     font-size: 9pt !important;
-    color: #000 !important;
+    color: var(--text) !important;
   }
-  [data-theme="swiss-minimal"] #top dl dd {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #top dl dd {
     font-size: 11pt !important;
   }
-  [data-theme="swiss-minimal"] #top dl > div {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #top dl > div {
     padding: 4pt 6pt !important;
   }
-  [data-theme="swiss-minimal"] [data-print="cards"] {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) [data-print="cards"] {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr);
     gap: 6pt !important;
   }
-  [data-theme="swiss-minimal"] #work article {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #work article {
     padding: 0 !important;
     border: 0 !important;
     gap: 2pt !important;
   }
-  [data-theme="swiss-minimal"] #work article dl {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #work article dl {
     padding: 2pt 0 !important;
     gap: 8pt !important;
   }
-  [data-theme="swiss-minimal"] #work article dd {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #work article dd {
     font-size: 10pt !important;
   }
-  [data-theme="swiss-minimal"] #experience > div {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #experience > div {
     display: grid !important;
     grid-template-columns: 2fr 1fr;
     gap: 12pt !important;
   }
-  [data-theme="swiss-minimal"] #experience li {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #experience li {
     padding: 3pt 0 !important;
   }
-  [data-theme="swiss-minimal"] #experience ul {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #experience ul {
     gap: 2pt !important;
   }
-  [data-theme="swiss-minimal"] #experience span[class*="rounded"] {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #experience span[class*="rounded"] {
     padding: 0 3pt !important;
     border: 0 !important;
   }
-  [data-theme="swiss-minimal"] #experience :is(div, ol, ul) {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #experience :is(div, ol, ul) {
     gap: 3pt !important;
   }
-  [data-theme="swiss-minimal"] #experience h4 {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #experience h4 {
     margin-top: 2pt;
   }
-  [data-theme="swiss-minimal"] footer div {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) footer div {
     padding-top: 2pt !important;
     padding-bottom: 0 !important;
   }
   /* Contact: keep only the visible addresses. */
-  [data-theme="swiss-minimal"] #contact a {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #contact a {
     min-height: 0 !important;
     padding: 0 !important;
     border: 0 !important;
     background: none !important;
   }
-  [data-theme="swiss-minimal"] #contact svg {
+  /* Paper has no hover: print where links go. */
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #contact a[href^="http"]::after {
+    content: " · " attr(href);
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #contact svg {
     display: none !important;
   }
-  [data-theme="swiss-minimal"] #contact > div {
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #contact > div {
     padding-top: 8pt !important;
   }
 }
