@@ -3,8 +3,11 @@ import type { ReactNode } from "react";
 import { ArchitectureDiagram } from "@/components/work/architecture-diagram";
 
 // Case study typography. Colors only via theme tokens.
+// Only plain-text headings get an id; rich ones would all become "[object Object]".
 const slugify = (children: ReactNode) =>
-  String(children)
+  typeof children !== "string"
+    ? undefined
+    : children
     .toLowerCase()
     .replace(/&/g, "and")
     .replace(/[^a-z0-9]+/g, "-")

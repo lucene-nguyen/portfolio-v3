@@ -7,8 +7,8 @@ test("measure 60–75ch and line-height ≥ 1.6", async ({ page }) => {
   await page.goto(study);
   await expect(page.getByRole("radiogroup", { name: "Text size" })).toBeVisible();
   const { chars, lh } = await page
-    .locator("article p")
-    .nth(3)
+    .locator(".prose-body p")
+    .first()
     .evaluate((p) => {
       const probe = document.createElement("span");
       probe.textContent = "0".repeat(100);
@@ -31,14 +31,26 @@ test("measure 60–75ch and line-height ≥ 1.6", async ({ page }) => {
 test("text size: keyboard radio group, applies and persists", async ({ page }) => {
   await page.goto(study);
   const group = page.getByRole("radiogroup", { name: "Text size" });
-  const p = page.locator("article p").nth(3);
+  const p = page.locator(".prose-body p").first();
   const before = parseFloat(await p.evaluate((el) => getComputedStyle(el).fontSize));
-  await group.getByRole("radio", { name: "Large" }).focus();
-  await page.keyboard.press("Enter");
+  // One tab stop (the checked radio); arrows move and select.
+  await expect(group.getByRole("radio", { name: "Medium" })).toHaveAttribute("tabindex", "0");
+  await expect(group.getByRole("radio", { name: "Large" })).toHaveAttribute("tabindex", "-1");
+  await group.getByRole("radio", { name: "Medium" }).focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(group.getByRole("radio", { name: "Large" })).toBeFocused();
   await expect(group.getByRole("radio", { name: "Large" })).toHaveAttribute("aria-checked", "true");
   expect(parseFloat(await p.evaluate((el) => getComputedStyle(el).fontSize))).toBeGreaterThan(
     before,
   );
+  // Applied before any app JS on reload (no size jump).
+  await page.route("**/_next/static/**/*.js", (route) => route.abort());
+  await page.reload();
+  await expect(page.locator("html")).toHaveAttribute("data-reading-size", "l");
+  expect(parseFloat(await p.evaluate((el) => getComputedStyle(el).fontSize))).toBeGreaterThan(
+    before,
+  );
+  await page.unroute("**/_next/static/**/*.js");
   await page.reload();
   await expect(
     page.getByRole("radiogroup", { name: "Text size" }).getByRole("radio", { name: "Large" }),

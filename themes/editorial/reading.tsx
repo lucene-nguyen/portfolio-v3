@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
 import { Libre_Bodoni } from "next/font/google";
@@ -31,8 +31,10 @@ function readSize(): Size {
 
 function ReadingTools() {
   const [size, setSize] = useState<Size>(readSize);
+  const radios = useRef<(HTMLButtonElement | null)[]>([]);
   const [{ minutes, toc }] = useState(() => {
-    const article = document.querySelector("article");
+    // Body only: header, metrics and tags are not reading.
+    const article = document.querySelector(".prose-body");
     const words = article?.textContent?.trim().split(/\s+/).length ?? 0;
     return {
       minutes: Math.max(1, Math.round(words / WORDS_PER_MINUTE)),
@@ -55,23 +57,38 @@ function ReadingTools() {
     <div className="mt-8 flex flex-col gap-5 border-y border-border py-5">
       <div className="flex flex-wrap items-center justify-between gap-4 font-mono text-sm">
         <span className="text-text-muted">{readingCopy.readTime(minutes)}</span>
-        <div role="radiogroup" aria-label={readingCopy.textSize} className="flex gap-1">
-          {SIZES.map((s) => (
+        <div
+          role="radiogroup"
+          aria-label={readingCopy.textSize}
+          className="flex gap-1"
+          onKeyDown={(e) => {
+            // Radio-group keyboard model: arrows move and select.
+            const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+            if (!step) return;
+            e.preventDefault();
+            const next = (SIZES.indexOf(size) + step + SIZES.length) % SIZES.length;
+            setSize(SIZES[next]);
+            radios.current[next]?.focus();
+          }}
+        >
+          {SIZES.map((s, i) => (
             <button
               key={s}
+              ref={(el) => {
+                radios.current[i] = el;
+              }}
               type="button"
               role="radio"
               aria-checked={size === s}
-              aria-label={readingCopy.sizes[s]}
+              tabIndex={size === s ? 0 : -1}
               onClick={() => setSize(s)}
               className={`min-h-11 min-w-11 border px-2 ${
-                size === s
-                  ? "border-accent bg-accent text-accent-contrast"
-                  : "border-border-strong text-text"
+                size === s ? "border-accent bg-accent text-accent-contrast" : "border-border-strong text-text"
               }`}
               style={{ fontSize: s === "s" ? 13 : s === "m" ? 16 : 19 }}
             >
-              A
+              <span aria-hidden>A</span>
+              <span className="sr-only">{readingCopy.sizes[s]}</span>
             </button>
           ))}
         </div>
@@ -140,7 +157,6 @@ export default function EditorialReading() {
   }, []);
 
   if (!pathname.startsWith("/work/") || !slot) return null;
-  // key: fresh read time and contents per article.
   return (
     <>
       {createPortal(
@@ -150,7 +166,7 @@ export default function EditorialReading() {
           <ReadingTools />
         </>,
         slot,
-        pathname,
+        pathname, // key: fresh read time and contents per article
       )}
     </>
   );
