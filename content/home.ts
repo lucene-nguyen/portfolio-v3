@@ -1,12 +1,15 @@
 // Source: the owner's approved home page mockup ("Cuong Nguyen Portfolio" canvas, 2026-10-31).
 // Unknown values stay [PLACEHOLDER]; never fill them in without the owner. They don't render (lib/placeholder).
+import { features } from "@/lib/features";
 import { shown } from "@/lib/placeholder";
 
 export const profile = {
   name: "Nguyen Manh Cuong",
   handle: "cuong",
+  logo: "Cuong Nguyen",
   title: "Fullstack Software Engineer",
-  siteDescription: "Case studies, a live rate-limiting lab, and starter kits.",
+  siteDescription:
+    "Fullstack Software Engineer building web apps end to end: React and Next.js, Node.js and NestJS, PostgreSQL, MongoDB, Redis and AWS.",
   email: "manhcuongmvc@gmail.com",
   github: "https://github.com/lucene-nguyen",
   githubLabel: "github.com/lucene-nguyen",
@@ -20,6 +23,9 @@ export const profile = {
 export const labels = {
   menu: "Menu",
   viewWork: "View case studies",
+  seeExperience: "See my experience",
+  workWithMe: "Work with me",
+  viewRepo: "View on GitHub",
   readCaseStudy: "Read case study",
   technologies: "Technologies",
   intro: "Introduction",
@@ -28,18 +34,32 @@ export const labels = {
   resume: "resume.pdf",
 };
 
+// Home section order (LEARNING-164); eyebrow numbers follow it, so parked sections leave no gaps.
+const sections = [
+  "experience",
+  ...(features.caseStudies ? ["work"] : []),
+  ...(features.lab ? ["lab"] : []),
+  "kits",
+  "contact",
+];
+const no = (id: string) => String(sections.indexOf(id) + 1).padStart(2, "0");
+
 export const nav = [
-  { href: "/#work", label: "Work" },
-  { href: "/#lab", label: "Live lab" },
-  { href: "/#kits", label: "Starter kits" },
   { href: "/#experience", label: "Experience" },
+  ...(features.caseStudies ? [{ href: "/#work", label: "Work" }] : []),
+  ...(features.lab ? [{ href: "/#lab", label: "Live lab" }] : []),
+  { href: "/#kits", label: "Starter kits" },
   { href: "/#contact", label: "Contact" },
 ];
 
 export const hero = {
   eyebrow: `> whoami — ${profile.name}`,
-  headline: "I build backends that stay fast when traffic doesn't stay calm.",
-  lead: "Fullstack Software Engineer with 5+ years in Node.js, NestJS, TypeScript and AWS. I design event-driven services, async processing pipelines and the production operations that keep them healthy — across pharmacy retail, fintech, e-commerce and AI.",
+  headline: "I build web products that bring real value to users and businesses.",
+  subline:
+    "My goal is to become an expert in web development, so I keep learning and improving every day.",
+  lead: "Fullstack Software Engineer with 5+ years building web apps end to end — React and Next.js on the front end, Node.js and NestJS APIs on the back end, PostgreSQL, MongoDB and Redis for data, and AWS to run it in production.",
+  // Work with me lands in LEARNING-166; until then the CTA goes to Contact.
+  workWithMeHref: "#contact",
   stats: [
     { value: "5+ yrs", label: "building production backends" },
     { value: "2,500+", label: "stores on services I shipped" },
@@ -59,7 +79,7 @@ export interface CaseStudySummary {
 }
 
 export const work = {
-  eyebrow: "01 / selected work",
+  eyebrow: `${no("work")} / selected work`,
   title: "Case studies",
   backLabel: "All case studies",
   intro:
@@ -110,11 +130,15 @@ export const work = {
   })) satisfies CaseStudySummary[],
 };
 
+/** Case studies linked from anywhere on the site: none while the section is parked (lib/features). */
+export const publicStudies = features.caseStudies ? work.items : [];
+
 export const systemMap = {
   eyebrow: "00 / system map",
   title: "System map",
-  intro:
-    "Each node is a project. Hover or focus a node for its stack and impact; select it to open the case study.",
+  intro: features.caseStudies
+    ? "Each node is a project. Hover or focus a node for its stack and impact; select it to open the case study."
+    : "Each node is a role or my starter kits. Hover or focus a node for the details; select it to jump to that section.",
   listToggle: "View as list",
 };
 
@@ -261,7 +285,13 @@ export const worldCopy = {
   skip: "Skip to content",
   enter: "Enter 3D world",
   zonesLabel: "Go directly to",
-  zones: { work: "Work", lab: "Live lab", kits: "Starter kits", contact: "Contact" },
+  zones: {
+    experience: "Experience",
+    work: "Work",
+    lab: "Live lab",
+    kits: "Starter kits",
+    contact: "Contact",
+  },
   pad: { forward: "Walk forward", back: "Walk back", left: "Walk left", right: "Walk right" },
   loading: "Loading the world…",
   failed: "3D is not available on this device. Showing the standard page.",
@@ -271,7 +301,7 @@ export const worldCopy = {
 export const swissCopy = { showGrid: "Show grid" };
 
 export const lab = {
-  eyebrow: "02 / live lab",
+  eyebrow: `${no("lab")} / live lab`,
   title: "Try to break my rate limiter",
   intro:
     "Hit the endpoint as fast as you like. Watch how token bucket and fixed window treat the same burst differently — the same trade-off I work through in",
@@ -306,7 +336,7 @@ export const lab = {
 };
 
 export const kits = {
-  eyebrow: "03 / side projects",
+  eyebrow: `${no("kits")} / side projects`,
   title: "Starter kits & labs",
   items: [
     {
@@ -345,7 +375,7 @@ export const kits = {
 };
 
 export const experience = {
-  eyebrow: "04 / experience",
+  eyebrow: `${no("experience")} / experience`,
   title: "Where I've shipped",
   roles: [
     {
@@ -402,7 +432,7 @@ export const experience = {
 };
 
 export const contact = {
-  eyebrow: "05 / contact",
+  eyebrow: `${no("contact")} / contact`,
   title: "Have a system that needs to scale? Let's talk.",
   footer: [`© 2026 ${profile.name}`, "built with Next.js · deployed on Vercel"],
 };

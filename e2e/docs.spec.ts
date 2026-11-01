@@ -1,6 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 import { docs } from "../themes/docs";
+import { features } from "../lib/features";
 
 const rgb = (hex: string) => {
   const n = parseInt(hex.slice(1), 16);
@@ -14,20 +15,22 @@ async function ready(page: Page, path = "/?theme=docs") {
 const dialog = (page: Page) => page.getByRole("dialog", { name: "Search the site" });
 const box = (page: Page) => page.getByRole("combobox", { name: "Search the site" });
 
-test("search index is a static file with case study sections", async ({ request }) => {
+test("search index is a static file; parked sections are not in it", async ({ request }) => {
   const res = await request.get("/search-index.json");
   expect(res.ok()).toBe(true);
   const docs: { href: string }[] = await res.json();
   expect(docs.some((d) => d.href === "/work/pharmacy-inventory#decisions-and-trade-offs")).toBe(
-    true,
+    features.caseStudies,
   );
+  expect(docs.some((d) => d.href === "/#lab")).toBe(features.lab);
+  expect(docs.some((d) => d.href === "/#kits")).toBe(true);
 });
 
 test("/ opens search; type, arrow, Enter navigates; Esc restores focus", async ({ page }) => {
   await ready(page);
   await page.keyboard.press("/");
   await expect(box(page)).toBeFocused();
-  await box(page).fill("lambda");
+  await box(page).fill("redis");
   await expect(page.getByRole("status").filter({ hasText: "result" })).toHaveText(/\d+ results?/);
   const options = dialog(page).getByRole("option");
   await expect(options.first()).toHaveAttribute("aria-selected", "true");
@@ -35,7 +38,7 @@ test("/ opens search; type, arrow, Enter navigates; Esc restores focus", async (
   await expect(options.nth(1)).toHaveAttribute("aria-selected", "true");
   await page.keyboard.press("ArrowUp");
   await page.keyboard.press("Enter");
-  await expect(page).toHaveURL(/\/work\/aws-file-ingestion/);
+  await expect(page).toHaveURL(/#(experience|kits)$/);
 
   await page.keyboard.press("Control+k");
   await expect(box(page)).toBeFocused();
@@ -79,11 +82,13 @@ test("no results suggests terms", async ({ page }) => {
 test("sidebar, breadcrumbs, current page", async ({ page }) => {
   await ready(page, "/work/ai-image-pipeline?theme=docs");
   const side = page.getByRole("navigation", { name: "Docs" });
+  // Parked case studies (LEARNING-164) are not listed in the sidebar.
   await expect(
     side.getByRole("link", { name: "A non-blocking AI image pipeline on Databricks" }),
-  ).toHaveAttribute("aria-current", "page");
+  ).toHaveCount(features.caseStudies ? 1 : 0);
   await expect(page.getByRole("navigation", { name: "Breadcrumb" })).toContainText(
-    "Home/Case studies/A non-blocking AI image pipeline on Databricks",
+    // No crumb to the parked section (LEARNING-164).
+    `Home/${features.caseStudies ? "Case studies/" : ""}A non-blocking AI image pipeline on Databricks`,
   );
 });
 
@@ -94,8 +99,8 @@ test("mobile: sidebar becomes a drawer; axe clean; no horizontal scroll", async 
   await page.getByRole("button", { name: "Pages" }).click();
   const drawer = page.getByRole("dialog", { name: "Docs" });
   await expect(drawer).toBeVisible();
-  await drawer.getByRole("link", { name: "Hands-off file ingestion on AWS S3 and Lambda" }).click();
-  await expect(page).toHaveURL(/aws-file-ingestion/);
+  await drawer.getByRole("link", { name: "Starter kits & labs" }).click();
+  await expect(page).toHaveURL(/#kits$/);
   await expect(drawer).toBeHidden();
   const overflow = await page.evaluate(
     () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
@@ -116,14 +121,17 @@ test("desktop axe clean with search open", async ({ page }) => {
 
 test("shared sections are restyled as Notion blocks", async ({ page }) => {
   await ready(page);
-  await expect(page.locator('[data-part="case-card"]').first()).toHaveCSS(
-    "border-top-left-radius",
-    "6px",
-  );
-  await expect(page.locator('[data-part="case-meta"] > span').first()).toHaveCSS(
-    "background-color",
-    rgb(docs.tokens.surface2),
-  );
+  // Case cards are parked (LEARNING-164); checked when they come back.
+  if (features.caseStudies) {
+    await expect(page.locator('[data-part="case-card"]').first()).toHaveCSS(
+      "border-top-left-radius",
+      "6px",
+    );
+    await expect(page.locator('[data-part="case-meta"] > span').first()).toHaveCSS(
+      "background-color",
+      rgb(docs.tokens.surface2),
+    );
+  }
   await expect(page.locator('[data-part="stats"]')).toHaveCSS(
     "background-color",
     rgb(docs.tokens.bgAlt),
@@ -132,7 +140,7 @@ test("shared sections are restyled as Notion blocks", async ({ page }) => {
     "background-color",
     rgb(docs.tokens.bgAlt),
   );
-  await expect(page.locator('#work [data-part="eyebrow"]')).toHaveCSS("font-size", "13px");
+  await expect(page.locator('#kits [data-part="eyebrow"]')).toHaveCSS("font-size", "13px");
   await expect(page.locator('[data-part="kit"] > *').first()).toHaveCSS(
     "border-top-left-radius",
     "6px",

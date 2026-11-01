@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { features } from "../lib/features";
 
 test("12-column grid is visible and aligned with content at 1440px", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
@@ -21,7 +22,7 @@ test("12-column grid is visible and aligned with content at 1440px", async ({ pa
   const last = (await cols.last().boundingBox())!;
   const h1 = (await page.getByRole("heading", { level: 1 }).boundingBox())!;
   const cards = await page
-    .locator("#work article")
+    .locator('#kits [data-part="kit"]')
     .evaluateAll((els) => els.map((e) => e.getBoundingClientRect().right));
   expect(Math.abs(h1.x - first.x)).toBeLessThanOrEqual(1);
   expect(Math.abs(cards.at(-1)! - (last.x + last.width))).toBeLessThanOrEqual(1);
@@ -63,6 +64,7 @@ test("print view has no nav or interactive elements, keeps CV content", async ({
 });
 
 test("print rules do not touch case study pages", async ({ page }) => {
+  test.skip(!features.caseStudies, "case studies parked (LEARNING-164)");
   await page.goto("/work/ai-image-pipeline?theme=swiss-minimal");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "swiss-minimal");
   await page.goto("/?theme=swiss-minimal");
@@ -94,13 +96,16 @@ test("print CV styles apply without JS", async ({ page }) => {
 
 test("shared sections are restyled typographically", async ({ page }) => {
   await page.goto("/?theme=swiss-minimal");
-  const eyebrow = page.locator('#work [data-part="eyebrow"]');
+  const eyebrow = page.locator('#kits [data-part="eyebrow"]');
   await expect(eyebrow).toHaveCSS("text-transform", "uppercase");
   await expect(eyebrow).toHaveCSS("border-top-color", "rgb(208, 2, 27)");
-  const card = page.locator('#work [data-part="case-card"]').first();
-  await expect(card).toHaveCSS("border-top-width", "4px");
-  await expect(card).toHaveCSS("border-left-width", "0px");
-  await expect(card).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+  // Case cards are parked (LEARNING-164); checked when they come back.
+  if (features.caseStudies) {
+    const card = page.locator('#work [data-part="case-card"]').first();
+    await expect(card).toHaveCSS("border-top-width", "4px");
+    await expect(card).toHaveCSS("border-left-width", "0px");
+    await expect(card).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+  }
   const kitLink = page.locator('[data-part="kit"] > a').first();
   await expect(kitLink).toHaveCSS("border-top-width", "4px");
   await kitLink.hover();

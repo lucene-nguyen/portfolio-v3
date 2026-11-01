@@ -57,3 +57,15 @@ describe("complete", () => {
   });
   it("leaves unknown commands alone", () => expect(complete("foo b", ctx)).toBe("foo b"));
 });
+
+describe("without public case studies", () => {
+  const none = { ...ctx, projects: [] };
+  it("hides the project commands from help, run and completion", () => {
+    const help = run("help", none).lines.map((l) => l.text);
+    expect(help.some((h) => h.startsWith("ls ") || h.startsWith("open "))).toBe(false);
+    expect(run("ls projects", none).lines[0].text).toBe("error: command not found: ls. Try: help");
+    expect(run("open pharmacy-inventory", none).lines[0].kind).toBe("err");
+    expect(complete("op", none)).toBe("op");
+    expect(run("cat resume", none).lines.length).toBe(2);
+  });
+});

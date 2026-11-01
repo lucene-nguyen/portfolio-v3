@@ -14,14 +14,14 @@ for (const { id } of themes) {
     const nav = page.getByRole("navigation", { name: "Main" });
     const tops = await Promise.all(
       [
-        nav.getByRole("link", { name: "cuong.dev" }),
+        nav.getByRole("link", { name: "Cuong Nguyen" }),
         page.getByLabel("Theme"),
         nav.getByRole("button", { name: "Menu" }),
       ].map(async (l) => (await l.boundingBox())!),
     );
     const mid = (b: { y: number; height: number }) => b.y + b.height / 2;
     for (const b of tops) expect(Math.abs(mid(b) - mid(tops[0]))).toBeLessThan(12);
-    await expect(nav.getByRole("link", { name: "Work" })).toBeHidden();
+    await expect(nav.getByRole("link", { name: "Experience" })).toBeHidden();
     // No fixed-position control on mobile.
     const fixed = await page.evaluate(
       () =>
@@ -42,7 +42,7 @@ test("menu opens and closes; keyboard and screen-reader operable", async ({ page
   await toggle.focus();
   await page.keyboard.press("Enter");
   await expect(toggle).toHaveAttribute("aria-expanded", "true");
-  await expect(nav.getByRole("link", { name: "Work" })).toBeVisible();
+  await expect(nav.getByRole("link", { name: "Starter kits" })).toBeVisible();
   const { violations } = await new AxeBuilder({ page }).exclude("nextjs-portal").analyze();
   expect(violations.map((v) => v.id)).toEqual([]);
   await page.keyboard.press("Escape");
@@ -58,7 +58,7 @@ test("Pixel achievements open from the menu on mobile", async ({ page }) => {
   await page.goto("/?theme=pixel");
   const nav = page.getByRole("navigation", { name: "Main" });
   await nav.getByRole("button", { name: "Menu" }).click();
-  const entry = nav.getByRole("button", { name: /Achievements \d\/3/ });
+  const entry = nav.getByRole("button", { name: /Achievements \d\/\d/ });
   await entry.click();
   const dialog = page.getByRole("dialog", { name: "Achievements" });
   await expect(dialog).toBeVisible();
@@ -75,5 +75,5 @@ test("desktop keeps the inline nav (no menu button)", async ({ page }) => {
   await page.goto("/");
   const nav = page.getByRole("navigation", { name: "Main" });
   await expect(nav.getByRole("button", { name: "Menu" })).toBeHidden();
-  await expect(nav.getByRole("link", { name: "Work" })).toBeVisible();
+  await expect(nav.getByRole("link", { name: "Starter kits" })).toBeVisible();
 });

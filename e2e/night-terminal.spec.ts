@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
+import { features } from "../lib/features";
 
 async function ready(page: Page) {
   await page.goto("/");
@@ -22,7 +23,7 @@ test("design rules are persisted", async () => {
 
 test("/ opens, Esc closes and restores focus", async ({ page }) => {
   await ready(page);
-  const link = page.getByRole("link", { name: "Work", exact: true });
+  const link = page.getByRole("link", { name: "Experience", exact: true });
   await link.focus();
   await page.keyboard.press("/");
   await expect(dialog(page)).toBeVisible();
@@ -41,7 +42,10 @@ test("Ctrl+K opens; commands print to the log; tab completion and history", asyn
 
   await input(page).fill("ls projects");
   await page.keyboard.press("Enter");
-  await expect(log).toContainText("pharmacy-inventory");
+  // Without public case studies the project commands don't exist (LEARNING-164).
+  await expect(log).toContainText(
+    features.caseStudies ? "pharmacy-inventory" : "command not found: ls",
+  );
 
   await input(page).fill("cat resume");
   await page.keyboard.press("Enter");
@@ -78,6 +82,7 @@ test("contact navigates to the contact section", async ({ page }) => {
 });
 
 test("open <slug> navigates to the case study", async ({ page }) => {
+  test.skip(!features.caseStudies, "case studies parked (LEARNING-164)");
   await ready(page);
   await page.keyboard.press("/");
   await input(page).fill("open pharmacy-inventory");
@@ -136,11 +141,14 @@ test("shared sections carry terminal accents", async ({ page }) => {
       .locator(sel)
       .first()
       .evaluate((el, p) => getComputedStyle(el, "::before").getPropertyValue(p), prop);
-  expect(await pseudo('#work [data-part="eyebrow"]', "content")).toContain("#");
-  await expect(page.locator('[data-part="case-meta"]').first()).toHaveCSS(
-    "border-bottom-style",
-    "solid",
-  );
+  expect(await pseudo('#kits [data-part="eyebrow"]', "content")).toContain("#");
+  // Case cards are parked (LEARNING-164); checked when they come back.
+  if (features.caseStudies) {
+    await expect(page.locator('[data-part="case-meta"]').first()).toHaveCSS(
+      "border-bottom-style",
+      "solid",
+    );
+  }
   expect(await pseudo('[data-part="roles"]', "border-left-style")).toBe("dashed");
   expect(await pseudo('[data-part="contact-actions"]', "content")).toContain("$ contact");
   expect(await pseudo('[data-part="stat"] dt', "content")).toContain("›");

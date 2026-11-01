@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
+import { features } from "../lib/features";
 
 const world = (page: Page) => page.getByRole("dialog", { name: "3D world" });
 const canvas = (page: Page) => page.getByTestId("world-canvas");
@@ -69,11 +70,12 @@ test("keyboard: walking onto a pad opens that section", async ({ page }) => {
   await enterWorld(page);
   await expect(canvas(page)).toHaveAttribute("data-status", "ready", { timeout: 20_000 });
   await canvas(page).focus();
-  await page.keyboard.down("ArrowRight");
-  await expect(page).toHaveURL(/#lab$/, { timeout: 15_000 });
-  await page.keyboard.up("ArrowRight");
+  // North pad: Experience (LEARNING-164).
+  await page.keyboard.down("ArrowUp");
+  await expect(page).toHaveURL(/#experience$/, { timeout: 15_000 });
+  await page.keyboard.up("ArrowUp");
   await expect(world(page)).toBeHidden();
-  await expect(page.locator("#lab")).toBeFocused();
+  await expect(page.locator("#experience")).toBeFocused();
 });
 
 test("zone buttons and touch pad are labelled; axe clean", async ({ page }) => {
@@ -91,28 +93,31 @@ test("zone buttons and touch pad are labelled; axe clean", async ({ page }) => {
 test("pad buttons work from the keyboard", async ({ page }) => {
   await enterWorld(page);
   await expect(canvas(page)).toHaveAttribute("data-status", "ready", { timeout: 20_000 });
-  const right = world(page).getByRole("button", { name: "Walk right" });
-  await right.focus();
+  const left = world(page).getByRole("button", { name: "Walk left" });
+  await left.focus();
   for (let i = 0; i < 12; i++) {
     if (await world(page).isHidden()) break;
     await page.keyboard.press("Enter");
     await page.waitForTimeout(250);
   }
-  await expect(page).toHaveURL(/#lab$/);
+  await expect(page).toHaveURL(/#contact$/);
 });
 
 test("shared sections are restyled with depth", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" }); // the world never opens
   await page.goto("/?theme=3d-world");
-  const card = page.locator('#work [data-part="case-card"]').first();
-  await expect(card).toHaveCSS("background-image", /linear-gradient/);
-  await expect(card).toHaveCSS("box-shadow", /inset/);
-  await expect(page.locator('[data-part="case-metrics"]').first()).toHaveCSS(
-    "background-color",
-    "rgb(15, 22, 38)",
-  );
+  // Case cards are parked (LEARNING-164); checked when they come back.
+  if (features.caseStudies) {
+    const card = page.locator('#work [data-part="case-card"]').first();
+    await expect(card).toHaveCSS("background-image", /linear-gradient/);
+    await expect(card).toHaveCSS("box-shadow", /inset/);
+    await expect(page.locator('[data-part="case-metrics"]').first()).toHaveCSS(
+      "background-color",
+      "rgb(15, 22, 38)",
+    );
+  }
   const eyebrowPad = await page
-    .locator('#work [data-part="eyebrow"]')
+    .locator('#kits [data-part="eyebrow"]')
     .evaluate((e) => getComputedStyle(e, "::before").backgroundColor);
   expect(eyebrowPad).toBe("rgb(255, 181, 71)");
   const stats = page.locator('[data-part="stat"]');
@@ -125,6 +130,7 @@ test("shared sections are restyled with depth", async ({ page }) => {
     "background-color",
     "rgb(18, 26, 44)",
   );
+  await expect(page.locator('[data-part="kit"] > *').first()).toHaveCSS("box-shadow", /inset/);
   await expect(page.locator('[data-part="stack"]')).toHaveCSS(
     "background-image",
     /linear-gradient/,

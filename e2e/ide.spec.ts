@@ -1,6 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 import { ide } from "../themes/ide";
+import { features } from "../lib/features";
 
 const rgb = (hex: string) => {
   const n = parseInt(hex.slice(1), 16);
@@ -18,20 +19,14 @@ test("explorer opens files as tabs; tabs are real deep links", async ({ page }) 
   await ready(page);
   await expect(tabs(page).getByRole("link")).toHaveText(["about.ts"]);
   await explorer(page)
-    .getByRole("link", { name: /ai-image-pipeline\.md/ })
+    .getByRole("link", { name: /README\.md in kits/ })
     .click();
-  await expect(page).toHaveURL(/\/work\/ai-image-pipeline$/);
-  await expect(tabs(page).getByRole("link", { name: "ai-image-pipeline.md" })).toHaveAttribute(
+  await expect(page).toHaveURL(/#kits$/);
+  await expect(tabs(page).getByRole("link", { name: "README.md" })).toHaveAttribute(
     "aria-current",
     "page",
   );
   await expect(tabs(page).getByRole("link", { name: "about.ts" })).toHaveAttribute("href", "/#top");
-  // Deep link straight to a file.
-  await ready(page, "/work/aws-file-ingestion?theme=ide");
-  await expect(tabs(page).getByRole("link", { name: "aws-file-ingestion.md" })).toHaveAttribute(
-    "aria-current",
-    "page",
-  );
 });
 
 test("keyboard: explorer links, tab links and close buttons are reachable", async ({ page }) => {
@@ -54,12 +49,12 @@ test("Ctrl+K palette filters files; Enter opens; Esc closes", async ({ page }) =
   await page.keyboard.press("Control+k");
   const box = page.getByRole("combobox", { name: "Go to file" });
   await expect(box).toBeFocused();
-  await box.fill("pharm");
+  await box.fill("resu");
   await expect(page.getByRole("listbox", { name: "Go to file" }).getByRole("option")).toHaveText([
-    "work/pharmacy-inventory.md",
+    "resume.json",
   ]);
   await page.keyboard.press("Enter");
-  await expect(page).toHaveURL(/\/work\/pharmacy-inventory$/);
+  await expect(page).toHaveURL(/#experience$/);
   await page.keyboard.press("Control+k");
   await expect(box).toHaveValue("");
   await page.keyboard.press("Escape");
@@ -111,11 +106,14 @@ test("shared sections are restyled in editor language", async ({ page }) => {
       .locator(sel)
       .first()
       .evaluate((el) => getComputedStyle(el, "::before").content);
-  expect(await pseudo('#work [data-part="eyebrow"]')).toContain("//");
-  await expect(page.locator('[data-part="case-meta"]').first()).toHaveCSS(
-    "border-top-width",
-    "2px",
-  );
+  expect(await pseudo('#kits [data-part="eyebrow"]')).toContain("//");
+  // Case cards are parked (LEARNING-164); checked when they come back.
+  if (features.caseStudies) {
+    await expect(page.locator('[data-part="case-meta"]').first()).toHaveCSS(
+      "border-top-width",
+      "2px",
+    );
+  }
   await expect(page.locator('[data-part="stats"]')).toHaveCSS(
     "background-color",
     rgb(ide.tokens.accent),

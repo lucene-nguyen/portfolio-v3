@@ -29,15 +29,23 @@ const HELP = [
 const out = (...text: string[]): Line[] => text.map((t) => ({ kind: "out", text: t }));
 const err = (text: string): Line[] => [{ kind: "err", text: `error: ${text}` }];
 
+// Without public case studies (LEARNING-164) the project commands don't exist.
+const PROJECT_COMMANDS = ["ls", "open"];
+const available = (ctx: TerminalContext) =>
+  COMMANDS.filter((c) => ctx.projects.length > 0 || !PROJECT_COMMANDS.includes(c));
+
 export function run(input: string, ctx: TerminalContext): Result {
-  const [cmd = "", ...args] = input.trim().split(/\s+/);
+  const [first = "", ...args] = input.trim().split(/\s+/);
+  const cmd = first && !available(ctx).some((c) => c === first) ? `?${first}` : first;
   const arg = args.join(" ");
 
   switch (cmd) {
     case "":
       return { lines: [] };
     case "help":
-      return { lines: out(...HELP) };
+      return {
+        lines: out(...HELP.filter((h) => available(ctx).some((c) => h.startsWith(`${c} `)))),
+      };
     case "clear":
       return { lines: [], action: { type: "clear" } };
     case "ls":
@@ -63,14 +71,15 @@ export function run(input: string, ctx: TerminalContext): Result {
     case "contact":
       return { lines: [], action: { type: "navigate", href: "/#contact" } };
     default:
-      return { lines: err(`command not found: ${cmd}. Try: help`) };
+      return { lines: err(`command not found: ${first}. Try: help`) };
   }
 }
 
 /** Tab completion: completes the command, then its argument. Returns the input unchanged when ambiguous. */
 export function complete(input: string, ctx: TerminalContext): string {
   const parts = input.trimStart().split(/\s+/);
-  if (parts.length === 1) return uniqueCompletion(parts[0], [...COMMANDS], (c) => `${c} `) ?? input;
+  if (parts.length === 1)
+    return uniqueCompletion(parts[0], available(ctx), (c) => `${c} `) ?? input;
 
   const [cmd, partial = ""] = parts;
   const options: Record<string, string[]> = {

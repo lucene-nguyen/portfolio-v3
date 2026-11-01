@@ -1,5 +1,6 @@
 "use client";
 
+import { features } from "@/lib/features";
 import { useEffect, useState } from "react";
 import { container } from "@/components/home/ui";
 import { dashboardCopy as c, experience, work } from "@/content/home";
@@ -221,9 +222,12 @@ export function Panels() {
           </h2>
         </div>
         <div className="grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-[repeat(3,minmax(0,1fr))]">
-          <div className="min-w-0 lg:col-span-2">
-            <TrafficPanel />
-          </div>
+          {/* Live traffic comes from the lab: parked with it (LEARNING-164). */}
+          {features.lab && (
+            <div className="min-w-0 lg:col-span-2">
+              <TrafficPanel />
+            </div>
+          )}
           <GithubPanel />
           <Panel title={c.career.title} source={c.career.source}>
             <p className="font-mono">

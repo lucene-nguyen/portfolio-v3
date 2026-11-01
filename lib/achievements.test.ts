@@ -1,3 +1,4 @@
+import { features } from "@/lib/features";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   CHANGE_EVENT,
@@ -12,10 +13,11 @@ describe("achievements", () => {
   beforeEach(() => localStorage.clear());
 
   it("starts locked", () => {
-    expect(evaluate(loadProgress(), ["a", "b"]).map((a) => a.unlocked)).toEqual([
-      false,
-      false,
-      false,
+    // Achievements for parked sections (LEARNING-164) aren't listed.
+    expect(evaluate(loadProgress(), ["a", "b"]).map((a) => [a.id, a.unlocked])).toEqual([
+      ...(features.caseStudies ? [["reader", false]] : []),
+      ...(features.lab ? [["rate-limited", false]] : []),
+      ["explorer", false],
     ]);
   });
 
@@ -29,14 +31,19 @@ describe("achievements", () => {
     recordThemeSeen("a");
     window.removeEventListener(CHANGE_EVENT, onChange);
     expect(onChange).toHaveBeenCalledTimes(3);
-    const [reader, limited, explorer] = evaluate(loadProgress(), ["a", "b"]);
-    expect([reader.unlocked, limited.unlocked, explorer.unlocked]).toEqual([true, true, false]);
-    expect(explorer.progress).toBe("1/2");
+    expect(loadProgress()).toMatchObject({ readCaseStudy: true, hit429: true });
+    const unlocked = evaluate(loadProgress(), ["a", "b"]).filter((a) => a.unlocked);
+    expect(unlocked.map((a) => a.id)).toEqual([
+      ...(features.caseStudies ? ["reader"] : []),
+      ...(features.lab ? ["rate-limited"] : []),
+    ]);
+    const explorer = evaluate(loadProgress(), ["a", "b"]).find((a) => a.id === "explorer");
+    expect(explorer).toMatchObject({ unlocked: false, progress: "1/2" });
   });
 
   it("unlocks explorer once every theme was seen, ignoring removed themes", () => {
     ["a", "b", "gone"].forEach(recordThemeSeen);
-    expect(evaluate(loadProgress(), ["a", "b"])[2]).toMatchObject({
+    expect(evaluate(loadProgress(), ["a", "b"]).find((a) => a.id === "explorer")).toMatchObject({
       unlocked: true,
       progress: "2/2",
     });

@@ -1,4 +1,8 @@
+import { loadEnvConfig } from "@next/env";
 import { defineConfig, devices } from "@playwright/test";
+
+// Same .env files as the app build, so specs that read lib/features see the built flag state.
+loadEnvConfig(process.cwd());
 
 const PORT = 3100;
 

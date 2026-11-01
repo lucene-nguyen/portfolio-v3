@@ -1,7 +1,8 @@
 // Pure rules for the 3D world (positions on the ground plane, x/z).
+import { features } from "@/lib/features";
 
 export interface Zone {
-  id: "work" | "lab" | "kits" | "contact";
+  id: "experience" | "work" | "lab" | "kits" | "contact";
   x: number;
   z: number;
 }
@@ -9,9 +10,11 @@ export interface Zone {
 export const ZONE_RADIUS = 1.6;
 export const WORLD_RADIUS = 11;
 
+// Parked sections (lib/features) get no pad.
 export const zones: Zone[] = [
-  { id: "work", x: 0, z: -7 },
-  { id: "lab", x: 7, z: 0 },
+  { id: "experience", x: 0, z: -7 },
+  ...(features.caseStudies ? [{ id: "work" as const, x: 5, z: -5 }] : []),
+  ...(features.lab ? [{ id: "lab" as const, x: 7, z: 0 }] : []),
   { id: "kits", x: 0, z: 7 },
   { id: "contact", x: -7, z: 0 },
 ];

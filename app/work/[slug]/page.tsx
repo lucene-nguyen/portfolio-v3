@@ -1,3 +1,4 @@
+import { features } from "@/lib/features";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -23,6 +24,8 @@ export async function generateMetadata({ params }: PageProps<"/work/[slug]">): P
     title: study.title,
     description: study.summary,
     alternates: { canonical: `/work/${study.slug}` },
+    // Parked (LEARNING-164): the page still renders, but search engines skip it.
+    ...(features.caseStudies ? {} : { robots: { index: false, follow: false } }),
     openGraph: {
       ...ogBase,
       type: "article",
@@ -44,7 +47,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
     <main id="main" className="flex-1">
       <article className={`${container} max-w-[860px] py-16 sm:py-20`}>
         <Link
-          href="/#work"
+          href={features.caseStudies ? "/#work" : "/"}
           className="inline-flex items-center gap-2 font-mono text-sm text-text-muted hover:text-text"
         >
           <ArrowLeft size={16} aria-hidden />

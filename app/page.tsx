@@ -7,6 +7,7 @@ import { LabSection } from "@/components/home/lab-section";
 import { RateLimitLab } from "@/components/lab/rate-limit-lab";
 import { WorkSection } from "@/components/home/work-section";
 
+import { features } from "@/lib/features";
 import { ogBase } from "@/lib/site";
 
 // Canonical lives here, not in the root layout, so other pages (404, future routes) don't inherit "/".
@@ -22,13 +23,15 @@ export default function Home() {
         <Hero />
         {/* Themes portal their signature block here, directly below the shared hero. */}
         <div id="theme-slot-home" />
-        <WorkSection />
-        <LabSection>
-          <RateLimitLab />
-          <div id="theme-slot-lab" />
-        </LabSection>
-        <KitsSection />
         <ExperienceSection />
+        {features.caseStudies && <WorkSection />}
+        {features.lab && (
+          <LabSection>
+            <RateLimitLab />
+            <div id="theme-slot-lab" />
+          </LabSection>
+        )}
+        <KitsSection />
       </main>
       <ContactSection />
     </>

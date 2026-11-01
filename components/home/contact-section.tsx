@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Mail } from "lucide-react";
 import { contact, labels, profile } from "@/content/home";
 import { shown } from "@/lib/placeholder";
@@ -7,16 +8,27 @@ export function ContactSection() {
   return (
     <footer id="contact" aria-labelledby="contact-title" className="border-t border-border">
       <div className={`${container} flex flex-col gap-10 pt-24 pb-12`}>
-        <div data-print="hide" className="flex max-w-[760px] flex-col gap-[18px]">
-          <p data-part="eyebrow" className="font-mono text-sm text-accent">
-            {contact.eyebrow}
-          </p>
-          <h2
-            id="contact-title"
-            className="font-heading text-[36px] leading-[1.08] font-bold tracking-[-0.02em] sm:text-[52px]"
-          >
-            {contact.title}
-          </h2>
+        <div className="flex items-start justify-between gap-8">
+          <div data-print="hide" className="flex max-w-[760px] flex-col gap-[18px]">
+            <p data-part="eyebrow" className="font-mono text-sm text-accent">
+              {contact.eyebrow}
+            </p>
+            <h2
+              id="contact-title"
+              className="font-heading text-[36px] leading-[1.08] font-bold tracking-[-0.02em] sm:text-[52px]"
+            >
+              {contact.title}
+            </h2>
+          </div>
+          <Image
+            data-part="avatar"
+            data-print="hide"
+            src={profile.avatar.src}
+            alt={profile.avatar.alt}
+            width={112}
+            height={112}
+            className="size-20 shrink-0 rounded-full border border-border-strong object-cover object-[center_20%] sm:size-28"
+          />
         </div>
         <div data-part="contact-actions" className="flex flex-wrap gap-3">
           <a

@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { features } from "../lib/features";
 
 const map = (page: import("@playwright/test").Page) =>
   page.getByRole("region", { name: "System map" });
@@ -54,14 +55,13 @@ test.describe("system map", () => {
   test("nodes are focusable links with tech and impact; focus reveals details", async ({
     page,
   }) => {
-    const node = map(page).getByRole("link", {
-      name: /A non-blocking AI image pipeline.*Databricks.*0 OOM/,
-    });
+    // Case studies parked (LEARNING-164): nodes are the roles and the starter kits.
+    const node = map(page).getByRole("link", { name: /^NEOX.*GraphQL.*08\/2022/ });
     await node.focus();
     await expect(node).toBeFocused();
-    await expect(node.getByText("0 OOM on large uploads")).toBeVisible();
+    await expect(node.getByText("08/2022 – 03/2024")).toBeVisible();
     await node.press("Enter");
-    await expect(page).toHaveURL(/\/work\/ai-image-pipeline$/);
+    await expect(page).toHaveURL(/#experience$/);
   });
 
   test("list view offers the same links", async ({ page }) => {
@@ -91,9 +91,14 @@ test("shared sections are restyled in drafting language, not just recolored", as
   await page.goto("/?theme=blueprint");
   // The theme layout remounts the page content once it loads; measure after that.
   await expect(map(page)).toBeVisible();
-  const card = page.locator('[data-part="case-card"]').first();
-  await expect(card).toHaveCSS("border-radius", "0px");
-  expect(await card.evaluate((el) => getComputedStyle(el, "::before").borderTopWidth)).toBe("2px");
+  // Case cards are parked (LEARNING-164); checked when they come back.
+  if (features.caseStudies) {
+    const card = page.locator('[data-part="case-card"]').first();
+    await expect(card).toHaveCSS("border-radius", "0px");
+    expect(await card.evaluate((el) => getComputedStyle(el, "::before").borderTopWidth)).toBe(
+      "2px",
+    );
+  }
   await expect(page.locator('[data-part="stats"]')).toHaveCSS("border-top-style", "dashed");
   await expect(page.locator('[data-part="contact-actions"]')).toHaveCSS(
     "border-top-style",

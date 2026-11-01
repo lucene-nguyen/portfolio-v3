@@ -1,11 +1,15 @@
 import { expect, test } from "@playwright/test";
+import { features } from "../lib/features";
 
 const pngSize = (buf: Buffer) => ({ width: buf.readUInt32BE(16), height: buf.readUInt32BE(20) });
 
 test("home: title, description, canonical, Open Graph image", async ({ page }) => {
   await page.goto("/");
   await expect(page).toHaveTitle("Nguyen Manh Cuong — Fullstack Software Engineer");
-  await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /Case studies/);
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    "content",
+    /Fullstack Software Engineer building web apps/,
+  );
   // Next renders the root canonical without a trailing slash.
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",
@@ -63,13 +67,14 @@ test("home OG image is a 1200×630 PNG", async ({ request }) => {
 
 test("sitemap and robots", async ({ request }) => {
   const sitemap = await (await request.get("/sitemap.xml")).text();
+  expect(sitemap).toMatch(/\/<\/loc>/);
+  // Parked case studies (LEARNING-164) are left out of the sitemap.
   for (const path of [
-    "/",
     "/work/pharmacy-inventory",
     "/work/ai-image-pipeline",
     "/work/aws-file-ingestion",
   ]) {
-    expect(sitemap).toContain(`${path}</loc>`);
+    expect(sitemap.includes(`${path}</loc>`)).toBe(features.caseStudies);
   }
   const robots = await (await request.get("/robots.txt")).text();
   expect(robots).toContain("Disallow: /api/");

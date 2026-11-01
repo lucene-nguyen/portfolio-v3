@@ -50,7 +50,7 @@ export function ogImage({
         }}
       >
         <span>{footer}</span>
-        <span style={{ color: t.accent }}>{profile.handle}.dev</span>
+        <span style={{ color: t.accent }}>{profile.logo}</span>
       </div>
     </div>,
     ogSize,

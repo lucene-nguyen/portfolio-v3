@@ -1,4 +1,5 @@
 // Exploration progress, kept only in this browser. Recorded in every theme; shown by the Pixel theme.
+import { features } from "@/lib/features";
 
 export interface Progress {
   readCaseStudy: boolean;
@@ -55,9 +56,10 @@ export interface Achievement {
 
 export function evaluate(p: Progress, themeIds: readonly string[]): Achievement[] {
   const seen = themeIds.filter((id) => p.themesSeen.includes(id)).length;
+  // Achievements for parked sections (LEARNING-164) can't be earned, so they aren't listed.
   return [
-    { id: "reader", unlocked: p.readCaseStudy },
-    { id: "rate-limited", unlocked: p.hit429 },
+    ...(features.caseStudies ? [{ id: "reader" as const, unlocked: p.readCaseStudy }] : []),
+    ...(features.lab ? [{ id: "rate-limited" as const, unlocked: p.hit429 }] : []),
     { id: "explorer", unlocked: seen === themeIds.length, progress: `${seen}/${themeIds.length}` },
   ];
 }

@@ -38,8 +38,5 @@
       "status": 200
     }
   },
-  "lab": {
-    "ok": "200 × 5",
-    "blocked": "429 × 5"
-  }
+  "lab": "parked"
 }
