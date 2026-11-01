@@ -14,6 +14,7 @@ import "@/themes/anime/anime.css";
 import "@/themes/blueprint/blueprint.css";
 import "@/themes/cyberpunk/cyberpunk.css";
 import "@/themes/dashboard/dashboard.css";
+import "@/themes/docs/docs.css";
 import "@/themes/editorial/editorial.css";
 import "@/themes/ide/ide.css";
 import "@/themes/neo-brutalism/neo.css";

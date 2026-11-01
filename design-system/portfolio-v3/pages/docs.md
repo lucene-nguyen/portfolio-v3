@@ -39,3 +39,19 @@
 ## Search
 - Index: `/search-index.json`, generated at build time from `content/` (home content + one entry per case-study section); fetched on first open.
 - Opens with `/` or Ctrl/Cmd+K; combobox + listbox (arrow keys, Enter opens, Esc closes and restores focus); result count announced.
+
+### Shared sections (UI round 1)
+> ui-ux-pro-max: `"documentation knowledge base" --domain landing`, `"documentation readability navigation" --domain ux`.
+
+**Section order:** Hero → Case studies → Live lab → Starter kits → Experience + stack → Contact (in the docs content column).
+- Verified: landing **FAQ/Documentation** — prominent search (sidebar + `/`) and the contact CTA last.
+- Verified (ux): sticky navigation never overlaps content (sidebar sits beside it); body line-height 1.5–1.75; formatted numbers.
+- Rejected: FAQ accordions (the portfolio content isn't Q&A); emoji callout icons (checklist: no emoji as icons).
+
+**How the shared sections look** (Notion blocks)
+- Eyebrows → quiet grey section labels (sans, 13px, no caps).
+- Case study cards → **gallery cards**: 6px radius, 1px border, no shadow; meta line as property chips; tags as multi-select pills (`surface2`, 4px radius).
+- Hero stats → **callout block**: `bgAlt` fill, 6px radius, no dividers.
+- Experience → **database list**: rows with the period as a property chip, 18px titles, hairline separators.
+- Contact → **callout block** around the actions.
+- Starter kits → gallery cards like the case studies.
