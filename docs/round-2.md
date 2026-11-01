@@ -9,5 +9,5 @@ Per item: /spec → /implement → /test → /review → merge into `develop` �
 | LEARNING-164 Structure and copy | done | `feat/LEARNING-164-structure-copy` |
 | LEARNING-165 Skills with icons | done | `feat/LEARNING-165-skills` |
 | LEARNING-166 Work with me | done | `feat/LEARNING-166-work-with-me` |
-| LEARNING-167 Contact form | doing | `feat/LEARNING-167-contact-form` |
+| LEARNING-167 Contact form | done | `feat/LEARNING-167-contact-form` |
 | LEARNING-168 English / Vietnamese | todo (owner approval of VI copy before merge) | `feat/LEARNING-168-i18n` |
