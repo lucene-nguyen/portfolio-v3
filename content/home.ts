@@ -159,6 +159,41 @@ export const docsCopy = {
   breadcrumb: "Breadcrumb",
 };
 
+export const dashboardCopy = {
+  eyebrow: "00 / observability",
+  title: "Dashboard",
+  sourceLabel: "Source",
+  unavailable: "Unavailable right now — showing the last known values, if any.",
+  traffic: {
+    title: "Live lab traffic (all visitors)",
+    source: "/api/ping outcomes across all visitors, last 60 s, refreshed every 5 s",
+    rps: "req/s (last 10 s avg)",
+    ok: "200 OK",
+    limited: "429 Too Many Requests",
+    ratio: "blocked share",
+    chart:
+      "Requests per second over the last 60 seconds: 200 responses as a solid line, 429 as a dashed line.",
+  },
+  github: {
+    title: "GitHub activity",
+    source: "GitHub REST API, public data, cached 1 h",
+    repos: "public repos",
+    events: "recent public events",
+  },
+  career: {
+    title: "Career uptime",
+    source: "Experience section",
+    since: (d: string) => `since ${d}`,
+    years: "years shipping",
+  },
+  stack: {
+    title: "Stack usage",
+    source: "Technology tags of the case studies",
+    caption: "case studies using each technology",
+  },
+  timeline: { title: "Timeline", source: "Experience section" },
+};
+
 export const lab = {
   eyebrow: "02 / live lab",
   title: "Try to break my rate limiter",

@@ -1,5 +1,6 @@
 import { createHmac } from "node:crypto";
 import type { Algo, Decision } from "@/lib/rate-limit/algorithms";
+import { getStats } from "@/lib/rate-limit/stats";
 import { getLimiter } from "@/lib/rate-limit/store";
 
 const ALGOS: readonly Algo[] = ["token", "window"];
@@ -64,7 +65,12 @@ export async function GET(req: Request) {
   if (!algo) return badAlgo();
   try {
     const limiter = getLimiter();
-    return respond(algo, await limiter.hit(algo, visitorKey(req, algo)), limiter.kind);
+    const decision = await limiter.hit(algo, visitorKey(req, algo));
+    // Aggregate counters for the dashboard theme; never fail the request over them.
+    await getStats()
+      .record(decision.allowed ? 200 : 429)
+      .catch((e) => console.error("stats record failed", e));
+    return respond(algo, decision, limiter.kind);
   } catch (e) {
     return unavailable(e);
   }
