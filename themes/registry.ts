@@ -3,6 +3,7 @@ import { cyberpunk } from "./cyberpunk";
 import { dashboard } from "./dashboard";
 import { docs } from "./docs";
 import { editorial } from "./editorial";
+import { ide } from "./ide";
 import { nightTerminal } from "./night-terminal";
 import { pixel } from "./pixel";
 import { swissMinimal } from "./swiss-minimal";
@@ -18,6 +19,7 @@ export const themes: readonly ThemeDefinition[] = [
   swissMinimal,
   docs,
   dashboard,
+  ide,
 ];
 
 export const defaultTheme = themes[0];

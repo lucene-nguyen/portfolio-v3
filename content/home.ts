@@ -194,6 +194,19 @@ export const dashboardCopy = {
   timeline: { title: "Timeline", source: "Experience section" },
 };
 
+export const ideCopy = {
+  project: "portfolio-v3",
+  explorer: "Explorer",
+  openEditors: "Open editors",
+  editor: "Editor",
+  close: (name: string) => `Close ${name}`,
+  palette: "Go to file",
+  paletteHint: "Ctrl/⌘ K",
+  placeholder: "Type a file name…",
+  noMatch: "No matching file.",
+  closeDrawer: "Close",
+};
+
 export const lab = {
   eyebrow: "02 / live lab",
   title: "Try to break my rate limiter",
