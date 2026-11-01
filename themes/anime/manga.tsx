@@ -12,6 +12,7 @@ function PanelArt({ seed, label }: { seed: number; label: string }) {
   });
   return (
     <svg viewBox="0 0 300 180" role="img" aria-label={label} className="block h-auto w-full">
+      <title>{label}</title>
       <defs>
         <pattern id={`dots-${seed}`} width="8" height="8" patternUnits="userSpaceOnUse">
           <circle cx="2" cy="2" r="1.4" className="fill-accent" opacity="0.35" />
@@ -60,7 +61,7 @@ export function MangaStrip() {
         <ol className="grid gap-6 md:grid-cols-3">
           {chapters.map((r, i) => (
             <li
-              key={r.company}
+              key={`${r.company}-${r.period}`}
               className="mg-panel flex flex-col"
               style={{ animationDelay: `${i * 120}ms` }}
             >
@@ -73,9 +74,9 @@ export function MangaStrip() {
                     {c.chapter(i + 1)} · {r.period}
                   </p>
                   <h3 className="text-xl font-extrabold">{r.company}</h3>
-                  <blockquote className="mg-bubble mb-3 px-4 py-3 text-[15px] leading-relaxed">
+                  <p className="mg-bubble mb-3 px-4 py-3 text-[15px] leading-relaxed">
                     {r.summary}
-                  </blockquote>
+                  </p>
                 </figcaption>
               </figure>
             </li>
@@ -88,7 +89,7 @@ export function MangaStrip() {
           </summary>
           <ol className="mt-3 flex list-decimal flex-col gap-2 pl-6 text-text-secondary">
             {chapters.map((r) => (
-              <li key={r.company}>
+              <li key={`${r.company}-${r.period}`}>
                 <strong className="text-text">{r.company}</strong> ({r.period}): {r.summary}
               </li>
             ))}
