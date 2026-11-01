@@ -2,7 +2,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 
 // ui-ux-pro-max pre-delivery checklist, the parts that can be measured (UI round 1, restyled themes).
-const THEMES = ["blueprint", "pixel", "cyberpunk"];
+const THEMES = ["blueprint", "pixel", "cyberpunk", "editorial"];
 
 const overflow = (page: Page) =>
   page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
