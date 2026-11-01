@@ -83,7 +83,9 @@ function ReadingTools() {
               tabIndex={size === s ? 0 : -1}
               onClick={() => setSize(s)}
               className={`min-h-11 min-w-11 border px-2 ${
-                size === s ? "border-accent bg-accent text-accent-contrast" : "border-border-strong text-text"
+                size === s
+                  ? "border-accent bg-accent text-accent-contrast"
+                  : "border-border-strong text-text"
               }`}
               style={{ fontSize: s === "s" ? 13 : s === "m" ? 16 : 19 }}
             >

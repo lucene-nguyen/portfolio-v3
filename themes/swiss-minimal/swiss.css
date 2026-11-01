@@ -1,0 +1,147 @@
+/* Scoped to the Swiss theme. Flat: no radius, no shadows. */
+[data-theme="swiss-minimal"] * {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+[data-theme="swiss-minimal"] h1,
+[data-theme="swiss-minimal"] h2 {
+  letter-spacing: -0.03em;
+}
+
+/* 12 columns inside the same box as `container` (max 1200px, 24px side padding, 24px gutters). */
+.sw-grid {
+  display: none;
+}
+@media screen and (min-width: 1024px) {
+  .sw-grid {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: 24px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .sw-grid > span {
+    background: color-mix(in srgb, var(--accent) 5%, transparent);
+    border-inline: 1px solid color-mix(in srgb, var(--accent) 14%, transparent);
+  }
+}
+
+/* One-page CV. */
+@media print {
+  @page {
+    size: auto;
+    margin: 12mm;
+  }
+  [data-theme="swiss-minimal"] body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 9.5pt;
+    line-height: 1.35;
+  }
+  /* No navigation, interactive or decorative parts. */
+  [data-theme="swiss-minimal"] :is(header, .sw-grid, #lab, #kits, figure, button, select, dialog),
+  [data-theme="swiss-minimal"] a[href="#main"],
+  [data-theme="swiss-minimal"] [data-print="hide"],
+  [data-theme="swiss-minimal"] .h-20 {
+    display: none !important;
+  }
+  [data-theme="swiss-minimal"] :is(section, footer) {
+    border: 0 !important;
+    background: none !important;
+  }
+  [data-theme="swiss-minimal"] :is(section, footer) > div {
+    padding: 0 !important;
+    max-width: none !important;
+    gap: 6pt !important;
+  }
+  [data-theme="swiss-minimal"] #top {
+    padding: 0 0 8pt !important;
+    gap: 0 !important;
+    max-width: none !important;
+  }
+  [data-theme="swiss-minimal"] #top > div {
+    gap: 6pt !important;
+  }
+  [data-theme="swiss-minimal"] h1 {
+    font-size: 16pt !important;
+    line-height: 1.2 !important;
+  }
+  [data-theme="swiss-minimal"] h2 {
+    font-size: 12pt !important;
+    margin: 8pt 0 2pt !important;
+  }
+  [data-theme="swiss-minimal"] h3 {
+    font-size: 10pt !important;
+  }
+  [data-theme="swiss-minimal"] :is(p, li, span, dd, dt, a) {
+    font-size: 9pt !important;
+    color: #000 !important;
+  }
+  [data-theme="swiss-minimal"] #top dl dd {
+    font-size: 11pt !important;
+  }
+  [data-theme="swiss-minimal"] #top dl > div {
+    padding: 4pt 6pt !important;
+  }
+  [data-theme="swiss-minimal"] [data-print="cards"] {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6pt !important;
+  }
+  [data-theme="swiss-minimal"] #work article {
+    padding: 0 !important;
+    border: 0 !important;
+    gap: 2pt !important;
+  }
+  [data-theme="swiss-minimal"] #work article dl {
+    padding: 2pt 0 !important;
+    gap: 8pt !important;
+  }
+  [data-theme="swiss-minimal"] #work article dd {
+    font-size: 10pt !important;
+  }
+  [data-theme="swiss-minimal"] #experience > div {
+    display: grid !important;
+    grid-template-columns: 2fr 1fr;
+    gap: 12pt !important;
+  }
+  [data-theme="swiss-minimal"] #experience li {
+    padding: 3pt 0 !important;
+  }
+  [data-theme="swiss-minimal"] #experience ul {
+    gap: 2pt !important;
+  }
+  [data-theme="swiss-minimal"] #experience span[class*="rounded"] {
+    padding: 0 3pt !important;
+    border: 0 !important;
+  }
+  [data-theme="swiss-minimal"] #experience :is(div, ol, ul) {
+    gap: 3pt !important;
+  }
+  [data-theme="swiss-minimal"] #experience h4 {
+    margin-top: 2pt;
+  }
+  [data-theme="swiss-minimal"] footer div {
+    padding-top: 2pt !important;
+    padding-bottom: 0 !important;
+  }
+  /* Contact: keep only the visible addresses. */
+  [data-theme="swiss-minimal"] #contact a {
+    min-height: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: none !important;
+  }
+  [data-theme="swiss-minimal"] #contact svg {
+    display: none !important;
+  }
+  [data-theme="swiss-minimal"] #contact > div {
+    padding-top: 8pt !important;
+  }
+}

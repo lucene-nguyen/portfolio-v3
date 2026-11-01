@@ -6,7 +6,7 @@ export function ContactSection() {
   return (
     <footer id="contact" aria-labelledby="contact-title" className="border-t border-border">
       <div className={`${container} flex flex-col gap-10 pt-24 pb-12`}>
-        <div className="flex max-w-[760px] flex-col gap-[18px]">
+        <div data-print="hide" className="flex max-w-[760px] flex-col gap-[18px]">
           <p className="font-mono text-sm text-accent">{contact.eyebrow}</p>
           <h2
             id="contact-title"
