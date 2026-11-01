@@ -11,7 +11,8 @@
     "test": "vitest run",
     "test:e2e": "playwright test",
     "format": "prettier --write .",
-    "test:perf": "playwright test -c playwright.perf.config.ts"
+    "test:perf": "playwright test -c playwright.perf.config.ts",
+    "ui:sweep": "node scripts/ui-sweep.mjs"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
