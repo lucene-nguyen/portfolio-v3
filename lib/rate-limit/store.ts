@@ -6,12 +6,14 @@ import {
   type Algo,
   type BucketState,
   type Decision,
+  type WindowLimits,
   type WindowState,
 } from "./algorithms";
 
 export interface Limiter {
   readonly kind: "redis" | "memory";
-  hit(algo: Algo, key: string): Promise<Decision>;
+  /** `limits` applies to the fixed window only (e.g. the contact form); defaults to the lab's LIMITS. */
+  hit(algo: Algo, key: string, limits?: WindowLimits): Promise<Decision>;
   reset(algo: Algo, key: string): Promise<void>;
 }
 
@@ -46,7 +48,7 @@ export function redisLimiter(redis: Redis, now = () => Date.now()): Limiter {
   const window = redis.createScript<[number, number]>(FIXED_WINDOW_LUA);
   return {
     kind: "redis",
-    async hit(algo, key) {
+    async hit(algo, key, limits: WindowLimits = { capacity, windowMs }) {
       if (algo === "token") {
         const [allowed, raw] = await bucket.exec(
           [key],
@@ -61,12 +63,12 @@ export function redisLimiter(redis: Redis, now = () => Date.now()): Limiter {
           resetMs: Math.ceil((capacity - tokens) / refillPerMs),
         };
       }
-      const [count, ttl] = await window.exec([key], [String(windowMs)]);
-      const allowed = count <= capacity;
+      const [count, ttl] = await window.exec([key], [String(limits.windowMs)]);
+      const allowed = count <= limits.capacity;
       return {
         allowed,
-        limit: capacity,
-        remaining: Math.max(0, capacity - count),
+        limit: limits.capacity,
+        remaining: Math.max(0, limits.capacity - count),
         // PTTL is -1/-2 if the key vanished meanwhile; never tell a blocked client to retry at 0.
         retryAfterMs: allowed ? 0 : Math.max(1, ttl),
         resetMs: Math.max(1, ttl),
@@ -85,7 +87,7 @@ export function memoryLimiter(now = () => Date.now()): Limiter {
   const windows = new Map<string, WindowState>();
   return {
     kind: "memory",
-    async hit(algo, key) {
+    async hit(algo, key, limits) {
       if (buckets.size + windows.size > 10_000) {
         buckets.clear();
         windows.clear();
@@ -95,7 +97,7 @@ export function memoryLimiter(now = () => Date.now()): Limiter {
         buckets.set(key, state);
         return decision;
       }
-      const [decision, state] = fixedWindow(windows.get(key), now());
+      const [decision, state] = fixedWindow(windows.get(key), now(), limits);
       windows.set(key, state);
       return decision;
     },

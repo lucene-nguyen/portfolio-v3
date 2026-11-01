@@ -1,8 +1,8 @@
-import { createHmac } from "node:crypto";
 import { after } from "next/server";
 import type { Algo, Decision } from "@/lib/rate-limit/algorithms";
 import { getStats } from "@/lib/rate-limit/stats";
 import { getLimiter } from "@/lib/rate-limit/store";
+import { visitorId } from "@/lib/rate-limit/visitor";
 
 const ALGOS: readonly Algo[] = ["token", "window"];
 
@@ -11,18 +11,8 @@ function parseAlgo(req: Request): Algo | null {
   return (ALGOS as readonly string[]).includes(algo) ? (algo as Algo) : null;
 }
 
-// Per-visitor key; the IP is HMAC-ed with a secret salt so raw addresses are never stored or recoverable.
-// Relies on the host (Vercel) overwriting x-forwarded-for; elsewhere the header can be spoofed.
 function visitorKey(req: Request, algo: Algo): string {
-  const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    req.headers.get("x-real-ip") ||
-    "local";
-  const id = createHmac("sha256", process.env.RL_SALT || "dev-salt")
-    .update(ip)
-    .digest("hex")
-    .slice(0, 16);
-  return `rl:${algo}:${id}`;
+  return `rl:${algo}:${visitorId(req.headers)}`;
 }
 
 function respond(algo: Algo, d: Decision, kind: string) {

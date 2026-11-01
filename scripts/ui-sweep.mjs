@@ -40,6 +40,21 @@ const report = { themes: {}, api: {}, lab: null };
 await waitForServer();
 const browser = await chromium.launch();
 
+// Full-page shots include below-the-fold lazy images: load them first.
+const loadLazyImages = (page) =>
+  page.evaluate(() =>
+    Promise.all(
+      [...document.images].map((img) => {
+        img.loading = "eager";
+        return img.complete
+          ? null
+          : new Promise(
+              (r) => img.addEventListener("load", r, { once: true }) || setTimeout(r, 3000),
+            );
+      }),
+    ),
+  );
+
 for (const theme of THEMES) {
   const issues = [];
   for (const path of PAGES) {
@@ -62,6 +77,7 @@ for (const theme of THEMES) {
     await page.waitForTimeout(800);
     if (path === "/") {
       await mkdir(`docs/screenshots/${theme}`, { recursive: true });
+      await loadLazyImages(page);
       await page.screenshot({ path: `docs/screenshots/${theme}/desktop-1440.png`, fullPage: true });
       await page.setViewportSize({ width: 375, height: 812 });
       await page.waitForTimeout(500);
@@ -69,6 +85,7 @@ for (const theme of THEMES) {
         () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
       );
       if (overflow > 0) issues.push(`/ horizontal overflow at 375px: ${overflow}px`);
+      await loadLazyImages(page);
       await page.screenshot({ path: `docs/screenshots/${theme}/mobile-375.png`, fullPage: true });
       // Mobile menu open (viewport only).
       await page
