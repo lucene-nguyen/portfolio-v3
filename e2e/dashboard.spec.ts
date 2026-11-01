@@ -70,3 +70,30 @@ test("axe clean; 375px", async ({ page }) => {
   );
   expect(overflow).toBeLessThanOrEqual(0);
 });
+
+test("shared sections are restyled as panels, not just recolored", async ({ page }) => {
+  await page.goto("/?theme=dashboard");
+  await expect(page.getByTestId("panel-traffic")).toBeVisible();
+  await expect(page.locator('[data-part="case-meta"]').first()).toHaveCSS(
+    "background-color",
+    "rgb(34, 37, 43)",
+  );
+  await expect(page.locator('[data-part="stat"]').first()).toHaveCSS(
+    "border-top-left-radius",
+    "4px",
+  );
+  expect(
+    await page
+      .locator('[data-part="roles"]')
+      .evaluate((el) => getComputedStyle(el, "::before").content),
+  ).toContain("PERIOD");
+  await expect(page.locator('[data-part="role"]').nth(1)).toHaveCSS(
+    "background-color",
+    "rgb(24, 27, 31)",
+  );
+  expect(
+    await page
+      .locator('[data-part="contact-actions"]')
+      .evaluate((el) => getComputedStyle(el, "::before").content),
+  ).toContain("contact");
+});

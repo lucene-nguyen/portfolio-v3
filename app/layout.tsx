@@ -13,6 +13,7 @@ import "./globals.css";
 import "@/themes/anime/anime.css";
 import "@/themes/blueprint/blueprint.css";
 import "@/themes/cyberpunk/cyberpunk.css";
+import "@/themes/dashboard/dashboard.css";
 import "@/themes/editorial/editorial.css";
 import "@/themes/neo-brutalism/neo.css";
 import "@/themes/night-terminal/night-terminal.css";
