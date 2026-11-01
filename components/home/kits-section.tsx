@@ -1,4 +1,5 @@
-import { isPlaceholder, kits } from "@/content/home";
+import { kits } from "@/content/home";
+import { shown } from "@/lib/placeholder";
 import { cn } from "@/lib/utils";
 import { container, SectionHeader } from "./ui";
 
@@ -25,13 +26,17 @@ export function KitsSection() {
                 </span>
                 <h3 className="text-xl font-semibold">{k.name}</h3>
                 <span className="text-[15px] leading-normal text-text-muted">{k.description}</span>
-                <span className="mt-auto font-mono text-[13px] text-text-secondary">{k.stack}</span>
+                {shown(k.stack) && (
+                  <span className="mt-auto font-mono text-[13px] text-text-secondary">
+                    {k.stack}
+                  </span>
+                )}
               </>
             );
             // No link until the owner provides one.
             return (
               <li key={k.name} className="flex min-w-0 flex-[1_1_250px]">
-                {isPlaceholder(k.href) ? (
+                {!shown(k.href) ? (
                   <div className={card}>{body}</div>
                 ) : (
                   <a

@@ -83,6 +83,13 @@ html[data-reading-size="l"] {
   color: var(--accent);
 }
 
+/* Headings whose whole section was unfinished ([PLACEHOLDER] content removed) are hidden too. */
+.prose-body[data-placeholders="hidden"] h2:is(:has(+ h2), :last-child),
+.prose-body[data-placeholders="hidden"] h3:is(:has(+ h2), :has(+ h3), :last-child),
+.prose-body[data-placeholders="hidden"] ul:not(:has(li)) {
+  display: none;
+}
+
 /* Global reduced-motion switch: no theme animation survives it. */
 @media (prefers-reduced-motion: reduce) {
   *,

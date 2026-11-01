@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ThemeSwitcher } from "@/components/theme/theme-switcher";
-import { isPlaceholder, labels, nav, profile } from "@/content/home";
+import { labels, nav, profile } from "@/content/home";
+import { shown } from "@/lib/placeholder";
 import { container } from "./ui";
 
 const resume =
@@ -27,11 +28,7 @@ export function SiteNav() {
               {item.label}
             </Link>
           ))}
-          {isPlaceholder(profile.resumeUrl) ? (
-            <span className="font-mono text-sm text-text-muted">
-              {labels.resume} {profile.resumeUrl}
-            </span>
-          ) : (
+          {shown(profile.resumeUrl) && (
             <a href={profile.resumeUrl} className={`${resume} hover:bg-surface`}>
               {labels.resume} <span aria-hidden>↓</span>
             </a>

@@ -38,10 +38,13 @@ function ReadingTools() {
     const words = article?.textContent?.trim().split(/\s+/).length ?? 0;
     return {
       minutes: Math.max(1, Math.round(words / WORDS_PER_MINUTE)),
-      toc: [...(article?.querySelectorAll("h2[id]") ?? [])].map((h) => ({
-        id: h.id,
-        text: h.textContent ?? "",
-      })),
+      toc: [...(article?.querySelectorAll<HTMLElement>("h2[id]") ?? [])]
+        // Hidden sections (unfinished content) stay out of the contents.
+        .filter((h) => h.offsetParent !== null)
+        .map((h) => ({
+          id: h.id,
+          text: h.textContent ?? "",
+        })),
     };
   });
 

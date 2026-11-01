@@ -68,7 +68,6 @@ test("read time, table of contents, progress bar", async ({ page }) => {
     "Architecture",
     "Decisions & trade-offs",
     "Results",
-    "Learnings",
   ]);
   await toc.getByRole("link", { name: "Results" }).click();
   await expect(page).toHaveURL(/#results$/);

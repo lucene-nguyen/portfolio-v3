@@ -1,5 +1,6 @@
 // Source: the owner's approved home page mockup ("Cuong Nguyen Portfolio" canvas, 2026-10-31).
-// Unknown values stay [PLACEHOLDER]; never fill them in without the owner.
+// Unknown values stay [PLACEHOLDER]; never fill them in without the owner. They don't render (lib/placeholder).
+import { shown } from "@/lib/placeholder";
 
 export const profile = {
   name: "Nguyen Manh Cuong",
@@ -9,7 +10,7 @@ export const profile = {
   email: "manhcuongmvc@gmail.com",
   github: "https://github.com/lucene-nguyen",
   githubLabel: "github.com/lucene-nguyen",
-  linkedin: "[PLACEHOLDER]",
+  linkedin: "https://www.linkedin.com/in/cuong-m-nguyen/",
   resumeUrl: "[PLACEHOLDER]",
   avatar: { src: "/avatar.jpg", alt: "Nguyen Manh Cuong smiling on a hiking trail" },
   avatarCaption: "// off-duty: on a trail",
@@ -102,7 +103,10 @@ export const work = {
       ],
       tags: ["AWS Lambda", "S3", "SES", "NestJS"],
     },
-  ] satisfies CaseStudySummary[],
+  ].map((c) => ({
+    ...c,
+    metrics: c.metrics.filter((m) => shown(m.value)),
+  })) satisfies CaseStudySummary[],
 };
 
 export const systemMap = {
@@ -398,6 +402,3 @@ export const contact = {
   title: "Have a system that needs to scale? Let's talk.",
   footer: [`© 2026 ${profile.name}`, "built with Next.js · deployed on Vercel"],
 };
-
-/** True for values the owner still has to provide. */
-export const isPlaceholder = (v: string) => v.includes("[PLACEHOLDER]");
