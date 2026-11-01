@@ -116,10 +116,14 @@ test("shared sections are restyled with depth", async ({ page }) => {
       "rgb(15, 22, 38)",
     );
   }
-  const eyebrowPad = await page
-    .locator('#kits [data-part="eyebrow"]')
-    .evaluate((e) => getComputedStyle(e, "::before").backgroundColor);
-  expect(eyebrowPad).toBe("rgb(255, 181, 71)");
+  // Polled: the theme layout remounts the page once after load.
+  await expect
+    .poll(() =>
+      page
+        .locator('#kits [data-part="eyebrow"]')
+        .evaluate((e) => getComputedStyle(e, "::before").backgroundColor),
+    )
+    .toBe("rgb(255, 181, 71)");
   const stats = page.locator('[data-part="stat"]');
   await expect(stats.first()).toHaveCSS("box-shadow", /inset/);
   await expect(page.locator('[data-part="stat"][data-highlight]')).toHaveCSS(

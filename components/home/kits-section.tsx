@@ -1,10 +1,7 @@
 import { kits } from "@/content/home";
 import { shown } from "@/lib/placeholder";
 import { cn } from "@/lib/utils";
-import { container, SectionHeader } from "./ui";
-
-const card =
-  "flex min-w-0 flex-[1_1_250px] flex-col gap-3 rounded-[14px] border border-border p-6 text-text";
+import { container, kitCard as card, SectionHeader } from "./ui";
 
 export function KitsSection() {
   return (

@@ -7,6 +7,10 @@ export const buttonPrimary =
 export const buttonSecondary =
   "inline-flex min-h-12 items-center gap-2 rounded-[10px] border border-border-strong px-[22px] font-medium text-text transition-colors duration-150 hover:bg-surface";
 
+/** Card inside a `data-part="kit"` item (starter kits, Work with me services). */
+export const kitCard =
+  "flex min-w-0 flex-[1_1_250px] flex-col gap-3 rounded-[14px] border border-border p-6 text-text";
+
 export function SectionHeader({
   eyebrow,
   title,

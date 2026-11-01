@@ -114,3 +114,13 @@
   border-radius: 4px;
   background: var(--surface);
 }
+
+/* Work with me (LEARNING-166): the steps reuse the roles table; label its columns for steps. */
+@media (min-width: 768px) {
+  [data-theme="dashboard"] #work-with-me [data-part="roles"]::before {
+    content: "STEP" / "";
+  }
+  [data-theme="dashboard"] #work-with-me [data-part="roles"]::after {
+    content: "WHAT HAPPENS" / "";
+  }
+}

@@ -88,3 +88,8 @@
 [data-theme="ide"] [data-part="kit"] > * {
   border-radius: 2px;
 }
+
+/* Work with me (LEARNING-166): the steps reuse the timeline panel. */
+[data-theme="ide"] #work-with-me [data-part="roles"]::before {
+  content: "PROCESS" / "";
+}

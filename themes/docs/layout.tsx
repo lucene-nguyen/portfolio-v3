@@ -4,7 +4,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRef } from "react";
 import { Menu, Search } from "lucide-react";
-import { docsCopy, experience, kits, lab, publicStudies, skills, work } from "@/content/home";
+import {
+  docsCopy,
+  experience,
+  kits,
+  lab,
+  publicStudies,
+  skills,
+  work,
+  workWithMe,
+} from "@/content/home";
 import { features } from "@/lib/features";
 import { SearchDialog, type SearchHandle } from "./search";
 
@@ -15,6 +24,7 @@ const homeLinks = [
   ...(features.caseStudies ? [{ href: "/#work", label: work.title }] : []),
   ...(features.lab ? [{ href: "/#lab", label: lab.title }] : []),
   { href: "/#kits", label: kits.title },
+  { href: "/#work-with-me", label: workWithMe.title },
 ];
 
 function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {

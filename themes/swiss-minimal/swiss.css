@@ -122,7 +122,7 @@
   }
   /* No navigation, interactive or decorative parts. */
   [data-theme="swiss-minimal"]:has(#theme-slot-home)
-    :is(header, .sw-grid, #lab, #kits, figure, button, select, dialog),
+    :is(header, .sw-grid, #lab, #kits, #work-with-me, figure, button, select, dialog),
   [data-theme="swiss-minimal"]:has(#theme-slot-home) a[href="#main"],
   [data-theme="swiss-minimal"]:has(#theme-slot-home) [data-print="hide"] {
     display: none !important;

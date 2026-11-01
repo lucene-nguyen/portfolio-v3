@@ -98,11 +98,11 @@ for (const { id } of themes) {
 }
 
 test("themes keep their chip and heading styles in Skills", async ({ page }) => {
-  const chip = (id: string) => page.locator('#skills [data-part="skill"] span').first();
+  const chip = () => page.locator('#skills [data-part="skill"] span').first();
   await page.goto("/?theme=pixel");
-  await expect(chip("pixel")).toHaveCSS("border-top-width", "2px");
+  await expect(chip()).toHaveCSS("border-top-width", "2px");
   await page.goto("/?theme=editorial");
-  await expect(chip("editorial")).toHaveCSS("border-top-width", "0px");
+  await expect(chip()).toHaveCSS("border-top-width", "0px");
   await page.goto("/?theme=swiss-minimal");
   const secondary = page.getByRole("heading", { name: "Also familiar with" });
   await expect(secondary).toHaveCSS("text-transform", "none");

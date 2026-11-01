@@ -29,7 +29,7 @@ Work top to bottom. One task = one branch `feat/<KEY>-<slug>` merged into `devel
 | 22 | LEARNING-146 | Deploy to Vercel                                                        | owner + Architect |
 | 23 | LEARNING-164 | Round 2: home structure and copy (case studies + lab behind a flag)   | done |
 | 24 | LEARNING-165 | Round 2: Skills with icons (replaces stack.json)                        | done |
-| 25 | LEARNING-166 | Round 2: Work with me (services + how I work)                           | todo |
+| 25 | LEARNING-166 | Round 2: Work with me (services + how I work)                           | doing |
 | 26 | LEARNING-167 | Round 2: Contact form (validation, honeypot, rate limit, local delivery)| todo |
 | 27 | LEARNING-168 | Round 2: English / Vietnamese (owner approves VI before merge)          | todo |
 

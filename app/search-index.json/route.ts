@@ -1,6 +1,15 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { experience, kits, lab, profile, publicStudies, skills, work } from "@/content/home";
+import {
+  experience,
+  kits,
+  lab,
+  profile,
+  publicStudies,
+  skills,
+  work,
+  workWithMe,
+} from "@/content/home";
 import { features } from "@/lib/features";
 import { SHOW_PLACEHOLDERS, stripPlaceholders } from "@/lib/placeholder";
 import { mdxToDocs, type SearchDoc } from "@/lib/search";
@@ -44,6 +53,16 @@ export async function GET() {
       href: "/#kits",
       text: `${k.status}. ${k.description} ${k.stack}`,
     })),
+    {
+      title: workWithMe.title,
+      section: workWithMe.title,
+      href: "/#work-with-me",
+      text: [
+        workWithMe.intro,
+        ...workWithMe.services.map((s) => `${s.name}: ${s.description}`),
+        ...workWithMe.steps.map((s) => `${s.name}: ${s.description}`),
+      ].join(" "),
+    },
     ...experience.roles.map((r) => ({
       title: r.company,
       section: experience.title,

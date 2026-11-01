@@ -5,9 +5,9 @@ import { features } from "../lib/features";
 test("renders sections in the round-2 order; parked sections are absent", async ({ page }) => {
   await page.goto("/");
   const ids = await page
-    .locator("#top, #skills, #work, #lab, #kits, #experience, #contact")
+    .locator("#top, #skills, #work, #lab, #kits, #experience, #work-with-me, #contact")
     .evaluateAll((els) => els.map((e) => e.id));
-  expect(ids).toEqual(["top", "skills", "experience", "kits", "contact"]);
+  expect(ids).toEqual(["top", "skills", "experience", "kits", "work-with-me", "contact"]);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "I build web products that bring real value to users and businesses.",
   );
