@@ -17,7 +17,7 @@ Per theme (item 2): ui-ux-pro-max `--domain landing` + `--domain ux` → "## Lay
 | 2 dashboard | done | `fix/ui-dashboard` |
 | 2 ide | done | `fix/ui-ide` |
 | 2 docs | done | `fix/ui-docs` |
-| 2 bento | todo | `fix/ui-bento` |
+| 2 bento | done | `fix/ui-bento` |
 | 2 neo-brutalism | todo | `fix/ui-neo-brutalism` |
 | 2 anime | todo | `fix/ui-anime` |
 | 2 3d-world | todo | `fix/ui-3d-world` |
