@@ -25,3 +25,6 @@ None.
 
 ## Review
 APPROVE, no Blockers. Fixed: stale meter after algorithm switch, out-of-order burst snapshot, focus loss from `disabled`, silent reset failures, counters group role, ES2023 `toReversed`, interval churn, hardcoded strings.
+
+## Follow-up 2026-11-01
+The burst e2e test asserted the meter was exactly 0 after a burst; under full-suite load the burst can take > 1 s and a token refills first. Now asserts ≤ 1 and then a rise without a new request (`fix/lab-meter-flake`).
