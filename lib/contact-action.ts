@@ -1,10 +1,13 @@
 "use server";
 
 import { headers } from "next/headers";
-import { validate, type Field } from "./contact";
+import { CONTACT_LIMITS, validate, type Field } from "./contact";
 import { deliver } from "./contact-delivery";
 import { getLimiter } from "./rate-limit/store";
 import { visitorId } from "./rate-limit/visitor";
+
+/** Unlikely field name: browsers won't autofill it, so only bots fill it. */
+const HONEYPOT = "hp_contact_ref";
 
 export interface ContactState {
   status: "idle" | "invalid" | "sent" | "limited" | "error";
@@ -17,13 +20,20 @@ export interface ContactState {
 export async function submitContact(_: ContactState, form: FormData): Promise<ContactState> {
   const at = Date.now();
   // Honeypot: bots fill every field. Pretend it worked; store and send nothing.
-  if (String(form.get("website") ?? "")) return { status: "sent", at };
+  if (String(form.get(HONEYPOT) ?? "")) {
+    console.info("contact honeypot hit");
+    return { status: "sent", at };
+  }
 
   const result = validate(form);
   if (!result.ok) return { status: "invalid", errors: result.errors, values: result.values, at };
 
   try {
-    const d = await getLimiter().hit("window", `rl:contact:${visitorId(await headers())}`);
+    const d = await getLimiter().hit(
+      "window",
+      `rl:contact:${visitorId(await headers())}`,
+      CONTACT_LIMITS,
+    );
     if (!d.allowed) return { status: "limited", values: { ...result.data }, at };
     await deliver(result.data);
     return { status: "sent", at };

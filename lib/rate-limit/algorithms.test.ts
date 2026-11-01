@@ -68,3 +68,12 @@ describe("fixedWindow (capacity 5, 5s window)", () => {
     expect(ds.map((d) => d.allowed)).toEqual([true, true, true, true, true, false, true]);
   });
 });
+
+it("fixed window takes its own limits (contact form) without changing the lab default", async () => {
+  const { fixedWindow, LIMITS } = await import("./algorithms");
+  const limits = { capacity: 1, windowMs: 60_000 };
+  const [first, state] = fixedWindow(undefined, 0, limits);
+  const [second] = fixedWindow(state, 30_000, limits);
+  expect([first.allowed, second.allowed, second.retryAfterMs]).toEqual([true, false, 30_000]);
+  expect(fixedWindow(undefined, 0)[0].limit).toBe(LIMITS.capacity);
+});

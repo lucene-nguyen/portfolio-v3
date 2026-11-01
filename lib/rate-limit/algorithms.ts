@@ -50,9 +50,17 @@ export interface WindowState {
   resetAt: number;
 }
 
+export interface WindowLimits {
+  capacity: number;
+  windowMs: number;
+}
+
 /** The window opens on the first request after the previous one expired (same as INCR + PEXPIRE). */
-export function fixedWindow(prev: WindowState | undefined, now: number): [Decision, WindowState] {
-  const { capacity, windowMs } = LIMITS;
+export function fixedWindow(
+  prev: WindowState | undefined,
+  now: number,
+  { capacity, windowMs }: WindowLimits = LIMITS,
+): [Decision, WindowState] {
   const state = prev && now < prev.resetAt ? prev : { count: 0, resetAt: now + windowMs };
   const count = state.count + 1;
   const allowed = count <= capacity;

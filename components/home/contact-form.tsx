@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useActionState, useEffect, useRef } from "react";
 import { collabTypes, contactCopy as c } from "@/content/home";
-import type { Field } from "@/lib/contact";
+import { CONTACT_LIMITS, type Field } from "@/lib/contact";
 import { submitContact, type ContactState } from "@/lib/contact-action";
 import { cn } from "@/lib/utils";
 import { buttonPrimary } from "./ui";
@@ -12,6 +12,9 @@ import { buttonPrimary } from "./ui";
 // border-strong is too faint in some themes for WCAG 1.4.11 (3:1 for UI components).
 const input =
   "min-h-11 w-full rounded-[10px] border border-text-subtle bg-surface px-3 py-2 text-text aria-[invalid=true]:border-danger";
+
+// The radio group's first option takes focus for a type error.
+const fieldId = (f: Field) => (f === "type" ? `contact-type-${collabTypes[0].id}` : `contact-${f}`);
 
 /** Reads the collaboration type preselected by a Work with me CTA (`/?type=…#contact`). */
 export function ContactFormFromUrl() {
@@ -33,10 +36,10 @@ export function ContactForm({ preset = null }: { preset?: string | null }) {
   }, [state.at, state.status]);
 
   const describe = (f: Field, hint?: string) =>
-    [hint, errors[f] && `${f}-error`].filter(Boolean).join(" ") || undefined;
+    [hint, errors[f] && `contact-${f}-error`].filter(Boolean).join(" ") || undefined;
   const error = (f: Field) =>
     errors[f] && (
-      <p id={`${f}-error`} className="text-sm text-danger">
+      <p id={`contact-${f}-error`} className="text-sm text-danger">
         {errors[f]}
       </p>
     );
@@ -63,7 +66,12 @@ export function ContactForm({ preset = null }: { preset?: string | null }) {
           <ul className="mt-2 list-disc pl-5">
             {Object.entries(errors).map(([f, msg]) => (
               <li key={f}>
-                <a href={`#contact-${f}`} className="underline">
+                <a
+                  href={`#${fieldId(f as Field)}`}
+                  // Move focus too (a fragment link only scrolls).
+                  onClick={() => document.getElementById(fieldId(f as Field))?.focus()}
+                  className="underline"
+                >
                   {msg}
                 </a>
               </li>
@@ -130,6 +138,7 @@ export function ContactForm({ preset = null }: { preset?: string | null }) {
                 name="type"
                 value={t.id}
                 required
+                id={`contact-type-${t.id}`}
                 defaultChecked={checkedType === t.id}
                 className="accent-accent"
               />
@@ -144,7 +153,7 @@ export function ContactForm({ preset = null }: { preset?: string | null }) {
         <label htmlFor="contact-message" className="font-medium">
           {c.message}
         </label>
-        <p id="message-hint" className="text-sm text-text-muted">
+        <p id="contact-message-hint" className="text-sm text-text-muted">
           {c.messageHint}
         </p>
         <textarea
@@ -156,7 +165,7 @@ export function ContactForm({ preset = null }: { preset?: string | null }) {
           rows={5}
           defaultValue={v.message}
           aria-invalid={!!errors.message}
-          aria-describedby={describe("message", "message-hint")}
+          aria-describedby={describe("message", "contact-message-hint")}
           className={cn(input, "resize-y")}
         />
         {error("message")}
@@ -182,8 +191,8 @@ export function ContactForm({ preset = null }: { preset?: string | null }) {
 
       {/* Honeypot: hidden from people and assistive tech; bots fill it in. */}
       <div aria-hidden className="absolute -left-[9999px] size-px overflow-hidden">
-        <label htmlFor="contact-website">{c.honeypot}</label>
-        <input id="contact-website" name="website" tabIndex={-1} autoComplete="off" />
+        <label htmlFor="contact-hp">{c.honeypot}</label>
+        <input id="contact-hp" name="hp_contact_ref" tabIndex={-1} autoComplete="off" />
       </div>
 
       <div className="flex flex-wrap items-center gap-4">
@@ -199,8 +208,13 @@ export function ContactForm({ preset = null }: { preset?: string | null }) {
           {state.status === "sent" ? c.sent : ""}
         </p>
       </div>
-      <div role="alert" className="empty:hidden text-danger">
-        {state.status === "limited" ? c.limited : state.status === "error" ? c.failed : null}
+      {/* Present from the first render (sr-only while empty) so the message is announced. */}
+      <div role="alert" className="text-danger empty:sr-only">
+        {state.status === "limited"
+          ? c.limited(CONTACT_LIMITS.windowMs / 60_000)
+          : state.status === "error"
+            ? c.failed
+            : null}
       </div>
     </form>
   );

@@ -76,7 +76,7 @@ test("valid submit: success status, form cleared", async ({ page }) => {
 
 test("honeypot: looks sent, nothing else happens", async ({ page }) => {
   await open(page);
-  await page.locator("#contact-website").evaluate((el: HTMLInputElement) => (el.value = "spam"));
+  await page.locator("#contact-hp").evaluate((el: HTMLInputElement) => (el.value = "spam"));
   await send(page); // even empty: bots get the same success
   await expect(form(page).getByRole("status")).toHaveText("Thanks, your message was sent.");
   await expect(page.locator('[data-part="form-summary"]')).toHaveCount(0);
@@ -108,6 +108,6 @@ test.describe("without JavaScript", () => {
     await open(page);
     await send(page);
     await expect(page.locator('[data-part="form-summary"]')).toContainText("highlighted fields");
-    await expect(page.locator("#name-error")).toHaveText("Enter your name.");
+    await expect(page.locator("#contact-name-error")).toHaveText("Enter your name.");
   });
 });

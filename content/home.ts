@@ -507,11 +507,13 @@ export const contactCopy = {
   honeypot: "Leave this field empty",
   summary: (n: number) => `Check the ${n === 1 ? "highlighted field" : `${n} highlighted fields`}.`,
   sent: "Thanks, your message was sent.",
-  limited: `Too many messages from your connection. Wait a minute and try again, or email ${profile.email}.`,
+  limited: (minutes: number) =>
+    `Too many messages from your connection. Wait ${minutes} minutes and try again, or email ${profile.email}.`,
   failed: `Your message couldn't be sent. Try again, or email ${profile.email}.`,
   errors: {
     nameRequired: "Enter your name.",
     nameLong: "Keep your name under 100 characters.",
+    nameInvalid: "Enter your name on one line.",
     emailRequired: "Enter your email address.",
     emailInvalid: "Enter an email address like name@example.com.",
     typeRequired: "Choose how you'd like to work together.",

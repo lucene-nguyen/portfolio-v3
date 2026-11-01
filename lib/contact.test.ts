@@ -46,6 +46,11 @@ describe("validate", () => {
     expect(validate(form({ ...valid, email: "" })).ok).toBe(false);
   });
 
+  it("keeps names on one line (they go into the email subject)", () => {
+    const r = validate(form({ ...valid, name: "x\nEmail: evil@example.com" }));
+    expect(r.ok || r.errors.name).toBe(e.nameInvalid);
+  });
+
   it("has no budget field", () => {
     expect(validate(form({ ...valid, budget: "5000" }))).toEqual({ ok: true, data: valid });
   });

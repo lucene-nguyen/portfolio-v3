@@ -16,7 +16,11 @@ export type Validation =
   | { ok: true; data: ContactMessage }
   | { ok: false; errors: Partial<Record<Field, string>>; values: Partial<Record<Field, string>> };
 
+/** Contact-form rate limit per visitor: enough for a person, useless for a flood. */
+export const CONTACT_LIMITS = { capacity: 3, windowMs: 10 * 60_000 };
+
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const CONTROL = /[\u0000-\u001f\u007f]/;
 const PHONE = /^\+?[\d\s().-]{7,20}$/;
 
 export const isCollabType = (v: string): v is CollabType => collabTypes.some((t) => t.id === v);
@@ -30,6 +34,8 @@ export function validate(form: { get(name: string): FormDataEntryValue | null })
 
   if (!values.name) errors.name = e.nameRequired;
   else if (values.name.length > 100) errors.name = e.nameLong;
+  // The name goes into the email subject: one line, no control characters.
+  else if (CONTROL.test(values.name)) errors.name = e.nameInvalid;
 
   if (!values.email) errors.email = e.emailRequired;
   else if (values.email.length > 254 || !EMAIL.test(values.email)) errors.email = e.emailInvalid;

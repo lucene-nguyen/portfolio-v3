@@ -48,10 +48,13 @@ export function memoryMessages(): MessageStore {
 
 let store: MessageStore | undefined;
 export function getMessageStore(): MessageStore {
-  store ??=
-    process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
-      ? redisMessages(Redis.fromEnv())
-      : memoryMessages();
+  if (store) return store;
+  if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN)
+    store = redisMessages(Redis.fromEnv());
+  // Fail loudly (the form shows the direct email) instead of keeping messages in one instance's memory.
+  else if (process.env.VERCEL_ENV === "production")
+    throw new Error("UPSTASH_REDIS_REST_URL/TOKEN are required in production");
+  else store = memoryMessages();
   return store;
 }
 
@@ -88,7 +91,8 @@ export async function deliver(m: ContactMessage, store = getMessageStore()) {
   await store.save(stored);
   console.info(
     "contact message",
-    process.env.NODE_ENV === "production" ? { id: stored.id, type: stored.type } : stored,
+    // Only production keeps message text out of logs (it is in Redis); dev and previews log it all.
+    process.env.VERCEL_ENV === "production" ? { id: stored.id, type: stored.type } : stored,
   );
   try {
     await sendEmail(stored);
