@@ -20,7 +20,7 @@ Work top to bottom. One task = one branch `feat/<KEY>-<slug>` merged into `devel
 | 13 | LEARNING-150 | Theme 03 Swiss minimal + print CV                                       | done |
 | 14 | LEARNING-156 | Theme 09 Docs + search                                                  | done |
 | 15 | LEARNING-157 | Theme 10 Dashboard + live metrics                                       | done |
-| 16 | LEARNING-151 | Theme 04 IDE layout                                                     | todo              |
+| 16 | LEARNING-151 | Theme 04 IDE layout                                                     | done |
 | 17 | LEARNING-153 | Theme 06 Bento grid                                                     | todo              |
 | 18 | LEARNING-154 | Theme 07 Neo-brutalism                                                  | todo              |
 | 19 | LEARNING-160 | Theme 13 Anime (placeholder art, no copyrighted characters)             | todo              |
