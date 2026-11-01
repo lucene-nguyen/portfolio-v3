@@ -250,12 +250,12 @@
 }
 [data-theme="cyberpunk"] [data-part="button"] {
   border-radius: 0;
+  font-family: var(--font-jetbrains-mono), monospace;
 }
 /* Email addresses keep their case. */
 [data-theme="cyberpunk"] [data-part="button"]:not([href^="mailto:"]) {
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  font-family: var(--font-jetbrains-mono), monospace;
 }
 [data-theme="cyberpunk"] #kits li > * {
   border-radius: 0;
