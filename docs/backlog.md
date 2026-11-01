@@ -30,7 +30,7 @@ Work top to bottom. One task = one branch `feat/<KEY>-<slug>` merged into `devel
 | 23 | LEARNING-164 | Round 2: home structure and copy (case studies + lab behind a flag)   | done |
 | 24 | LEARNING-165 | Round 2: Skills with icons (replaces stack.json)                        | done |
 | 25 | LEARNING-166 | Round 2: Work with me (services + how I work)                           | done |
-| 26 | LEARNING-167 | Round 2: Contact form (validation, honeypot, rate limit, local delivery)| todo |
+| 26 | LEARNING-167 | Round 2: Contact form (validation, honeypot, rate limit, local delivery)| doing |
 | 27 | LEARNING-168 | Round 2: English / Vietnamese (owner approves VI before merge)          | todo |
 
 Acceptance criteria for each task: the Jira issue (copied into its spec in `docs/specs/`).

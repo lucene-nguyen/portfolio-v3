@@ -485,6 +485,39 @@ export const experience = {
 
 export const contact = {
   eyebrow: `${no("contact")} / contact`,
-  title: "Have a system that needs to scale? Let's talk.",
+  // Owner-provided (LEARNING-167).
+  title:
+    "Need a fullstack engineer on your team, full-time or part-time? I'd love to hear about it.",
+  subline: "Have a web app project instead? Send me a brief.",
+  zalo: { label: "Zalo 0339696831", href: "https://zalo.me/0339696831" },
   footer: [`© 2026 ${profile.name}`, "built with Next.js · deployed on Vercel"],
+};
+
+// Form copy written with design:ux-copy: labels say what to enter; errors say what's wrong and how to fix it.
+export const contactCopy = {
+  formTitle: "Send a message",
+  name: "Name",
+  email: "Email",
+  type: "How would you like to work together?",
+  message: "What do you need, and by when?",
+  messageHint: "A short description of the role or project, plus your timeline.",
+  phone: "Phone or Zalo (optional)",
+  submit: "Send message",
+  sending: "Sending…",
+  honeypot: "Leave this field empty",
+  summary: (n: number) => `Check the ${n === 1 ? "highlighted field" : `${n} highlighted fields`}.`,
+  sent: "Thanks, your message was sent.",
+  limited: `Too many messages from your connection. Wait a minute and try again, or email ${profile.email}.`,
+  failed: `Your message couldn't be sent. Try again, or email ${profile.email}.`,
+  errors: {
+    nameRequired: "Enter your name.",
+    nameLong: "Keep your name under 100 characters.",
+    emailRequired: "Enter your email address.",
+    emailInvalid: "Enter an email address like name@example.com.",
+    typeRequired: "Choose how you'd like to work together.",
+    messageRequired: "Tell me what you need and your timeline.",
+    messageShort: "Add a bit more detail (at least 20 characters).",
+    messageLong: "Keep it under 4,000 characters.",
+    phoneInvalid: "Enter a phone or Zalo number using digits (spaces, + and dashes are fine).",
+  },
 };

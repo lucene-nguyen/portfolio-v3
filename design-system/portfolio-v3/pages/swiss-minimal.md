@@ -61,3 +61,7 @@ Rules:
 ### Work with me section (round 2, LEARNING-166)
 - Searches: `"services offering process steps" --domain landing` and `"call to action specific label" --domain ux` (results in docs/prs/LEARNING-166.md).
 - Service cards are `data-part="kit"` and the "How I work" steps are `data-part="roles"`/`"role"`, so this theme's kit-card and roles/timeline rules above style them. Each CTA is a text link with a verb label and an arrow icon (`aria-hidden`), min 44px tall.
+
+### Contact form (round 2, LEARNING-167)
+- Searches: `"contact form lead capture" --domain landing` (Lead Magnet + Form: minimal fields, show submission progress, so "Sending…" is shown) and `"inline validation error summary" --domain ux` (Focusable Error Summary and Error Placement were applied; validate-on-blur was skipped so the form behaves the same without JavaScript).
+- The form sits left of the direct contacts (`data-part="contact-actions"`, which keeps this theme's rule). Controls use token colours only: `text-subtle` borders (≥ 4.5:1, WCAG 1.4.11), `danger` for errors, and the global accent focus ring. Radios and inputs are at least 44px tall.
