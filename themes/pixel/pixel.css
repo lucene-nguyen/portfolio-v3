@@ -38,7 +38,7 @@
 /* ---- Shared sections in game-UI language (design-system/portfolio-v3/pages/pixel.md › Layout) ---- */
 [data-theme="pixel"] [data-part="eyebrow"] {
   font-family: var(--font-heading);
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.6;
 }
 
@@ -51,7 +51,7 @@
 [data-theme="pixel"] [data-part="case-card"]::before {
   content: "QUEST" / "";
   position: absolute;
-  top: -16px; /* tab is 14px tall (10px font, line-height 1, 2px padding): it sits on the 6px top border */
+  top: -12px; /* 14px tab (10px font, line-height 1, 2px padding) centred on the 6px top border */
   left: 16px;
   padding: 2px 8px;
   background: var(--accent);
@@ -76,6 +76,7 @@
   grid-template-columns: 1fr;
   border: 6px double var(--border-strong);
   background: var(--surface);
+  overflow: visible !important; /* never clip a long value; the 375px overflow test then sees it */
 }
 @media (min-width: 640px) {
   [data-theme="pixel"] [data-part="stats"] {
@@ -89,18 +90,18 @@
   gap: 12px;
   padding: 10px 16px !important;
   border: 0 !important;
-  border-bottom: 2px dashed var(--border) !important;
 }
 [data-theme="pixel"] [data-part="stat"] dt {
   text-transform: uppercase;
   font-size: 12px;
 }
-[data-theme="pixel"] [data-part="stat"]:last-child {
-  border-bottom: 0 !important;
+/* Row dividers on top of every row after the first (works for any stat count). */
+[data-theme="pixel"] [data-part="stat"]:nth-child(n + 2) {
+  border-top: 2px dashed var(--border) !important;
 }
 @media (min-width: 640px) {
-  [data-theme="pixel"] [data-part="stat"]:nth-last-child(-n + 2) {
-    border-bottom: 0 !important;
+  [data-theme="pixel"] [data-part="stat"]:nth-child(2) {
+    border-top: 0 !important;
   }
 }
 [data-theme="pixel"] [data-part="stat"] dd {

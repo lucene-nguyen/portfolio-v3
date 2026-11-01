@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter_Tight, JetBrains_Mono } from "next/font/google";
+import { Inter_Tight, JetBrains_Mono, Libre_Bodoni, Press_Start_2P } from "next/font/google";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ThemeRuntime } from "@/components/theme/theme-runtime";
 import { SiteNav } from "@/components/home/site-nav";
@@ -20,6 +20,20 @@ import "@/themes/swiss-minimal/swiss.css";
 
 const interTight = Inter_Tight({ variable: "--font-inter-tight", subsets: ["latin"] });
 const jetbrainsMono = JetBrains_Mono({ variable: "--font-jetbrains-mono", subsets: ["latin"] });
+// Theme heading fonts: not preloaded, so a browser only downloads them when a theme actually uses them,
+// and the theme is styled with its font from first paint (no swap when the theme chunk loads).
+const pressStart = Press_Start_2P({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-press-start",
+  preload: false,
+});
+const bodoni = Libre_Bodoni({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-bodoni",
+  preload: false,
+});
 
 const themeCss = themesToCss(themes, defaultTheme.id);
 const initScript = themeScript(
@@ -41,7 +55,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       data-theme={defaultTheme.id}
       suppressHydrationWarning
-      className={`${interTight.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${interTight.variable} ${jetbrainsMono.variable} ${pressStart.variable} ${bodoni.variable} h-full antialiased`}
     >
       <head>
         <style dangerouslySetInnerHTML={{ __html: themeCss }} />

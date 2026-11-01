@@ -18,13 +18,13 @@ for (const id of THEMES) {
         await page.goto(`/?theme=${id}`);
         await expect(page.locator("html")).toHaveAttribute("data-theme", id);
         // Measure the settled page (theme layouts and features mount after hydration).
-        await page.waitForLoadState("networkidle").catch(() => {});
+        await page.waitForLoadState("networkidle");
         expect(await overflow(page), `${size.width}x${size.height}`).toBeLessThanOrEqual(0);
       }
       // 200% browser zoom on a 1440px screen = a 720px CSS viewport.
       await page.setViewportSize({ width: 720, height: 450 });
       await page.goto(`/?theme=${id}`);
-      await page.waitForLoadState("networkidle").catch(() => {});
+      await page.waitForLoadState("networkidle");
       expect(await overflow(page), "200% zoom").toBeLessThanOrEqual(0);
     });
 

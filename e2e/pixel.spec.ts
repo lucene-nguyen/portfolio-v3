@@ -121,3 +121,14 @@ test("shared sections are restyled as game UI, not just recolored", async ({ pag
     "double",
   );
 });
+
+test("theme styles apply on first paint, before any app JS", async ({ page }) => {
+  await page.route("**/_next/static/**/*.js", (route) => route.abort());
+  await page.goto("/?theme=pixel");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "pixel");
+  await expect(page.locator('[data-part="case-card"]').first()).toHaveCSS(
+    "border-top-style",
+    "double",
+  );
+  await expect(page.getByRole("heading", { level: 1 })).toHaveCSS("font-family", /Press Start 2P/);
+});

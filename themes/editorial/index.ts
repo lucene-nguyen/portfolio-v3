@@ -22,7 +22,7 @@ export const editorial: ThemeDefinition = {
     accentContrast: "#FFFFFF",
     warning: "#7A4F00",
     danger: "#A3261F",
-    // Defined by the Editorial feature chunk; falls back to the sans until it loads.
+    // Font variable defined in the root layout (not preloaded; fetched only when used).
     fontHeading: "var(--font-bodoni, var(--font-inter-tight))",
     radius: "2px",
   },

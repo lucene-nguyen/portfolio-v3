@@ -83,3 +83,11 @@ test("axe clean; 375px", async ({ page }) => {
   );
   expect(overflow).toBeLessThanOrEqual(0);
 });
+
+test("print CV styles apply without JS", async ({ page }) => {
+  await page.route("**/_next/static/**/*.js", (route) => route.abort());
+  await page.goto("/?theme=swiss-minimal");
+  await page.emulateMedia({ media: "print" });
+  await expect(page.locator("header").first()).toBeHidden();
+  await expect(page.locator("#lab")).toBeHidden();
+});

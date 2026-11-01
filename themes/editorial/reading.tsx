@@ -3,16 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
-import { Libre_Bodoni } from "next/font/google";
 import { useThemeSlot } from "@/components/theme/use-theme-slot";
 import { readingCopy } from "@/content/home";
-
-// Loaded only with this chunk, i.e. only while the Editorial theme is active.
-const bodoni = Libre_Bodoni({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-bodoni",
-});
 
 const SIZE_KEY = "editorial:text-size";
 const SIZES = ["s", "m", "l"] as const;
@@ -153,12 +145,6 @@ function ProgressBar() {
 export default function EditorialReading() {
   const pathname = usePathname();
   const slot = useThemeSlot("theme-slot-article");
-
-  useEffect(() => {
-    const html = document.documentElement;
-    html.classList.add(bodoni.variable);
-    return () => html.classList.remove(bodoni.variable);
-  }, []);
 
   if (!pathname.startsWith("/work/") || !slot) return null;
   return (
