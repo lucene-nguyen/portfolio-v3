@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 import { labels, nav, profile } from "@/content/home";
@@ -16,10 +16,16 @@ const resume =
 export function SiteNav() {
   const [open, setOpen] = useState(false);
   const panelId = useId();
+  const toggle = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onKey = (e: KeyboardEvent) => {
+      // A dialog opened from the menu handles its own Esc; the menu stays open behind it.
+      if (e.key !== "Escape" || document.querySelector("dialog[open]")) return;
+      setOpen(false);
+      toggle.current?.focus();
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
@@ -38,6 +44,7 @@ export function SiteNav() {
           <ThemeSwitcher />
         </div>
         <button
+          ref={toggle}
           type="button"
           aria-expanded={open}
           aria-controls={panelId}
@@ -53,7 +60,11 @@ export function SiteNav() {
             "w-full flex-col gap-1 border-t border-border pt-3 text-[15px] md:ml-auto md:flex md:w-auto md:flex-row md:flex-wrap md:items-center md:gap-x-7 md:border-0 md:pt-0",
             open ? "flex" : "hidden",
           )}
-          onClick={(e) => (e.target as HTMLElement).closest("a, button") && setOpen(false)}
+          // Close after following a link or a plain action; dialog openers keep the menu open so focus can return to them.
+          onClick={(e) => {
+            const el = (e.target as HTMLElement).closest("a, button");
+            if (el && !el.hasAttribute("aria-haspopup")) setOpen(false);
+          }}
         >
           {nav.map((item) => (
             <Link
@@ -69,7 +80,7 @@ export function SiteNav() {
               {labels.resume} <span aria-hidden>↓</span>
             </a>
           )}
-          {/* Themes add their nav actions here (Terminal/Achievements on mobile, Show grid). */}
+          {/* Themes add their nav actions here (e.g. Terminal and Achievements on mobile). */}
           <div id="theme-slot-nav" className="contents" />
         </div>
       </nav>

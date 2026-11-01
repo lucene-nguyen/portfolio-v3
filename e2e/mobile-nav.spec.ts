@@ -26,8 +26,8 @@ for (const { id } of themes) {
     const fixed = await page.evaluate(
       () =>
         [...document.querySelectorAll("button, a")].filter(
-          (el) =>
-            getComputedStyle(el).position === "fixed" && (el as HTMLElement).offsetParent !== null,
+          // offsetParent is always null for fixed elements; checkVisibility is the real test.
+          (el) => getComputedStyle(el).position === "fixed" && el.checkVisibility(),
         ).length,
     );
     expect(fixed).toBe(0);
@@ -47,6 +47,7 @@ test("menu opens and closes; keyboard and screen-reader operable", async ({ page
   expect(violations.map((v) => v.id)).toEqual([]);
   await page.keyboard.press("Escape");
   await expect(toggle).toHaveAttribute("aria-expanded", "false");
+  await expect(toggle).toBeFocused();
   await toggle.click();
   await nav.getByRole("link", { name: "Experience" }).click();
   await expect(page).toHaveURL(/#experience$/);
@@ -57,8 +58,16 @@ test("Pixel achievements open from the menu on mobile", async ({ page }) => {
   await page.goto("/?theme=pixel");
   const nav = page.getByRole("navigation", { name: "Main" });
   await nav.getByRole("button", { name: "Menu" }).click();
-  await nav.getByRole("button", { name: /Achievements \d\/3/ }).click();
-  await expect(page.getByRole("dialog", { name: "Achievements" })).toBeVisible();
+  const entry = nav.getByRole("button", { name: /Achievements \d\/3/ });
+  await entry.click();
+  const dialog = page.getByRole("dialog", { name: "Achievements" });
+  await expect(dialog).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
+  // Focus returns to the (still open) menu entry, not <body>; Esc again closes the menu onto its toggle.
+  await expect(entry).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(nav.getByRole("button", { name: "Menu" })).toBeFocused();
 });
 
 test("desktop keeps the inline nav (no menu button)", async ({ page }) => {

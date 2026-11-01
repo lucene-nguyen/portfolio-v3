@@ -70,6 +70,13 @@ for (const theme of THEMES) {
       );
       if (overflow > 0) issues.push(`/ horizontal overflow at 375px: ${overflow}px`);
       await page.screenshot({ path: `docs/screenshots/${theme}/mobile-375.png`, fullPage: true });
+      // Mobile menu open (viewport only).
+      await page
+        .getByRole("navigation", { name: "Main" })
+        .getByRole("button", { name: "Menu" })
+        .click();
+      await page.waitForTimeout(300);
+      await page.screenshot({ path: `docs/screenshots/${theme}/mobile-375-menu.png` });
     }
     await ctx.close();
   }
