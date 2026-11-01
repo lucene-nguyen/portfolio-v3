@@ -13,10 +13,11 @@
   border-radius: 0 !important;
   transition: none !important;
 }
-[data-theme="neo-brutalism"] :is(h1, h2, h3) {
+[data-theme="neo-brutalism"] :is(h1, h2, h3, h4) {
   font-weight: 800;
 }
-[data-theme="neo-brutalism"] :is(#work article, #lab .bg-surface, #kits li > *, .nb-card) {
+[data-theme="neo-brutalism"]
+  :is(#work article, #lab .bg-surface, :is(#kits, #work-with-me) li > *, .nb-card) {
   border: 3px solid var(--border) !important;
   box-shadow: var(--nb-shadow);
 }

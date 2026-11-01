@@ -146,7 +146,7 @@
   transform: translate(4px, 4px);
   box-shadow: none;
 }
-[data-theme="pixel"] #kits li > * {
+[data-theme="pixel"] :is(#kits, #work-with-me) li > * {
   border: 3px solid var(--border-strong);
   box-shadow: 4px 4px 0 var(--border-strong);
 }

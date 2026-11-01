@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { kits } from "../content/home";
 import { themes } from "../themes/registry";
 
 const services = [
@@ -24,7 +25,8 @@ test("services with CTAs that preselect a collaboration type; steps in order; no
     );
   }
   // Kit availability comes from the kits data, not from the copy.
-  await expect(section).toContainText("TableTap: in progress");
+  const tabletap = kits.items.find((k) => k.name === "TableTap")!;
+  await expect(section).toContainText(`TableTap: ${tabletap.status}`);
   await expect(section).not.toContainText(/[$€£₫]|\bprice/i);
   await expect(section.locator('[data-part="role"] h4')).toHaveText([
     "Discuss",
@@ -80,5 +82,20 @@ test("dashboard and IDE label the steps, not the career", async ({ page }) => {
   expect(await pseudo('#work-with-me [data-part="roles"]', "::before")).toContain("STEP");
   expect(await pseudo('#experience [data-part="roles"]', "::before")).toContain("PERIOD");
   await page.goto("/?theme=ide");
+  await expect(page.getByRole("navigation", { name: "Explorer" }).first()).toBeVisible();
   expect(await pseudo('#work-with-me [data-part="roles"]', "::before")).toContain("PROCESS");
+});
+
+test("theme card and heading rules reach the service cards and step titles", async ({ page }) => {
+  await page.goto("/?theme=editorial");
+  const step = page.locator('#work-with-me [data-part="role"] h4').first();
+  const role = page.locator('#experience [data-part="role"] h3').first();
+  expect(await step.evaluate((e) => getComputedStyle(e).fontFamily)).toBe(
+    await role.evaluate((e) => getComputedStyle(e).fontFamily),
+  );
+  await page.goto("/?theme=neo-brutalism");
+  await expect(page.locator('#work-with-me [data-part="kit"] > *').first()).toHaveCSS(
+    "border-top-width",
+    "3px",
+  );
 });

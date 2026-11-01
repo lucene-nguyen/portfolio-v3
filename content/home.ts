@@ -394,8 +394,7 @@ export const workWithMe = {
   services: [
     {
       name: "End-to-end web apps",
-      description:
-        "I design and build the whole app (front end, API, database and deployment) and take it to production.",
+      description: "I design and build the whole app: front end, API, database and deployment.",
       cta: "Discuss a web app",
       type: "freelance",
     },
@@ -416,8 +415,7 @@ export const workWithMe = {
     },
     {
       name: "Architecture consulting",
-      description:
-        "A second pair of eyes on your system: architecture, performance and scaling decisions, reviewed before they get expensive.",
+      description: "A second pair of eyes on your architecture, performance and scaling decisions.",
       cta: "Request a review",
       type: "consulting",
     },
@@ -432,15 +430,14 @@ export const workWithMe = {
   stepLabel: (n: number) => `Step ${n}`,
   steps: [
     { name: "Discuss", description: "We talk through your goals, users and constraints." },
-    { name: "Proposal", description: "You get a written scope, plan and timeline to agree on." },
+    { name: "Proposal", description: "You get a written scope and plan to agree on." },
     {
       name: "Build",
       description: "Spec → code → test → review, in small steps you can follow.",
     },
     {
       name: "Hand-over and support",
-      description:
-        "You get the code, docs and deployment, and I stay available for questions and fixes.",
+      description: "You get the code and docs, with support during the hand-over.",
     },
   ],
 };

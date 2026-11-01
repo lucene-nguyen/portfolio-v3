@@ -94,7 +94,7 @@
 [data-theme="editorial"] [data-part="role"] {
   border-color: var(--border-strong) !important;
 }
-[data-theme="editorial"] [data-part="role"] h3 {
+[data-theme="editorial"] [data-part="role"] :is(h3, h4) {
   font-family: var(--font-heading);
   font-size: 24px;
 }

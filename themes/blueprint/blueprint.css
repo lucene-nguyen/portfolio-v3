@@ -145,6 +145,6 @@
 [data-theme="blueprint"] :is(#lab, #kits) * {
   border-radius: 0 !important;
 }
-[data-theme="blueprint"] #kits li > * {
+[data-theme="blueprint"] :is(#kits, #work-with-me) li > * {
   border-color: var(--border-strong);
 }
