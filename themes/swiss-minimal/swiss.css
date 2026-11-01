@@ -32,6 +32,80 @@
   }
 }
 
+@media screen {
+  /* Shared sections (design-system/portfolio-v3/pages/swiss-minimal.md › Layout).
+   Typographic style: rules instead of boxes, flush left, big tight numerals. Screen only: the printed CV below is never affected. */
+  [data-theme="swiss-minimal"] [data-part="eyebrow"] {
+    width: fit-content;
+    padding-top: 8px;
+    border-top: 4px solid var(--accent);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  /* Case studies and kits: no box, a heavy black rule on top. */
+  [data-theme="swiss-minimal"] :is([data-part="case-card"], [data-part="kit"] > *) {
+    padding: 20px 0 0;
+    border: 0;
+    border-top: 4px solid var(--text);
+    background: transparent;
+  }
+  [data-theme="swiss-minimal"] [data-part="kit"] > a:is(:hover, :focus-visible) {
+    border-top-color: var(--accent); /* hover cue on the linked kit */
+  }
+  [data-theme="swiss-minimal"] [data-part="case-meta"] {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  [data-theme="swiss-minimal"] :is([data-part="case-metrics"], [data-part="stat"]) dd {
+    font-family: var(--font-sans);
+    font-size: 36px;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+
+  /* Hero numbers: a row of big numerals under one heavy rule. */
+  [data-theme="swiss-minimal"] [data-part="stats"] {
+    border: 0;
+    border-top: 4px solid var(--text);
+    overflow: visible;
+  }
+  [data-theme="swiss-minimal"] [data-part="stat"] {
+    padding: 16px 24px 0 0;
+    border: 0;
+  }
+
+  /* Experience: hairline rows, period in tabular sans; the stack under a heavy rule. */
+  [data-theme="swiss-minimal"] [data-part="role"] {
+    border-color: var(--text);
+  }
+  [data-theme="swiss-minimal"] [data-part="role"] > span:first-child {
+    font-family: var(--font-sans);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: var(--text);
+  }
+  [data-theme="swiss-minimal"] [data-part="stack"] {
+    align-self: flex-start; /* the rule spans the stack, not the full row height */
+    padding-top: 20px;
+    border-top: 4px solid var(--text);
+  }
+  [data-theme="swiss-minimal"] [data-part="stack"] h3 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+}
+
 /* One-page CV: home page only (it owns #theme-slot-home). */
 @media print {
   /* Named page: these margins never apply to other themes or pages. */

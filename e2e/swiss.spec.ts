@@ -91,3 +91,35 @@ test("print CV styles apply without JS", async ({ page }) => {
   await expect(page.locator("header").first()).toBeHidden();
   await expect(page.locator("#lab")).toBeHidden();
 });
+
+test("shared sections are restyled typographically", async ({ page }) => {
+  await page.goto("/?theme=swiss-minimal");
+  const eyebrow = page.locator('#work [data-part="eyebrow"]');
+  await expect(eyebrow).toHaveCSS("text-transform", "uppercase");
+  await expect(eyebrow).toHaveCSS("border-top-color", "rgb(208, 2, 27)");
+  const card = page.locator('#work [data-part="case-card"]').first();
+  await expect(card).toHaveCSS("border-top-width", "4px");
+  await expect(card).toHaveCSS("border-left-width", "0px");
+  await expect(card).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+  const kitLink = page.locator('[data-part="kit"] > a').first();
+  await expect(kitLink).toHaveCSS("border-top-width", "4px");
+  await kitLink.hover();
+  await expect(kitLink).toHaveCSS("border-top-color", "rgb(208, 2, 27)");
+  await expect(page.locator('[data-part="stats"]')).toHaveCSS("border-left-width", "0px");
+  await expect(page.locator('[data-part="stat"] dd').first()).toHaveCSS("font-size", "36px");
+  await expect(page.locator('[data-part="stat"] dd').first()).toHaveCSS(
+    "font-family",
+    /Inter Tight/,
+  );
+  await expect(page.locator('[data-part="stack"]')).toHaveCSS("border-top-width", "4px");
+});
+
+test("screen restyle never reaches the printed CV", async ({ page }) => {
+  await page.goto("/?theme=swiss-minimal");
+  await page.emulateMedia({ media: "print" });
+  // Print keeps the CV's original look: the stats box (1px), no screen rules.
+  await expect(page.locator('[data-part="stats"]')).toHaveCSS("border-top-width", "1px");
+  for (const sel of ['[data-part="stack"]', '[data-part="eyebrow"]'])
+    await expect(page.locator(sel).first(), sel).toHaveCSS("border-top-width", "0px");
+  await expect(page.locator('[data-part="stat"]').first()).toHaveCSS("border-right-width", "1px");
+});
