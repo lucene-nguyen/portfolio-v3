@@ -43,3 +43,35 @@ test("bubble text contrast, axe clean, 375px", async ({ page }) => {
   );
   expect(overflow).toBeLessThanOrEqual(0);
 });
+
+test("shared sections are restyled as manga panels", async ({ page }) => {
+  await page.goto("/?theme=anime");
+  await expect(page.locator('#work [data-part="eyebrow"]')).toHaveCSS(
+    "background-color",
+    "rgb(194, 24, 91)",
+  );
+  await expect(page.locator('[data-part="stack"] h3')).toHaveCSS("color", "rgb(17, 17, 17)");
+  const card = page.locator('#work [data-part="case-card"]').first();
+  await expect(card).toHaveCSS("border-top-width", "4px");
+  await expect(card).toHaveCSS("box-shadow", "rgb(26, 26, 26) 5px 5px 0px 0px");
+  const meta = page.locator('#work [data-part="case-meta"]').first();
+  await expect(meta).toHaveCSS("background-image", /radial-gradient/);
+  const [c, m] = await Promise.all([card.boundingBox(), meta.boundingBox()]);
+  expect(m!.x - c!.x).toBeCloseTo(4, 0);
+  await expect(page.locator('[data-part="case-metrics"]').first()).toHaveCSS(
+    "border-top-left-radius",
+    "28px",
+  );
+  await expect(page.locator('[data-part="stats"]')).toHaveCSS(
+    "background-color",
+    "rgb(26, 26, 26)",
+  );
+  await expect(page.locator('[data-part="role"]').first()).toHaveCSS(
+    "background-color",
+    "rgb(255, 241, 224)",
+  );
+  await expect(page.locator('[data-part="contact-actions"]')).toHaveCSS(
+    "border-top-left-radius",
+    "28px",
+  );
+});

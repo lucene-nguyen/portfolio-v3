@@ -176,3 +176,18 @@ Spec: [docs/specs/ui-round-1.md](../specs/ui-round-1.md). Before = `docs/screens
   - N/A for this site: safe-area insets/Dynamic Type (native), dark+light parity (each theme is single-mode, contrast-tested), forms/auth, auto-rotating content.
 - Before/after: default sections with black borders only → sticker language throughout (`docs/screenshots/neo-brutalism/`).
 - Review: APPROVE; Shoulds applied (strip alignment e2e check documented at the negative margin, full fill/contact/metrics assertions); nits applied (shared shadow var, selector matches CSS, pink/violet kept for parity with STICKER_FILLS).
+
+## fix/ui-anime (item 2)
+- ui-ux-pro-max layout pass: `"storytelling scroll narrative" --domain landing` verified Scroll-Triggered Storytelling (chapter framing, readable without scroll effects); `"comic manga panel"` / `"comic illustration playful"` (`--domain style`) returned no match, so the manga look falls back to the theme's own Manga strip rules (stated in the doc); ux `"visual hierarchy scanning"` (Font Size Scale kept; Breadcrumbs off-topic). New "## Layout" section in `pages/anime.md`; skewed panels and new entrance motion rejected.
+- `themes/anime/anime.css`: chapter-tab eyebrows; case studies and kits as ink panels with a screentone caption strip; metrics and contact actions in speech bubbles with tails; hero numbers as a comic page (white panels on ink gutters); roles as narration boxes; stack on screentone with an ink heading.
+- Checklist: anime added; the axe/touch test now waits for finite animations to settle (the strip's staggered fade-in made axe flag a mid-fade bubble). Infinite animations excluded; cancelled ones ignored.
+- Tests: restyle assertions in `e2e/anime.spec.ts` (eyebrow fill, ink panel, screentone strip edge to edge, bubbles, comic-page stats, narration boxes, stack heading colour).
+- Pre-delivery checklist (ui-ux-pro-max `references/pro-rules.md`; web-applicable items):
+  - Process: theme-specific `--domain landing` + `--domain ux` searches ✅ · 375px and landscape 812×375 ✅ (e2e) · reduced motion ✅ (no running animations, e2e) · 200% zoom (720px viewport) ✅ · contrast per theme ✅ (registry tests: every text token on every ground) · touch targets ≥ 44px for buttons/selects ✅ (e2e, strict)
+  - Visual: no emoji icons ✅ (Lucide only) · one icon family ✅ · no layout-shifting press states ✅ · tokens only, no ad-hoc hex ✅
+  - Interaction: visible focus ring ✅ · focus order = DOM order ✅ (home tab test) · descriptive labels ✅ (axe clean) · drag has button alternatives ✅ (where present)
+  - Layout: nothing hidden behind fixed UI ✅ (no fixed controls on mobile) · 4/8px spacing rhythm ✅ · readable measure ✅
+  - Accessibility: decorative icons/labels hidden from AT ✅ · colour never the only indicator ✅ · reduced motion ✅
+  - N/A for this site: safe-area insets/Dynamic Type (native), dark+light parity (each theme is single-mode, contrast-tested), forms/auth, auto-rotating content.
+- Before/after: rounded default sections → manga page language (`docs/screenshots/anime/`).
+- Review: APPROVE; Should applied (accent stack heading over screentone measured ~4.0:1 by hand, now ink); nits applied (catch on cancelled animations, no !important, single bubble-tail rule matching .mg-bubble, toBeCloseTo).
