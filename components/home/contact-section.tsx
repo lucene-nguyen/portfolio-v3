@@ -16,7 +16,7 @@ export function ContactSection() {
             {contact.title}
           </h2>
         </div>
-        <div className="flex flex-wrap gap-3">
+        <div data-part="contact-actions" className="flex flex-wrap gap-3">
           <a
             href={`mailto:${profile.email}`}
             className={`${buttonPrimary} min-h-[52px] text-[17px]`}

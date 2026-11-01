@@ -27,10 +27,14 @@ export function Hero() {
             {profile.githubLabel}
           </a>
         </div>
-        <dl className="mt-2 flex flex-wrap overflow-hidden rounded-[14px] border border-border">
+        <dl
+          data-part="stats"
+          className="mt-2 flex flex-wrap overflow-hidden rounded-[14px] border border-border"
+        >
           {hero.stats.map((s, i) => (
             <div
               key={s.label}
+              data-part="stat"
               className={cn(
                 "flex flex-[1_1_140px] flex-col-reverse px-[22px] py-5",
                 i < hero.stats.length - 1 && "border-r border-border",
@@ -44,7 +48,7 @@ export function Hero() {
           ))}
         </dl>
       </div>
-      <figure className="flex max-w-[420px] flex-[1_1_320px] flex-col gap-3">
+      <figure data-part="portrait" className="flex max-w-[420px] flex-[1_1_320px] flex-col gap-3">
         <div className="rounded-[20px] border border-border-strong bg-surface p-2.5">
           <Image
             src={profile.avatar.src}

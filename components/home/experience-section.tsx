@@ -15,6 +15,7 @@ export function ExperienceSection() {
             {experience.roles.map((r) => (
               <li
                 key={r.company}
+                data-part="role"
                 className="flex flex-wrap gap-x-6 gap-y-2 border-t border-border py-6 last:border-b"
               >
                 <span className="flex-[0_0_170px] font-mono text-sm text-text-muted">
@@ -28,7 +29,7 @@ export function ExperienceSection() {
             ))}
           </ol>
         </div>
-        <div className="flex min-w-0 flex-[1_1_320px] flex-col gap-6">
+        <div data-part="stack" className="flex min-w-0 flex-[1_1_320px] flex-col gap-6">
           <h3 className="font-mono text-sm font-normal text-accent">{experience.stackLabel}</h3>
           {experience.stack.map((g) => (
             <div key={g.name} className="flex flex-col gap-2.5">
