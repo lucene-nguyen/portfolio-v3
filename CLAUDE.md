@@ -18,6 +18,13 @@ Every feature goes through: `/spec` → `/implement` → `/test` → `/review` �
 - One feature = one branch `feat/<feature>`.
 - Never deploy to production without the user's explicit OK.
 
+## Current phase: local-first (UI/UX polish)
+- Everything runs locally: `npm run dev` (http://localhost:3000), themes via `?theme=<id>`.
+- No Vercel, no deploys, no prod env vars, no PR to main. LEARNING-146 (deploy) is on hold until the owner says so.
+- No external accounts needed: rate limiter uses the in-memory fallback; use `docker compose up -d` only when testing real Redis.
+- Owner reviews the UI in the browser and sends feedback per theme; each round of feedback = one branch `fix/ui-<theme>` from develop → /implement → /test → /review → merge into develop.
+- Before reporting a UI change done: run the app, check the theme at 1440px and 375px, and attach screenshots (save to `docs/screenshots/<theme>/`).
+
 ## Autonomous mode (when asked to "run the backlog")
 - Follow `docs/backlog.md` top to bottom; update its Status column as you go. If interrupted, resume from the first non-done row.
 - Specs are self-approved (write the spec, then continue) — this is a low-risk showcase site.
