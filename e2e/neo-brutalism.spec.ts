@@ -34,6 +34,8 @@ test("plain list of filter buttons does the same, by keyboard", async ({ page })
 
 test("dragging a sticker moves it without filtering", async ({ page }) => {
   const sticker = board(page).getByRole("button", { name: "Redis" });
+  // The board sits below the hero: bring it on screen before using the mouse.
+  await sticker.scrollIntoViewIfNeeded();
   const before = (await sticker.boundingBox())!;
   await page.mouse.move(before.x + 10, before.y + 10);
   await page.mouse.down();

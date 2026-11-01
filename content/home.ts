@@ -253,6 +253,7 @@ export const mangaCopy = {
 
 export const worldCopy = {
   title: "3D world",
+  entryTitle: "Explore in 3D",
   instructions:
     "Walk with the arrow keys or W A S D (or the on-screen pad). Step onto a glowing pad to open that section.",
   canvasLabel: "3D world. Use arrow keys or W A S D to walk; reaching a pad opens its section.",

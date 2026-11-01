@@ -1,25 +1,16 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { container } from "@/components/home/ui";
+import { useThemeSlot } from "@/components/theme/use-theme-slot";
 import { zones } from "@/lib/world";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Box } from "lucide-react";
 import { worldCopy as c } from "@/content/home";
 import type { Input, Zone } from "@/lib/world";
 import type { SceneHandle } from "./scene";
 
-const CLOSED_KEY = "world:closed";
-
 const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-function initiallyOpen() {
-  if (reducedMotion()) return false;
-  try {
-    return sessionStorage.getItem(CLOSED_KEY) !== "1";
-  } catch {
-    return true;
-  }
-}
 
 function World({ onExit }: { onExit: (zone?: Zone["id"]) => void }) {
   const dialog = useRef<HTMLDialogElement>(null);
@@ -173,57 +164,54 @@ function World({ onExit }: { onExit: (zone?: Zone["id"]) => void }) {
   );
 }
 
-/** Opens the 3D world over the standard page; skipping or entering a zone returns to the standard layout. */
+/** The 3D world opens from an entry block below the home hero; closing it returns to the standard page. */
 export default function WorldLayout({ children }: { children: React.ReactNode }) {
-  const [open, setOpen] = useState(initiallyOpen);
+  const [open, setOpen] = useState(false);
   const [motionOk] = useState(() => !reducedMotion());
-  const pathname = usePathname();
-  const router = useRouter();
-  const exit = useCallback(
-    (zone?: Zone["id"]) => {
-      try {
-        sessionStorage.setItem(CLOSED_KEY, "1");
-      } catch {}
-      setOpen(false);
-      // Zones live on the home page; from any other page, go there.
-      if (zone && pathname !== "/") {
-        router.push(`/#${zone}`);
-        return;
+  const slot = useThemeSlot("theme-slot-home");
+  const exit = useCallback((zone?: Zone["id"]) => {
+    // The world only opens from the home page, where every zone section exists.
+    setOpen(false);
+    requestAnimationFrame(() => {
+      const target = document.getElementById(zone ?? "main") ?? document.getElementById("main");
+      if (zone) history.replaceState(null, "", `#${zone}`);
+      target?.scrollIntoView();
+      // Land keyboard and screen-reader users on the section they chose.
+      if (target) {
+        if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
+        target.focus();
       }
-      requestAnimationFrame(() => {
-        const target = document.getElementById(zone ?? "main") ?? document.getElementById("main");
-        if (zone) history.replaceState(null, "", `#${zone}`);
-        target?.scrollIntoView();
-        // Land keyboard and screen-reader users on the section they chose.
-        if (target) {
-          if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
-          target.focus();
-        }
-      });
-    },
-    [pathname, router],
-  );
+    });
+  }, []);
 
   return (
     <>
       {children}
-      {open ? (
-        <World onExit={exit} />
-      ) : (
-        motionOk && (
-          <>
-            <div aria-hidden className="h-20" />
-            <button
-              type="button"
-              onClick={() => setOpen(true)}
-              className="fixed right-4 bottom-4 z-40 inline-flex min-h-11 items-center gap-2 rounded-[10px] border border-border-strong bg-surface px-4 text-sm text-text"
-            >
-              <Box size={18} aria-hidden className="text-accent" />
-              {c.enter}
-            </button>
-          </>
-        )
-      )}
+      {open && <World onExit={exit} />}
+      {/* Reduced motion: no 3D at all, the standard page is the experience. */}
+      {motionOk &&
+        slot &&
+        createPortal(
+          <section aria-labelledby="world-entry-title" className="border-t border-border">
+            <div className={`${container} flex flex-wrap items-center justify-between gap-6 py-12`}>
+              <div className="max-w-xl">
+                <h2 id="world-entry-title" className="text-[28px] font-bold">
+                  {c.entryTitle}
+                </h2>
+                <p className="mt-2 text-text-secondary">{c.instructions}</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setOpen(true)}
+                className="inline-flex min-h-12 items-center gap-2 rounded-[10px] bg-accent px-5 font-semibold text-accent-contrast"
+              >
+                <Box size={18} aria-hidden />
+                {c.enter}
+              </button>
+            </div>
+          </section>,
+          slot,
+        )}
     </>
   );
 }
