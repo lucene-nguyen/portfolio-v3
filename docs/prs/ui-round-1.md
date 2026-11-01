@@ -9,3 +9,10 @@ Spec: [docs/specs/ui-round-1.md](../specs/ui-round-1.md). Before = `docs/screens
 - Verified: dev with flag → 22 placeholder strings on a case study; without → 0. New e2e: no "PLACEHOLDER" text on 4 pages × 13 themes + search index.
 - Before/after: placeholder text (resume.pdf [PLACEHOLDER], LinkedIn [PLACEHOLDER], [STACK], [X] metrics, case-study notes, "Learnings") → gone in every theme.
 - Review: APPROVE; fixed metric guards (bento/blueprint), heading+emptied-list rule, search list lines, screenshots refreshed.
+
+## fix/ui-hero-first (item 1)
+- `#theme-slot-home` moved after `<Hero />`: blueprint (system map), dashboard (panels), bento (board), neo-brutalism (sticker board), anime (manga strip) now render directly below the hero.
+- 3D world: no longer opens over the page on load; an "Explore in 3D" entry block below the hero opens it (home only; hidden under reduced motion). Three.js still loads only after clicking. Floating "Enter 3D world" button removed. LEARNING-155 spec updated.
+- Tests: `e2e/hero-first.spec.ts` (hero first + slot filled for the 6 block themes, empty for the others), 3D tests updated (entry, axe on the entry, lazy Three.js).
+- Before/after: 6 themes previously opened with their block (3D world fully covered the page) → all 13 open with the hero.
+- Review: APPROVE; fixed slot assertions, duplicate landmark name, stale spec/JSDoc, screenshots refreshed.
