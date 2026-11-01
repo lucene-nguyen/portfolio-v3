@@ -133,3 +133,18 @@ Spec: [docs/specs/ui-round-1.md](../specs/ui-round-1.md). Before = `docs/screens
   - N/A for this site: safe-area insets/Dynamic Type (native), dark+light parity (each theme is single-mode, contrast-tested), forms/auth, auto-rotating content.
 - Before/after: default sections inside the IDE chrome → editor-language sections (`docs/screenshots/ide/`).
 - Review: APPROVE; token colour in test, distinct terminal header, documented `$`/`p-7` dependencies, removed misleading hover.
+
+## fix/ui-docs (item 2)
+- ui-ux-pro-max layout pass: `"documentation knowledge base" --domain landing` (FAQ/Documentation verified: prominent search, contact CTA last; accordions rejected), ux `"documentation readability navigation"` (sticky nav never overlaps content, line-height, numbers). Existing Layout section extended with "Shared sections (UI round 1)" in `pages/docs.md`; emoji callout icons rejected.
+- New `themes/docs/docs.css` (root-layout import): quiet grey eyebrows, gallery cards with property chips and multi-select pills, stats and contact as callout blocks, experience as a database list with fixed-width period chips (titles aligned), kit gallery cards.
+- `npm run ui:sweep` now resets the lab before its burst (the in-memory limiter is shared across sweeps).
+- Tests: restyle assertions in `e2e/docs.spec.ts`; checklist extended to docs.
+- Pre-delivery checklist (ui-ux-pro-max `references/pro-rules.md`; web-applicable items):
+  - Process: theme-specific `--domain landing` + `--domain ux` searches ✅ · 375px and landscape 812×375 ✅ (e2e) · reduced motion ✅ (no running animations, e2e) · 200% zoom (720px viewport) ✅ · contrast per theme ✅ (registry tests: every text token on every ground) · touch targets ≥ 44px for buttons/selects ✅ (e2e, strict)
+  - Visual: no emoji icons ✅ (Lucide only) · one icon family ✅ · no layout-shifting press states ✅ · tokens only, no ad-hoc hex ✅
+  - Interaction: visible focus ring ✅ · focus order = DOM order ✅ (home tab test) · descriptive labels ✅ (axe clean) · drag has button alternatives ✅ (where present)
+  - Layout: nothing hidden behind fixed UI ✅ (no fixed controls on mobile) · 4/8px spacing rhythm ✅ · readable measure ✅
+  - Accessibility: decorative icons/labels hidden from AT ✅ · colour never the only indicator ✅ · reduced motion ✅
+  - N/A for this site: safe-area insets/Dynamic Type (native), dark+light parity (each theme is single-mode, contrast-tested), forms/auth, auto-rotating content.
+- Before/after: default boxed sections in docs colours → Notion block language (`docs/screenshots/docs/`).
+- Review: CHANGES REQUESTED (docs missing from the checklist list — a silent edit miss) → added and passing; Should (sweep lab result) fixed by resetting the limiter; nits applied.
