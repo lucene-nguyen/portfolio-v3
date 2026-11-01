@@ -31,3 +31,18 @@ Spec: [docs/specs/ui-round-1.md](../specs/ui-round-1.md). Before = `docs/screens
 - Screenshots: `desktop-1440.png` (grid off), `desktop-1440-grid-on.png`, `mobile-375*.png`.
 - Before/after: grid always drawn over the page → off by default, on demand.
 - Review: APPROVE; saved on click instead of every mount, hover state, screenshots/notes added.
+
+## fix/ui-blueprint (item 2)
+- ui-ux-pro-max layout pass: `"portfolio technical case studies" --domain landing` (Portfolio Grid verified; masonry and hover-only CTA rejected), `"technical diagram wireframe readability" --domain ux`; "## Layout" appended to `design-system/portfolio-v3/pages/blueprint.md`.
+- Restyle (CSS only, shared DOM/content): case cards as spec sheets (square, ruled frame, accent corner ticks, title strip), metrics/stats as dimension annotations in dashed frames, experience as a revision table, contact as a drawing title block, square mono buttons; lab and kits squared.
+- Shared: `data-part` hooks on hero stats/portrait/buttons, case cards/meta/metrics, roles, stack, contact actions, eyebrows. Theme select now 44px tall (all themes).
+- Tests: `e2e/checklist.spec.ts` (375px, landscape, 200% zoom, reduced motion, 44px targets, axe), restyle assertions in `e2e/blueprint.spec.ts`.
+- Pre-delivery checklist (ui-ux-pro-max `references/pro-rules.md`; web-applicable items):
+  - Process: theme-specific `--domain landing` + `--domain ux` searches ✅ · 375px and landscape 812×375 ✅ (e2e) · reduced motion ✅ (no running animations, e2e) · 200% zoom (720px viewport) ✅ · contrast per theme ✅ (registry tests: every text token on every ground) · touch targets ≥ 44px for buttons/selects ✅ (e2e, strict)
+  - Visual: no emoji icons ✅ (Lucide only) · one icon family ✅ · no layout-shifting press states ✅ · tokens only, no ad-hoc hex ✅
+  - Interaction: visible focus ring ✅ · focus order = DOM order ✅ (home tab test) · descriptive labels ✅ (axe clean) · drag has button alternatives ✅ (where present)
+  - Layout: nothing hidden behind fixed UI ✅ (no fixed controls on mobile) · 4/8px spacing rhythm ✅ · readable measure ✅
+  - Accessibility: decorative icons/labels hidden from AT ✅ · colour never the only indicator ✅ · reduced motion ✅
+  - N/A for this site: safe-area insets/Dynamic Type (native), dark+light parity (each theme is single-mode, contrast-tested), forms/auth, auto-rotating content.
+- Before/after: same layout as night terminal in blue → technical-drawing language across cards, stats, experience and contact (`docs/screenshots/blueprint/`).
+- Review: REQUEST CHANGES (stray script committed, screenshots missing) → script moved to `scripts/shot-sections.mjs`, screenshots refreshed; Should items fixed (strict touch targets, restyle test, stable hooks). No second review round.
