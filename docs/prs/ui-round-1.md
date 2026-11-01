@@ -46,3 +46,18 @@ Spec: [docs/specs/ui-round-1.md](../specs/ui-round-1.md). Before = `docs/screens
   - N/A for this site: safe-area insets/Dynamic Type (native), dark+light parity (each theme is single-mode, contrast-tested), forms/auth, auto-rotating content.
 - Before/after: same layout as night terminal in blue → technical-drawing language across cards, stats, experience and contact (`docs/screenshots/blueprint/`).
 - Review: REQUEST CHANGES (stray script committed, screenshots missing) → script moved to `scripts/shot-sections.mjs`, screenshots refreshed; Should items fixed (strict touch targets, restyle test, stable hooks). No second review round.
+
+## fix/ui-pixel (item 2)
+- ui-ux-pro-max layout pass: landing searches returned no verified match (built-in defaults: hero first, proof, work, contact); ux: line-height and number formatting verified, glass/z-depth rejected. "## Layout" appended to `pages/pixel.md`.
+- Restyle: case cards as quest dialog boxes (double border, QUEST tab, rewards in the pixel font, inventory-slot tags), hero stats as a character sheet, experience as save slots, kits as item cards, contact as a "CONTINUE?" box with pressable pixel buttons.
+- Cross-theme fixes from review: all theme stylesheets imported statically in the root layout (styled on first paint; Swiss print CV works without JS); Press Start 2P and Libre Bodoni declared in the root layout with `preload: false` (fetched only when a theme uses them; no font swap on load); registry test ensures every theme CSS is imported.
+- Tests: restyle assertions + no-JS first-paint test (`e2e/pixel.spec.ts`), Swiss print without JS, checklist extended to pixel; blueprint restyle test waits for its layout mount (fixed a 1/24 flake).
+- Pre-delivery checklist (ui-ux-pro-max `references/pro-rules.md`; web-applicable items):
+  - Process: theme-specific `--domain landing` + `--domain ux` searches ✅ · 375px and landscape 812×375 ✅ (e2e) · reduced motion ✅ (no running animations, e2e) · 200% zoom (720px viewport) ✅ · contrast per theme ✅ (registry tests: every text token on every ground) · touch targets ≥ 44px for buttons/selects ✅ (e2e, strict)
+  - Visual: no emoji icons ✅ (Lucide only) · one icon family ✅ · no layout-shifting press states ✅ · tokens only, no ad-hoc hex ✅
+  - Interaction: visible focus ring ✅ · focus order = DOM order ✅ (home tab test) · descriptive labels ✅ (axe clean) · drag has button alternatives ✅ (where present)
+  - Layout: nothing hidden behind fixed UI ✅ (no fixed controls on mobile) · 4/8px spacing rhythm ✅ · readable measure ✅
+  - Accessibility: decorative icons/labels hidden from AT ✅ · colour never the only indicator ✅ · reduced motion ✅
+  - N/A for this site: safe-area insets/Dynamic Type (native), dark+light parity (each theme is single-mode, contrast-tested), forms/auth, auto-rotating content.
+- Before/after: night-terminal layout in purple → game-UI language (`docs/screenshots/pixel/`).
+- Review round 1: REQUEST CHANGES (screenshots missing; restyle-on-load, kits undocumented) → fixed. Round 2: REQUEST CHANGES (screenshots still missing; font swap, clip risk, no first-paint test) → fixed and screenshots committed on the branch. No third round.
