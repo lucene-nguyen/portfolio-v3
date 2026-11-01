@@ -246,6 +246,20 @@ export const mangaCopy = {
     `Abstract manga panel for ${company} (${period}): radiating speed lines and halftone dots around a laptop icon. No characters.`,
 };
 
+export const worldCopy = {
+  title: "3D world",
+  instructions:
+    "Walk with the arrow keys or W A S D (or the on-screen pad). Step onto a glowing pad to open that section.",
+  canvasLabel: "3D world. Use arrow keys or W A S D to walk; reaching a pad opens its section.",
+  skip: "Skip to content",
+  enter: "Enter 3D world",
+  zonesLabel: "Go directly to",
+  zones: { work: "Work", lab: "Live lab", kits: "Starter kits", contact: "Contact" },
+  pad: { forward: "Walk forward", back: "Walk back", left: "Walk left", right: "Walk right" },
+  loading: "Loading the world…",
+  failed: "3D is not available on this device. Showing the standard page.",
+};
+
 export const lab = {
   eyebrow: "02 / live lab",
   title: "Try to break my rate limiter",

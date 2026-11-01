@@ -1,3 +1,4 @@
+import { world3d } from "./3d-world";
 import { anime } from "./anime";
 import { bento } from "./bento";
 import { blueprint } from "./blueprint";
@@ -26,6 +27,7 @@ export const themes: readonly ThemeDefinition[] = [
   bento,
   neoBrutalism,
   anime,
+  world3d,
 ];
 
 export const defaultTheme = themes[0];
