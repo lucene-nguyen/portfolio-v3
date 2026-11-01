@@ -42,9 +42,26 @@ test("dragging a sticker moves it without filtering", async ({ page }) => {
   const after = (await sticker.boundingBox())!;
   expect(after.x - before.x).toBeGreaterThan(50);
   await expect(sticker).toHaveAttribute("aria-pressed", "false");
+  // Dragging far past the edge stays inside the board; no page overflow; Enter still filters.
+  const now = (await sticker.boundingBox())!;
+  await page.mouse.move(now.x + 10, now.y + 10);
+  await page.mouse.down();
+  await page.mouse.move(now.x + 2000, now.y + 10, { steps: 5 });
+  await page.mouse.up();
+  const box = (await board(page).boundingBox())!;
+  const end = (await sticker.boundingBox())!;
+  expect(end.x + end.width).toBeLessThanOrEqual(box.x + box.width + 8);
+  const overflow = await page.evaluate(
+    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  );
+  expect(overflow).toBeLessThanOrEqual(0);
+  await sticker.focus();
+  await page.keyboard.press("Enter");
+  await expect(sticker).toHaveAttribute("aria-pressed", "true");
 });
 
 test("axe clean; 375px", async ({ page }) => {
+  await board(page).getByRole("button", { name: "Redis" }).click();
   const { violations } = await new AxeBuilder({ page }).exclude("nextjs-portal").analyze();
   expect(violations.map((v) => v.id)).toEqual([]);
   await page.setViewportSize({ width: 375, height: 800 });

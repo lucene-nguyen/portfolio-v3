@@ -27,7 +27,7 @@ export function StickerBoard() {
   const shown = selected ? projectsWith(selected) : work.items;
 
   return (
-    <section aria-labelledby="stickers-title" className="border-b-[3px] border-black">
+    <section aria-labelledby="stickers-title" className="border-b-[3px] border-border">
       <div className={`${container} flex flex-col gap-6 py-12`}>
         <div>
           <h2 id="stickers-title" className="text-[32px] font-extrabold">
@@ -38,7 +38,7 @@ export function StickerBoard() {
 
         {/* Board: stickers are buttons (click/Enter filters); dragging only moves them around. */}
         <div
-          className="nb-card relative flex min-h-56 flex-wrap content-start gap-4 bg-surface-2 p-6"
+          className="nb-card relative flex overflow-hidden min-h-56 flex-wrap content-start gap-4 bg-surface-2 p-6"
           data-testid="sticker-board"
         >
           {skills.map((skill, i) => {
@@ -48,15 +48,15 @@ export function StickerBoard() {
                 key={skill}
                 type="button"
                 aria-pressed={selected === skill}
-                className="nb-sticker relative min-h-11 px-4 py-2 font-mono text-sm font-bold text-black select-none"
+                className="nb-sticker relative min-h-11 px-4 py-2 font-mono text-sm font-bold text-text select-none"
                 style={
                   {
                     background: STICKER_FILLS[i % STICKER_FILLS.length],
-                    "--r": `${tilt(i)}deg`,
-                    transform: `translate(${o.x}px, ${o.y}px) rotate(${tilt(i)}deg)`,
+                    transform: `translate(${o.x + (selected === skill ? 4 : 0)}px, ${o.y + (selected === skill ? 4 : 0)}px) rotate(${tilt(i)}deg)`,
                   } as React.CSSProperties
                 }
                 onPointerDown={(e) => {
+                  suppressClick.current = false;
                   e.currentTarget.setPointerCapture(e.pointerId);
                   drag.current = {
                     skill,
@@ -74,7 +74,24 @@ export function StickerBoard() {
                   const dy = e.clientY - d.y;
                   if (!d.moved && Math.hypot(dx, dy) < DRAG_THRESHOLD) return;
                   d.moved = true;
-                  setOffsets((all) => ({ ...all, [skill]: { x: d.ox + dx, y: d.oy + dy } }));
+                  // Keep the sticker inside the board (no page overflow).
+                  const el = e.currentTarget;
+                  const bounds = el.parentElement!.getBoundingClientRect();
+                  const r = el.getBoundingClientRect();
+                  // Allowed offsets = current offset ± distance from the sticker to each board edge.
+                  const minX = o.x + bounds.left - r.left;
+                  const maxX = o.x + bounds.right - r.right;
+                  const minY = o.y + bounds.top - r.top;
+                  const maxY = o.y + bounds.bottom - r.bottom;
+                  const clamp = (v: number, lo: number, hi: number) =>
+                    Math.min(hi, Math.max(lo, v));
+                  setOffsets((all) => ({
+                    ...all,
+                    [skill]: { x: clamp(d.ox + dx, minX, maxX), y: clamp(d.oy + dy, minY, maxY) },
+                  }));
+                }}
+                onPointerCancel={() => {
+                  drag.current = null;
                 }}
                 onPointerUp={() => {
                   suppressClick.current = !!drag.current?.moved;
@@ -96,14 +113,16 @@ export function StickerBoard() {
 
         {/* Plain-list alternative with the same filter. */}
         <div>
-          <h3 className="mb-2 font-bold">{c.listLabel}</h3>
-          <ul className="flex flex-wrap gap-2" aria-label={c.listLabel}>
+          <h3 id="sticker-filter-title" className="mb-2 font-bold">
+            {c.listLabel}
+          </h3>
+          <ul className="flex flex-wrap gap-2" aria-labelledby="sticker-filter-title">
             <li>
               <button
                 type="button"
                 aria-pressed={selected === null}
                 onClick={() => setSelected(null)}
-                className="min-h-11 border-2 border-black bg-surface px-3 text-sm font-bold aria-pressed:bg-accent aria-pressed:text-accent-contrast"
+                className="min-h-11 border-2 border-border bg-surface px-3 text-sm font-bold aria-pressed:bg-accent aria-pressed:text-accent-contrast"
               >
                 {c.clear}
               </button>
@@ -114,7 +133,7 @@ export function StickerBoard() {
                   type="button"
                   aria-pressed={selected === skill}
                   onClick={() => toggle(skill)}
-                  className="min-h-11 border-2 border-black bg-surface px-3 text-sm font-bold aria-pressed:bg-accent aria-pressed:text-accent-contrast"
+                  className="min-h-11 border-2 border-border bg-surface px-3 text-sm font-bold aria-pressed:bg-accent aria-pressed:text-accent-contrast"
                 >
                   {skill}
                 </button>

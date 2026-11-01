@@ -24,7 +24,6 @@
 }
 .nb-sticker[aria-pressed="true"] {
   box-shadow: none;
-  transform: translate(4px, 4px) rotate(var(--r));
   outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
