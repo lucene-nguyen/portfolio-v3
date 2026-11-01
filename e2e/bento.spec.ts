@@ -98,6 +98,13 @@ test("shared sections are restyled as tiles", async ({ page }) => {
     "border-top-left-radius",
     "16px",
   );
+  await expect(cards.first()).not.toHaveCSS("box-shadow", "none");
+  const bg = (part: string) =>
+    page
+      .locator(`[data-part="${part}"]`)
+      .first()
+      .evaluate((e) => getComputedStyle(e).backgroundColor);
+  expect(await bg("stack")).not.toBe(await bg("role"));
   // Wide feature tile: the first study spans both columns at desktop width.
   const [a, b] = await cards.evaluateAll((els) =>
     els.slice(0, 2).map((e) => e.getBoundingClientRect()),
@@ -109,4 +116,9 @@ test("shared sections are restyled as tiles", async ({ page }) => {
     els.map((e) => Math.round(e.getBoundingClientRect().width)),
   );
   expect(new Set(widths).size).toBe(1);
+  // Hero numbers: 2×2 tiles on phones.
+  const lefts = await page
+    .locator('[data-part="stat"]')
+    .evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().left)));
+  expect(new Set(lefts).size).toBe(2);
 });
