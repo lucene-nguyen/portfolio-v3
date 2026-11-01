@@ -20,3 +20,6 @@ None.
 
 ## Review
 APPROVE, no Blockers. Fixed: click-suppress flag reset on pointerdown + pointercancel, stickers clamped to the board (no overflow), pressed offset in the inline transform, token colours instead of raw black, heading-labelled filter list, axe with a filter active.
+
+## Note 2026-11-01
+The merge ran after a full e2e run that had 3 transient failures (dev-server load timeouts in case-studies/blueprint specs, unrelated to this change); the merge gate missed them. Re-verified on develop: those specs pass, and two full runs were 96/96. Follow-up `chore/e2e-stability` caps local Playwright workers; merges are now gated on the e2e exit code.
