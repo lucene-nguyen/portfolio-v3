@@ -85,6 +85,16 @@ test("open <slug> navigates to the case study", async ({ page }) => {
   await expect(page).toHaveURL(/\/work\/pharmacy-inventory$/);
 });
 
+test("reopens with / after Esc when opened from the page body", async ({ page }) => {
+  await ready(page);
+  await page.keyboard.press("/");
+  await input(page).fill("help");
+  await page.keyboard.press("Escape");
+  await expect(dialog(page)).toBeHidden();
+  await page.keyboard.press("/");
+  await expect(input(page)).toBeFocused();
+});
+
 test("slash inside a text field does not open the terminal", async ({ page }) => {
   await ready(page);
   await page.keyboard.press("/");

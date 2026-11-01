@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SquareTerminal } from "lucide-react";
 import { useTheme } from "@/components/theme/theme-provider";
+import { isTyping, restoreFocus } from "@/lib/dom";
 import { complete, run, type Line, type TerminalContext } from "@/lib/terminal/commands";
 import { experience, profile, work } from "@/content/home";
 import { themes } from "@/themes/registry";
@@ -20,13 +21,6 @@ const ctx: TerminalContext = {
 const WELCOME: Line[] = [
   { kind: "out", text: 'Type "help" to list commands. Tab completes, ↑/↓ for history.' },
 ];
-
-function isTyping(el: EventTarget | null) {
-  return (
-    el instanceof HTMLElement &&
-    (el.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(el.tagName))
-  );
-}
 
 export default function CommandBar() {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -124,7 +118,7 @@ export default function CommandBar() {
       <dialog
         ref={dialogRef}
         aria-label="Command line"
-        onClose={() => openerRef.current?.focus()}
+        onClose={() => restoreFocus(openerRef.current)}
         onClick={(e) => e.target === dialogRef.current && close()}
         className="m-0 mt-auto w-full max-w-none rounded-t-2xl border border-border-strong bg-bg p-0 text-text backdrop:bg-bg/70 sm:m-auto sm:max-w-2xl sm:rounded-2xl"
       >
