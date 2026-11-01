@@ -19,16 +19,21 @@ export function ContactSection() {
         <div data-part="contact-actions" className="flex flex-wrap gap-3">
           <a
             href={`mailto:${profile.email}`}
+            data-part="button"
             className={`${buttonPrimary} min-h-[52px] text-[17px]`}
           >
             <Mail size={20} aria-hidden />
             {profile.email}
           </a>
-          <a href={profile.github} className={`${buttonSecondary} min-h-[52px]`}>
+          <a href={profile.github} data-part="button" className={`${buttonSecondary} min-h-[52px]`}>
             {labels.github}
           </a>
           {shown(profile.linkedin) && (
-            <a href={profile.linkedin} className={`${buttonSecondary} min-h-[52px]`}>
+            <a
+              href={profile.linkedin}
+              data-part="button"
+              className={`${buttonSecondary} min-h-[52px]`}
+            >
               {labels.linkedin}
             </a>
           )}

@@ -44,9 +44,10 @@
   border-right: 2px solid var(--accent);
   border-bottom: 2px solid var(--accent);
 }
-[data-theme="blueprint"] [data-part="case-card"] > div:first-child {
-  margin: -28px -28px 0;
-  padding: 10px 28px;
+/* Title strip spans the card edge to edge: negative margin = the card's p-7 (1.75rem) padding. */
+[data-theme="blueprint"] [data-part="case-meta"] {
+  margin: -1.75rem -1.75rem 0;
+  padding: 10px 1.75rem;
   border-bottom: 1px solid var(--border-strong);
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -90,7 +91,7 @@
 [data-theme="blueprint"] [data-part="stat"] dt {
   font-family: var(--font-jetbrains-mono), monospace;
   text-transform: uppercase;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.06em;
 }
 
@@ -103,9 +104,15 @@
   padding: 16px 20px !important;
   border-color: var(--border-strong) !important;
 }
-[data-theme="blueprint"] [data-part="role"] > span:first-child {
-  padding-right: 16px;
-  border-right: 1px solid var(--border-strong);
+[data-theme="blueprint"] [data-part="role"]:last-child {
+  border-bottom-width: 0 !important;
+}
+/* Date column rule only when the row doesn't wrap. */
+@media (min-width: 640px) {
+  [data-theme="blueprint"] [data-part="role"] > span:first-child {
+    padding-right: 16px;
+    border-right: 1px solid var(--border-strong);
+  }
 }
 [data-theme="blueprint"] [data-part="stack"] ul span {
   border-radius: 0 !important;
@@ -129,7 +136,7 @@
   letter-spacing: 0.1em;
   color: var(--text-muted);
 }
-[data-theme="blueprint"] :is(#top, #contact) a.inline-flex {
+[data-theme="blueprint"] [data-part="button"] {
   border-radius: 0;
   font-family: var(--font-jetbrains-mono), monospace;
 }

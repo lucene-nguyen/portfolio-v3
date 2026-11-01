@@ -18,11 +18,11 @@ export function Hero() {
         </h1>
         <p className="max-w-[620px] text-xl leading-[1.55] text-text-secondary">{hero.lead}</p>
         <div data-print="hide" className="flex flex-wrap gap-3">
-          <a href="#work" className={buttonPrimary}>
+          <a href="#work" data-part="button" className={buttonPrimary}>
             {labels.viewWork}
             <ArrowRight size={18} aria-hidden />
           </a>
-          <a href={profile.github} className={buttonSecondary}>
+          <a href={profile.github} data-part="button" className={buttonSecondary}>
             <GithubIcon />
             {profile.githubLabel}
           </a>

@@ -9,7 +9,7 @@ const overflow = (page: Page) =>
 
 for (const id of THEMES) {
   test.describe(`pre-delivery checklist: ${id}`, () => {
-    test("375px, landscape phone and 200% text: no horizontal scroll", async ({ page }) => {
+    test("375px, landscape phone and 200% zoom: no horizontal scroll", async ({ page }) => {
       for (const size of [
         { width: 375, height: 812 },
         { width: 812, height: 375 },
@@ -19,10 +19,10 @@ for (const id of THEMES) {
         await expect(page.locator("html")).toHaveAttribute("data-theme", id);
         expect(await overflow(page), `${size.width}x${size.height}`).toBeLessThanOrEqual(0);
       }
-      await page.setViewportSize({ width: 1440, height: 900 });
+      // 200% browser zoom on a 1440px screen = a 720px CSS viewport.
+      await page.setViewportSize({ width: 720, height: 450 });
       await page.goto(`/?theme=${id}`);
-      await page.evaluate(() => (document.documentElement.style.fontSize = "200%"));
-      expect(await overflow(page), "200% text").toBeLessThanOrEqual(0);
+      expect(await overflow(page), "200% zoom").toBeLessThanOrEqual(0);
     });
 
     test("reduced motion: nothing animates", async ({ page }) => {
@@ -51,7 +51,7 @@ for (const id of THEMES) {
             el: (el.textContent || el.getAttribute("aria-label") || "").trim().slice(0, 30),
             r: el.getBoundingClientRect(),
           }))
-          .filter(({ r }) => r.height < 44 && r.width < 44)
+          .filter(({ r }) => r.height < 44 || r.width < 44)
           .map(({ el }) => el),
       );
       expect(small).toEqual([]);

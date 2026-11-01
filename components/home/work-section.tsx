@@ -19,7 +19,10 @@ export function WorkSection() {
               data-part="case-card"
               className="flex min-w-0 flex-[1_1_340px] flex-col gap-[18px] rounded-2xl border border-border bg-surface p-7"
             >
-              <div className="flex items-center justify-between gap-3 font-mono text-[13px] text-text-muted">
+              <div
+                data-part="case-meta"
+                className="flex items-center justify-between gap-3 font-mono text-[13px] text-text-muted"
+              >
                 <span>{c.meta}</span>
                 <span>{c.period}</span>
               </div>
