@@ -8,9 +8,11 @@ export function WorkSection() {
       <div className={`${container} flex flex-col gap-10 py-[88px]`}>
         <div className="flex flex-wrap items-end justify-between gap-4">
           <SectionHeader id="work-title" eyebrow={work.eyebrow} title={work.title} />
-          <p className="max-w-[460px] leading-[1.55] text-text-muted">{work.intro}</p>
+          <p data-print="hide" className="max-w-[460px] leading-[1.55] text-text-muted">
+            {work.intro}
+          </p>
         </div>
-        <div className="flex flex-wrap gap-5">
+        <div data-print="cards" className="flex flex-wrap gap-5">
           {work.items.map((c) => (
             <article
               key={c.slug}
@@ -21,7 +23,9 @@ export function WorkSection() {
                 <span>{c.period}</span>
               </div>
               <h3 className="font-heading text-2xl leading-tight font-semibold">{c.title}</h3>
-              <p className="leading-[1.55] text-text-secondary">{c.summary}</p>
+              <p data-print="hide" className="leading-[1.55] text-text-secondary">
+                {c.summary}
+              </p>
               <dl className="flex flex-wrap gap-6 border-y border-border py-4">
                 {c.metrics.map((m) => (
                   <div key={m.label} className="flex flex-col-reverse">
@@ -30,7 +34,11 @@ export function WorkSection() {
                   </div>
                 ))}
               </dl>
-              <ul className="flex flex-wrap gap-2" aria-label={labels.technologies}>
+              <ul
+                data-print="hide"
+                className="flex flex-wrap gap-2"
+                aria-label={labels.technologies}
+              >
                 {c.tags.map((t) => (
                   <li key={t}>
                     <Tag>{t}</Tag>
@@ -38,6 +46,7 @@ export function WorkSection() {
                 ))}
               </ul>
               <Link
+                data-print="hide"
                 href={`/work/${c.slug}`}
                 aria-label={`${labels.readCaseStudy}: ${c.title}`}
                 className="mt-auto text-[15px] font-semibold text-accent hover:underline"

@@ -6,7 +6,7 @@ export function ContactSection() {
   return (
     <footer id="contact" aria-labelledby="contact-title" className="border-t border-border">
       <div className={`${container} flex flex-col gap-10 pt-24 pb-12`}>
-        <div className="flex max-w-[760px] flex-col gap-[18px]">
+        <div data-print="hide" className="flex max-w-[760px] flex-col gap-[18px]">
           <p className="font-mono text-sm text-accent">{contact.eyebrow}</p>
           <h2
             id="contact-title"
@@ -28,7 +28,10 @@ export function ContactSection() {
           </a>
           {isPlaceholder(profile.linkedin) ? (
             // Not a control until the owner provides the URL.
-            <span className="inline-flex min-h-[52px] items-center px-2 text-text-muted">
+            <span
+              data-print="hide"
+              className="inline-flex min-h-[52px] items-center px-2 text-text-muted"
+            >
               {labels.linkedin} {profile.linkedin}
             </span>
           ) : (
