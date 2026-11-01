@@ -23,7 +23,7 @@ Work top to bottom. One task = one branch `feat/<KEY>-<slug>` merged into `devel
 | 16 | LEARNING-151 | Theme 04 IDE layout                                                     | done |
 | 17 | LEARNING-153 | Theme 06 Bento grid                                                     | done |
 | 18 | LEARNING-154 | Theme 07 Neo-brutalism                                                  | done |
-| 19 | LEARNING-160 | Theme 13 Anime (placeholder art, no copyrighted characters)             | todo              |
+| 19 | LEARNING-160 | Theme 13 Anime (placeholder art, no copyrighted characters)             | done |
 | 20 | LEARNING-155 | Theme 08 3D world                                                       | todo              |
 | 21 | LEARNING-145 | SEO: metadata, sitemap, OG                                              | todo              |
 | 22 | LEARNING-146 | Deploy to Vercel                                                        | owner + Architect |
