@@ -143,6 +143,20 @@ export const readingCopy = {
   toc: "On this page",
 };
 
+export const docsCopy = {
+  sidebar: "Docs",
+  home: "Home",
+  menu: "Menu",
+  close: "Close",
+  search: "Search",
+  searchHint: "/ or Ctrl K",
+  searchLabel: "Search the site",
+  placeholder: "Search case studies, stack, experience…",
+  results: (n: number) => `${n} result${n === 1 ? "" : "s"}`,
+  noResults: "No results. Try: Redis, Lambda, NestJS, Databricks.",
+  breadcrumb: "Breadcrumb",
+};
+
 export const lab = {
   eyebrow: "02 / live lab",
   title: "Try to break my rate limiter",

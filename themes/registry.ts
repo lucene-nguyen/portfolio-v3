@@ -1,5 +1,6 @@
 import { blueprint } from "./blueprint";
 import { cyberpunk } from "./cyberpunk";
+import { docs } from "./docs";
 import { editorial } from "./editorial";
 import { nightTerminal } from "./night-terminal";
 import { pixel } from "./pixel";
@@ -14,6 +15,7 @@ export const themes: readonly ThemeDefinition[] = [
   cyberpunk,
   editorial,
   swissMinimal,
+  docs,
 ];
 
 export const defaultTheme = themes[0];
