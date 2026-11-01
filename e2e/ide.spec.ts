@@ -1,5 +1,11 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
+import { ide } from "../themes/ide";
+
+const rgb = (hex: string) => {
+  const n = parseInt(hex.slice(1), 16);
+  return `rgb(${n >> 16}, ${(n >> 8) & 255}, ${n & 255})`;
+};
 
 async function ready(page: Page, path = "/?theme=ide") {
   await page.goto(path);
@@ -112,7 +118,7 @@ test("shared sections are restyled in editor language", async ({ page }) => {
   );
   await expect(page.locator('[data-part="stats"]')).toHaveCSS(
     "background-color",
-    "rgb(79, 193, 255)",
+    rgb(ide.tokens.accent),
   );
   expect(await pseudo('[data-part="roles"]')).toContain("TIMELINE");
   expect(await pseudo('[data-part="contact-actions"]')).toContain("TERMINAL");

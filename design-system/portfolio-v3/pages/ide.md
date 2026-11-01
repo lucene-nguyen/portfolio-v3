@@ -48,5 +48,5 @@
 - Eyebrows → code comments: `// 01 / selected work`, italic.
 - Case study cards → **editor panes**: square-ish (2px radius), meta line as a tab strip (`bgAlt`, active-tab accent top rule), body unchanged.
 - Hero stats → **status bar**: one accent band, items separated by thin rules, text in `accentContrast`.
-- Experience → **TIMELINE panel**: panel header, compact rows, hover highlight.
+- Experience → **TIMELINE panel**: panel header, compact rows (no hover highlight: rows are not interactive).
 - Contact → **TERMINAL panel**: tab header "TERMINAL", dark body, `$` prompt before the actions.

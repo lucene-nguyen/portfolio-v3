@@ -16,7 +16,7 @@ export function WorkSection() {
           {work.items.map((c) => (
             <article
               key={c.slug}
-              // p-7 / rounded-2xl: theme title bars (blueprint, night-terminal) align to these values.
+              // p-7 / rounded-2xl: theme title bars (blueprint, night-terminal, dashboard, ide) align to these values.
               data-part="case-card"
               className="flex min-w-0 flex-[1_1_340px] flex-col gap-[18px] rounded-2xl border border-border bg-surface p-7"
             >
