@@ -117,4 +117,12 @@ test("shared sections are restyled as HUD, not just recolored", async ({ page })
       .locator('[data-part="contact-actions"]')
       .evaluate((el) => getComputedStyle(el, "::before").content),
   ).toContain("UPLINK");
+  await expect(page.locator('[data-part="contact-actions"] a[href^="mailto:"]')).toHaveCSS(
+    "text-transform",
+    "none",
+  );
+  await expect(page.locator('[data-part="stat"] dd.text-accent')).toHaveCSS(
+    "color",
+    "rgb(255, 92, 219)",
+  );
 });

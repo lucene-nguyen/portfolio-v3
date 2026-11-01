@@ -52,7 +52,7 @@
 **How the shared sections look** (HUD language; labels are CSS with empty alt text)
 - Eyebrows → bracketed HUD labels `[ 01 / selected work ]`.
 - Case study cards → **dossiers**: chamfered frame (existing), meta line as a status bar (uppercase, rule below), metrics as cyan readouts, tags as bracketed chips.
-- Hero stats → **HUD readouts**: each stat in its own frame with cyan corner brackets; values in cyan mono.
+- Hero stats → **HUD readouts**: each stat in its own frame with cyan corner brackets; values in cyan mono; the highlighted stat stays magenta (accent).
 - Experience → **access log**: framed list, each role prefixed with a `>` prompt, dashed separators.
 - Contact → **"UPLINK" panel**: chamfered magenta frame around the actions; buttons uppercase mono, square.
 - Starter kits → framed modules with a 1px `borderStrong` frame.

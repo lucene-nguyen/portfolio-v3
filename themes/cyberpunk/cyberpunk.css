@@ -144,9 +144,10 @@
   border-style: dashed;
   border-color: var(--border-strong);
 }
+/* Readouts in cyan; the highlighted stat (content marks it) keeps the magenta accent. */
 [data-theme="cyberpunk"] [data-part="case-metrics"] dd,
-[data-theme="cyberpunk"] [data-part="stat"] dd {
-  color: var(--meter-fill) !important;
+[data-theme="cyberpunk"] [data-part="stat"] dd:not(.text-accent) {
+  color: var(--meter-fill);
 }
 [data-theme="cyberpunk"] [data-part="case-card"] ul span::before {
   content: "[" / "";
@@ -195,11 +196,11 @@
 [data-theme="cyberpunk"] [data-part="stat"] dt {
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 /* Experience: access log. */
-[data-theme="cyberpunk"] #experience ol {
+[data-theme="cyberpunk"] [data-part="roles"] {
   padding: 4px 20px;
   border: 1px solid var(--border-strong);
   background: var(--surface);
@@ -257,7 +258,15 @@
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
-[data-theme="cyberpunk"] #kits li > * {
+[data-theme="cyberpunk"] [data-part="kit"] > * {
   border-radius: 0;
   border-color: var(--border-strong);
+}
+@media (max-width: 480px) {
+  [data-theme="cyberpunk"] [data-part="contact-actions"] {
+    padding-inline: 12px;
+  }
+  [data-theme="cyberpunk"] [data-part="contact-actions"] a[href^="mailto:"] {
+    font-size: 14px;
+  }
 }
