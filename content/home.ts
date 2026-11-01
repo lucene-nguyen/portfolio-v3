@@ -18,6 +18,7 @@ export const profile = {
 };
 
 export const labels = {
+  menu: "Menu",
   viewWork: "View case studies",
   readCaseStudy: "Read case study",
   technologies: "Technologies",

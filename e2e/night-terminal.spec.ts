@@ -102,11 +102,17 @@ test("slash inside a text field does not open the terminal", async ({ page }) =>
   await expect(input(page)).toHaveValue("a/b");
 });
 
-test("375px: button only, opens the command line, no horizontal scroll", async ({ page }) => {
+test("375px: Terminal lives in the nav menu (no floating button), opens the command line", async ({
+  page,
+}) => {
   await page.setViewportSize({ width: 375, height: 800 });
-  await ready(page);
-  await expect(page.getByText("press / or Ctrl K")).toBeHidden();
-  await page.getByRole("button", { name: "Terminal" }).click();
+  await page.goto("/");
+  await expect(page.locator("button.fixed")).toBeHidden();
+  await page.getByRole("button", { name: "Menu" }).click();
+  await page
+    .getByRole("navigation", { name: "Main" })
+    .getByRole("button", { name: "Terminal" })
+    .click();
   await expect(input(page)).toBeFocused();
   const overflow = await page.evaluate(
     () => document.documentElement.scrollWidth - document.documentElement.clientWidth,

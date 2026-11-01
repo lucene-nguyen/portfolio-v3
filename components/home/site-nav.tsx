@@ -1,29 +1,65 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useId, useState } from "react";
+import { Menu, X } from "lucide-react";
 import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 import { labels, nav, profile } from "@/content/home";
 import { shown } from "@/lib/placeholder";
+import { cn } from "@/lib/utils";
 import { container } from "./ui";
 
 const resume =
   "inline-flex min-h-10 items-center rounded-lg border border-border-strong px-4 font-mono text-sm text-text";
 
+/** One line on mobile (logo, theme switcher, menu); links inline from md up. */
 export function SiteNav() {
+  const [open, setOpen] = useState(false);
+  const panelId = useId();
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
   return (
     <header className="border-b border-border">
       <nav
         aria-label="Main"
-        className={`${container} flex flex-wrap items-center justify-between gap-4 py-[18px]`}
+        className={`${container} flex flex-wrap items-center gap-x-3 gap-y-3 py-[18px] md:gap-x-4`}
       >
         <Link href="/" className="font-mono text-lg font-bold text-text">
           {profile.handle}
           <span className="text-accent">.dev</span>
         </Link>
-        <div className="flex flex-wrap items-center gap-x-7 gap-y-2 text-[15px]">
+        <div className="ml-auto md:order-last md:ml-0">
+          <ThemeSwitcher />
+        </div>
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-controls={panelId}
+          onClick={() => setOpen((o) => !o)}
+          className="flex size-11 items-center justify-center rounded-lg border border-border-strong text-text md:hidden"
+        >
+          {open ? <X size={20} aria-hidden /> : <Menu size={20} aria-hidden />}
+          <span className="sr-only">{labels.menu}</span>
+        </button>
+        <div
+          id={panelId}
+          className={cn(
+            "w-full flex-col gap-1 border-t border-border pt-3 text-[15px] md:ml-auto md:flex md:w-auto md:flex-row md:flex-wrap md:items-center md:gap-x-7 md:border-0 md:pt-0",
+            open ? "flex" : "hidden",
+          )}
+          onClick={(e) => (e.target as HTMLElement).closest("a, button") && setOpen(false)}
+        >
           {nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="text-text-muted transition-colors duration-150 hover:text-text"
+              className="flex min-h-11 items-center text-text-muted transition-colors duration-150 hover:text-text md:min-h-0"
             >
               {item.label}
             </Link>
@@ -33,7 +69,8 @@ export function SiteNav() {
               {labels.resume} <span aria-hidden>↓</span>
             </a>
           )}
-          <ThemeSwitcher />
+          {/* Themes add their nav actions here (Terminal/Achievements on mobile, Show grid). */}
+          <div id="theme-slot-nav" className="contents" />
         </div>
       </nav>
     </header>

@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Press_Start_2P } from "next/font/google";
 import { Trophy } from "lucide-react";
+import { createPortal } from "react-dom";
+import { useThemeSlot } from "@/components/theme/use-theme-slot";
 import { achievementsCopy } from "@/content/home";
 import { CHANGE_EVENT, evaluate, loadProgress, type Achievement } from "@/lib/achievements";
 import { themes } from "@/themes/registry";
@@ -48,6 +50,7 @@ function beep() {
 }
 
 export default function PixelAchievements() {
+  const navSlot = useThemeSlot("theme-slot-nav");
   const list: Achievement[] = JSON.parse(
     useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot),
   );
@@ -105,13 +108,26 @@ export default function PixelAchievements() {
 
   return (
     <>
-      {/* Keeps the fixed button from covering the end of the page. */}
-      <div aria-hidden className="h-20" />
+      {/* Desktop: floating button (spacer keeps it off the end of the page). Mobile: entry in the nav menu. */}
+      <div aria-hidden className="hidden h-20 md:block" />
+      {navSlot &&
+        createPortal(
+          <button
+            type="button"
+            onClick={() => dialogRef.current?.showModal()}
+            aria-haspopup="dialog"
+            className="flex min-h-11 items-center gap-2 font-mono text-sm text-text md:hidden"
+          >
+            <Trophy size={18} aria-hidden className="text-accent" />
+            {achievementsCopy.button} {done}/{list.length}
+          </button>,
+          navSlot,
+        )}
       <button
         type="button"
         onClick={() => dialogRef.current?.showModal()}
         aria-haspopup="dialog"
-        className="fixed right-4 bottom-4 z-40 inline-flex min-h-11 items-center gap-2 border-2 border-border-strong bg-surface px-4 font-mono text-sm text-text"
+        className="fixed right-4 bottom-4 z-40 hidden min-h-11 items-center gap-2 border-2 border-border-strong bg-surface px-4 font-mono text-sm text-text md:inline-flex"
       >
         <Trophy size={18} aria-hidden className="text-accent" />
         {achievementsCopy.button} {done}/{list.length}

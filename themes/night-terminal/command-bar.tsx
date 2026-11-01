@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { useThemeSlot } from "@/components/theme/use-theme-slot";
 import { useRouter } from "next/navigation";
 import { SquareTerminal } from "lucide-react";
 import { useTheme } from "@/components/theme/theme-provider";
@@ -23,6 +25,7 @@ const WELCOME: Line[] = [
 ];
 
 export default function CommandBar() {
+  const navSlot = useThemeSlot("theme-slot-nav");
   const dialogRef = useRef<HTMLDialogElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const openerRef = useRef<HTMLElement | null>(null);
@@ -99,15 +102,28 @@ export default function CommandBar() {
 
   return (
     <>
-      {/* Keeps the floating button from covering the end of the page. */}
-      <div aria-hidden className="h-20" />
+      {/* Desktop: floating button (spacer keeps it off the end of the page). Mobile: entry in the nav menu. */}
+      <div aria-hidden className="hidden h-20 md:block" />
+      {navSlot &&
+        createPortal(
+          <button
+            type="button"
+            onClick={open}
+            aria-haspopup="dialog"
+            className="flex min-h-11 items-center gap-2 font-mono text-sm text-text md:hidden"
+          >
+            <SquareTerminal size={18} aria-hidden className="text-accent" />
+            Terminal
+          </button>,
+          navSlot,
+        )}
       <button
         ref={buttonRef}
         type="button"
         onClick={open}
         aria-haspopup="dialog"
         aria-keyshortcuts="/ Control+K Meta+K"
-        className="fixed right-4 bottom-4 z-40 inline-flex min-h-11 items-center gap-2 rounded-[10px] border border-border-strong bg-surface px-4 font-mono text-sm text-text shadow-lg sm:min-w-[280px]"
+        className="fixed right-4 bottom-4 z-40 hidden min-h-11 items-center gap-2 rounded-[10px] border border-border-strong bg-surface px-4 font-mono text-sm text-text shadow-lg sm:min-w-[280px] md:inline-flex"
       >
         <SquareTerminal size={18} aria-hidden className="text-accent" />
         <span>Terminal</span>
