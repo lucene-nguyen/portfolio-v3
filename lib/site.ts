@@ -1,3 +1,8 @@
+import { profile } from "@/content/home";
+
+/** Open Graph fields every page shares (Next merges `openGraph` shallowly, so pages spread this). */
+export const ogBase = { siteName: profile.name, locale: "en_US" } as const;
+
 /** Canonical site URL: explicit env, else Vercel's production domain, else local dev. */
 export function siteUrl(): URL {
   const explicit = process.env.NEXT_PUBLIC_SITE_URL;

@@ -35,11 +35,24 @@ test("case study: own title, description, canonical and OG image", async ({ page
     /\/work\/aws-file-ingestion$/,
   );
   await expect(page.locator('meta[property="og:type"]')).toHaveAttribute("content", "article");
+  await expect(page.locator('meta[property="og:site_name"]')).toHaveAttribute(
+    "content",
+    "Nguyen Manh Cuong",
+  );
+  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
+    "content",
+    /\/work\/aws-file-ingestion$/,
+  );
   const og = await page.locator('meta[property="og:image"]').getAttribute("content");
   expect(og).toMatch(/\/work\/aws-file-ingestion\/opengraph-image/);
   const res = await request.get(new URL(og!).pathname + new URL(og!).search);
   expect(res.headers()["content-type"]).toBe("image/png");
   expect(pngSize(await res.body())).toEqual({ width: 1200, height: 630 });
+});
+
+test("pages without their own canonical do not inherit the home canonical", async ({ page }) => {
+  await page.goto("/does-not-exist");
+  await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
 });
 
 test("home OG image is a 1200×630 PNG", async ({ request }) => {

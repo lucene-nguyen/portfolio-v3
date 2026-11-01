@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { container, Tag } from "@/components/home/ui";
 import { TrackCaseStudyRead } from "@/components/work/track-read";
-import { labels, work } from "@/content/home";
+import { labels, profile, work } from "@/content/home";
+import { ogBase } from "@/lib/site";
 
 const find = (slug: string) => work.items.find((c) => c.slug === slug);
 
@@ -21,7 +22,14 @@ export async function generateMetadata({ params }: PageProps<"/work/[slug]">): P
     title: study.title,
     description: study.summary,
     alternates: { canonical: `/work/${study.slug}` },
-    openGraph: { type: "article", title: study.title, description: study.summary },
+    openGraph: {
+      ...ogBase,
+      type: "article",
+      url: `/work/${study.slug}`,
+      title: study.title,
+      description: study.summary,
+      authors: [profile.name],
+    },
   };
 }
 

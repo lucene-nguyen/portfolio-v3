@@ -4,7 +4,7 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ThemeRuntime } from "@/components/theme/theme-runtime";
 import { SiteNav } from "@/components/home/site-nav";
 import { profile } from "@/content/home";
-import { siteUrl } from "@/lib/site";
+import { ogBase, siteUrl } from "@/lib/site";
 import { themeScript, themesToCss } from "@/lib/theme/css";
 import { defaultTheme, themes } from "@/themes/registry";
 import "./globals.css";
@@ -21,8 +21,7 @@ const initScript = themeScript(
 export const metadata: Metadata = {
   metadataBase: siteUrl(),
   title: { default: `${profile.name} — ${profile.title}`, template: `%s — ${profile.name}` },
-  alternates: { canonical: "/" },
-  openGraph: { type: "website", siteName: profile.name, locale: "en_US" },
+  openGraph: { type: "website", ...ogBase },
   twitter: { card: "summary_large_image" },
   description: profile.siteDescription,
 };
