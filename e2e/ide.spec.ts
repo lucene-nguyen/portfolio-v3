@@ -38,6 +38,9 @@ test("keyboard: explorer links, tab links and close buttons are reachable", asyn
   await close.focus();
   await page.keyboard.press("Enter");
   await expect(tabs(page).getByRole("link", { name: "resume.json" })).toHaveCount(0);
+  // Focus stays in the tab bar, not lost to <body>.
+  expect(await page.evaluate(() => document.activeElement?.tagName)).not.toBe("BODY");
+  await expect(page.locator(":focus")).toHaveAttribute("data-close", /.+/);
 });
 
 test("Ctrl+K palette filters files; Enter opens; Esc closes", async ({ page }) => {
@@ -55,6 +58,13 @@ test("Ctrl+K palette filters files; Enter opens; Esc closes", async ({ page }) =
   await expect(box).toHaveValue("");
   await page.keyboard.press("Escape");
   await expect(box).toBeHidden();
+});
+
+test("unknown locations mark no file as current", async ({ page }) => {
+  await ready(page, "/?theme=ide#nowhere");
+  await expect(
+    page.getByRole("navigation", { name: "Explorer" }).first().locator("[aria-current]"),
+  ).toHaveCount(0);
 });
 
 test("content stays readable prose", async ({ page }) => {

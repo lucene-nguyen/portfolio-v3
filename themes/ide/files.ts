@@ -8,6 +8,7 @@ export interface IdeFile {
 /** Site sections presented as files; every href is an existing page or anchor. */
 export const files: IdeFile[] = [
   { path: "about.ts", href: "/#top" },
+  { path: "work/README.md", href: "/#work" },
   ...work.items.map((c) => ({ path: `work/${c.slug}.md`, href: `/work/${c.slug}` })),
   { path: "lab/rate-limiter.ts", href: "/#lab" },
   { path: "kits/README.md", href: "/#kits" },
@@ -15,12 +16,12 @@ export const files: IdeFile[] = [
   { path: "contact.md", href: "/#contact" },
 ];
 
-/** Which file the current location shows. */
-export function fileFor(pathname: string, hash: string): IdeFile {
+/** Which file the current location shows; undefined when no file matches (no fake "current"). */
+export function fileFor(pathname: string, hash: string): IdeFile | undefined {
   return (
     files.find((f) => f.href === pathname) ??
     files.find((f) => f.href === `${pathname}${hash}`) ??
-    files[0]
+    (pathname === "/" && !hash ? files[0] : undefined)
   );
 }
 

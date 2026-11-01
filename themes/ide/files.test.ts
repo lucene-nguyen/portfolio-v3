@@ -2,10 +2,12 @@ import { expect, it } from "vitest";
 import { fileFor, files } from "./files";
 
 it("maps pages and anchors to files", () => {
-  expect(fileFor("/work/ai-image-pipeline", "").path).toBe("work/ai-image-pipeline.md");
-  expect(fileFor("/", "#lab").path).toBe("lab/rate-limiter.ts");
-  expect(fileFor("/", "").path).toBe("about.ts");
-  expect(fileFor("/", "#unknown").path).toBe("about.ts");
+  expect(fileFor("/work/ai-image-pipeline", "")?.path).toBe("work/ai-image-pipeline.md");
+  expect(fileFor("/", "#lab")?.path).toBe("lab/rate-limiter.ts");
+  expect(fileFor("/", "")?.path).toBe("about.ts");
+  expect(fileFor("/", "#work")?.path).toBe("work/README.md");
+  expect(fileFor("/", "#unknown")).toBeUndefined();
+  expect(fileFor("/kits/nope", "")).toBeUndefined();
 });
 
 it("has unique paths and hrefs", () => {

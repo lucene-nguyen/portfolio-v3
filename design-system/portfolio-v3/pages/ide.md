@@ -21,7 +21,7 @@
 | surface | #252526 | explorer, tab bar |
 | surface2 | #2D2D30 | hover, current file |
 | border | #3C3C3C | dividers (decorative) |
-| borderStrong | #8A8A8A | outlined controls (4.8:1) |
+| borderStrong | #8A8A8A | outlined controls (4.8:1 on bg, 4.4:1 on surface; ≥ 3:1 required) |
 | text | #E4E4E4 | active tab, headings |
 | text2 | #D4D4D4 | tags |
 | textSecondary | #CCCCCC | explorer items, body |
@@ -34,6 +34,6 @@
 | meterFill | #89D185 | lab meter |
 
 ## Layout
-- Explorer (≥ 768px sidebar; drawer below) lists sections as files: `about.ts`, `work/*.md`, `lab/rate-limiter.ts`, `kits/README.md`, `resume.json`, `contact.md`. Every file is a real link to an existing page or anchor.
+- Explorer (≥ 768px sidebar; drawer below) lists sections as files: `about.ts`, `work/README.md`, `work/*.md`, `lab/rate-limiter.ts`, `kits/README.md`, `resume.json`, `contact.md`. Every file is a real link to an existing page or anchor.
 - "Open editors" tab bar: tabs are links (deep-linkable) with separate close buttons; open tabs kept per session.
 - Path line `portfolio-v3 › work › x.md` under the tabs. Ctrl/⌘K: "Go to file" palette (combobox + listbox).

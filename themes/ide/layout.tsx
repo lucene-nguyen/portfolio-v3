@@ -15,7 +15,7 @@ const subscribeHash = (cb: () => void) => {
   return () => window.removeEventListener("hashchange", cb);
 };
 
-function useCurrentFile(): IdeFile {
+function useCurrentFile(): IdeFile | undefined {
   const pathname = usePathname();
   const hash = useSyncExternalStore(
     subscribeHash,
@@ -30,7 +30,13 @@ function Icon({ path }: { path: string }) {
   return <C size={15} aria-hidden className="shrink-0 text-accent" />;
 }
 
-function Explorer({ current, onOpen }: { current: IdeFile; onOpen: (f: IdeFile) => void }) {
+function Explorer({
+  current,
+  onOpen,
+}: {
+  current: IdeFile | undefined;
+  onOpen: (f: IdeFile) => void;
+}) {
   return (
     <nav aria-label={ideCopy.explorer} className="font-mono text-[13px]">
       <p className="px-3 py-2 text-xs tracking-wide text-text-muted uppercase">{ideCopy.project}</p>
@@ -76,7 +82,7 @@ function Palette({
       <input
         role="combobox"
         aria-label={ideCopy.palette}
-        aria-expanded
+        aria-expanded={matches.length > 0}
         aria-controls="ide-palette-list"
         aria-activedescendant={matches.length ? `ide-file-${active}` : undefined}
         aria-autocomplete="list"
@@ -100,7 +106,7 @@ function Palette({
         }}
         className="w-full border-b border-border bg-transparent px-4 py-3 font-mono text-sm"
       />
-      <p role="status" className="px-4 pt-2 text-xs text-text-muted empty:hidden">
+      <p role="status" className="px-4 pt-2 text-xs text-text-muted">
         {matches.length ? "" : ideCopy.noMatch}
       </p>
       <ul
@@ -136,9 +142,9 @@ export default function IdeLayout({ children }: { children: React.ReactNode }) {
       const valid = Array.isArray(saved)
         ? saved.filter((p) => files.some((f) => f.path === p))
         : [];
-      return valid.includes(current.path) ? valid : [...valid, current.path];
+      return !current || valid.includes(current.path) ? valid : [...valid, current.path];
     } catch {
-      return [current.path];
+      return current ? [current.path] : [];
     }
   });
   const drawer = useRef<HTMLDialogElement>(null);
@@ -148,7 +154,7 @@ export default function IdeLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
   // The file on screen is always open in a tab.
-  const shown = tabs.includes(current.path) ? tabs : [...tabs, current.path];
+  const shown = !current || tabs.includes(current.path) ? tabs : [...tabs, current.path];
   const shownKey = JSON.stringify(shown);
   useEffect(() => {
     try {
@@ -158,13 +164,26 @@ export default function IdeLayout({ children }: { children: React.ReactNode }) {
 
   // Opening a file keeps the one on screen as a tab too (like pinning a preview tab).
   const open = (f: IdeFile) => {
-    setTabs((t) => [...new Set([...t, current.path, f.path])]);
+    setTabs((t) => [...new Set([...t, ...(current ? [current.path] : []), f.path])]);
     drawer.current?.close();
   };
+  // Keyboard users keep their place: focus moves to a neighbouring tab's close button (or the tab bar).
+  const tabBar = useRef<HTMLElement>(null);
+  const pendingFocus = useRef<string | null | undefined>(undefined);
+  useEffect(() => {
+    if (pendingFocus.current === undefined) return;
+    const target = pendingFocus.current
+      ? tabBar.current?.querySelector<HTMLElement>(`[data-close="${pendingFocus.current}"]`)
+      : tabBar.current;
+    target?.focus();
+    pendingFocus.current = undefined;
+  });
   const close = (path: string) => {
+    const i = shown.indexOf(path);
     const rest = shown.filter((p) => p !== path);
+    pendingFocus.current = rest[Math.min(i, rest.length - 1)] ?? null;
     setTabs(rest);
-    if (path === current.path) {
+    if (path === current?.path) {
       const next = files.find((f) => f.path === rest.at(-1)) ?? files[0];
       router.push(next.href);
     }
@@ -207,7 +226,12 @@ export default function IdeLayout({ children }: { children: React.ReactNode }) {
               <Files size={16} aria-hidden />
               {ideCopy.explorer}
             </button>
-            <nav aria-label={ideCopy.openEditors} className="min-w-0 flex-1 overflow-x-auto">
+            <nav
+              ref={tabBar}
+              tabIndex={-1}
+              aria-label={ideCopy.openEditors}
+              className="min-w-0 flex-1 overflow-x-auto"
+            >
               <ul className="flex">
                 {shown.map((path) => {
                   const f = files.find((x) => x.path === path)!;
@@ -227,6 +251,7 @@ export default function IdeLayout({ children }: { children: React.ReactNode }) {
                       </Link>
                       <button
                         type="button"
+                        data-close={path}
                         onClick={() => close(path)}
                         aria-label={ideCopy.close(basename(path))}
                         className="mr-1 flex size-8 items-center justify-center text-text-muted hover:bg-surface-2 hover:text-text"
@@ -243,7 +268,8 @@ export default function IdeLayout({ children }: { children: React.ReactNode }) {
             </span>
           </div>
           <p className="border-b border-border px-4 py-1.5 font-mono text-xs text-text-muted">
-            {ideCopy.project} › {current.path.split("/").join(" › ")}
+            {ideCopy.project}
+            {current && ` › ${current.path.split("/").join(" › ")}`}
           </p>
         </section>
         {children}
