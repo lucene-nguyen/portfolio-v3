@@ -32,7 +32,7 @@
 | danger | #B00012 | 429 |
 
 ## Grid
-- 12 columns inside the 1200px container (24px side padding, 24px gutters), drawn as a faint red overlay from 1024px up; content edges align to it.
+- 12 columns inside the 1200px container (24px side padding, 24px gutters), drawn as a faint red overlay from 1024px up, hidden by default and shown with the nav "Show grid" toggle (`aria-pressed`, remembered in localStorage); content edges align to it.
 - Cards and the lab band paint over the overlay, so the grid shows in the gaps (intended).
 - Square corners, no shadows, tight negative tracking on headings.
 

@@ -13,7 +13,7 @@
   display: none;
 }
 @media screen and (min-width: 1024px) {
-  .sw-grid {
+  .sw-grid[data-on="true"] {
     position: fixed;
     inset: 0;
     z-index: -1;
