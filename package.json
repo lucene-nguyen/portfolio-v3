@@ -10,7 +10,8 @@
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "test:perf": "playwright test -c playwright.perf.config.ts"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
