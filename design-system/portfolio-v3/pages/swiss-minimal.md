@@ -39,3 +39,17 @@
 ## Print (one-page CV)
 - `@media print`: no nav, skip link, lab, kits, avatar, buttons, selects or dialogs; elements marked `data-print="hide"` are dropped (CTAs, card summaries, tags, card links, contact headline).
 - Black on white, 9–9.5pt body; case studies in 3 columns; experience and stack side by side; contact links print their URL; placeholders are not printed. Fits one A4 or Letter page (12mm margins).
+
+## Layout
+Shared sections (UI round 1). Searches:
+- `"minimal portfolio typography" --domain landing` verified Minimal Single Column and Portfolio Grid: neutral ground, minimal accent, the work first. The section order is unchanged.
+- `"swiss grid typography" --domain style` verified **Minimalism & Swiss Style**: grid-based, high contrast, sans-serif, clear type hierarchy and no shadows. Its "subtle hover 200–250ms" is not applied, because nothing new animates.
+- ux `"grid alignment whitespace"`: Font Size Scale and Hover States are kept (the shared components already handle hover). Breadcrumbs were ignored as off-topic.
+
+Rules:
+- No boxes on the shared sections. Case studies, kits and the stack sit under a heavy 4px black top rule with no border or background, aligned flush left to the 12-column grid.
+- Eyebrows are uppercase sans at 13px/700 with 0.08em tracking, set in text colour under a 4px red accent bar.
+- Case-study meta lines are uppercase tracked sans at 12px.
+- Numbers (case metrics and hero stats) are 36px sans with −0.03em tracking. The hero stats are one row of numerals under a single heavy rule, with no box or dividers.
+- Experience: rows with black hairlines, and the period in tabular sans. The stack heading is uppercase tracked.
+- Print (one-page CV) keeps its own `!important` rules, so these screen rules never change the CV.

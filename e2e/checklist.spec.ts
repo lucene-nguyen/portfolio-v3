@@ -15,6 +15,7 @@ const THEMES = [
   "neo-brutalism",
   "anime",
   "3d-world",
+  "swiss-minimal",
 ];
 
 const overflow = (page: Page) =>
