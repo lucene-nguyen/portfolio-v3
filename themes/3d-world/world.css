@@ -32,6 +32,9 @@
   background: linear-gradient(180deg, var(--surface2), var(--surface) 55%);
   box-shadow: var(--w-e2);
 }
+[data-theme="3d-world"] [data-part="kit"] > a:hover {
+  border-color: var(--border-strong); /* keep the linked kit's hover cue */
+}
 /* Metrics: a recessed well inside the panel. */
 [data-theme="3d-world"] [data-part="case-metrics"] {
   padding: 14px 16px;
@@ -53,7 +56,7 @@
   background: var(--surface);
   box-shadow: var(--w-e1);
 }
-[data-theme="3d-world"] [data-part="stat"]:has(dd.text-accent) {
+[data-theme="3d-world"] [data-part="stat"][data-highlight] {
   box-shadow: var(--w-e1), var(--w-glow);
 }
 

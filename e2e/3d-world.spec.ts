@@ -117,13 +117,17 @@ test("shared sections are restyled with depth", async ({ page }) => {
   expect(eyebrowPad).toBe("rgb(255, 181, 71)");
   const stats = page.locator('[data-part="stat"]');
   await expect(stats.first()).toHaveCSS("box-shadow", /inset/);
-  await expect(stats.filter({ has: page.locator("dd.text-accent") })).toHaveCSS(
+  await expect(page.locator('[data-part="stat"][data-highlight]')).toHaveCSS(
     "box-shadow",
     /0px 0px 28px/,
   );
   await expect(page.locator('[data-part="role"]').first()).toHaveCSS(
     "background-color",
     "rgb(18, 26, 44)",
+  );
+  await expect(page.locator('[data-part="stack"]')).toHaveCSS(
+    "background-image",
+    /linear-gradient/,
   );
   await expect(page.locator('[data-part="contact-actions"]')).toHaveCSS(
     "box-shadow",
