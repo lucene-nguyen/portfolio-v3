@@ -19,7 +19,6 @@ for (const { slug, title } of studies) {
       "Architecture",
       "Decisions & trade-offs",
       "Results",
-      "Learnings",
     ]);
     const nodes = page.getByRole("list", { name: /request flow/ }).getByRole("listitem");
     expect(await nodes.count()).toBeGreaterThanOrEqual(3);

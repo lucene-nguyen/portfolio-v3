@@ -81,8 +81,12 @@ const tiles: Tile[] = [
       <div className="flex h-full flex-col gap-2">
         <p className="font-mono text-xs text-text-muted">{w.meta}</p>
         <p className="font-semibold">{w.title}</p>
-        <p className="font-mono text-xl font-bold text-accent">{w.metrics[0].value}</p>
-        <p className="text-xs text-text-muted">{w.metrics[0].label}</p>
+        {w.metrics[0] && (
+          <>
+            <p className="font-mono text-xl font-bold text-accent">{w.metrics[0].value}</p>
+            <p className="text-xs text-text-muted">{w.metrics[0].label}</p>
+          </>
+        )}
         <Link
           href={`/work/${w.slug}`}
           aria-label={`${labels.readCaseStudy}: ${w.title}`}

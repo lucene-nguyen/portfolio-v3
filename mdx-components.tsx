@@ -1,5 +1,6 @@
 import type { MDXComponents } from "mdx/types";
-import type { ReactNode } from "react";
+import { Children, isValidElement, type ReactNode } from "react";
+import { hasPlaceholder, SHOW_PLACEHOLDERS, stripPlaceholders } from "@/lib/placeholder";
 import { slugify } from "@/lib/slug";
 import { ArchitectureDiagram } from "@/components/work/architecture-diagram";
 
@@ -7,6 +8,24 @@ import { ArchitectureDiagram } from "@/components/work/architecture-diagram";
 // Only plain-text headings get an id; rich ones would all become "[object Object]".
 const headingId = (children: ReactNode) =>
   typeof children === "string" ? slugify(children) : undefined;
+
+const textOf = (node: ReactNode): string =>
+  Children.toArray(node)
+    .map((c) =>
+      typeof c === "string"
+        ? c
+        : isValidElement<{ children?: ReactNode }>(c)
+          ? textOf(c.props.children)
+          : "",
+    )
+    .join("");
+
+// A list item with a placeholder is an unfinished metric/constraint: drop it whole.
+const unfinished = (children: ReactNode) => !SHOW_PLACEHOLDERS && hasPlaceholder(textOf(children));
+
+// In paragraphs, placeholders are notes after real sentences: strip them; drop the paragraph if nothing is left.
+const stripChildren = (children: ReactNode) =>
+  Children.map(children, (c) => (typeof c === "string" ? stripPlaceholders(c) : c));
 
 const components: MDXComponents = {
   // Ids make sections linkable (Editorial's table of contents).
@@ -18,7 +37,16 @@ const components: MDXComponents = {
     />
   ),
   h3: (props) => <h3 className="mt-8 mb-3 text-xl font-semibold" {...props} />,
-  p: (props) => <p className="my-4 text-[17px] leading-[1.7] text-text-secondary" {...props} />,
+  p: ({ children, ...props }) => {
+    const kept = stripChildren(children);
+    if (!textOf(kept).trim()) return null;
+    return (
+      <p className="my-4 text-[17px] leading-[1.7] text-text-secondary" {...props}>
+        {kept}
+      </p>
+    );
+  },
+  li: (props) => (unfinished(props.children) ? null : <li {...props} />),
   ul: (props) => (
     <ul
       className="my-4 list-disc space-y-2 pl-6 text-[17px] leading-[1.7] text-text-secondary"

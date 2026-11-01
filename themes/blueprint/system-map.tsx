@@ -28,7 +28,7 @@ export const mapNodes: MapNode[] = [
     href: `/work/${c.slug}`,
     title: c.title,
     tech: c.tags.join(" · "),
-    impact: `${c.metrics[0].value} ${c.metrics[0].label}`,
+    impact: c.metrics[0] ? `${c.metrics[0].value} ${c.metrics[0].label}` : c.meta,
   })),
   ...(repo
     ? [{ href: repo.href, title: repo.name, tech: repo.stack, impact: repo.status, external: true }]

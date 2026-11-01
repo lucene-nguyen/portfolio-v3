@@ -15,6 +15,7 @@ import {
   Upload,
   Users,
 } from "lucide-react";
+import { shown } from "@/lib/placeholder";
 
 // Generic technology icons (Lucide ships no brand logos).
 const ICONS = {
@@ -91,7 +92,7 @@ function Node({ node }: { node: DiagramNode }) {
       <Icon size={20} aria-hidden className="shrink-0 text-accent" />
       <div className="flex flex-col">
         <span className="text-sm font-semibold text-text">{node.label}</span>
-        <span className="font-mono text-xs text-text-muted">{node.tech}</span>
+        {shown(node.tech) && <span className="font-mono text-xs text-text-muted">{node.tech}</span>}
       </div>
     </div>
   );

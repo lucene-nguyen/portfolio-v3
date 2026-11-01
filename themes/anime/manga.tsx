@@ -1,5 +1,6 @@
 import { container } from "@/components/home/ui";
 import { experience, mangaCopy as c } from "@/content/home";
+import { shown } from "@/lib/placeholder";
 
 /** Oldest role first: the story reads left to right. */
 export const chapters = [...experience.roles].reverse();
@@ -82,7 +83,7 @@ export function MangaStrip() {
             </li>
           ))}
         </ol>
-        <p className="font-mono text-xs text-text-muted">{c.artNote}</p>
+        {shown(c.artNote) && <p className="font-mono text-xs text-text-muted">{c.artNote}</p>}
         <details>
           <summary className="cursor-pointer font-semibold text-accent underline underline-offset-2">
             {c.textToggle}

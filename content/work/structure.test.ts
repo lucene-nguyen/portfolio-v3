@@ -25,6 +25,10 @@ describe.each(work.items.map((w) => [w.slug]))("%s.mdx", (slug) => {
     expect(arch).toContain("<ArchitectureDiagram");
   });
 
+  it("keeps at least one finished metric (cards and themes show the first)", () => {
+    expect(work.items.find((w) => w.slug === slug)!.metrics.length).toBeGreaterThan(0);
+  });
+
   it("uses the card's generalized client wording (NDA)", () => {
     const client = work.items.find((w) => w.slug === slug)!.meta.match(/\w+ client/)?.[0];
     if (client) expect(mdx).toContain(client);

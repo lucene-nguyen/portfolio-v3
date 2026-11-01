@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { container, Tag } from "@/components/home/ui";
 import { TrackCaseStudyRead } from "@/components/work/track-read";
+import { SHOW_PLACEHOLDERS } from "@/lib/placeholder";
 import { labels, profile, work } from "@/content/home";
 import { ogBase } from "@/lib/site";
 
@@ -75,7 +76,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
           </ul>
         </header>
         <div id="theme-slot-article" />
-        <div className="prose-body">
+        <div className="prose-body" data-placeholders={SHOW_PLACEHOLDERS ? "shown" : "hidden"}>
           <Body />
         </div>
         <TrackCaseStudyRead />
