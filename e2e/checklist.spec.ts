@@ -65,7 +65,7 @@ for (const id of THEMES) {
           document
             .getAnimations()
             .filter((a) => a.effect?.getComputedTiming().endTime !== Infinity)
-            .map((a) => a.finished),
+            .map((a) => a.finished.catch(() => {})), // cancelled = gone, fine
         ),
       );
       const small = await page.evaluate(() =>

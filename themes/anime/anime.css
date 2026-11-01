@@ -55,7 +55,7 @@
 
 /* Case studies and kits: ink panels. */
 [data-theme="anime"] :is([data-part="case-card"], [data-part="kit"] > *) {
-  border: 4px solid var(--border) !important;
+  border: 4px solid var(--border);
   box-shadow: 5px 5px 0 var(--border);
 }
 /* Meta line: a screentone caption strip, edge to edge (card p-7, 4px border). */
@@ -75,18 +75,6 @@
   border-radius: 28px;
   background: var(--surface);
 }
-[data-theme="anime"] [data-part="case-metrics"]::after {
-  content: "";
-  position: absolute;
-  left: 32px;
-  bottom: -13px;
-  width: 20px;
-  height: 20px;
-  background: var(--surface);
-  border-right: 3px solid var(--border);
-  border-bottom: 3px solid var(--border);
-  transform: rotate(45deg);
-}
 
 /* Hero numbers: a comic page, white panels on ink gutters. */
 [data-theme="anime"] [data-part="stats"] {
@@ -96,7 +84,7 @@
   background: var(--border);
 }
 [data-theme="anime"] [data-part="stat"] {
-  border: 0 !important;
+  border: 0;
   background: var(--surface);
 }
 
@@ -108,7 +96,7 @@
 }
 [data-theme="anime"] [data-part="role"] {
   padding: 20px 24px;
-  border: 3px solid var(--border) !important;
+  border: 3px solid var(--border);
   background: var(--bg-alt);
 }
 [data-theme="anime"] [data-part="role"] > span:first-child {
@@ -133,15 +121,21 @@
   border-radius: 28px;
   background: var(--surface);
 }
-[data-theme="anime"] [data-part="contact-actions"]::after {
+/* Bubble tails: same size as the strip's .mg-bubble tail. */
+[data-theme="anime"] :is([data-part="case-metrics"], [data-part="contact-actions"])::after {
   content: "";
   position: absolute;
   left: 32px;
-  bottom: -13px;
-  width: 20px;
-  height: 20px;
+  bottom: -14px;
+  width: 22px;
+  height: 22px;
   background: var(--surface);
   border-right: 3px solid var(--border);
   border-bottom: 3px solid var(--border);
   transform: rotate(45deg);
+}
+/* Accent text over screentone dots drops below 4.5:1 (axe can't see it): ink instead. */
+[data-theme="anime"] [data-part="stack"] h3 {
+  color: var(--text);
+  font-weight: 700;
 }
