@@ -46,7 +46,8 @@ function usePolled<T>(url: string, intervalMs?: number) {
     const load = (force = false) => {
       if (!force && document.hidden) return;
       fetch(url, { cache: "no-store" })
-        .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+        // Always read the body: an unread error response keeps the request open in the browser.
+        .then((r) => r.json().then((d: T) => (r.ok ? d : Promise.reject(r.status))))
         .then((d: T) => {
           if (!alive) return;
           setData(d);

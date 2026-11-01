@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { experience, kits, lab, profile, publicStudies, work } from "@/content/home";
+import { experience, kits, lab, profile, publicStudies, skills, work } from "@/content/home";
 import { features } from "@/lib/features";
 import { SHOW_PLACEHOLDERS, stripPlaceholders } from "@/lib/placeholder";
 import { mdxToDocs, type SearchDoc } from "@/lib/search";
@@ -51,10 +51,12 @@ export async function GET() {
       text: `${r.period} ${r.summary}`,
     })),
     {
-      title: experience.stackLabel,
-      section: experience.title,
-      href: "/#experience",
-      text: experience.stack.map((g) => `${g.name}: ${g.items.join(", ")}`).join(". "),
+      title: skills.title,
+      section: skills.title,
+      href: "/#skills",
+      text: [...skills.groups, skills.secondary]
+        .map((g) => `${g.name}: ${g.items.join(", ")}`)
+        .join(". "),
     },
   ];
   const studies = await Promise.all(

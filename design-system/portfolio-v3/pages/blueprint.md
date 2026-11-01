@@ -61,3 +61,7 @@
 - Experience → **revision table**: each role a row with mono date column and hairline grid; stack groups as boxed label lists.
 - Contact → **drawing title block**: actions inside a ruled box with a "TITLE BLOCK" caption; footer as the sheet's revision line.
 - Buttons: square, 1px outline, mono label; primary = pencil-yellow fill.
+
+### Skills section (round 2, LEARNING-165)
+- Searches: `"skills showcase logos grid" --domain landing` (Feature-Rich Showcase and Bento Grid Showcase: scannable groups, a stack on mobile, nothing hidden behind hover) and `"icon with text label" --domain ux` (Compact Label Overflow: chip labels never wrap).
+- The skills panel is `data-part="stack"` and now sits in its own `#skills` section after the hero, not beside Experience, so this theme's stack-panel rule above styles it. The group headings are `h3`s inside that panel. Icons are monochrome (`currentColor`), so they follow the theme's text colour. "Also familiar with" is smaller and muted.

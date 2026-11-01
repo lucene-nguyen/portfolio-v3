@@ -207,6 +207,28 @@
     padding-top: 2pt !important;
     padding-bottom: 0 !important;
   }
+  /* Skills (LEARNING-165): a compact text list, no chips or icons. */
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #skills [data-part="stack"] > div:first-child {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6pt !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #skills ul {
+    gap: 0 4pt !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #skills [data-part="skill"] {
+    min-height: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: none !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #skills :is(svg, [data-part="eyebrow"]) {
+    display: none !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #skills > div,
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #skills [data-part="stack"] {
+    gap: 4pt !important;
+  }
   /* Contact: keep only the visible addresses. */
   [data-theme="swiss-minimal"]:has(#theme-slot-home) #contact a {
     min-height: 0 !important;

@@ -7,7 +7,12 @@
     "editorial": [],
     "swiss-minimal": [],
     "docs": [],
-    "dashboard": [],
+    "dashboard": [
+      "/ HTTP 503 http://localhost:3000/api/github",
+      "/ console.error: Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+      "/ HTTP 503 http://localhost:3000/api/github",
+      "/ console.error: Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
+    ],
     "ide": [],
     "bento": [],
     "neo-brutalism": [],
@@ -23,7 +28,7 @@
       "status": 200
     },
     "/api/github": {
-      "status": 200
+      "status": 503
     },
     "/search-index.json": {
       "status": 200
