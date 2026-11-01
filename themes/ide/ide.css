@@ -1,0 +1,90 @@
+/* Editor language for the shared sections (design-system/portfolio-v3/pages/ide.md › Shared sections). */
+[data-theme="ide"] [data-part="eyebrow"] {
+  font-style: italic;
+  color: var(--text-muted);
+}
+[data-theme="ide"] [data-part="eyebrow"]::before {
+  content: "// " / "";
+}
+
+/* Case studies: editor panes with a tab strip. */
+[data-theme="ide"] [data-part="case-card"] {
+  border-radius: 2px;
+  padding-top: 0;
+}
+[data-theme="ide"] [data-part="case-meta"] {
+  /* Edge to edge: negative margin = the card's p-7 (1.75rem) side padding. */
+  margin: 0 -1.75rem;
+  padding: 10px 1.75rem;
+  border-top: 2px solid var(--accent);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-alt);
+}
+
+/* Hero stats: status bar. */
+[data-theme="ide"] [data-part="stats"] {
+  border: 0;
+  border-radius: 2px;
+  background: var(--accent);
+}
+[data-theme="ide"] [data-part="stat"] {
+  padding-block: 10px !important; /* beats the cell's py-5 utility */
+  border-color: color-mix(in srgb, var(--accent-contrast) 25%, transparent) !important;
+}
+[data-theme="ide"] [data-part="stat"] :is(dt, dd) {
+  color: var(--accent-contrast) !important; /* beats text-muted / text-accent utilities */
+}
+[data-theme="ide"] [data-part="stat"] dd {
+  font-size: 22px;
+}
+
+/* Experience: TIMELINE panel. */
+[data-theme="ide"] [data-part="roles"] {
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+[data-theme="ide"] [data-part="roles"]::before {
+  content: "TIMELINE" / "";
+  display: block;
+  padding: 6px 16px;
+  border-bottom: 1px solid var(--border);
+  font: 12px var(--font-mono);
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+[data-theme="ide"] [data-part="role"] {
+  padding: 12px 16px !important; /* beats py-6 */
+  border-width: 0 !important;
+}
+
+/* Contact: TERMINAL panel. */
+[data-theme="ide"] [data-part="contact-actions"] {
+  position: relative;
+  padding: 44px 16px 16px 40px;
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+}
+[data-theme="ide"] [data-part="contact-actions"]::before {
+  content: "TERMINAL" / "";
+  position: absolute;
+  inset: 0 0 auto;
+  background: var(--surface);
+  padding: 6px 16px;
+  line-height: 20px;
+  border-bottom: 1px solid var(--border);
+  font: 12px var(--font-mono);
+  letter-spacing: 0.08em;
+  color: var(--text);
+}
+[data-theme="ide"] [data-part="contact-actions"]::after {
+  content: "$" / "";
+  position: absolute;
+  top: 54px; /* centred on the first row of 52px contact buttons (min-h-[52px]) */
+  left: 18px;
+  font: 16px var(--font-mono);
+  color: var(--accent);
+}
+[data-theme="ide"] [data-part="button"],
+[data-theme="ide"] [data-part="kit"] > * {
+  border-radius: 2px;
+}

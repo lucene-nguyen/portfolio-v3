@@ -254,7 +254,7 @@ export default function IdeLayout({ children }: { children: React.ReactNode }) {
                         data-close={path}
                         onClick={() => close(path)}
                         aria-label={ideCopy.close(basename(path))}
-                        className="mr-1 flex size-8 items-center justify-center text-text-muted hover:bg-surface-2 hover:text-text"
+                        className="flex size-11 items-center justify-center text-text-muted hover:bg-surface-2 hover:text-text"
                       >
                         <X size={14} aria-hidden />
                       </button>

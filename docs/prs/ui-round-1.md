@@ -118,3 +118,18 @@ Spec: [docs/specs/ui-round-1.md](../specs/ui-round-1.md). Before = `docs/screens
   - N/A for this site: safe-area insets/Dynamic Type (native), dark+light parity (each theme is single-mode, contrast-tested), forms/auth, auto-rotating content.
 - Before/after: default layout in Grafana colours → panel language throughout (`docs/screenshots/dashboard/`).
 - Review: APPROVE; documented the header/column alignment dependency, commented `!important`s, fixed title-bar line-height, token-derived test colours.
+
+## fix/ui-ide (item 2)
+- ui-ux-pro-max layout pass: `"developer tool product" --domain landing` → no verified match (built-in defaults); ux `"code editor tabs panels"` → code splitting (verified). Existing Layout section extended with "Shared sections (UI round 1)" in `pages/ide.md`; left-border accent cards and prose line-number gutters rejected.
+- New `themes/ide/ide.css` (root-layout import): `//` comment eyebrows, case cards as editor panes with an accent tab strip, hero stats as an accent status bar (text in accentContrast), experience as a TIMELINE panel, contact as a TERMINAL panel with `$` prompt.
+- Checklist finding fixed: IDE tab close buttons 32px → 44px.
+- Tests: restyle assertions (token colour) in `e2e/ide.spec.ts`; checklist extended to ide.
+- Pre-delivery checklist (ui-ux-pro-max `references/pro-rules.md`; web-applicable items):
+  - Process: theme-specific `--domain landing` + `--domain ux` searches ✅ · 375px and landscape 812×375 ✅ (e2e) · reduced motion ✅ (no running animations, e2e) · 200% zoom (720px viewport) ✅ · contrast per theme ✅ (registry tests: every text token on every ground) · touch targets ≥ 44px for buttons/selects ✅ (e2e, strict)
+  - Visual: no emoji icons ✅ (Lucide only) · one icon family ✅ · no layout-shifting press states ✅ · tokens only, no ad-hoc hex ✅
+  - Interaction: visible focus ring ✅ · focus order = DOM order ✅ (home tab test) · descriptive labels ✅ (axe clean) · drag has button alternatives ✅ (where present)
+  - Layout: nothing hidden behind fixed UI ✅ (no fixed controls on mobile) · 4/8px spacing rhythm ✅ · readable measure ✅
+  - Accessibility: decorative icons/labels hidden from AT ✅ · colour never the only indicator ✅ · reduced motion ✅
+  - N/A for this site: safe-area insets/Dynamic Type (native), dark+light parity (each theme is single-mode, contrast-tested), forms/auth, auto-rotating content.
+- Before/after: default sections inside the IDE chrome → editor-language sections (`docs/screenshots/ide/`).
+- Review: APPROVE; token colour in test, distinct terminal header, documented `$`/`p-7` dependencies, removed misleading hover.
