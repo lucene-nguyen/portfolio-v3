@@ -15,13 +15,12 @@ export function SkillsSection() {
                 <h3 className="text-sm font-semibold text-text-2">{g.name}</h3>
                 <ul className="flex flex-wrap gap-2">
                   {g.items.map((it) => (
-                    <li
-                      key={it}
-                      data-part="skill"
-                      className="inline-flex min-h-9 items-center gap-2 rounded-md border border-border bg-surface px-3 text-sm whitespace-nowrap text-text"
-                    >
-                      <SkillIcon name={it} />
-                      {it}
+                    <li key={it} data-part="skill">
+                      {/* A span, like the old stack Tag: themes style chips as `[data-part="stack"] ul span`. */}
+                      <span className="inline-flex min-h-9 items-center gap-2 rounded-md border border-border bg-surface px-3 text-sm whitespace-nowrap text-text">
+                        <SkillIcon name={it} />
+                        {it}
+                      </span>
                     </li>
                   ))}
                 </ul>

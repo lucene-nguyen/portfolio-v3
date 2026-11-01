@@ -105,3 +105,12 @@ html[data-reading-size="l"] {
     scroll-behavior: auto !important;
   }
 }
+
+/* Round 2: the skills panel spans its section in every theme (some themes set align-self: flex-start
+   for the old side column), and the contact avatar stays round even in square-cornered themes. */
+#skills [data-part="stack"] {
+  align-self: stretch;
+}
+#contact [data-part="avatar"] {
+  border-radius: 9999px !important;
+}

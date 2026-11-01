@@ -44,8 +44,12 @@ test("every skill has a visible label and a decorative icon; generic icons where
   expect(await go.evaluate((e) => parseFloat(getComputedStyle(e).fontSize))).toBeLessThanOrEqual(
     primary,
   );
-  expect(await go.evaluate((e) => getComputedStyle(e).color)).not.toBe(
-    await skill("React").evaluate((e) => getComputedStyle(e).color),
+  const color = (l: import("@playwright/test").Locator) =>
+    l.evaluate((e) => getComputedStyle(e).color);
+  const reactColor = await color(skill("React").locator("span"));
+  expect(await color(go)).not.toBe(reactColor);
+  expect(await color(section.getByRole("heading", { name: "Also familiar with" }))).not.toBe(
+    reactColor,
   );
 });
 
@@ -78,7 +82,8 @@ for (const { id } of themes) {
     const lines = await skills.evaluateAll((els) =>
       els.map((e) => {
         const r = document.createRange();
-        r.selectNodeContents([...e.childNodes].find((n) => n.nodeType === Node.TEXT_NODE)!);
+        const text = document.createTreeWalker(e, NodeFilter.SHOW_TEXT).nextNode()!;
+        r.selectNodeContents(text);
         return new Set([...r.getClientRects()].map((x) => Math.round(x.bottom))).size;
       }),
     );
@@ -91,3 +96,24 @@ for (const { id } of themes) {
     expect(violations.map((v) => v.id)).toEqual([]);
   });
 }
+
+test("themes keep their chip and heading styles in Skills", async ({ page }) => {
+  const chip = (id: string) => page.locator('#skills [data-part="skill"] span').first();
+  await page.goto("/?theme=pixel");
+  await expect(chip("pixel")).toHaveCSS("border-top-width", "2px");
+  await page.goto("/?theme=editorial");
+  await expect(chip("editorial")).toHaveCSS("border-top-width", "0px");
+  await page.goto("/?theme=swiss-minimal");
+  const secondary = page.getByRole("heading", { name: "Also familiar with" });
+  await expect(secondary).toHaveCSS("text-transform", "none");
+  await expect(page.locator('#contact [data-part="avatar"]')).toHaveCSS(
+    "border-top-left-radius",
+    /^9999px|50%$/,
+  );
+  // The panel spans the section, not just its content.
+  const [panel, section] = await Promise.all([
+    page.locator('#skills [data-part="stack"]').boundingBox(),
+    page.locator("#skills > div").boundingBox(),
+  ]);
+  expect(panel!.width).toBeGreaterThan(section!.width - 60);
+});

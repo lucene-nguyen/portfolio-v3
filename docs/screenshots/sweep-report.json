@@ -28,7 +28,7 @@
       "status": 200
     },
     "/api/github": {
-      "status": 503
+      "status": 200
     },
     "/search-index.json": {
       "status": 200
