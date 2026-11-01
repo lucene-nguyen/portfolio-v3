@@ -227,6 +227,15 @@ export const bentoCopy = {
   labCta: "Try the rate limiter",
 };
 
+export const stickerCopy = {
+  title: "Sticker board",
+  hint: "Drag the stickers around. Select one to see the projects that use it.",
+  listLabel: "Filter projects by skill",
+  clear: "Show all",
+  results: (skill: string, n: number) => `${n} project${n === 1 ? "" : "s"} using ${skill}`,
+  all: (n: number) => `All ${n} projects`,
+};
+
 export const lab = {
   eyebrow: "02 / live lab",
   title: "Try to break my rate limiter",

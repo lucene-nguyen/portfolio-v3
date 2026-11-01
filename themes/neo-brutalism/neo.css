@@ -1,0 +1,30 @@
+/* Scoped to Neo-brutalism: thick black borders, hard offset shadows, no easing. */
+[data-theme="neo-brutalism"] * {
+  border-radius: 0 !important;
+  transition: none !important;
+}
+[data-theme="neo-brutalism"] :is(h1, h2, h3) {
+  font-weight: 800;
+}
+[data-theme="neo-brutalism"] :is(#work article, #lab .bg-surface, #kits li > *, .nb-card) {
+  border: 3px solid #000 !important;
+  box-shadow: 6px 6px 0 #000;
+}
+[data-theme="neo-brutalism"] :is(a.inline-flex, button) {
+  border-width: 2px;
+}
+[data-theme="neo-brutalism"] :focus-visible {
+  outline-width: 3px;
+  outline-offset: 3px;
+}
+.nb-sticker {
+  border: 3px solid #000;
+  box-shadow: 4px 4px 0 #000;
+  touch-action: none;
+}
+.nb-sticker[aria-pressed="true"] {
+  box-shadow: none;
+  transform: translate(4px, 4px) rotate(var(--r));
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
