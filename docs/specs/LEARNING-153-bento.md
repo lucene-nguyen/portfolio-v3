@@ -15,3 +15,6 @@ The home page opens with a bento grid of mixed-size tiles that visitors can rear
 - AC2: Tiles can be rearranged by drag and drop and by keyboard (move earlier/later buttons, focus kept, position announced); the order persists across reloads; "Reset layout" restores it.
 - AC3: At 375px the grid is a single column with no horizontal scroll.
 - AC4: Contrast ≥ 4.5:1 on every tile colour (registry tests), axe clean.
+
+## Risks
+- Like Blueprint and Dashboard, the grid is portalled in after the theme chunk loads, so the hero shifts down once on load (accepted theme-slot pattern).

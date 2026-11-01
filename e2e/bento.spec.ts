@@ -26,8 +26,14 @@ test("keyboard: move controls reorder, keep focus, announce, persist; reset rest
   await page.reload();
   await expect(grid(page)).toBeVisible();
   expect((await order(page)).slice(0, 2)).toEqual(["photo", "about"]);
-  await grid(page).getByRole("button", { name: "Reset layout" }).click();
+  // A keyboard move followed by Reset: focus stays on Reset (no jump back into the grid).
+  await grid(page).getByRole("button", { name: "Move About earlier" }).focus();
+  await page.keyboard.press("Enter");
+  const reset = grid(page).getByRole("button", { name: "Reset layout" });
+  await reset.focus();
+  await page.keyboard.press("Enter");
   expect(await order(page)).toEqual(initial);
+  await expect(reset).toBeFocused();
 });
 
 test("first tile cannot move earlier", async ({ page }) => {

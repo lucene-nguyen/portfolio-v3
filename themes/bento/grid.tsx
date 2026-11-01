@@ -171,22 +171,27 @@ export function BentoGrid() {
   const [dragging, setDragging] = useState<string | null>(null);
   // Read during dragover/drop, which can fire before React re-renders with the new state.
   const dragId = useRef<string | null>(null);
-  const [focusId, setFocusId] = useState<string | null>(null);
+  // One-shot: the control to refocus after the next keyboard move.
+  const focusAfterMove = useRef<string | null>(null);
+  const [over, setOver] = useState<string | null>(null);
+
+  // Same text twice would not be re-announced; a trailing no-break space makes it differ.
+  const say = (msg: string) => setAnnounce((prev) => (prev === msg ? `${msg} ` : msg));
 
   const save = (next: string[], movedId?: string) => {
     setOrder(next);
     try {
       localStorage.setItem(KEY, JSON.stringify(next));
     } catch {}
-    if (movedId)
-      setAnnounce(c.moved(byId.get(movedId)!.name, next.indexOf(movedId) + 1, next.length));
+    if (movedId) say(c.moved(byId.get(movedId)!.name, next.indexOf(movedId) + 1, next.length));
   };
 
   // After a keyboard move, keep focus on the same control of the moved tile.
   useEffect(() => {
-    if (!focusId) return;
-    document.querySelector<HTMLElement>(`[data-focus-key="${focusId}"]`)?.focus();
-  }, [order, focusId]);
+    if (!focusAfterMove.current) return;
+    document.querySelector<HTMLElement>(`[data-focus-key="${focusAfterMove.current}"]`)?.focus();
+    focusAfterMove.current = null;
+  }, [order]);
 
   return (
     <section aria-labelledby="bento-title" className="border-b border-border">
@@ -205,7 +210,7 @@ export function BentoGrid() {
                 localStorage.removeItem(KEY);
               } catch {}
               setOrder(ids);
-              setAnnounce(c.resetDone);
+              say(c.resetDone);
             }}
             className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border-strong px-4 text-sm"
           >
@@ -223,7 +228,6 @@ export function BentoGrid() {
               <li
                 key={id}
                 data-tile={id}
-                aria-label={t.name}
                 draggable
                 onDragStart={(e) => {
                   dragId.current = id;
@@ -231,7 +235,10 @@ export function BentoGrid() {
                   e.dataTransfer.effectAllowed = "move";
                 }}
                 onDragOver={(e) => {
-                  if (dragId.current && dragId.current !== id) e.preventDefault();
+                  if (dragId.current && dragId.current !== id) {
+                    e.preventDefault();
+                    setOver(id);
+                  }
                 }}
                 onDrop={(e) => {
                   e.preventDefault();
@@ -239,16 +246,20 @@ export function BentoGrid() {
                   if (from && from !== id) save(moveTo(order, from, id), from);
                   dragId.current = null;
                   setDragging(null);
+                  setOver(null);
                 }}
+                onDragLeave={() => setOver((o) => (o === id ? null : o))}
                 onDragEnd={() => {
                   dragId.current = null;
                   setDragging(null);
+                  setOver(null);
                 }}
                 className={cn(
                   "relative flex flex-col gap-3 rounded-3xl p-5 shadow-sm",
                   t.size,
                   tones[t.tone],
                   dragging === id && "opacity-60",
+                  over === id && "ring-4 ring-accent",
                 )}
               >
                 <div className="flex items-center justify-between gap-2">
@@ -281,10 +292,10 @@ export function BentoGrid() {
                         data-focus-key={`${id}-${k}`}
                         onClick={() => {
                           if (disabled) return;
-                          setFocusId(`${id}-${k}`);
+                          focusAfterMove.current = `${id}-${k}`;
                           save(move(order, id, delta), id);
                         }}
-                        className="flex size-11 items-center justify-center rounded-full border border-current/40 aria-disabled:opacity-40"
+                        className="flex size-11 items-center justify-center rounded-full border border-border-strong bg-surface text-text aria-disabled:opacity-40"
                       >
                         <Icon size={16} aria-hidden />
                       </button>
