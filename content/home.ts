@@ -236,6 +236,16 @@ export const stickerCopy = {
   all: (n: number) => `All ${n} projects`,
 };
 
+export const mangaCopy = {
+  title: "The story so far",
+  intro: "Career as a short manga strip: one panel per role, oldest first.",
+  textToggle: "Read the story as plain text",
+  chapter: (n: number) => `Chapter ${n}`,
+  artNote: "[PLACEHOLDER: commissioned artwork] Abstract placeholder panels; no characters.",
+  panelAlt: (company: string, period: string) =>
+    `Abstract manga panel for ${company} (${period}): radiating speed lines and halftone dots around a laptop icon. No characters.`,
+};
+
 export const lab = {
   eyebrow: "02 / live lab",
   title: "Try to break my rate limiter",

@@ -1,3 +1,4 @@
+import { anime } from "./anime";
 import { bento } from "./bento";
 import { blueprint } from "./blueprint";
 import { cyberpunk } from "./cyberpunk";
@@ -24,6 +25,7 @@ export const themes: readonly ThemeDefinition[] = [
   ide,
   bento,
   neoBrutalism,
+  anime,
 ];
 
 export const defaultTheme = themes[0];
