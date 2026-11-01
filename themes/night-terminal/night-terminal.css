@@ -1,0 +1,70 @@
+/* Night terminal accents (design-system/portfolio-v3/pages/night-terminal.md › Layout).
+   Scoped to the theme; decorative glyphs have empty alt text. */
+[data-theme="night-terminal"] [data-part="eyebrow"]::before {
+  content: "# " / "";
+  color: var(--text-subtle);
+}
+
+/* Case studies: terminal windows with a title bar. */
+[data-theme="night-terminal"] [data-part="case-meta"] {
+  /* Edge to edge: negative margin = the card's p-7 (1.75rem) padding. */
+  margin: -1.75rem -1.75rem 0;
+  padding: 12px 1.75rem;
+  border-bottom: 1px solid var(--border);
+  border-radius: 16px 16px 0 0;
+  background: var(--bg);
+}
+[data-theme="night-terminal"] [data-part="case-meta"] > span:first-child::before {
+  content: "▸ " / "";
+  color: var(--accent);
+}
+
+/* Hero stats: command output (prompt on the label, so wide values never wrap). */
+[data-theme="night-terminal"] [data-part="stat"] dt::before {
+  content: "› " / "";
+  color: var(--text-subtle);
+}
+
+/* Experience: git log graph. */
+[data-theme="night-terminal"] [data-part="roles"] {
+  position: relative;
+  padding-left: 28px;
+}
+[data-theme="night-terminal"] [data-part="roles"]::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 7px;
+  border-left: 2px dashed var(--border-strong);
+}
+[data-theme="night-terminal"] [data-part="role"] {
+  position: relative;
+}
+[data-theme="night-terminal"] [data-part="role"]::before {
+  content: "";
+  position: absolute;
+  top: 30px;
+  left: -26px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--bg);
+}
+
+/* Contact: shell prompt above the actions. */
+[data-theme="night-terminal"] [data-part="contact-actions"] {
+  position: relative;
+  padding-top: 32px;
+}
+[data-theme="night-terminal"] [data-part="contact-actions"]::before {
+  content: "$ contact --open" / "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  font:
+    14px var(--font-jetbrains-mono),
+    monospace;
+  color: var(--text-muted);
+}

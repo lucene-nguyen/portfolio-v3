@@ -55,3 +55,19 @@
 - All text pairs ≥ 4.5:1 (enforced by `themes/registry.test.ts`).
 - `:focus-visible` = 2px accent outline, 2px offset, on every interactive element.
 - No animation beyond 200ms fades; everything off under `prefers-reduced-motion`.
+
+## Layout
+> ui-ux-pro-max (UI round 1): `"developer portfolio" --domain landing`, `"terminal monospace readability" --domain ux`.
+
+**Section order:** Hero → Case studies → Live lab → Starter kits → Experience + stack → Contact (the approved mockup's order).
+- Verified: landing **Portfolio Grid** — "Hero (Name/Role) > Project Grid > About > Contact"; contact CTA in the footer.
+- Verified (ux): formatted numbers, body line-height 1.5–1.75, high-contrast text.
+- Rejected: masonry grid and hover-only card CTAs (the mockup's equal cards with an explicit "Read case study" link stay).
+- This is the default theme from the owner's approved mockup: changes are terminal-language accents, not a new layout.
+
+**How the shared sections look**
+- Eyebrows → shell comments: `# 01 / selected work`.
+- Case study cards → **terminal windows**: the meta line becomes a title bar (`bg`, rule below, `▸` prompt), body unchanged.
+- Hero stats → command output: labels prefixed with `›` (values stay on one line).
+- Experience → **git log**: a dashed graph line down the left with an accent commit dot per role.
+- Contact → **prompt**: actions under a `$ contact --open` line.
