@@ -15,6 +15,7 @@ export function ExperienceSection() {
             {experience.roles.map((r) => (
               <li
                 key={r.company}
+                // flex-[0_0_170px] + gap-x-6: the dashboard theme's table header aligns to these values.
                 data-part="role"
                 className="flex flex-wrap gap-x-6 gap-y-2 border-t border-border py-6 last:border-b"
               >

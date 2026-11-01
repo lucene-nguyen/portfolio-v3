@@ -1,5 +1,11 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { dashboard } from "../themes/dashboard";
+
+const rgb = (hex: string) => {
+  const n = parseInt(hex.slice(1), 16);
+  return `rgb(${n >> 16}, ${(n >> 8) & 255}, ${n & 255})`;
+};
 
 const github = {
   user: "lucene-nguyen",
@@ -76,7 +82,7 @@ test("shared sections are restyled as panels, not just recolored", async ({ page
   await expect(page.getByTestId("panel-traffic")).toBeVisible();
   await expect(page.locator('[data-part="case-meta"]').first()).toHaveCSS(
     "background-color",
-    "rgb(34, 37, 43)",
+    rgb(dashboard.tokens.surface2),
   );
   await expect(page.locator('[data-part="stat"]').first()).toHaveCSS(
     "border-top-left-radius",
@@ -89,7 +95,7 @@ test("shared sections are restyled as panels, not just recolored", async ({ page
   ).toContain("PERIOD");
   await expect(page.locator('[data-part="role"]').nth(1)).toHaveCSS(
     "background-color",
-    "rgb(24, 27, 31)",
+    rgb(dashboard.tokens.surface),
   );
   expect(
     await page

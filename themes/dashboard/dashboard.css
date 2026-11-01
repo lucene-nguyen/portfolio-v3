@@ -37,6 +37,7 @@
   overflow: visible;
 }
 [data-theme="dashboard"] [data-part="stat"] {
+  /* !important: beats the component's per-cell border utilities. */
   border: 1px solid var(--border) !important;
   border-radius: 4px;
   background: var(--surface);
@@ -79,6 +80,7 @@
   }
 }
 [data-theme="dashboard"] [data-part="role"] {
+  /* !important: beats the row's py-6 / border utilities. */
   padding: 14px 16px !important;
   border-width: 0 !important;
 }
@@ -99,6 +101,7 @@
   position: absolute;
   inset: 0 0 auto;
   padding: 8px 20px;
+  line-height: 20px; /* bar = 8 + 20 + 8 (+1 rule) < the panel's 48px top padding */
   border-bottom: 1px solid var(--border);
   background: var(--surface2);
   font: 600 13px var(--font-mono);
