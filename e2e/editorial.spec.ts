@@ -78,3 +78,12 @@ for (const path of ["/?theme=editorial", study]) {
     expect(overflow).toBeLessThanOrEqual(0);
   });
 }
+
+test("design rules are persisted with the exact tokens", async () => {
+  const fs = await import("node:fs/promises");
+  const md = await fs.readFile("design-system/portfolio-v3/pages/editorial.md", "utf8");
+  const { editorial } = await import("../themes/editorial");
+  const { fontHeading, radius, ...colors } = editorial.tokens;
+  void [fontHeading, radius];
+  for (const hex of Object.values(colors)) expect(md).toContain(hex);
+});
