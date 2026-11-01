@@ -40,3 +40,17 @@
 - Sound: square-wave blip on unlock, off by default, checkbox in the dialog.
 - Unlock toasts appear for unlocks that happen while Pixel is active; Explorer may unlock silently on the first Pixel load (recorded before the panel subscribes) and then simply shows as Unlocked.
 - Mana fill is the optional `meterFill` token (#5FCDE4).
+
+## Layout
+> ui-ux-pro-max (UI round 1): `"retro game playful portfolio" --domain landing` and retry `"gaming" --domain landing` → **no verified match**; section order follows the skill's built-in defaults (hero first, proof, work, contact). `"pixel game ui readability" --domain ux` (retry `"game hud dialog"`: no match).
+
+**Section order:** Hero → Case studies → Live lab (mana bar) → Starter kits → Experience + stack → Contact (shared order, hero first).
+- Verified (ux): body line-height 1.5–1.75 (body stays Inter Tight); numbers formatted with separators/abbreviations (2,500+, 300→20ms).
+- Rejected (ux): "glass material and z-offset" depth layering — a spatial-UI rule; pixel art stays flat with hard shadows.
+
+**How the shared sections look** (game UI, decoration only — labels are CSS with empty alt text)
+- Case study cards → **quest dialog boxes**: double 6px border, hard 4px shadow, "QUEST" tab; metrics in the pixel font as rewards; tags as square inventory slots.
+- Hero stats → **character sheet**: double-bordered panel, each stat a row (label left, value right in the pixel font).
+- Experience → **save slots**: each role a bordered box with hard shadow; date in mono.
+- Starter kits → bordered item cards (3px border, hard shadow), like save slots.
+- Contact → **"CONTINUE?" box**: double-bordered actions panel; buttons are pixel buttons (3px border, hard shadow, press = shadow drops via transform, no layout shift).

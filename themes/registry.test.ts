@@ -1,3 +1,4 @@
+import { readdirSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { contrast } from "@/lib/theme/contrast";
 import { defaultTheme, themes } from "./registry";
@@ -51,4 +52,13 @@ describe("theme registry", () => {
       expect(contrast(k.accentContrast, k.accent)).toBeGreaterThanOrEqual(4.5);
     });
   });
+});
+
+it("imports every theme stylesheet in the root layout (styled on first paint)", () => {
+  const layout = readFileSync("app/layout.tsx", "utf8");
+  for (const dir of readdirSync("themes", { withFileTypes: true }).filter((d) => d.isDirectory())) {
+    for (const css of readdirSync(`themes/${dir.name}`).filter((f) => f.endsWith(".css"))) {
+      expect(layout, `${dir.name}/${css}`).toContain(`@/themes/${dir.name}/${css}`);
+    }
+  }
 });

@@ -89,6 +89,8 @@ test.describe("system map", () => {
 
 test("shared sections are restyled in drafting language, not just recolored", async ({ page }) => {
   await page.goto("/?theme=blueprint");
+  // The theme layout remounts the page content once it loads; measure after that.
+  await expect(map(page)).toBeVisible();
   const card = page.locator('[data-part="case-card"]').first();
   await expect(card).toHaveCSS("border-radius", "0px");
   expect(await card.evaluate((el) => getComputedStyle(el, "::before").borderTopWidth)).toBe("2px");

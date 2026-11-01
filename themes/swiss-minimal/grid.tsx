@@ -5,8 +5,6 @@ import { createPortal } from "react-dom";
 import { Grid3x3 } from "lucide-react";
 import { useThemeSlot } from "@/components/theme/use-theme-slot";
 import { swissCopy } from "@/content/home";
-// Also carries the print CV stylesheet: printing needs this chunk loaded (i.e. JS on).
-import "./swiss.css";
 
 const KEY = "swiss:grid";
 

@@ -23,7 +23,7 @@ export const pixel: ThemeDefinition = {
     warning: "#FFCD75",
     danger: "#FF9A8A",
     meterFill: "#5FCDE4",
-    // Defined by the Pixel feature chunk; falls back to the sans until it loads.
+    // Font variable defined in the root layout (not preloaded; fetched only when used).
     fontHeading: "var(--font-press-start, var(--font-inter-tight))",
     radius: "0px",
   },

@@ -8,7 +8,9 @@ export function ContactSection() {
     <footer id="contact" aria-labelledby="contact-title" className="border-t border-border">
       <div className={`${container} flex flex-col gap-10 pt-24 pb-12`}>
         <div data-print="hide" className="flex max-w-[760px] flex-col gap-[18px]">
-          <p className="font-mono text-sm text-accent">{contact.eyebrow}</p>
+          <p data-part="eyebrow" className="font-mono text-sm text-accent">
+            {contact.eyebrow}
+          </p>
           <h2
             id="contact-title"
             className="font-heading text-[36px] leading-[1.08] font-bold tracking-[-0.02em] sm:text-[52px]"

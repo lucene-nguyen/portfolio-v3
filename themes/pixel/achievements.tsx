@@ -1,21 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { Press_Start_2P } from "next/font/google";
 import { Trophy } from "lucide-react";
 import { createPortal } from "react-dom";
 import { useThemeSlot } from "@/components/theme/use-theme-slot";
 import { achievementsCopy } from "@/content/home";
 import { CHANGE_EVENT, evaluate, loadProgress, type Achievement } from "@/lib/achievements";
 import { themes } from "@/themes/registry";
-import "./pixel.css";
-
-// Loaded only with this chunk, i.e. only while the Pixel theme is active.
-const pressStart = Press_Start_2P({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-press-start",
-});
 
 const SOUND_KEY = "pixel:sound";
 const ids = themes.map((t) => t.id);
@@ -64,13 +55,6 @@ export default function PixelAchievements() {
   });
   const [toast, setToast] = useState("");
   const unlockedRef = useRef<Set<string> | null>(null);
-
-  // Pixel heading font: the variable lives on <html> only while this theme is active.
-  useEffect(() => {
-    const html = document.documentElement;
-    html.classList.add(pressStart.variable);
-    return () => html.classList.remove(pressStart.variable);
-  }, []);
 
   // Announce newly unlocked achievements (not ones unlocked before this mount).
   const unlockedKey = list

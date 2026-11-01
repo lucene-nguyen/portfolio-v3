@@ -107,3 +107,28 @@ test("mana bar, axe clean, 375px", async ({ page }) => {
   );
   expect(overflow).toBeLessThanOrEqual(0);
 });
+
+test("shared sections are restyled as game UI, not just recolored", async ({ page }) => {
+  await page.goto("/?theme=pixel");
+  await expect(button(page)).toBeVisible();
+  const card = page.locator('[data-part="case-card"]').first();
+  await expect(card).toHaveCSS("border-top-style", "double");
+  expect(await card.evaluate((el) => getComputedStyle(el, "::before").content)).toContain("QUEST");
+  await expect(page.locator('[data-part="stat"]').first()).toHaveCSS("flex-direction", "row");
+  await expect(page.locator('[data-part="role"]').first()).toHaveCSS("border-top-width", "3px");
+  await expect(page.locator('[data-part="contact-actions"]')).toHaveCSS(
+    "border-top-style",
+    "double",
+  );
+});
+
+test("theme styles apply on first paint, before any app JS", async ({ page }) => {
+  await page.route("**/_next/static/**/*.js", (route) => route.abort());
+  await page.goto("/?theme=pixel");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "pixel");
+  await expect(page.locator('[data-part="case-card"]').first()).toHaveCSS(
+    "border-top-style",
+    "double",
+  );
+  await expect(page.getByRole("heading", { level: 1 })).toHaveCSS("font-family", /Press Start 2P/);
+});
