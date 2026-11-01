@@ -16,7 +16,13 @@ export const dynamicParams = false;
 
 export async function generateMetadata({ params }: PageProps<"/work/[slug]">): Promise<Metadata> {
   const study = find((await params).slug);
-  return study ? { title: study.title, description: study.summary } : {};
+  if (!study) return {};
+  return {
+    title: study.title,
+    description: study.summary,
+    alternates: { canonical: `/work/${study.slug}` },
+    openGraph: { type: "article", title: study.title, description: study.summary },
+  };
 }
 
 export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]">) {
