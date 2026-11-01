@@ -100,3 +100,33 @@ test("pad buttons work from the keyboard", async ({ page }) => {
   }
   await expect(page).toHaveURL(/#lab$/);
 });
+
+test("shared sections are restyled with depth", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" }); // the world never opens
+  await page.goto("/?theme=3d-world");
+  const card = page.locator('#work [data-part="case-card"]').first();
+  await expect(card).toHaveCSS("background-image", /linear-gradient/);
+  await expect(card).toHaveCSS("box-shadow", /inset/);
+  await expect(page.locator('[data-part="case-metrics"]').first()).toHaveCSS(
+    "background-color",
+    "rgb(15, 22, 38)",
+  );
+  const eyebrowPad = await page
+    .locator('#work [data-part="eyebrow"]')
+    .evaluate((e) => getComputedStyle(e, "::before").backgroundColor);
+  expect(eyebrowPad).toBe("rgb(255, 181, 71)");
+  const stats = page.locator('[data-part="stat"]');
+  await expect(stats.first()).toHaveCSS("box-shadow", /inset/);
+  await expect(stats.filter({ has: page.locator("dd.text-accent") })).toHaveCSS(
+    "box-shadow",
+    /0px 0px 28px/,
+  );
+  await expect(page.locator('[data-part="role"]').first()).toHaveCSS(
+    "background-color",
+    "rgb(18, 26, 44)",
+  );
+  await expect(page.locator('[data-part="contact-actions"]')).toHaveCSS(
+    "box-shadow",
+    /0px 0px 28px/,
+  );
+});
