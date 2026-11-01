@@ -24,3 +24,8 @@ CI run status on GitHub not checked: the repo is private and no `gh` CLI/token i
 
 ## Review
 APPROVE, no Blockers. Fixed: HTML reporter in CI so the failure artifact exists; check names aligned; push trigger limited to main/develop; timeouts; telemetry off.
+
+## Update 2026-11-01
+GitHub billing upgraded (private-repo branch protection + Actions minutes available). The implementer PC has no `gh` CLI, so:
+- CI: `develop` pushed (merge of LEARNING-149); run status must be checked by the owner in the Actions tab. The `checks` job now also starts Redis service containers for the Lua integration tests (added in LEARNING-142).
+- Branch protection: exact `gh api` command + verification query in `docs/ci.md` (require PR, required checks `checks` and `e2e`, strict, no force pushes, no deletions).
