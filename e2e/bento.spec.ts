@@ -77,3 +77,48 @@ test("desktop: mixed sizes and axe clean", async ({ page }) => {
   const { violations } = await new AxeBuilder({ page }).exclude("nextjs-portal").analyze();
   expect(violations.map((v) => v.id)).toEqual([]);
 });
+
+test("shared sections are restyled as tiles", async ({ page }) => {
+  const cards = page.locator('#work [data-part="case-card"]');
+  await expect(cards.first()).toHaveCSS("border-top-left-radius", "24px");
+  await expect(cards.first()).toHaveCSS("border-top-width", "0px");
+  await expect(page.locator('#work [data-part="eyebrow"]')).toHaveCSS(
+    "border-top-left-radius",
+    "999px",
+  );
+  await expect(page.locator('[data-part="role"]').first()).toHaveCSS(
+    "border-top-left-radius",
+    "24px",
+  );
+  await expect(page.locator('[data-part="kit"] > *').first()).toHaveCSS(
+    "border-top-left-radius",
+    "24px",
+  );
+  await expect(page.locator('[data-part="stat"]').first()).toHaveCSS(
+    "border-top-left-radius",
+    "16px",
+  );
+  await expect(cards.first()).not.toHaveCSS("box-shadow", "none");
+  const bg = (part: string) =>
+    page
+      .locator(`[data-part="${part}"]`)
+      .first()
+      .evaluate((e) => getComputedStyle(e).backgroundColor);
+  expect(await bg("stack")).not.toBe(await bg("role"));
+  // Wide feature tile: the first study spans both columns at desktop width.
+  const [a, b] = await cards.evaluateAll((els) =>
+    els.slice(0, 2).map((e) => e.getBoundingClientRect()),
+  );
+  expect(a.width).toBeGreaterThan(b.width * 1.8);
+  // One column on phones.
+  await page.setViewportSize({ width: 375, height: 800 });
+  const widths = await cards.evaluateAll((els) =>
+    els.map((e) => Math.round(e.getBoundingClientRect().width)),
+  );
+  expect(new Set(widths).size).toBe(1);
+  // Hero numbers: 2×2 tiles on phones.
+  const lefts = await page
+    .locator('[data-part="stat"]')
+    .evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().left)));
+  expect(new Set(lefts).size).toBe(2);
+});

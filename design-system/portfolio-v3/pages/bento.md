@@ -38,3 +38,15 @@ Every tile colour is a token whose text pairs are tested (registry tests: text t
 - Tiles: About (2×2), Photo (1×2), Key numbers (accent), one per case study, Stack (2×1), Live lab, Contact.
 - Reorder: drag a tile onto another, or use the arrow buttons (focus stays on the pressed button; a status line announces the new position). Order saved in localStorage; "Reset layout" restores the default.
 - < 768px: one column.
+
+## Layout
+Searched (UI round 1): `"portfolio bento grid" --domain landing` → **Bento Grid Showcase** (verified: Hero > Bento grid > detail cards > CTA; mobile stack; cards usable without hover; final state under reduced motion) and **Portfolio Grid** (neutral ground, minimal accent). `"card grid scannable hierarchy" --domain ux` → Heading Hierarchy, Font Size Scale (verified; the breadcrumb hit is off-topic for a one-level site and ignored).
+
+Shared sections (below the "At a glance" grid) speak the same tile language:
+- Every block is a tile: 24px radius (`--theme-radius`), no border, soft shadow, white on the #F4F4F2 ground.
+- Eyebrows are small pill chips (surface2 ground, accent text).
+- Case studies: a 2-column mosaic ≥ 768px; the first study is the 2×1 feature tile, the other two sit side by side below it (a 1×2 tile left half the tile empty). One column below 768px.
+- Hero key numbers: separate small tiles (2×2 on narrow screens), not a divided strip.
+- Experience: each role is a tile; the stack column is one bgAlt tile.
+- Kits: tiles, same radius and shadow. Contact actions sit in one tile.
+- Rejected: hover scale/tilt (motion without meaning), staggered entrance (nothing animates under reduced motion; tiles render in their final state always).

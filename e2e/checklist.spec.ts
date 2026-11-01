@@ -11,6 +11,7 @@ const THEMES = [
   "dashboard",
   "ide",
   "docs",
+  "bento",
 ];
 
 const overflow = (page: Page) =>

@@ -148,3 +148,17 @@ Spec: [docs/specs/ui-round-1.md](../specs/ui-round-1.md). Before = `docs/screens
   - N/A for this site: safe-area insets/Dynamic Type (native), dark+light parity (each theme is single-mode, contrast-tested), forms/auth, auto-rotating content.
 - Before/after: default boxed sections in docs colours → Notion block language (`docs/screenshots/docs/`).
 - Review: CHANGES REQUESTED (docs missing from the checklist list — a silent edit miss) → added and passing; Should (sweep lab result) fixed by resetting the limiter; nits applied.
+
+## fix/ui-bento (item 2)
+- ui-ux-pro-max layout pass: `"bento grid portfolio" --domain landing` (Bento Grid Showcase, Portfolio Grid verified), ux `"heading hierarchy font size scale"` (applied; Breadcrumbs result ignored as off-topic). New "## Layout" section in `pages/bento.md`; hover scale/tilt and staggered entrance rejected.
+- New `themes/bento/bento.css` (root-layout import): pill eyebrows; borderless 24px tiles with a soft token-derived shadow for case studies, roles, kits, contact and hero stats; case studies as a 2-column mosaic with a wide first feature tile (one column below 768px); stack as a bgAlt tile.
+- Tests: restyle assertions in `e2e/bento.spec.ts` (radii, shadow, stack vs role ground, wide feature tile, single column and 2×2 stats at 375px); checklist extended to bento.
+- Pre-delivery checklist (ui-ux-pro-max `references/pro-rules.md`; web-applicable items):
+  - Process: theme-specific `--domain landing` + `--domain ux` searches ✅ · 375px and landscape 812×375 ✅ (e2e) · reduced motion ✅ (no running animations, e2e) · 200% zoom (720px viewport) ✅ · contrast per theme ✅ (registry tests: every text token on every ground) · touch targets ≥ 44px for buttons/selects ✅ (e2e, strict)
+  - Visual: no emoji icons ✅ (Lucide only) · one icon family ✅ · no layout-shifting press states ✅ · tokens only, no ad-hoc hex ✅
+  - Interaction: visible focus ring ✅ · focus order = DOM order ✅ (home tab test) · descriptive labels ✅ (axe clean) · drag has button alternatives ✅ (where present)
+  - Layout: nothing hidden behind fixed UI ✅ (no fixed controls on mobile) · 4/8px spacing rhythm ✅ · readable measure ✅
+  - Accessibility: decorative icons/labels hidden from AT ✅ · colour never the only indicator ✅ · reduced motion ✅
+  - N/A for this site: safe-area insets/Dynamic Type (native), dark+light parity (each theme is single-mode, contrast-tested), forms/auth, auto-rotating content.
+- Before/after: default bordered sections inside the bento grid → tile language throughout (`docs/screenshots/bento/`).
+- Review: APPROVE; Shoulds applied (shadow from `--text` via color-mix, stronger tile assertions); nits kept (`!important` matches docs/dashboard, 13px eyebrow intended).
