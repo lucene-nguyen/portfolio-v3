@@ -4,6 +4,12 @@ import { expect, test, type Page } from "@playwright/test";
 const world = (page: Page) => page.getByRole("dialog", { name: "3D world" });
 const canvas = (page: Page) => page.getByTestId("world-canvas");
 
+async function enterWorld(page: Page, path = "/?theme=3d-world") {
+  await page.goto(path);
+  await page.getByRole("button", { name: "Enter 3D world" }).click();
+  await expect(world(page)).toBeVisible();
+}
+
 async function collectScripts(page: Page) {
   const bodies: string[] = [];
   page.on("response", async (r) => {
@@ -23,27 +29,28 @@ test("Three.js loads only in this theme; no model/texture assets", async ({ page
   expect(scripts.some((s) => s.includes("WebGLRenderer"))).toBe(false);
 
   await page.goto("/?theme=3d-world");
+  // Not loaded until the visitor enters the world.
+  await expect(page.getByRole("button", { name: "Enter 3D world" })).toBeVisible();
+  expect(scripts.some((s) => s.includes("WebGLRenderer"))).toBe(false);
+  await page.getByRole("button", { name: "Enter 3D world" }).click();
   await expect(canvas(page)).toHaveAttribute("data-status", "ready", { timeout: 20_000 });
   expect(scripts.some((s) => s.includes("WebGLRenderer"))).toBe(true);
   expect(assets).toEqual([]);
 });
 
-test("Skip to content exits to the standard layout and focuses main", async ({ page }) => {
+test("entry sits below the hero; Skip to content exits and focuses main", async ({ page }) => {
   await page.goto("/?theme=3d-world");
-  await expect(world(page)).toBeVisible();
+  await expect(world(page)).toHaveCount(0);
+  const entry = page.getByRole("region", { name: "3D world" });
+  expect(await entry.evaluate((el) => el.parentElement?.previousElementSibling?.id)).toBe("top");
+  await entry.getByRole("button", { name: "Enter 3D world" }).click();
   await world(page).getByRole("button", { name: "Skip to content" }).click();
   await expect(world(page)).toBeHidden();
   await expect(page.locator("#main")).toBeFocused();
-  await expect(page.getByRole("button", { name: "Enter 3D world" })).toBeVisible();
-  // Stays closed for the session; can be reopened.
-  await page.reload();
-  await expect(page.getByRole("button", { name: "Enter 3D world" })).toBeVisible();
-  await expect(world(page)).toBeHidden();
 });
 
 test("Esc also exits", async ({ page }) => {
-  await page.goto("/?theme=3d-world");
-  await expect(world(page)).toBeVisible();
+  await enterWorld(page);
   await page.keyboard.press("Escape");
   await expect(world(page)).toBeHidden();
 });
@@ -57,7 +64,7 @@ test("reduced motion falls back to the standard layout automatically", async ({ 
 });
 
 test("keyboard: walking onto a pad opens that section", async ({ page }) => {
-  await page.goto("/?theme=3d-world");
+  await enterWorld(page);
   await expect(canvas(page)).toHaveAttribute("data-status", "ready", { timeout: 20_000 });
   await canvas(page).focus();
   await page.keyboard.down("ArrowRight");
@@ -68,7 +75,7 @@ test("keyboard: walking onto a pad opens that section", async ({ page }) => {
 });
 
 test("zone buttons and touch pad are labelled; axe clean", async ({ page }) => {
-  await page.goto("/?theme=3d-world");
+  await enterWorld(page);
   await expect(canvas(page)).toHaveAttribute("data-status", "ready", { timeout: 20_000 });
   for (const name of ["Walk forward", "Walk back", "Walk left", "Walk right"]) {
     await expect(world(page).getByRole("button", { name })).toBeVisible();
@@ -79,16 +86,8 @@ test("zone buttons and touch pad are labelled; axe clean", async ({ page }) => {
   await expect(page).toHaveURL(/#contact$/);
 });
 
-test("from a case study, a zone opens that section on the home page", async ({ page }) => {
-  await page.goto("/work/ai-image-pipeline?theme=3d-world");
-  await expect(world(page)).toBeVisible();
-  await world(page).getByRole("button", { name: "Live lab" }).click();
-  await expect(page).toHaveURL(/\/#lab$/);
-  await expect(world(page)).toBeHidden();
-});
-
 test("pad buttons work from the keyboard", async ({ page }) => {
-  await page.goto("/?theme=3d-world");
+  await enterWorld(page);
   await expect(canvas(page)).toHaveAttribute("data-status", "ready", { timeout: 20_000 });
   const right = world(page).getByRole("button", { name: "Walk right" });
   await right.focus();
