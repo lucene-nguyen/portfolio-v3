@@ -21,6 +21,6 @@ Per theme (item 2): ui-ux-pro-max `--domain landing` + `--domain ux` → "## Lay
 | 2 neo-brutalism | done | `fix/ui-neo-brutalism` |
 | 2 anime | done | `fix/ui-anime` |
 | 2 3d-world | done | `fix/ui-3d-world` |
-| 2 swiss-minimal | todo (after 3d-world, owner OK) | `fix/ui-swiss-minimal` |
+| 2 swiss-minimal | done | `fix/ui-swiss-minimal` |
 
 Resume: start at the first `todo` row; branch from `develop`.

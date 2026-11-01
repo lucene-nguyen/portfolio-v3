@@ -206,3 +206,17 @@ Spec: [docs/specs/ui-round-1.md](../specs/ui-round-1.md). Before = `docs/screens
   - N/A for this site: safe-area insets/Dynamic Type (native), dark+light parity (each theme is single-mode, contrast-tested), forms/auth, auto-rotating content.
 - Before/after: flat default sections → layered depth (`docs/screenshots/3d-world/`). Dashboard screenshots also changed in the sweep (live panels re-rendered; no dashboard code touched).
 - Review: APPROVE; Shoulds applied (kit hover cue, data-highlight hook); stack gradient assertion added.
+
+## fix/ui-swiss-minimal (item 2)
+- ui-ux-pro-max layout pass: `"minimal portfolio typography" --domain landing` verified Minimal Single Column / Portfolio Grid; `"swiss grid typography" --domain style` verified Minimalism & Swiss Style (hover animation not applied: nothing new animates); ux `"grid alignment whitespace"` (Font Size Scale kept; Breadcrumbs off-topic). New "## Layout" section in `pages/swiss-minimal.md`.
+- `themes/swiss-minimal/swiss.css` (inside `@media screen`): heavy 4px black top rules instead of boxes for case studies, kits and the stack; uppercase tracked eyebrows under a red bar; tracked uppercase meta lines; 36px tight sans numerals for metrics and hero stats (one row under a single rule); black hairline role rows with tabular periods; linked-kit hover turns the rule red.
+- Tests: restyle, hover and print assertions in `e2e/swiss.spec.ts` (the printed CV keeps its original look); checklist extended to swiss-minimal.
+- Pre-delivery checklist (ui-ux-pro-max `references/pro-rules.md`; web-applicable items):
+  - Process: theme-specific `--domain landing` + `--domain ux` searches ✅ · 375px and landscape 812×375 ✅ (e2e) · reduced motion ✅ (no running animations, e2e) · 200% zoom (720px viewport) ✅ · contrast per theme ✅ (registry tests: every text token on every ground) · touch targets ≥ 44px for buttons/selects ✅ (e2e, strict)
+  - Visual: no emoji icons ✅ (Lucide only) · one icon family ✅ · no layout-shifting press states ✅ · tokens only, no ad-hoc hex ✅
+  - Interaction: visible focus ring ✅ · focus order = DOM order ✅ (home tab test) · descriptive labels ✅ (axe clean) · drag has button alternatives ✅ (where present)
+  - Layout: nothing hidden behind fixed UI ✅ (no fixed controls on mobile) · 4/8px spacing rhythm ✅ · readable measure ✅
+  - Accessibility: decorative icons/labels hidden from AT ✅ · colour never the only indicator ✅ · reduced motion ✅
+  - N/A for this site: safe-area insets/Dynamic Type (native), dark+light parity (each theme is single-mode, contrast-tested), forms/auth, auto-rotating content.
+- Before/after: boxed default sections → typographic rules (`docs/screenshots/swiss-minimal/`).
+- Review: CHANGES REQUESTED (screen rules leaked into the printed CV; kit hover cue lost) → restyle scoped to `@media screen`, hover rule added, both guarded by new e2e assertions; nits applied (merged numeral rule, comments).
