@@ -10,6 +10,7 @@ import { defaultTheme, themes } from "@/themes/registry";
 import "./globals.css";
 // Theme stylesheets are static and scoped by [data-theme]: a stored theme is styled on first paint
 // (no restyle when its lazy chunk loads) and the Swiss print CV works without JS.
+import "@/themes/3d-world/world.css";
 import "@/themes/anime/anime.css";
 import "@/themes/bento/bento.css";
 import "@/themes/blueprint/blueprint.css";

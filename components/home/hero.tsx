@@ -35,6 +35,7 @@ export function Hero() {
             <div
               key={s.label}
               data-part="stat"
+              data-highlight={s.highlight || undefined}
               className={cn(
                 "flex flex-[1_1_140px] flex-col-reverse px-[22px] py-5",
                 i < hero.stats.length - 1 && "border-r border-border",

@@ -191,3 +191,18 @@ Spec: [docs/specs/ui-round-1.md](../specs/ui-round-1.md). Before = `docs/screens
   - N/A for this site: safe-area insets/Dynamic Type (native), dark+light parity (each theme is single-mode, contrast-tested), forms/auth, auto-rotating content.
 - Before/after: rounded default sections → manga page language (`docs/screenshots/anime/`).
 - Review: APPROVE; Should applied (accent stack heading over screentone measured ~4.0:1 by hand, now ink); nits applied (catch on cancelled animations, no !important, single bubble-tail rule matching .mg-bubble, toBeCloseTo).
+
+## fix/ui-3d-world (item 2)
+- ui-ux-pro-max layout pass: `"immersive 3d interactive" --domain landing` verified Immersive/Interactive Experience (skip + non-3D fallback already in place); `"3d depth spatial" --domain style` verified Dimensional Layering (elevation scale applied; translateZ/parallax/backdrop blur rejected for budget and no motion); ux `"depth layering elevation"` (z-offset elevation applied, glass rejected). New "## Layout" section in `pages/3d-world.md`.
+- New `themes/3d-world/world.css` (root-layout import): token-derived elevation scale (e1/e2 with top light), glowing zone-pad eyebrows, top-lit raised case-study/kit panels with recessed metric wells, floating stat tiles (highlighted one on a glowing pad), raised role plates, stack as the highest panel, contact actions on a glowing pad.
+- Hero stat gets a `data-highlight` hook (no styling dependency on a colour utility). Kit hover cue restored for 3d-world and anime.
+- Tests: restyle assertions in `e2e/3d-world.spec.ts`; checklist extended to 3d-world.
+- Pre-delivery checklist (ui-ux-pro-max `references/pro-rules.md`; web-applicable items):
+  - Process: theme-specific `--domain landing` + `--domain ux` searches ✅ · 375px and landscape 812×375 ✅ (e2e) · reduced motion ✅ (no running animations, e2e) · 200% zoom (720px viewport) ✅ · contrast per theme ✅ (registry tests: every text token on every ground) · touch targets ≥ 44px for buttons/selects ✅ (e2e, strict)
+  - Visual: no emoji icons ✅ (Lucide only) · one icon family ✅ · no layout-shifting press states ✅ · tokens only, no ad-hoc hex ✅
+  - Interaction: visible focus ring ✅ · focus order = DOM order ✅ (home tab test) · descriptive labels ✅ (axe clean) · drag has button alternatives ✅ (where present)
+  - Layout: nothing hidden behind fixed UI ✅ (no fixed controls on mobile) · 4/8px spacing rhythm ✅ · readable measure ✅
+  - Accessibility: decorative icons/labels hidden from AT ✅ · colour never the only indicator ✅ · reduced motion ✅
+  - N/A for this site: safe-area insets/Dynamic Type (native), dark+light parity (each theme is single-mode, contrast-tested), forms/auth, auto-rotating content.
+- Before/after: flat default sections → layered depth (`docs/screenshots/3d-world/`). Dashboard screenshots also changed in the sweep (live panels re-rendered; no dashboard code touched).
+- Review: APPROVE; Shoulds applied (kit hover cue, data-highlight hook); stack gradient assertion added.

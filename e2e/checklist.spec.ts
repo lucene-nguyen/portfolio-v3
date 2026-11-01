@@ -14,6 +14,7 @@ const THEMES = [
   "bento",
   "neo-brutalism",
   "anime",
+  "3d-world",
 ];
 
 const overflow = (page: Page) =>
