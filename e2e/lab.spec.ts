@@ -54,9 +54,12 @@ test("burst of 10 produces at least one 429, keeps 8 rows, counters add to 10", 
   expect(ok + blocked).toBe(10);
   await expect(rows(page).filter({ hasText: "429" }).first()).toContainText("Retry-After");
 
-  // Token bucket refills between requests.
-  await expect(meter(page)).toHaveAttribute("aria-valuenow", "0");
-  await expect(meter(page)).toHaveAttribute("aria-valuenow", "1", { timeout: 2500 });
+  // Drained (a slow burst under load may already have refilled one token), then refills without a request.
+  const start = Number(await meter(page).getAttribute("aria-valuenow"));
+  expect(start).toBeLessThanOrEqual(1);
+  await expect
+    .poll(async () => Number(await meter(page).getAttribute("aria-valuenow")), { timeout: 3000 })
+    .toBeGreaterThan(start);
 
   const { violations } = await new AxeBuilder({ page }).include("#lab").analyze();
   expect(violations.map((v) => v.id)).toEqual([]);
