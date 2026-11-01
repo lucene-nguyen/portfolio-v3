@@ -1,5 +1,11 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
+import { docs } from "../themes/docs";
+
+const rgb = (hex: string) => {
+  const n = parseInt(hex.slice(1), 16);
+  return `rgb(${n >> 16}, ${(n >> 8) & 255}, ${n & 255})`;
+};
 
 async function ready(page: Page, path = "/?theme=docs") {
   await page.goto(path);
@@ -106,4 +112,34 @@ test("desktop axe clean with search open", async ({ page }) => {
   await expect(dialog(page).getByRole("option").first()).toBeVisible();
   const { violations } = await new AxeBuilder({ page }).exclude("nextjs-portal").analyze();
   expect(violations.map((v) => v.id)).toEqual([]);
+});
+
+test("shared sections are restyled as Notion blocks", async ({ page }) => {
+  await ready(page);
+  await expect(page.locator('[data-part="case-card"]').first()).toHaveCSS(
+    "border-top-left-radius",
+    "6px",
+  );
+  await expect(page.locator('[data-part="case-meta"] > span').first()).toHaveCSS(
+    "background-color",
+    rgb(docs.tokens.surface2),
+  );
+  await expect(page.locator('[data-part="stats"]')).toHaveCSS(
+    "background-color",
+    rgb(docs.tokens.bgAlt),
+  );
+  await expect(page.locator('[data-part="contact-actions"]')).toHaveCSS(
+    "background-color",
+    rgb(docs.tokens.bgAlt),
+  );
+  await expect(page.locator('#work [data-part="eyebrow"]')).toHaveCSS("font-size", "13px");
+  await expect(page.locator('[data-part="kit"] > *').first()).toHaveCSS(
+    "border-top-left-radius",
+    "6px",
+  );
+  // Database list: role titles line up regardless of period length.
+  const lefts = await page
+    .locator('[data-part="role"] h3')
+    .evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().left)));
+  expect(new Set(lefts).size).toBe(1);
 });

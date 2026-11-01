@@ -10,6 +10,7 @@ const THEMES = [
   "night-terminal",
   "dashboard",
   "ide",
+  "docs",
 ];
 
 const overflow = (page: Page) =>

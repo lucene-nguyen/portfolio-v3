@@ -89,6 +89,9 @@ for (const theme of THEMES) {
   const page = await browser.newPage();
   await page.goto(`${BASE}/`, { waitUntil: "networkidle" });
   const lab = page.locator("#lab");
+  // Start from a full limiter (earlier sweeps share this IP in the in-memory store).
+  await lab.getByRole("button", { name: "Reset" }).click();
+  await page.waitForTimeout(300);
   await lab.getByRole("button", { name: "Burst × 10" }).click();
   await page.waitForTimeout(1500);
   report.lab = {
