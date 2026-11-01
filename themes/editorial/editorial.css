@@ -1,0 +1,14 @@
+/* Scoped to the Editorial theme. */
+[data-theme="editorial"] h1,
+[data-theme="editorial"] h2 {
+  letter-spacing: -0.01em;
+}
+
+.ed-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  height: 3px;
+  background: var(--accent);
+  transform-origin: left;
+}

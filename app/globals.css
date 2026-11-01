@@ -61,6 +61,28 @@ html {
   line-height: 1.5;
 }
 
+/* Editorial reading measure lives here (not in its lazy chunk) so a stored text size never jumps.
+   60–75 characters, line-height ≥ 1.6; size set before first paint by the head script. */
+html[data-reading-size="s"] {
+  --reading-scale: 0.9;
+}
+html[data-reading-size="l"] {
+  --reading-scale: 1.15;
+}
+[data-theme="editorial"] .prose-body :is(p, li) {
+  max-width: 66ch;
+  font-size: calc(19px * var(--reading-scale, 1));
+  line-height: 1.7;
+}
+[data-theme="editorial"] .prose-body h2:first-of-type + p::first-letter {
+  float: left;
+  font-family: var(--font-heading);
+  font-size: 3.4em;
+  line-height: 0.85;
+  padding: 0.08em 0.1em 0 0;
+  color: var(--accent);
+}
+
 /* Global reduced-motion switch: no theme animation survives it. */
 @media (prefers-reduced-motion: reduce) {
   *,

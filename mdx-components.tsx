@@ -1,10 +1,23 @@
 import type { MDXComponents } from "mdx/types";
+import type { ReactNode } from "react";
 import { ArchitectureDiagram } from "@/components/work/architecture-diagram";
 
 // Case study typography. Colors only via theme tokens.
+// Only plain-text headings get an id; rich ones would all become "[object Object]".
+const slugify = (children: ReactNode) =>
+  typeof children !== "string"
+    ? undefined
+    : children
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
 const components: MDXComponents = {
+  // Ids make sections linkable (Editorial's table of contents).
   h2: (props) => (
     <h2
+      id={slugify(props.children)}
       className="mt-14 mb-4 font-heading text-[28px] font-bold tracking-[-0.01em] sm:text-[32px]"
       {...props}
     />

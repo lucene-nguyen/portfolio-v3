@@ -53,4 +53,13 @@ describe("themeScript", () => {
   it("ignores a stored unknown theme", () => expect(run("", "zzz")).toBe("a"));
   it("lets ?theme override storage", () => expect(run("?theme=a", "b")).toBe("a"));
   it("ignores an unknown ?theme", () => expect(run("?theme=zzz", "b")).toBe("b"));
+  it("applies a stored reading size before paint, whitelisted", () => {
+    localStorage.setItem("editorial:text-size", "l");
+    new Function(themeScript(["a"], "a"))();
+    expect(document.documentElement.dataset.readingSize).toBe("l");
+    delete document.documentElement.dataset.readingSize;
+    localStorage.setItem("editorial:text-size", "<x>");
+    new Function(themeScript(["a"], "a"))();
+    expect(document.documentElement.dataset.readingSize).toBeUndefined();
+  });
 });
