@@ -118,7 +118,7 @@
   align-self: flex-start;
   background: var(--surface2);
 }
-[data-theme="neo-brutalism"] [data-part="stack"] h3 {
+[data-theme="neo-brutalism"] [data-part="stack"] h3:not([data-part="skills-secondary"] h3) {
   color: var(--text);
   font-weight: 700;
 }

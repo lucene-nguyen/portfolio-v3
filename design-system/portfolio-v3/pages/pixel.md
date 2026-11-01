@@ -54,3 +54,7 @@
 - Experience → **save slots**: each role a bordered box with hard shadow; date in mono.
 - Starter kits → bordered item cards (3px border, hard shadow), like save slots.
 - Contact → **"CONTINUE?" box**: double-bordered actions panel; buttons are pixel buttons (3px border, hard shadow, press = shadow drops via transform, no layout shift).
+
+### Skills section (round 2, LEARNING-165)
+- Searches: `"skills showcase logos grid" --domain landing` (Feature-Rich Showcase and Bento Grid Showcase: scannable groups, a stack on mobile, nothing hidden behind hover) and `"icon with text label" --domain ux` (Compact Label Overflow: chip labels never wrap).
+- The skills panel is `data-part="stack"` and now sits in its own `#skills` section after the hero, not beside Experience, so this theme's stack-panel rule above styles it. The group headings are `h3`s inside that panel. Icons are monochrome (`currentColor`), so they follow the theme's text colour. "Also familiar with" is smaller and muted.

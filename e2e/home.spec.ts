@@ -5,17 +5,17 @@ import { features } from "../lib/features";
 test("renders sections in the round-2 order; parked sections are absent", async ({ page }) => {
   await page.goto("/");
   const ids = await page
-    .locator("#top, #work, #lab, #kits, #experience, #contact")
+    .locator("#top, #skills, #work, #lab, #kits, #experience, #contact")
     .evaluateAll((els) => els.map((e) => e.id));
-  expect(ids).toEqual(["top", "experience", "kits", "contact"]);
+  expect(ids).toEqual(["top", "skills", "experience", "kits", "contact"]);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "I build web products that bring real value to users and businesses.",
   );
-  for (const name of ["Where I've shipped", "Starter kits & labs"]) {
+  for (const name of ["Skills", "Where I've shipped", "Starter kits & labs"]) {
     await expect(page.getByRole("heading", { level: 2, name })).toBeVisible();
   }
   // Eyebrow numbers follow the visible order (no gaps for parked sections).
-  await expect(page.locator('#experience [data-part="eyebrow"]')).toHaveText("01 / experience");
+  await expect(page.locator('#experience [data-part="eyebrow"]')).toHaveText("02 / experience");
 });
 
 test("hero: subline, bio, CTAs; no avatar or placeholder resume; avatar in contact", async ({

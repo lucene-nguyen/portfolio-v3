@@ -51,7 +51,10 @@ test("shared sections are restyled as manga panels", async ({ page }) => {
     "background-color",
     "rgb(194, 24, 91)",
   );
-  await expect(page.locator('[data-part="stack"] h3')).toHaveCSS("color", "rgb(17, 17, 17)");
+  await expect(page.locator('[data-part="stack"] h3').first()).toHaveCSS(
+    "color",
+    "rgb(17, 17, 17)",
+  );
   // Case cards are parked (LEARNING-164); checked when they come back.
   if (features.caseStudies) {
     const card = page.locator('#work [data-part="case-card"]').first();

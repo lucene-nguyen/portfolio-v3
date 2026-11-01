@@ -53,3 +53,7 @@ Rules:
 - Experience: each role is a raised bgAlt plate, and the stack is the highest panel.
 - The contact actions stand on a glowing pad.
 - Text always sits on solid token grounds (surface, surface2, bgAlt, bg), so the contrast that the registry tests check still holds. The glows are decoration only.
+
+### Skills section (round 2, LEARNING-165)
+- Searches: `"skills showcase logos grid" --domain landing` (Feature-Rich Showcase and Bento Grid Showcase: scannable groups, a stack on mobile, nothing hidden behind hover) and `"icon with text label" --domain ux` (Compact Label Overflow: chip labels never wrap).
+- The skills panel is `data-part="stack"` and now sits in its own `#skills` section after the hero, not beside Experience, so this theme's stack-panel rule above styles it. The group headings are `h3`s inside that panel. Icons are monochrome (`currentColor`), so they follow the theme's text colour. "Also familiar with" is smaller and muted.

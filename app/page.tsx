@@ -3,6 +3,7 @@ import { ContactSection } from "@/components/home/contact-section";
 import { ExperienceSection } from "@/components/home/experience-section";
 import { Hero } from "@/components/home/hero";
 import { KitsSection } from "@/components/home/kits-section";
+import { SkillsSection } from "@/components/home/skills-section";
 import { LabSection } from "@/components/home/lab-section";
 import { RateLimitLab } from "@/components/lab/rate-limit-lab";
 import { WorkSection } from "@/components/home/work-section";
@@ -23,6 +24,7 @@ export default function Home() {
         <Hero />
         {/* Themes portal their signature block here, directly below the shared hero. */}
         <div id="theme-slot-home" />
+        <SkillsSection />
         <ExperienceSection />
         {features.caseStudies && <WorkSection />}
         {features.lab && (

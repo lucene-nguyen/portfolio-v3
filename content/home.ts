@@ -36,6 +36,7 @@ export const labels = {
 
 // Home section order (LEARNING-164); eyebrow numbers follow it, so parked sections leave no gaps.
 const sections = [
+  "skills",
   "experience",
   ...(features.caseStudies ? ["work"] : []),
   ...(features.lab ? ["lab"] : []),
@@ -45,6 +46,7 @@ const sections = [
 const no = (id: string) => String(sections.indexOf(id) + 1).padStart(2, "0");
 
 export const nav = [
+  { href: "/#skills", label: "Skills" },
   { href: "/#experience", label: "Experience" },
   ...(features.caseStudies ? [{ href: "/#work", label: "Work" }] : []),
   ...(features.lab ? [{ href: "/#lab", label: "Live lab" }] : []),
@@ -374,6 +376,22 @@ export const kits = {
   ] as const,
 };
 
+// Owner-provided (LEARNING-165). Icons: components/home/skill-icon.tsx.
+export const skills = {
+  eyebrow: `${no("skills")} / skills`,
+  title: "Skills",
+  groups: [
+    { name: "Frontend", items: ["React", "Next.js", "TypeScript", "JavaScript", "Tailwind CSS"] },
+    { name: "Backend", items: ["Node.js", "NestJS", "GraphQL", "REST", "WebSocket"] },
+    {
+      name: "Data & messaging",
+      items: ["PostgreSQL", "MySQL", "MongoDB", "Redis", "Elasticsearch", "RabbitMQ", "Kafka"],
+    },
+    { name: "Cloud & DevOps", items: ["AWS", "Docker", "GitHub Actions", "Grafana"] },
+  ],
+  secondary: { name: "Also familiar with", items: ["Go", "Python"] },
+};
+
 export const experience = {
   eyebrow: `${no("experience")} / experience`,
   title: "Where I've shipped",
@@ -396,38 +414,6 @@ export const experience = {
       summary:
         "Founding engineer, social commerce — picked the stack, Redis auth & token rotation, APIs for web, iOS and Android.",
     },
-  ],
-  stackLabel: "stack.json",
-  stack: [
-    {
-      name: "Backend",
-      items: [
-        "Node.js",
-        "NestJS",
-        "TypeScript",
-        "GraphQL",
-        "WebSocket",
-        "RabbitMQ",
-        "Kafka",
-        "NATS",
-      ],
-    },
-    { name: "Data", items: ["PostgreSQL", "MySQL", "MongoDB", "Redis", "Elasticsearch"] },
-    {
-      name: "Cloud & DevOps",
-      items: [
-        "AWS Lambda",
-        "ECS",
-        "EC2",
-        "S3",
-        "CloudWatch",
-        "Docker",
-        "GitHub Actions",
-        "Grafana",
-      ],
-    },
-    { name: "Frontend", items: ["React", "Next.js", "Tailwind CSS"] },
-    { name: "Architecture", items: ["Microservices", "Event-driven", "Clean Architecture"] },
   ],
 };
 

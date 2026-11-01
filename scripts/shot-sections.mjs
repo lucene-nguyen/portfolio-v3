@@ -7,7 +7,7 @@ const p = await b.newPage({ viewport: { width: 1440, height: 900 } });
 await p.goto(`${base}/?theme=${theme}`, { waitUntil: "load" });
 await p.waitForTimeout(1500);
 const clip = async (sel) => await p.locator(sel).boundingBox();
-const parts = ["#top", "#work", "#experience", "#contact"];
+const parts = ["#top", "#skills", "#experience", "#contact"];
 const boxes = await Promise.all(parts.map(clip));
 const y0 = boxes[0].y,
   y1 = boxes.at(-1).y + boxes.at(-1).height;

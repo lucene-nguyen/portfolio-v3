@@ -7,12 +7,12 @@ import { ArrowDown, ArrowUp, GripVertical, RotateCcw } from "lucide-react";
 import { container } from "@/components/home/ui";
 import {
   bentoCopy as c,
-  experience,
   hero,
   lab,
   labels,
   profile,
   publicStudies,
+  skills,
 } from "@/content/home";
 import { features } from "@/lib/features";
 import { move, moveTo, sanitizeOrder } from "@/lib/bento";
@@ -113,7 +113,7 @@ const tiles: Tile[] = [
     tone: "bgAlt",
     body: (
       <ul className="flex flex-wrap gap-1.5">
-        {experience.stack
+        {skills.groups
           .flatMap((g) => g.items)
           .map((it) => (
             <li

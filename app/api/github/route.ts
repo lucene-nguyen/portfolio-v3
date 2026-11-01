@@ -24,11 +24,14 @@ async function fetchGithub(): Promise<Payload> {
   // Unauthenticated limit is 60 requests/hour per IP; a token (optional) raises it.
   const headers: Record<string, string> = { Accept: "application/vnd.github+json" };
   if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+  // A slow GitHub must not hang the panel: give up after 5s and report it unavailable.
+  const signal = AbortSignal.timeout(5000);
   const [u, ev] = await Promise.all([
-    fetch(`https://api.github.com/users/${user}`, { headers, cache: "no-store" }),
+    fetch(`https://api.github.com/users/${user}`, { headers, cache: "no-store", signal }),
     fetch(`https://api.github.com/users/${user}/events/public?per_page=5`, {
       headers,
       cache: "no-store",
+      signal,
     }),
   ]);
   if (!u.ok || !ev.ok) throw new Error(`GitHub ${u.status}/${ev.status}`);

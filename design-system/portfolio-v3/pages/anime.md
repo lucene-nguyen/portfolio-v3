@@ -51,3 +51,7 @@ Rules:
 - Experience: each role is a narration box (a bgAlt fill with a 3px ink border and an italic period). The stack is an ink panel on screentone; its heading is ink, not accent (accent over the dots is about 4.0:1, and axe cannot check text over a background image).
 - The contact actions sit inside a speech bubble.
 - Rejected: skewed or rotated panels (they hurt reading at 375px) and panel entrance animation on the shared sections (the strip already has one).
+
+### Skills section (round 2, LEARNING-165)
+- Searches: `"skills showcase logos grid" --domain landing` (Feature-Rich Showcase and Bento Grid Showcase: scannable groups, a stack on mobile, nothing hidden behind hover) and `"icon with text label" --domain ux` (Compact Label Overflow: chip labels never wrap).
+- The skills panel is `data-part="stack"` and now sits in its own `#skills` section after the hero, not beside Experience, so this theme's stack-panel rule above styles it. The group headings are `h3`s inside that panel. Icons are monochrome (`currentColor`), so they follow the theme's text colour. "Also familiar with" is smaller and muted.

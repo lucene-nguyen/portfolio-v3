@@ -138,7 +138,7 @@
   transform: rotate(45deg);
 }
 /* Accent text over screentone dots drops below 4.5:1 (axe can't see it): ink instead. */
-[data-theme="anime"] [data-part="stack"] h3 {
+[data-theme="anime"] [data-part="stack"] h3:not([data-part="skills-secondary"] h3) {
   color: var(--text);
   font-weight: 700;
 }

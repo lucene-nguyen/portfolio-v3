@@ -1,11 +1,11 @@
 import { experience } from "@/content/home";
-import { container, SectionHeader, Tag } from "./ui";
+import { container, SectionHeader } from "./ui";
 
 export function ExperienceSection() {
   return (
     <section id="experience" aria-labelledby="experience-title" className="border-t border-border">
-      <div className={`${container} flex flex-wrap gap-16 py-[88px]`}>
-        <div className="flex min-w-0 flex-[999_1_560px] flex-col gap-8">
+      <div className={`${container} py-[88px]`}>
+        <div className="flex max-w-[880px] min-w-0 flex-col gap-8">
           <SectionHeader
             id="experience-title"
             eyebrow={experience.eyebrow}
@@ -29,21 +29,6 @@ export function ExperienceSection() {
               </li>
             ))}
           </ol>
-        </div>
-        <div data-part="stack" className="flex min-w-0 flex-[1_1_320px] flex-col gap-6">
-          <h3 className="font-mono text-sm font-normal text-accent">{experience.stackLabel}</h3>
-          {experience.stack.map((g) => (
-            <div key={g.name} className="flex flex-col gap-2.5">
-              <h4 className="text-sm font-semibold text-text-2">{g.name}</h4>
-              <ul className="flex flex-wrap gap-2">
-                {g.items.map((it) => (
-                  <li key={it}>
-                    <Tag outline>{it}</Tag>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
         </div>
       </div>
     </section>
