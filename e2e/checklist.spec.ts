@@ -13,6 +13,7 @@ const THEMES = [
   "docs",
   "bento",
   "neo-brutalism",
+  "anime",
 ];
 
 const overflow = (page: Page) =>
@@ -58,6 +59,15 @@ for (const id of THEMES) {
       await page.setViewportSize({ width: 375, height: 812 });
       await page.goto(`/?theme=${id}`);
       await page.waitForTimeout(500);
+      // Scan the settled page: finite entrance animations (e.g. the anime strip fade-in) finish first.
+      await page.evaluate(() =>
+        Promise.all(
+          document
+            .getAnimations()
+            .filter((a) => a.effect?.getComputedTiming().endTime !== Infinity)
+            .map((a) => a.finished),
+        ),
+      );
       const small = await page.evaluate(() =>
         [...document.querySelectorAll("button, select")]
           .filter((el) => el.checkVisibility())
