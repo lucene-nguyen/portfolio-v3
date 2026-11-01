@@ -25,7 +25,7 @@ Work top to bottom. One task = one branch `feat/<KEY>-<slug>` merged into `devel
 | 18 | LEARNING-154 | Theme 07 Neo-brutalism                                                  | done |
 | 19 | LEARNING-160 | Theme 13 Anime (placeholder art, no copyrighted characters)             | done |
 | 20 | LEARNING-155 | Theme 08 3D world                                                       | done |
-| 21 | LEARNING-145 | SEO: metadata, sitemap, OG                                              | todo              |
+| 21 | LEARNING-145 | SEO: metadata, sitemap, OG                                              | done |
 | 22 | LEARNING-146 | Deploy to Vercel                                                        | owner + Architect |
 
 Acceptance criteria for each task: the Jira issue (copied into its spec in `docs/specs/`).
