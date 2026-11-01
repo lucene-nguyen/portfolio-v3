@@ -36,15 +36,15 @@ export function KitsSection() {
             // No link until the owner provides one.
             return (
               <li key={k.name} className="flex min-w-0 flex-[1_1_250px]">
-                {!shown(k.href) ? (
-                  <div className={card}>{body}</div>
-                ) : (
+                {shown(k.href) ? (
                   <a
                     href={k.href}
                     className={`${card} transition-colors duration-150 hover:border-border-strong`}
                   >
                     {body}
                   </a>
+                ) : (
+                  <div className={card}>{body}</div>
                 )}
               </li>
             );
