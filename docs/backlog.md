@@ -16,7 +16,7 @@ Work top to bottom. One task = one branch `feat/<KEY>-<slug>` merged into `devel
 | 9  | LEARNING-152 | Theme 05 Blueprint + system map                                         | done |
 | 10 | LEARNING-159 | Theme 12 Pixel + mana bar, achievements                                 | done |
 | 11 | LEARNING-158 | Theme 11 Cyberpunk + HUD lab                                            | done |
-| 12 | LEARNING-149 | Theme 02 Editorial + reading mode                                       | todo              |
+| 12 | LEARNING-149 | Theme 02 Editorial + reading mode                                       | done |
 | 13 | LEARNING-150 | Theme 03 Swiss minimal + print CV                                       | todo              |
 | 14 | LEARNING-156 | Theme 09 Docs + search                                                  | todo              |
 | 15 | LEARNING-157 | Theme 10 Dashboard + live metrics                                       | todo              |
