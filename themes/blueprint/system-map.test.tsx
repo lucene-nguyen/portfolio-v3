@@ -2,6 +2,7 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { expect, it } from "vitest";
 import { mapNodes, SystemMap } from "./system-map";
+import { features } from "@/lib/features";
 
 it("renders to static HTML with real links (no JavaScript needed)", () => {
   const html = renderToStaticMarkup(<SystemMap />);
@@ -11,11 +12,22 @@ it("renders to static HTML with real links (no JavaScript needed)", () => {
   expect(html).toContain("<details");
 });
 
-it("maps the roles and the starter kits while case studies are parked", () => {
-  expect(mapNodes.map((n) => [n.title, n.href])).toEqual([
-    ["FPT Software", "#experience"],
-    ["NEOX", "#experience"],
-    ["Faboshop", "#experience"],
-    ["Starter kits & labs", "#kits"],
-  ]);
+it("maps the case studies plus the public repo, or the roles and kits while studies are parked", () => {
+  expect(mapNodes.map((n) => n.href)).toEqual(
+    features.caseStudies
+      ? [
+          "/work/pharmacy-inventory",
+          "/work/ai-image-pipeline",
+          "/work/aws-file-ingestion",
+          "https://github.com/lucene-nguyen/rate-limiting-lab",
+        ]
+      : ["#experience", "#experience", "#experience", "#kits"],
+  );
+  if (!features.caseStudies)
+    expect(mapNodes.map((n) => n.title)).toEqual([
+      "FPT Software",
+      "NEOX",
+      "Faboshop",
+      "Starter kits & labs",
+    ]);
 });

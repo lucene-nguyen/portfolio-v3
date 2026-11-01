@@ -87,7 +87,8 @@ test("sidebar, breadcrumbs, current page", async ({ page }) => {
     side.getByRole("link", { name: "A non-blocking AI image pipeline on Databricks" }),
   ).toHaveCount(features.caseStudies ? 1 : 0);
   await expect(page.getByRole("navigation", { name: "Breadcrumb" })).toContainText(
-    "Home/Case studies/A non-blocking AI image pipeline on Databricks",
+    // No crumb to the parked section (LEARNING-164).
+    `Home/${features.caseStudies ? "Case studies/" : ""}A non-blocking AI image pipeline on Databricks`,
   );
 });
 

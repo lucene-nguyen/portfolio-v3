@@ -57,7 +57,7 @@ const tiles: Tile[] = [
     body: (
       <Image
         src={profile.avatar.src}
-        alt={profile.avatar.alt}
+        alt="" // decorative: the contact avatar carries the description
         width={900}
         height={1200}
         sizes="(max-width: 768px) 100vw, 300px"

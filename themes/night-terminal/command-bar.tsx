@@ -139,7 +139,7 @@ export default function CommandBar() {
         className="m-0 mt-auto w-full max-w-none rounded-t-2xl border border-border-strong bg-bg p-0 text-text backdrop:bg-bg/70 sm:m-auto sm:max-w-2xl sm:rounded-2xl"
       >
         <div className="flex items-center justify-between border-b border-border px-4 py-2 font-mono text-xs text-text-muted">
-          <span>~/{profile.handle}.dev</span>
+          <span>~/{profile.handle}</span>
           <button
             type="button"
             onClick={close}

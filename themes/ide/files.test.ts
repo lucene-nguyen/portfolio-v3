@@ -1,13 +1,16 @@
 import { expect, it } from "vitest";
 import { fileFor, files } from "./files";
+import { features } from "@/lib/features";
 
 it("maps pages and anchors to files", () => {
   expect(fileFor("/", "")?.path).toBe("about.ts");
   expect(fileFor("/", "#experience")?.path).toBe("resume.json");
-  // Case studies and the lab are parked (LEARNING-164): no files for them.
-  expect(fileFor("/work/ai-image-pipeline", "")).toBeUndefined();
-  expect(fileFor("/", "#lab")).toBeUndefined();
-  expect(files.some((f) => f.href.includes("work") || f.href.includes("lab"))).toBe(false);
+  // Parked sections (LEARNING-164) have no files.
+  expect(fileFor("/work/ai-image-pipeline", "")?.path).toBe(
+    features.caseStudies ? "work/ai-image-pipeline.md" : undefined,
+  );
+  expect(fileFor("/", "#work")?.path).toBe(features.caseStudies ? "work/README.md" : undefined);
+  expect(fileFor("/", "#lab")?.path).toBe(features.lab ? "lab/rate-limiter.ts" : undefined);
   expect(fileFor("/", "#unknown")).toBeUndefined();
   expect(fileFor("/kits/nope", "")).toBeUndefined();
 });

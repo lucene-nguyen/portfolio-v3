@@ -47,7 +47,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
     <main id="main" className="flex-1">
       <article className={`${container} max-w-[860px] py-16 sm:py-20`}>
         <Link
-          href="/#work"
+          href={features.caseStudies ? "/#work" : "/"}
           className="inline-flex items-center gap-2 font-mono text-sm text-text-muted hover:text-text"
         >
           <ArrowLeft size={16} aria-hidden />

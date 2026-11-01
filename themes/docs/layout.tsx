@@ -59,7 +59,7 @@ function Breadcrumbs() {
   const pathname = usePathname();
   const study = work.items.find((c) => pathname === `/work/${c.slug}`);
   const trail = study
-    ? [{ href: "/", label: docsCopy.home }, { href: "/#work", label: work.title }, { label: study.title }]
+    ? [{ href: "/", label: docsCopy.home }, ...(features.caseStudies ? [{ href: "/#work", label: work.title }] : []), { label: study.title }]
     : [{ label: docsCopy.home }];
   return (
     <nav aria-label={docsCopy.breadcrumb} className="px-6 pt-6 text-sm">

@@ -97,7 +97,7 @@ export function SystemMap() {
               style={{ left: `${HUB.x / 10}%`, top: `${(HUB.y / 440) * 100}%` }}
             >
               <div className="border border-accent bg-bg px-4 py-3 text-center font-mono text-sm">
-                <span className="block font-bold text-accent">{profile.handle}.dev</span>
+                <span className="block font-bold text-accent">{profile.logo}</span>
                 <span className="text-text-muted">{profile.title}</span>
               </div>
             </li>
