@@ -128,3 +128,20 @@ test("open command line has no axe violations", async ({ page }) => {
   const { violations } = await new AxeBuilder({ page }).analyze();
   expect(violations.map((v) => v.id)).toEqual([]);
 });
+
+test("shared sections carry terminal accents", async ({ page }) => {
+  await page.goto("/");
+  const pseudo = (sel: string, prop: string) =>
+    page
+      .locator(sel)
+      .first()
+      .evaluate((el, p) => getComputedStyle(el, "::before").getPropertyValue(p), prop);
+  expect(await pseudo('#work [data-part="eyebrow"]', "content")).toContain("#");
+  await expect(page.locator('[data-part="case-meta"]').first()).toHaveCSS(
+    "border-bottom-style",
+    "solid",
+  );
+  expect(await pseudo('[data-part="roles"]', "border-left-style")).toBe("dashed");
+  expect(await pseudo('[data-part="contact-actions"]', "content")).toContain("$ contact");
+  expect(await pseudo('[data-part="stat"] dt', "content")).toContain("›");
+});
