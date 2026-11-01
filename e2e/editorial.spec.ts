@@ -98,3 +98,19 @@ test("design rules are persisted with the exact tokens", async () => {
   void [fontHeading, radius];
   for (const hex of Object.values(colors)) expect(md).toContain(hex);
 });
+
+test("shared sections are restyled as a magazine, not just recolored", async ({ page }) => {
+  await page.goto("/?theme=editorial");
+  const card = page.locator('[data-part="case-card"]').first();
+  await expect(card).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+  await expect(card).toHaveCSS("border-top-width", "2px");
+  await expect(card.locator("h3")).toHaveCSS("font-family", /Libre Bodoni/);
+  await expect(page.locator('[data-part="stat"] dd').first()).toHaveCSS(
+    "font-family",
+    /Libre Bodoni/,
+  );
+  await expect(page.locator('[data-part="case-meta"]').first()).toHaveCSS(
+    "font-variant-caps",
+    "small-caps",
+  );
+});

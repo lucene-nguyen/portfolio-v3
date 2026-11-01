@@ -37,3 +37,18 @@
 - Measure 66ch, 19px × scale, line-height 1.7.
 - Toolbar under the header: "N min read" (230 wpm), text size S/M/L (radio group, persisted), "On this page" table of contents.
 - 3px accent progress bar at the top (`role="progressbar"`).
+
+## Layout
+> ui-ux-pro-max (UI round 1): `"editorial magazine storytelling" --domain landing` and retry `"storytelling" --domain landing` → **no verified match**; section order follows built-in defaults (hero first). `"long-form reading typography" --domain ux`.
+
+**Section order:** Hero → Case studies → Live lab → Starter kits → Experience + stack → Contact.
+- Verified (ux): line length 65–75 characters (hero lead, teasers and case-study body capped by `ch`).
+- Rejected (ux): truncating teasers with an ellipsis — editorial teasers show the whole standfirst.
+
+**How the shared sections look** (magazine)
+- Eyebrows → small caps kicker in the accent, letter-spaced.
+- Case study cards → **feature teasers**: no box or shadow; hairline rule on top, small-caps kicker (meta), large serif headline, standfirst in body text, metrics as serif pull-figures, tags as a comma-like inline list in small caps, "Read case study" as an underlined text link.
+- Hero stats → **"by the numbers" band**: hairline rules above/below, serif numerals, small-caps captions, no boxes.
+- Experience → **masthead list**: serif company names, small-caps dates, hairline rules between roles; stack as plain small-caps lists.
+- Contact → **sign-off**: serif heading, actions as understated outlined buttons with square corners on a hairline rule.
+- Starter kits → teaser cards without boxes, hairline top rule.
