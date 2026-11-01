@@ -258,6 +258,7 @@ export const worldCopy = {
   pad: { forward: "Walk forward", back: "Walk back", left: "Walk left", right: "Walk right" },
   loading: "Loading the world…",
   failed: "3D is not available on this device. Showing the standard page.",
+  padLabel: "Movement pad",
 };
 
 export const lab = {

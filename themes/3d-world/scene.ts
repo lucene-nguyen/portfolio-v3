@@ -102,6 +102,12 @@ export function createScene(
   const ku = (e: KeyboardEvent) => onKey(e, false);
   host.addEventListener("keydown", kd);
   host.addEventListener("keyup", ku);
+  // A keyup that lands elsewhere (Alt-Tab, focus moved) must not leave the player walking.
+  const release = () => {
+    input.forward = input.back = input.left = input.right = false;
+  };
+  host.addEventListener("blur", release);
+  window.addEventListener("blur", release);
 
   const tmp = new THREE.Vector3();
   let last = performance.now();
@@ -131,6 +137,8 @@ export function createScene(
     }
     const labels = zones.map((z) => {
       tmp.set(z.x, 1.2, z.z).project(camera);
+      // z > 1: behind the camera (projection would mirror it) → park off-screen.
+      if (tmp.z > 1) return { id: z.id, x: -100, y: -100 };
       return { id: z.id, x: (tmp.x * 0.5 + 0.5) * 100, y: (-tmp.y * 0.5 + 0.5) * 100 };
     });
     opts.onFrame(fps, labels);
@@ -147,6 +155,8 @@ export function createScene(
       ro.disconnect();
       host.removeEventListener("keydown", kd);
       host.removeEventListener("keyup", ku);
+      host.removeEventListener("blur", release);
+      window.removeEventListener("blur", release);
       disposables.forEach((d) => d.dispose());
       renderer.dispose();
       renderer.domElement.remove();

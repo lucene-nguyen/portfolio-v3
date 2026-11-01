@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { zones } from "@/lib/world";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Box } from "lucide-react";
@@ -9,8 +10,10 @@ import type { SceneHandle } from "./scene";
 
 const CLOSED_KEY = "world:closed";
 
+const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 function initiallyOpen() {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
+  if (reducedMotion()) return false;
   try {
     return sessionStorage.getItem(CLOSED_KEY) !== "1";
   } catch {
@@ -49,9 +52,16 @@ function World({ onExit }: { onExit: (zone?: Zone["id"]) => void }) {
         });
         setStatus("ready");
       })
-      .catch(() => alive && setStatus("failed"));
+      .catch(() => {
+        if (!alive) return;
+        setStatus("failed");
+        // As the message says: back to the standard page.
+        setTimeout(() => onExit(), 1500);
+      });
+    const d = dialog.current;
     return () => {
       alive = false;
+      d?.close();
       handle.current?.dispose();
       handle.current = null;
     };
@@ -61,10 +71,20 @@ function World({ onExit }: { onExit: (zone?: Zone["id"]) => void }) {
     <button
       type="button"
       aria-label={c.pad[dir]}
-      onPointerDown={() => handle.current?.press(dir, true)}
+      onPointerDown={(e) => {
+        e.preventDefault();
+        handle.current?.press(dir, true);
+      }}
       onPointerUp={() => handle.current?.press(dir, false)}
       onPointerLeave={() => handle.current?.press(dir, false)}
-      className="flex size-12 items-center justify-center rounded-[10px] border border-border-strong bg-surface/90 text-text"
+      onPointerCancel={() => handle.current?.press(dir, false)}
+      // Keyboard / switch activation (detail 0): one short step.
+      onClick={(e) => {
+        if (e.detail !== 0) return;
+        handle.current?.press(dir, true);
+        setTimeout(() => handle.current?.press(dir, false), 200);
+      }}
+      className="flex size-12 touch-none items-center justify-center rounded-[10px] border border-border-strong bg-surface text-text select-none"
     >
       <Icon size={20} aria-hidden />
     </button>
@@ -78,9 +98,9 @@ function World({ onExit }: { onExit: (zone?: Zone["id"]) => void }) {
         e.preventDefault();
         onExit();
       }}
-      className="m-0 h-dvh max-h-none w-screen max-w-none bg-bg p-0 text-text"
+      className="m-0 h-dvh max-h-none w-screen max-w-none overflow-hidden bg-bg p-0 text-text"
     >
-      <div className="absolute inset-x-0 top-0 z-10 flex flex-wrap items-start justify-between gap-3 bg-bg/80 p-4">
+      <div className="absolute inset-x-0 top-0 z-10 flex flex-wrap items-start justify-between gap-3 bg-bg/95 p-4">
         <div className="max-w-xl">
           <h2 className="text-xl font-bold">{c.title}</h2>
           <p className="text-sm text-text-secondary">{c.instructions}</p>
@@ -123,7 +143,7 @@ function World({ onExit }: { onExit: (zone?: Zone["id"]) => void }) {
         {status === "loading" ? c.loading : status === "failed" ? c.failed : ""}
       </p>
 
-      <div className="absolute inset-x-0 bottom-0 z-10 flex flex-wrap items-end justify-between gap-4 bg-bg/80 p-4">
+      <div className="absolute inset-x-0 bottom-0 z-10 flex flex-wrap items-end justify-between gap-4 bg-bg/95 p-4">
         <nav aria-label={c.zonesLabel}>
           <p className="mb-1 text-xs text-text-muted">{c.zonesLabel}</p>
           <ul className="flex flex-wrap gap-2">
@@ -140,7 +160,7 @@ function World({ onExit }: { onExit: (zone?: Zone["id"]) => void }) {
             ))}
           </ul>
         </nav>
-        <div className="grid grid-cols-3 gap-1" aria-label="Movement pad" role="group">
+        <div className="grid grid-cols-3 gap-1" aria-label={c.padLabel} role="group">
           <span />
           {pad("forward", ArrowUp)}
           <span />
@@ -156,22 +176,33 @@ function World({ onExit }: { onExit: (zone?: Zone["id"]) => void }) {
 /** Opens the 3D world over the standard page; skipping or entering a zone returns to the standard layout. */
 export default function WorldLayout({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(initiallyOpen);
-  const exit = useCallback((zone?: Zone["id"]) => {
-    try {
-      sessionStorage.setItem(CLOSED_KEY, "1");
-    } catch {}
-    setOpen(false);
-    requestAnimationFrame(() => {
-      const target = document.getElementById(zone ?? "main");
-      if (zone && window.location.pathname === "/") history.replaceState(null, "", `#${zone}`);
-      target?.scrollIntoView();
-      // Land keyboard and screen-reader users on the section they chose.
-      if (target) {
-        if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
-        target.focus();
+  const [motionOk] = useState(() => !reducedMotion());
+  const pathname = usePathname();
+  const router = useRouter();
+  const exit = useCallback(
+    (zone?: Zone["id"]) => {
+      try {
+        sessionStorage.setItem(CLOSED_KEY, "1");
+      } catch {}
+      setOpen(false);
+      // Zones live on the home page; from any other page, go there.
+      if (zone && pathname !== "/") {
+        router.push(`/#${zone}`);
+        return;
       }
-    });
-  }, []);
+      requestAnimationFrame(() => {
+        const target = document.getElementById(zone ?? "main") ?? document.getElementById("main");
+        if (zone) history.replaceState(null, "", `#${zone}`);
+        target?.scrollIntoView();
+        // Land keyboard and screen-reader users on the section they chose.
+        if (target) {
+          if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
+          target.focus();
+        }
+      });
+    },
+    [pathname, router],
+  );
 
   return (
     <>
@@ -179,7 +210,7 @@ export default function WorldLayout({ children }: { children: React.ReactNode })
       {open ? (
         <World onExit={exit} />
       ) : (
-        !window.matchMedia("(prefers-reduced-motion: reduce)").matches && (
+        motionOk && (
           <>
             <div aria-hidden className="h-20" />
             <button

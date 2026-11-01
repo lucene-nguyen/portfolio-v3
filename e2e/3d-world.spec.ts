@@ -79,6 +79,27 @@ test("zone buttons and touch pad are labelled; axe clean", async ({ page }) => {
   await expect(page).toHaveURL(/#contact$/);
 });
 
+test("from a case study, a zone opens that section on the home page", async ({ page }) => {
+  await page.goto("/work/ai-image-pipeline?theme=3d-world");
+  await expect(world(page)).toBeVisible();
+  await world(page).getByRole("button", { name: "Live lab" }).click();
+  await expect(page).toHaveURL(/\/#lab$/);
+  await expect(world(page)).toBeHidden();
+});
+
+test("pad buttons work from the keyboard", async ({ page }) => {
+  await page.goto("/?theme=3d-world");
+  await expect(canvas(page)).toHaveAttribute("data-status", "ready", { timeout: 20_000 });
+  const right = world(page).getByRole("button", { name: "Walk right" });
+  await right.focus();
+  for (let i = 0; i < 12; i++) {
+    if (await world(page).isHidden()) break;
+    await page.keyboard.press("Enter");
+    await page.waitForTimeout(250);
+  }
+  await expect(page).toHaveURL(/#lab$/);
+});
+
 test("frame rate ≥ 30 fps", async ({ page }) => {
   await page.goto("/?theme=3d-world");
   await expect(canvas(page)).toHaveAttribute("data-status", "ready", { timeout: 20_000 });
