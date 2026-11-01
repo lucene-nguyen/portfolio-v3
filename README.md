@@ -22,6 +22,7 @@ npm run dev
 | `npm run build` | Production build |
 | `npm run lint` / `npm run typecheck` | Code quality |
 | `npm run test` / `npm run test:e2e` | Unit / E2E tests |
+| `npm run test:perf` | Performance checks (3D world fps), one worker, run alone |
 
 ## Workflow
 Each feature goes through `/spec → /implement → /test → /review → /deploy` (Claude Code skills in `.claude/skills/`).
