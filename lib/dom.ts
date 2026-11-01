@@ -2,7 +2,9 @@
 export function isTyping(el: EventTarget | null) {
   return (
     el instanceof HTMLElement &&
-    (el.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(el.tagName))
+    (el.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(el.tagName)) &&
+    // A field in a dialog that just closed may keep focus until the async `close` event runs.
+    !el.closest("dialog:not([open])")
   );
 }
 
