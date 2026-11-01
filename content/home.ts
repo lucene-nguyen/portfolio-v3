@@ -207,6 +207,26 @@ export const ideCopy = {
   closeDrawer: "Close",
 };
 
+export const bentoCopy = {
+  title: "At a glance",
+  hint: "Drag tiles or use the arrows to rearrange. Your layout is saved in this browser.",
+  reset: "Reset layout",
+  moveUp: (name: string) => `Move ${name} earlier`,
+  moveDown: (name: string) => `Move ${name} later`,
+  moved: (name: string, pos: number, total: number) =>
+    `${name} moved to position ${pos} of ${total}.`,
+  resetDone: "Layout reset.",
+  tiles: {
+    about: "About",
+    photo: "Photo",
+    stats: "Key numbers",
+    stack: "Stack",
+    lab: "Live lab",
+    contact: "Contact",
+  },
+  labCta: "Try the rate limiter",
+};
+
 export const lab = {
   eyebrow: "02 / live lab",
   title: "Try to break my rate limiter",

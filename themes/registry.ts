@@ -1,3 +1,4 @@
+import { bento } from "./bento";
 import { blueprint } from "./blueprint";
 import { cyberpunk } from "./cyberpunk";
 import { dashboard } from "./dashboard";
@@ -20,6 +21,7 @@ export const themes: readonly ThemeDefinition[] = [
   docs,
   dashboard,
   ide,
+  bento,
 ];
 
 export const defaultTheme = themes[0];
