@@ -19,7 +19,7 @@ Per theme (item 2): ui-ux-pro-max `--domain landing` + `--domain ux` → "## Lay
 | 2 docs | done | `fix/ui-docs` |
 | 2 bento | done | `fix/ui-bento` |
 | 2 neo-brutalism | done | `fix/ui-neo-brutalism` |
-| 2 anime | todo | `fix/ui-anime` |
+| 2 anime | done | `fix/ui-anime` |
 | 2 3d-world | todo | `fix/ui-3d-world` |
 | 2 swiss-minimal | todo (after 3d-world, owner OK) | `fix/ui-swiss-minimal` |
 
