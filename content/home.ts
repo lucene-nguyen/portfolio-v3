@@ -18,6 +18,7 @@ export const profile = {
 };
 
 export const labels = {
+  menu: "Menu",
   viewWork: "View case studies",
   readCaseStudy: "Read case study",
   technologies: "Technologies",
@@ -151,7 +152,7 @@ export const readingCopy = {
 export const docsCopy = {
   sidebar: "Docs",
   home: "Home",
-  menu: "Menu",
+  menu: "Pages",
   close: "Close",
   search: "Search",
   searchHint: "/ or Ctrl/⌘ K",

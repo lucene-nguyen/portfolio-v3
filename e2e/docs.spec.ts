@@ -85,7 +85,7 @@ test("mobile: sidebar becomes a drawer; axe clean; no horizontal scroll", async 
   await page.setViewportSize({ width: 375, height: 800 });
   await ready(page);
   await expect(page.locator("aside")).toBeHidden();
-  await page.getByRole("button", { name: "Menu" }).click();
+  await page.getByRole("button", { name: "Pages" }).click();
   const drawer = page.getByRole("dialog", { name: "Docs" });
   await expect(drawer).toBeVisible();
   await drawer.getByRole("link", { name: "Hands-off file ingestion on AWS S3 and Lambda" }).click();

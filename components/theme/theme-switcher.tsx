@@ -11,7 +11,7 @@ export function ThemeSwitcher() {
 
   return (
     <div className="flex items-center gap-2 font-mono text-sm">
-      <label htmlFor={id} className="text-text-muted">
+      <label htmlFor={id} className="sr-only text-text-muted md:not-sr-only">
         Theme
       </label>
       <select
@@ -23,7 +23,7 @@ export function ThemeSwitcher() {
           setTheme(next.id);
           setAnnouncement(`Theme: ${next.name}`);
         }}
-        className="rounded-md border border-text-subtle bg-surface px-2 py-1 text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        className="max-w-36 rounded-md border border-text-subtle bg-surface px-2 py-1 text-text md:max-w-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
       >
         {themes.map((t) => (
           <option key={t.id} value={t.id}>

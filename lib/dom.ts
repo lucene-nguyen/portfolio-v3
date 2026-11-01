@@ -10,6 +10,7 @@ export function isTyping(el: EventTarget | null) {
 
 /** Returns focus after a dialog closes. With no real opener (shortcut from <body>), drop focus so it can't stay on a hidden field. */
 export function restoreFocus(opener: HTMLElement | null) {
-  if (opener && opener !== document.body && opener.isConnected) opener.focus();
+  if (opener && opener !== document.body && opener.isConnected && opener.checkVisibility())
+    opener.focus();
   else (document.activeElement as HTMLElement | null)?.blur();
 }
