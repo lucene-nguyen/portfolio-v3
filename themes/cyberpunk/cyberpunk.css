@@ -117,3 +117,147 @@
     transform: none;
   }
 }
+
+/* ---- Shared sections in HUD language (design-system/portfolio-v3/pages/cyberpunk.md › Layout) ---- */
+[data-theme="cyberpunk"] [data-part="eyebrow"]::before {
+  content: "[ " / "";
+}
+[data-theme="cyberpunk"] [data-part="eyebrow"]::after {
+  content: " ]" / "";
+}
+[data-theme="cyberpunk"] [data-part="eyebrow"] {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* Case studies: dossiers. */
+[data-theme="cyberpunk"] [data-part="case-card"] {
+  border-color: var(--border-strong) !important;
+}
+[data-theme="cyberpunk"] [data-part="case-meta"] {
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-strong);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+[data-theme="cyberpunk"] [data-part="case-metrics"] {
+  border-style: dashed;
+  border-color: var(--border-strong);
+}
+[data-theme="cyberpunk"] [data-part="case-metrics"] dd,
+[data-theme="cyberpunk"] [data-part="stat"] dd {
+  color: var(--meter-fill) !important;
+}
+[data-theme="cyberpunk"] [data-part="case-card"] ul span::before {
+  content: "[" / "";
+}
+[data-theme="cyberpunk"] [data-part="case-card"] ul span::after {
+  content: "]" / "";
+}
+[data-theme="cyberpunk"] [data-part="case-card"] ul span {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 0;
+}
+
+/* Hero stats: HUD readouts with corner brackets. */
+[data-theme="cyberpunk"] [data-part="stats"] {
+  gap: 10px;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+}
+[data-theme="cyberpunk"] [data-part="stat"] {
+  position: relative;
+  border: 1px solid var(--border) !important;
+  background: var(--surface);
+}
+[data-theme="cyberpunk"] [data-part="stat"]::before,
+[data-theme="cyberpunk"] [data-part="stat"]::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+}
+[data-theme="cyberpunk"] [data-part="stat"]::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid var(--meter-fill);
+  border-left: 2px solid var(--meter-fill);
+}
+[data-theme="cyberpunk"] [data-part="stat"]::after {
+  right: -1px;
+  bottom: -1px;
+  border-right: 2px solid var(--meter-fill);
+  border-bottom: 2px solid var(--meter-fill);
+}
+[data-theme="cyberpunk"] [data-part="stat"] dt {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+}
+
+/* Experience: access log. */
+[data-theme="cyberpunk"] #experience ol {
+  padding: 4px 20px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+}
+[data-theme="cyberpunk"] [data-part="role"] {
+  border-style: dashed !important;
+  border-color: var(--border) !important;
+}
+[data-theme="cyberpunk"] [data-part="role"]:first-child {
+  border-top-width: 0 !important;
+}
+[data-theme="cyberpunk"] [data-part="role"]:last-child {
+  border-bottom-width: 0 !important;
+}
+[data-theme="cyberpunk"] [data-part="role"] > span:first-child::before {
+  content: "> " / "";
+  color: var(--accent);
+}
+[data-theme="cyberpunk"] [data-part="stack"] ul span {
+  border-radius: 0;
+}
+
+/* Contact: UPLINK panel; square mono buttons. */
+[data-theme="cyberpunk"] [data-part="contact-actions"] {
+  position: relative;
+  padding: 34px 20px 20px;
+  border: 1px solid var(--accent);
+  background: var(--surface);
+  clip-path: polygon(
+    16px 0,
+    100% 0,
+    100% calc(100% - 16px),
+    calc(100% - 16px) 100%,
+    0 100%,
+    0 16px
+  );
+}
+[data-theme="cyberpunk"] [data-part="contact-actions"]::before {
+  content: "UPLINK" / "";
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  font:
+    12px var(--font-jetbrains-mono),
+    monospace;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+}
+[data-theme="cyberpunk"] [data-part="button"] {
+  border-radius: 0;
+}
+/* Email addresses keep their case. */
+[data-theme="cyberpunk"] [data-part="button"]:not([href^="mailto:"]) {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-family: var(--font-jetbrains-mono), monospace;
+}
+[data-theme="cyberpunk"] #kits li > * {
+  border-radius: 0;
+  border-color: var(--border-strong);
+}

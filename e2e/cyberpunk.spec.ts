@@ -96,3 +96,25 @@ test("axe clean; 375px", async ({ page }) => {
   );
   expect(overflow).toBeLessThanOrEqual(0);
 });
+
+test("shared sections are restyled as HUD, not just recolored", async ({ page }) => {
+  await page.goto("/?theme=cyberpunk");
+  await expect(page.getByTestId("cp-hud")).toBeAttached();
+  const eyebrow = page.locator('#work [data-part="eyebrow"]');
+  expect(await eyebrow.evaluate((el) => getComputedStyle(el, "::before").content)).toContain("[");
+  await expect(page.locator('[data-part="case-meta"]').first()).toHaveCSS(
+    "text-transform",
+    "uppercase",
+  );
+  expect(
+    await page
+      .locator('[data-part="stat"]')
+      .first()
+      .evaluate((el) => getComputedStyle(el, "::before").borderTopWidth),
+  ).toBe("2px");
+  expect(
+    await page
+      .locator('[data-part="contact-actions"]')
+      .evaluate((el) => getComputedStyle(el, "::before").content),
+  ).toContain("UPLINK");
+});
