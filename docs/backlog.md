@@ -27,5 +27,10 @@ Work top to bottom. One task = one branch `feat/<KEY>-<slug>` merged into `devel
 | 20 | LEARNING-155 | Theme 08 3D world                                                       | done |
 | 21 | LEARNING-145 | SEO: metadata, sitemap, OG                                              | done |
 | 22 | LEARNING-146 | Deploy to Vercel                                                        | owner + Architect |
+| 23 | LEARNING-164 | Round 2: home structure and copy (case studies + lab behind a flag)   | doing |
+| 24 | LEARNING-165 | Round 2: Skills with icons (replaces stack.json)                        | todo |
+| 25 | LEARNING-166 | Round 2: Work with me (services + how I work)                           | todo |
+| 26 | LEARNING-167 | Round 2: Contact form (validation, honeypot, rate limit, local delivery)| todo |
+| 27 | LEARNING-168 | Round 2: English / Vietnamese (owner approves VI before merge)          | todo |
 
 Acceptance criteria for each task: the Jira issue (copied into its spec in `docs/specs/`).
