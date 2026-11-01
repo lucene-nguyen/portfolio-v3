@@ -86,3 +86,16 @@ test.describe("system map", () => {
     expect(overflow).toBeLessThanOrEqual(0);
   });
 });
+
+test("shared sections are restyled in drafting language, not just recolored", async ({ page }) => {
+  await page.goto("/?theme=blueprint");
+  const card = page.locator('[data-part="case-card"]').first();
+  await expect(card).toHaveCSS("border-radius", "0px");
+  expect(await card.evaluate((el) => getComputedStyle(el, "::before").borderTopWidth)).toBe("2px");
+  await expect(page.locator('[data-part="stats"]')).toHaveCSS("border-top-style", "dashed");
+  await expect(page.locator('[data-part="contact-actions"]')).toHaveCSS(
+    "border-top-style",
+    "solid",
+  );
+  await expect(page.locator('[data-part="contact-actions"]')).toHaveCSS("border-top-width", "1px");
+});

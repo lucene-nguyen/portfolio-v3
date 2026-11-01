@@ -16,9 +16,13 @@ export function WorkSection() {
           {work.items.map((c) => (
             <article
               key={c.slug}
+              data-part="case-card"
               className="flex min-w-0 flex-[1_1_340px] flex-col gap-[18px] rounded-2xl border border-border bg-surface p-7"
             >
-              <div className="flex items-center justify-between gap-3 font-mono text-[13px] text-text-muted">
+              <div
+                data-part="case-meta"
+                className="flex items-center justify-between gap-3 font-mono text-[13px] text-text-muted"
+              >
                 <span>{c.meta}</span>
                 <span>{c.period}</span>
               </div>
@@ -26,7 +30,10 @@ export function WorkSection() {
               <p data-print="hide" className="leading-[1.55] text-text-secondary">
                 {c.summary}
               </p>
-              <dl className="flex flex-wrap gap-6 border-y border-border py-4">
+              <dl
+                data-part="case-metrics"
+                className="flex flex-wrap gap-6 border-y border-border py-4"
+              >
                 {c.metrics.map((m) => (
                   <div key={m.label} className="flex flex-col-reverse">
                     <dt className="text-[13px] text-text-muted">{m.label}</dt>

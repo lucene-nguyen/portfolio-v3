@@ -20,7 +20,9 @@ export function SectionHeader({
 }) {
   return (
     <div className={className}>
-      <p className="mb-2.5 font-mono text-sm text-accent">{eyebrow}</p>
+      <p data-part="eyebrow" className="mb-2.5 font-mono text-sm text-accent">
+        {eyebrow}
+      </p>
       <h2 id={id} className="font-heading text-[32px] font-bold tracking-[-0.01em] sm:text-[40px]">
         {title}
       </h2>

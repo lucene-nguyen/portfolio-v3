@@ -46,3 +46,18 @@
 - Pure HTML/SVG/CSS: renders and navigates without JavaScript.
 - < 768px: nodes stack in one column, connectors hidden.
 - No animation.
+
+## Layout
+> ui-ux-pro-max: `"portfolio technical case studies" --domain landing`, `"technical diagram wireframe readability" --domain ux` (UI round 1).
+
+**Section order:** Hero → System map → Case studies → Live lab → Starter kits → Experience + stack → Contact.
+- Verified: landing pattern **Portfolio Grid** ("Hero (Name/Role) > Project Grid > About > Contact"); the system map + case studies are the project grid right after the hero; experience (about) and contact follow.
+- Verified (ux): body line-height 1.5–1.75; dark text never grey-on-grey (blueprint inverts: light text on blue, all ≥ 4.5:1).
+- Rejected: masonry project grid (spec sheets of equal height read and compare better); project-card hover as the primary CTA (keyboard/touch users need the explicit "Read case study" link).
+
+**How the shared sections look**
+- Case study cards → **spec sheets**: square corners, 1px `borderStrong` frame, accent corner ticks, meta line as a title strip (mono caps, bottom rule), metrics as **dimension annotations** (mono value between end-stop rules), tags as boxed technical labels.
+- Hero stats → dimension annotations in dashed frames with a mono caption.
+- Experience → **revision table**: each role a row with mono date column and hairline grid; stack groups as boxed label lists.
+- Contact → **drawing title block**: actions inside a ruled box with a "TITLE BLOCK" caption; footer as the sheet's revision line.
+- Buttons: square, 1px outline, mono label; primary = pencil-yellow fill.
