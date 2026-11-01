@@ -5,6 +5,7 @@ import { dashboard } from "./dashboard";
 import { docs } from "./docs";
 import { editorial } from "./editorial";
 import { ide } from "./ide";
+import { neoBrutalism } from "./neo-brutalism";
 import { nightTerminal } from "./night-terminal";
 import { pixel } from "./pixel";
 import { swissMinimal } from "./swiss-minimal";
@@ -22,6 +23,7 @@ export const themes: readonly ThemeDefinition[] = [
   dashboard,
   ide,
   bento,
+  neoBrutalism,
 ];
 
 export const defaultTheme = themes[0];
