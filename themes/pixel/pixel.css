@@ -34,3 +34,110 @@
   content: "MANA · " / "";
   color: var(--accent);
 }
+
+/* ---- Shared sections in game-UI language (design-system/portfolio-v3/pages/pixel.md › Layout) ---- */
+[data-theme="pixel"] [data-part="eyebrow"] {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+/* Case studies: quest dialog boxes. */
+[data-theme="pixel"] [data-part="case-card"] {
+  position: relative;
+  margin-top: 14px;
+  border: 6px double var(--border-strong) !important;
+}
+[data-theme="pixel"] [data-part="case-card"]::before {
+  content: "QUEST" / "";
+  position: absolute;
+  top: -16px;
+  left: 16px;
+  padding: 2px 8px;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font: 10px var(--font-heading);
+}
+[data-theme="pixel"] [data-part="case-metrics"] dd {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  line-height: 1.6;
+}
+[data-theme="pixel"] [data-part="case-card"] ul span,
+[data-theme="pixel"] [data-part="stack"] ul span {
+  border: 2px solid var(--border-strong);
+  background: var(--bg);
+}
+
+/* Hero stats: character sheet rows. */
+[data-theme="pixel"] [data-part="stats"] {
+  display: grid !important;
+  grid-template-columns: 1fr;
+  border: 6px double var(--border-strong);
+  background: var(--surface);
+}
+@media (min-width: 640px) {
+  [data-theme="pixel"] [data-part="stats"] {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+[data-theme="pixel"] [data-part="stat"] {
+  flex-direction: row !important;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px !important;
+  border: 0 !important;
+  border-bottom: 2px dashed var(--border) !important;
+}
+[data-theme="pixel"] [data-part="stat"] dt {
+  order: -1;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+[data-theme="pixel"] [data-part="stat"] dd {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+/* Experience: save slots. */
+[data-theme="pixel"] #experience ol {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+[data-theme="pixel"] [data-part="role"] {
+  padding: 16px !important;
+  border: 3px solid var(--border-strong) !important;
+  background: var(--surface);
+  box-shadow: 4px 4px 0 var(--border-strong);
+}
+
+/* Contact: "CONTINUE?" box with pixel buttons. */
+[data-theme="pixel"] [data-part="contact-actions"] {
+  position: relative;
+  padding: 32px 20px 20px;
+  border: 6px double var(--border-strong);
+  background: var(--surface);
+}
+[data-theme="pixel"] [data-part="contact-actions"]::before {
+  content: "CONTINUE?" / "";
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  font: 11px var(--font-heading);
+  color: var(--accent);
+}
+[data-theme="pixel"] [data-part="button"] {
+  border: 3px solid var(--border-strong);
+  box-shadow: 4px 4px 0 var(--border-strong);
+}
+[data-theme="pixel"] [data-part="button"]:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+[data-theme="pixel"] #kits li > * {
+  border: 3px solid var(--border-strong);
+  box-shadow: 4px 4px 0 var(--border-strong);
+}
