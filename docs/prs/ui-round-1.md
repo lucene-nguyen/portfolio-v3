@@ -104,3 +104,17 @@ Spec: [docs/specs/ui-round-1.md](../specs/ui-round-1.md). Before = `docs/screens
   - N/A for this site: safe-area insets/Dynamic Type (native), dark+light parity (each theme is single-mode, contrast-tested), forms/auth, auto-rotating content.
 - Before/after: mockup layout → same layout with terminal-language accents (`docs/screenshots/night-terminal/`).
 - Review: APPROVE; fixed title-bar radius (derived, commented dependency on the card's p-7/rounded-2xl), mono font token, commit-dot alignment, stat prompt test.
+
+## fix/ui-dashboard (item 2)
+- ui-ux-pro-max layout pass: `"analytics dashboard data" --domain landing` (Real-Time / Operations verified: hero → live metrics → work → CTA; Enterprise Gateway rejected), ux `"data table readability"` (stacked rows on mobile, number formatting; bulk actions N/A). "## Layout" appended to `pages/dashboard.md`.
+- New `themes/dashboard/dashboard.css` (root-layout import): panel-row eyebrows, case cards as panels with title bars, hero stats as individual stat panels, experience as a table with a header row (desktop) and zebra rows, contact as a titled panel, kit panels.
+- Tests: restyle assertions (token-derived colours) in `e2e/dashboard.spec.ts`; checklist extended to dashboard.
+- Pre-delivery checklist (ui-ux-pro-max `references/pro-rules.md`; web-applicable items):
+  - Process: theme-specific `--domain landing` + `--domain ux` searches ✅ · 375px and landscape 812×375 ✅ (e2e) · reduced motion ✅ (no running animations, e2e) · 200% zoom (720px viewport) ✅ · contrast per theme ✅ (registry tests: every text token on every ground) · touch targets ≥ 44px for buttons/selects ✅ (e2e, strict)
+  - Visual: no emoji icons ✅ (Lucide only) · one icon family ✅ · no layout-shifting press states ✅ · tokens only, no ad-hoc hex ✅
+  - Interaction: visible focus ring ✅ · focus order = DOM order ✅ (home tab test) · descriptive labels ✅ (axe clean) · drag has button alternatives ✅ (where present)
+  - Layout: nothing hidden behind fixed UI ✅ (no fixed controls on mobile) · 4/8px spacing rhythm ✅ · readable measure ✅
+  - Accessibility: decorative icons/labels hidden from AT ✅ · colour never the only indicator ✅ · reduced motion ✅
+  - N/A for this site: safe-area insets/Dynamic Type (native), dark+light parity (each theme is single-mode, contrast-tested), forms/auth, auto-rotating content.
+- Before/after: default layout in Grafana colours → panel language throughout (`docs/screenshots/dashboard/`).
+- Review: APPROVE; documented the header/column alignment dependency, commented `!important`s, fixed title-bar line-height, token-derived test colours.

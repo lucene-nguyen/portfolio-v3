@@ -1,5 +1,11 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { dashboard } from "../themes/dashboard";
+
+const rgb = (hex: string) => {
+  const n = parseInt(hex.slice(1), 16);
+  return `rgb(${n >> 16}, ${(n >> 8) & 255}, ${n & 255})`;
+};
 
 const github = {
   user: "lucene-nguyen",
@@ -69,4 +75,31 @@ test("axe clean; 375px", async ({ page }) => {
     () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
   );
   expect(overflow).toBeLessThanOrEqual(0);
+});
+
+test("shared sections are restyled as panels, not just recolored", async ({ page }) => {
+  await page.goto("/?theme=dashboard");
+  await expect(page.getByTestId("panel-traffic")).toBeVisible();
+  await expect(page.locator('[data-part="case-meta"]').first()).toHaveCSS(
+    "background-color",
+    rgb(dashboard.tokens.surface2),
+  );
+  await expect(page.locator('[data-part="stat"]').first()).toHaveCSS(
+    "border-top-left-radius",
+    "4px",
+  );
+  expect(
+    await page
+      .locator('[data-part="roles"]')
+      .evaluate((el) => getComputedStyle(el, "::before").content),
+  ).toContain("PERIOD");
+  await expect(page.locator('[data-part="role"]').nth(1)).toHaveCSS(
+    "background-color",
+    rgb(dashboard.tokens.surface),
+  );
+  expect(
+    await page
+      .locator('[data-part="contact-actions"]')
+      .evaluate((el) => getComputedStyle(el, "::before").content),
+  ).toContain("contact");
 });

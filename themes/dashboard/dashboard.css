@@ -1,0 +1,116 @@
+/* Grafana-panel language for the shared sections (design-system/portfolio-v3/pages/dashboard.md › Layout).
+   Decorative labels have empty alt text. */
+[data-theme="dashboard"] [data-part="eyebrow"] {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Case studies: panels with a title bar. */
+[data-theme="dashboard"] [data-part="case-card"] {
+  border-radius: 4px;
+}
+[data-theme="dashboard"] [data-part="case-meta"] {
+  /* Edge to edge: negative margin = the card's p-7 (1.75rem) padding. */
+  margin: -1.75rem -1.75rem 0;
+  padding: 10px 1.75rem;
+  border-bottom: 1px solid var(--border);
+  border-radius: 3px 3px 0 0;
+  background: var(--surface2);
+}
+[data-theme="dashboard"] [data-part="case-metrics"] {
+  border: 0;
+}
+[data-theme="dashboard"] [data-part="case-metrics"] dd {
+  font-size: 30px;
+}
+[data-theme="dashboard"] [data-part="case-card"] ul span,
+[data-theme="dashboard"] [data-part="stack"] ul span {
+  border-radius: 2px;
+}
+
+/* Hero stats: one stat panel each. */
+[data-theme="dashboard"] [data-part="stats"] {
+  gap: 8px;
+  border: 0;
+  overflow: visible;
+}
+[data-theme="dashboard"] [data-part="stat"] {
+  /* !important: beats the component's per-cell border utilities. */
+  border: 1px solid var(--border) !important;
+  border-radius: 4px;
+  background: var(--surface);
+}
+[data-theme="dashboard"] [data-part="stat"] dt {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 12px;
+}
+
+/* Experience: table (header row from md; stacked rows below). */
+[data-theme="dashboard"] [data-part="roles"] {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+/* Header row: "Period" over the date column, "Company / role" over the 170px + 24px-gap offset content. */
+@media (min-width: 768px) {
+  [data-theme="dashboard"] [data-part="roles"] {
+    position: relative;
+  }
+  [data-theme="dashboard"] [data-part="roles"]::before,
+  [data-theme="dashboard"] [data-part="roles"]::after {
+    font: 12px var(--font-mono);
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+  [data-theme="dashboard"] [data-part="roles"]::before {
+    content: "PERIOD" / "";
+    display: block;
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  [data-theme="dashboard"] [data-part="roles"]::after {
+    content: "COMPANY / ROLE" / "";
+    position: absolute;
+    top: 8px;
+    left: calc(16px + 170px + 24px);
+  }
+}
+[data-theme="dashboard"] [data-part="role"] {
+  /* !important: beats the row's py-6 / border utilities. */
+  padding: 14px 16px !important;
+  border-width: 0 !important;
+}
+[data-theme="dashboard"] [data-part="role"]:nth-child(even) {
+  background: var(--surface);
+}
+
+/* Contact: titled panel. */
+[data-theme="dashboard"] [data-part="contact-actions"] {
+  padding: 48px 20px 20px;
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--surface);
+}
+[data-theme="dashboard"] [data-part="contact-actions"]::before {
+  content: "contact" / "";
+  position: absolute;
+  inset: 0 0 auto;
+  padding: 8px 20px;
+  line-height: 20px; /* bar = 8 + 20 + 8 (+1 rule) < the panel's 48px top padding */
+  border-bottom: 1px solid var(--border);
+  background: var(--surface2);
+  font: 600 13px var(--font-mono);
+  color: var(--text);
+}
+[data-theme="dashboard"] [data-part="button"] {
+  border-radius: 4px;
+}
+[data-theme="dashboard"] [data-part="kit"] > * {
+  border-radius: 4px;
+  background: var(--surface);
+}

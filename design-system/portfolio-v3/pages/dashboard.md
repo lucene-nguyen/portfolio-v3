@@ -38,3 +38,19 @@
 - GitHub activity — GitHub REST API public data, cached 1 h (`/api/github`).
 - Career uptime, Stack usage, Timeline — derived from `content/` (experience, case-study tags).
 - Unavailable APIs: a warning line, last known values kept, other panels unaffected.
+
+## Layout
+> ui-ux-pro-max (UI round 1): `"analytics dashboard data" --domain landing`, `"dashboard panels data density" --domain ux` (bulk actions / autoplay: not applicable) and retry `"data table readability" --domain ux`.
+
+**Section order:** Hero → Dashboard panels (live metrics) → Case studies → Live lab → Starter kits → Experience + stack → Contact.
+- Verified: landing **Real-Time / Operations** — "Hero (product + live preview or status) > Key metrics > How it works > CTA": the live panels sit right under the hero, then the work.
+- Verified (ux): tables become stacked rows on small screens; numbers formatted.
+- Rejected: **Enterprise Gateway** (solutions by industry/role, client logos) — a sales funnel, not a portfolio; bulk actions (no data entry here).
+
+**How the shared sections look** (Grafana panels)
+- Eyebrows → panel-row labels: uppercase, letter-spaced, muted.
+- Case study cards → **panels**: 4px radius, title bar (`surface2`, rule below) holding the meta line; metrics as large stat values; tags as small labels.
+- Hero stats → **stat panels**: one panel per stat with gaps, value large, label small uppercase.
+- Experience → **table**: header row (Period · Company / role) on wide screens, zebra rows, stacked rows on mobile.
+- Contact → **panel** with a "contact" title bar above the actions.
+- Starter kits → panels (4px radius, `border`).
