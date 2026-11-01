@@ -143,4 +143,5 @@ test("shared sections carry terminal accents", async ({ page }) => {
   );
   expect(await pseudo('[data-part="roles"]', "border-left-style")).toBe("dashed");
   expect(await pseudo('[data-part="contact-actions"]', "content")).toContain("$ contact");
+  expect(await pseudo('[data-part="stat"] dt', "content")).toContain("›");
 });

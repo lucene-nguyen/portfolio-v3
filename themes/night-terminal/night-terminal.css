@@ -11,7 +11,7 @@
   margin: -1.75rem -1.75rem 0;
   padding: 12px 1.75rem;
   border-bottom: 1px solid var(--border);
-  border-radius: 16px 16px 0 0;
+  border-radius: calc(1rem - 1px) calc(1rem - 1px) 0 0; /* card rounded-2xl minus its 1px border */
   background: var(--bg);
 }
 [data-theme="night-terminal"] [data-part="case-meta"] > span:first-child::before {
@@ -44,7 +44,7 @@
 [data-theme="night-terminal"] [data-part="role"]::before {
   content: "";
   position: absolute;
-  top: 30px;
+  top: 28px; /* row py-6 + half the 20px line − half the dot */
   left: -26px;
   width: 12px;
   height: 12px;
@@ -63,8 +63,6 @@
   position: absolute;
   top: 0;
   left: 0;
-  font:
-    14px var(--font-jetbrains-mono),
-    monospace;
+  font: 14px var(--font-mono);
   color: var(--text-muted);
 }
