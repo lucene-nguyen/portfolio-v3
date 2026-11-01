@@ -97,3 +97,23 @@ test("desktop axe clean", async ({ page }) => {
   const { violations } = await new AxeBuilder({ page }).exclude("nextjs-portal").analyze();
   expect(violations.map((v) => v.id)).toEqual([]);
 });
+
+test("shared sections are restyled in editor language", async ({ page }) => {
+  await ready(page);
+  const pseudo = (sel: string) =>
+    page
+      .locator(sel)
+      .first()
+      .evaluate((el) => getComputedStyle(el, "::before").content);
+  expect(await pseudo('#work [data-part="eyebrow"]')).toContain("//");
+  await expect(page.locator('[data-part="case-meta"]').first()).toHaveCSS(
+    "border-top-width",
+    "2px",
+  );
+  await expect(page.locator('[data-part="stats"]')).toHaveCSS(
+    "background-color",
+    "rgb(79, 193, 255)",
+  );
+  expect(await pseudo('[data-part="roles"]')).toContain("TIMELINE");
+  expect(await pseudo('[data-part="contact-actions"]')).toContain("TERMINAL");
+});

@@ -15,6 +15,7 @@ import "@/themes/blueprint/blueprint.css";
 import "@/themes/cyberpunk/cyberpunk.css";
 import "@/themes/dashboard/dashboard.css";
 import "@/themes/editorial/editorial.css";
+import "@/themes/ide/ide.css";
 import "@/themes/neo-brutalism/neo.css";
 import "@/themes/night-terminal/night-terminal.css";
 import "@/themes/pixel/pixel.css";

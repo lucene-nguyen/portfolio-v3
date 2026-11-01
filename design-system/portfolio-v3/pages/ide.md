@@ -37,3 +37,16 @@
 - Explorer (≥ 768px sidebar; drawer below) lists sections as files: `about.ts`, `work/README.md`, `work/*.md`, `lab/rate-limiter.ts`, `kits/README.md`, `resume.json`, `contact.md`. Every file is a real link to an existing page or anchor.
 - "Open editors" tab bar: tabs are links (deep-linkable) with separate close buttons; open tabs kept per session.
 - Path line `portfolio-v3 › work › x.md` under the tabs. Ctrl/⌘K: "Go to file" palette (combobox + listbox).
+
+### Shared sections (UI round 1)
+> ui-ux-pro-max: `"developer tool product" --domain landing` → **no verified match** (built-in defaults: hero first, work, about, contact); `"code editor tabs panels" --domain ux` → code splitting (verified: the IDE chrome is its own lazy chunk).
+
+**Section order:** Hero → Case studies → Live lab → Starter kits → Experience + stack → Contact (inside the editor area).
+- Rejected: left accent-border "cards" (listed as an AI-design trope); line-number gutters on prose (content must stay readable prose).
+
+**How the shared sections look** (editor language; decorative labels have empty alt text)
+- Eyebrows → code comments: `// 01 / selected work`, italic.
+- Case study cards → **editor panes**: square-ish (2px radius), meta line as a tab strip (`bgAlt`, active-tab accent top rule), body unchanged.
+- Hero stats → **status bar**: one accent band, items separated by thin rules, text in `accentContrast`.
+- Experience → **TIMELINE panel**: panel header, compact rows, hover highlight.
+- Contact → **TERMINAL panel**: tab header "TERMINAL", dark body, `$` prompt before the actions.
