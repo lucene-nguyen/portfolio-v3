@@ -72,3 +72,49 @@ test("axe clean; 375px", async ({ page }) => {
   );
   expect(overflow).toBeLessThanOrEqual(0);
 });
+
+test("shared sections are restyled as stickers", async ({ page }) => {
+  const shadow = "rgb(0, 0, 0) 6px 6px 0px 0px";
+  await expect(page.locator('#work [data-part="eyebrow"]')).toHaveCSS(
+    "background-color",
+    "rgb(255, 214, 10)",
+  );
+  const metas = page.locator('#work [data-part="case-meta"]');
+  await expect(metas.nth(0)).toHaveCSS("background-color", "rgb(255, 214, 10)");
+  await expect(metas.nth(1)).toHaveCSS("background-color", "rgb(124, 242, 156)");
+  await expect(metas.nth(2)).toHaveCSS("background-color", "rgb(94, 200, 255)");
+  // Header strip runs edge to edge inside the card's 3px border.
+  const [card, meta] = await Promise.all([
+    page.locator('#work [data-part="case-card"]').first().boundingBox(),
+    metas.first().boundingBox(),
+  ]);
+  expect(meta!.x - card!.x).toBe(3);
+  expect(card!.width - meta!.width).toBe(6);
+  const fills = [
+    "rgb(255, 214, 10)",
+    "rgb(124, 242, 156)",
+    "rgb(94, 200, 255)",
+    "rgb(255, 169, 77)",
+  ];
+  for (const [i, fill] of fills.entries())
+    await expect(page.locator('[data-part="stat"]').nth(i)).toHaveCSS("background-color", fill);
+  await expect(page.locator('[data-part="case-metrics"]').first()).toHaveCSS(
+    "border-top-width",
+    "3px",
+  );
+  const contact = page.locator('[data-part="contact-actions"] [data-part="button"]').first();
+  await expect(contact).toHaveCSS("border-top-width", "3px");
+  await expect(contact).toHaveCSS("box-shadow", "rgb(0, 0, 0) 4px 4px 0px 0px");
+  const stat = page.locator('[data-part="stat"]').first();
+  await expect(stat).toHaveCSS("border-top-width", "3px");
+  await expect(stat).toHaveCSS("box-shadow", shadow);
+  await expect(page.locator('[data-part="role"]').first()).toHaveCSS("box-shadow", shadow);
+  await expect(page.locator('[data-part="stack"]')).toHaveCSS(
+    "background-color",
+    "rgb(255, 227, 246)",
+  );
+  await expect(page.locator('[data-part="role"] > span:first-child').first()).toHaveCSS(
+    "background-color",
+    "rgb(0, 0, 0)",
+  );
+});

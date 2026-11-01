@@ -162,3 +162,17 @@ Spec: [docs/specs/ui-round-1.md](../specs/ui-round-1.md). Before = `docs/screens
   - N/A for this site: safe-area insets/Dynamic Type (native), dark+light parity (each theme is single-mode, contrast-tested), forms/auth, auto-rotating content.
 - Before/after: default bordered sections inside the bento grid → tile language throughout (`docs/screenshots/bento/`).
 - Review: APPROVE; Shoulds applied (shadow from `--text` via color-mix, stronger tile assertions); nits kept (`!important` matches docs/dashboard, 13px eyebrow intended).
+
+## fix/ui-neo-brutalism (item 2)
+- ui-ux-pro-max layout pass: `"neo brutalism bold portfolio" --domain landing` returned 0 results; retry `"portfolio grid creative"` verified Portfolio Grid; `"neubrutalism" --domain style` verified the style rules; ux `"bold borders visual hierarchy contrast"` (Contrast Readability applied; Breadcrumbs off-topic). New "## Layout" section in `pages/neo-brutalism.md`; press-to-sink motion and rotated cards rejected.
+- `themes/neo-brutalism/neo.css`: raw `#000` replaced by `var(--border)`; sticker fills as theme-scoped vars; yellow uppercase eyebrows; colour header strip per case study (yellow/green/blue) with a bordered metrics box; hero numbers as four sticker tiles with hard shadows; roles as bordered cards with a black period label; stack as a pink panel; contact buttons with hard shadows.
+- Tests: restyle assertions in `e2e/neo-brutalism.spec.ts` (every fill, shadows, strip edge-to-edge alignment, contact buttons); checklist extended to neo-brutalism.
+- Pre-delivery checklist (ui-ux-pro-max `references/pro-rules.md`; web-applicable items):
+  - Process: theme-specific `--domain landing` + `--domain ux` searches ✅ · 375px and landscape 812×375 ✅ (e2e) · reduced motion ✅ (no running animations, e2e) · 200% zoom (720px viewport) ✅ · contrast per theme ✅ (registry tests: every text token on every ground) · touch targets ≥ 44px for buttons/selects ✅ (e2e, strict)
+  - Visual: no emoji icons ✅ (Lucide only) · one icon family ✅ · no layout-shifting press states ✅ · tokens only, no ad-hoc hex ✅
+  - Interaction: visible focus ring ✅ · focus order = DOM order ✅ (home tab test) · descriptive labels ✅ (axe clean) · drag has button alternatives ✅ (where present)
+  - Layout: nothing hidden behind fixed UI ✅ (no fixed controls on mobile) · 4/8px spacing rhythm ✅ · readable measure ✅
+  - Accessibility: decorative icons/labels hidden from AT ✅ · colour never the only indicator ✅ · reduced motion ✅
+  - N/A for this site: safe-area insets/Dynamic Type (native), dark+light parity (each theme is single-mode, contrast-tested), forms/auth, auto-rotating content.
+- Before/after: default sections with black borders only → sticker language throughout (`docs/screenshots/neo-brutalism/`).
+- Review: APPROVE; Shoulds applied (strip alignment e2e check documented at the negative margin, full fill/contact/metrics assertions); nits applied (shared shadow var, selector matches CSS, pink/violet kept for parity with STICKER_FILLS).
