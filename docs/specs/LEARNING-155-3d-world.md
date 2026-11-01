@@ -9,7 +9,8 @@ A small explorable 3D scene where each zone is a site section.
 - Design rules persisted with ui-ux-pro-max: `design-system/portfolio-v3/pages/3d-world.md`.
 - `lib/world.ts`: movement, bounds, zones, key mapping (unit-tested).
 - `themes/3d-world/scene.ts`: Three.js scene (procedural, no assets), dynamically imported by the theme layout.
-- `themes/3d-world/layout.tsx`: full-screen world dialog with HUD (skip, zone buttons, movement pad), session-closed state, "Enter 3D world".
+- `themes/3d-world/layout.tsx`: full-screen world dialog with HUD (skip, zone buttons, movement pad), opened from an "Explore in 3D" entry block below the home hero (home page only).
+- Changed in UI round 1 §1 (`docs/specs/ui-round-1.md`): the world no longer opens automatically on first visit or on case-study pages; the floating "Enter 3D world" button was replaced by the entry block.
 
 ## Acceptance criteria
 - AC1: `design-system/portfolio-v3/pages/3d-world.md` exists with the exact tokens.

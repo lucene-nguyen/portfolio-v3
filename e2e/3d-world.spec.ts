@@ -41,8 +41,10 @@ test("Three.js loads only in this theme; no model/texture assets", async ({ page
 test("entry sits below the hero; Skip to content exits and focuses main", async ({ page }) => {
   await page.goto("/?theme=3d-world");
   await expect(world(page)).toHaveCount(0);
-  const entry = page.getByRole("region", { name: "3D world" });
+  const entry = page.getByRole("region", { name: "Explore in 3D" });
   expect(await entry.evaluate((el) => el.parentElement?.previousElementSibling?.id)).toBe("top");
+  const { violations } = await new AxeBuilder({ page }).exclude("nextjs-portal").analyze();
+  expect(violations.map((v) => v.id)).toEqual([]);
   await entry.getByRole("button", { name: "Enter 3D world" }).click();
   await world(page).getByRole("button", { name: "Skip to content" }).click();
   await expect(world(page)).toBeHidden();

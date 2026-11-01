@@ -164,7 +164,6 @@ function World({ onExit }: { onExit: (zone?: Zone["id"]) => void }) {
   );
 }
 
-/** Opens the 3D world over the standard page; skipping or entering a zone returns to the standard layout. */
 /** The 3D world opens from an entry block below the home hero; closing it returns to the standard page. */
 export default function WorldLayout({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
@@ -197,7 +196,7 @@ export default function WorldLayout({ children }: { children: React.ReactNode })
             <div className={`${container} flex flex-wrap items-center justify-between gap-6 py-12`}>
               <div className="max-w-xl">
                 <h2 id="world-entry-title" className="text-[28px] font-bold">
-                  {c.title}
+                  {c.entryTitle}
                 </h2>
                 <p className="mt-2 text-text-secondary">{c.instructions}</p>
               </div>
