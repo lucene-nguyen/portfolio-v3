@@ -1,6 +1,6 @@
 /* Scoped to Neo-brutalism: thick black borders, hard offset shadows, no easing. */
 [data-theme="neo-brutalism"] {
-  /* Sticker fills (stickers.ts STICKER_FILLS); only black text sits on them. */
+  /* Sticker fills mirror stickers.ts STICKER_FILLS (pink/violet kept for parity); only black text sits on them. */
   --nb-yellow: #ffd60a;
   --nb-pink: #ff90e8;
   --nb-green: #7cf29c;
@@ -18,7 +18,7 @@
 }
 [data-theme="neo-brutalism"] :is(#work article, #lab .bg-surface, #kits li > *, .nb-card) {
   border: 3px solid var(--border) !important;
-  box-shadow: 6px 6px 0 var(--border);
+  box-shadow: var(--nb-shadow);
 }
 [data-theme="neo-brutalism"] :is(a.inline-flex, button) {
   border-width: 2px;
@@ -51,7 +51,7 @@
 
 /* Case studies: a loud colour header strip per card, edge to edge (card p-7, 3px border). */
 [data-theme="neo-brutalism"] [data-part="case-meta"] {
-  margin: -1.75rem -1.75rem 0;
+  margin: -1.75rem -1.75rem 0; /* the card's p-7; e2e checks the strip stays edge to edge */
   padding: 10px 1.75rem;
   border-bottom: 3px solid var(--border);
   background: var(--nb-yellow);
