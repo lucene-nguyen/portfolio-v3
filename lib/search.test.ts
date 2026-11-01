@@ -37,4 +37,11 @@ describe("mdxToDocs", () => {
     expect(out[0].text).toBe("Some text.");
     expect(out[1].text).toBe("Sub More.");
   });
+  it("keeps snake_case, drops list markers and link urls", () => {
+    const [d] = mdxToDocs("## A\n\n- uses `snake_case` and [docs](https://x.y)", {
+      title: "T",
+      href: "/t",
+    });
+    expect(d.text).toBe("uses snake_case and docs");
+  });
 });

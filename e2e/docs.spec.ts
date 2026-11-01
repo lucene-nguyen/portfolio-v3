@@ -33,8 +33,34 @@ test("/ opens search; type, arrow, Enter navigates; Esc restores focus", async (
 
   await page.keyboard.press("Control+k");
   await expect(box(page)).toBeFocused();
+  await box(page).fill("redis");
   await page.keyboard.press("Escape");
   await expect(dialog(page)).toBeHidden();
+});
+
+test("selected result has a visible accent outline", async ({ page }) => {
+  await ready(page);
+  await page.keyboard.press("/");
+  await box(page).fill("redis");
+  const first = dialog(page).getByRole("option").first();
+  await expect(first).toHaveAttribute("aria-selected", "true");
+  await expect(first).toHaveCSS("outline-style", "solid");
+  await expect(first).toHaveCSS("outline-color", "rgb(11, 102, 194)");
+});
+
+test("index failure: message, then retry on next open", async ({ page }) => {
+  let calls = 0;
+  await page.route("**/search-index.json", (route) =>
+    ++calls === 1 ? route.abort() : route.continue(),
+  );
+  await ready(page);
+  await page.keyboard.press("/");
+  await box(page).fill("redis");
+  await expect(dialog(page).getByRole("status")).toContainText("unavailable");
+  await page.keyboard.press("Escape");
+  await page.keyboard.press("/");
+  await box(page).fill("redis");
+  await expect(dialog(page).getByRole("option").first()).toBeVisible();
 });
 
 test("no results suggests terms", async ({ page }) => {

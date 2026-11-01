@@ -149,11 +149,13 @@ export const docsCopy = {
   menu: "Menu",
   close: "Close",
   search: "Search",
-  searchHint: "/ or Ctrl K",
+  searchHint: "/ or Ctrl/⌘ K",
   searchLabel: "Search the site",
   placeholder: "Search case studies, stack, experience…",
   results: (n: number) => `${n} result${n === 1 ? "" : "s"}`,
   noResults: "No results. Try: Redis, Lambda, NestJS, Databricks.",
+  searching: "Searching…",
+  loadFailed: "Search is unavailable right now. Close and try again.",
   breadcrumb: "Breadcrumb",
 };
 
