@@ -24,13 +24,14 @@
 }
 
 /* Case studies: feature teasers, no boxes. */
+/* Unlayered theme CSS beats Tailwind's layered utilities: no !important needed. */
 [data-theme="editorial"] [data-part="case-card"] {
-  padding: 24px 0 0 !important;
-  border: 0 !important;
-  border-top: 2px solid var(--text) !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
+  padding: 24px 0 0;
+  border: 0;
+  border-top: 2px solid var(--text);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 [data-theme="editorial"] [data-part="case-meta"] {
   font-family: var(--font-sans);
@@ -111,12 +112,25 @@
 [data-theme="editorial"] [data-part="button"] {
   border-radius: 0;
 }
+/* Sign-off: understated outlined actions (the hero keeps its filled primary CTA). */
+[data-theme="editorial"] [data-part="contact-actions"] [data-part="button"] {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+}
+[data-theme="editorial"] [data-part="contact-actions"] [data-part="button"]:hover {
+  background: var(--surface-2);
+}
+/* Tags read as an inline list: middot separators (decorative). */
+[data-theme="editorial"] [data-part="case-card"] ul li:not(:last-child) span::after {
+  content: " ·" / "";
+}
 [data-theme="editorial"] [data-part="kit"] > * {
   border: 0;
   border-top: 1px solid var(--border-strong);
   border-radius: 0;
   padding-inline: 0;
 }
-[data-theme="editorial"] #lab * {
-  border-radius: 0 !important;
+[data-theme="editorial"] #lab :is(.bg-surface, button, [role="meter"], [role="meter"] > div, ol) {
+  border-radius: 0;
 }

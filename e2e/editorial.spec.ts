@@ -113,4 +113,16 @@ test("shared sections are restyled as a magazine, not just recolored", async ({ 
     "font-variant-caps",
     "small-caps",
   );
+  await expect(page.locator('[data-part="role"] h3').first()).toHaveCSS(
+    "font-family",
+    /Libre Bodoni/,
+  );
+  await expect(page.locator('[data-part="contact-actions"] a[href^="mailto:"]')).toHaveCSS(
+    "background-color",
+    "rgba(0, 0, 0, 0)",
+  );
+  await expect(page.locator('[data-part="kit"] > *').first()).toHaveCSS(
+    "border-top-style",
+    "solid",
+  );
 });

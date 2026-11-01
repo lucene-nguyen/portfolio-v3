@@ -47,8 +47,9 @@
 
 **How the shared sections look** (magazine)
 - Eyebrows → small caps kicker in the accent, letter-spaced.
-- Case study cards → **feature teasers**: no box or shadow; hairline rule on top, small-caps kicker (meta), large serif headline, standfirst in body text, metrics as serif pull-figures, tags as a comma-like inline list in small caps, "Read case study" as an underlined text link.
+- Case study cards → **feature teasers**: no box or shadow; hairline rule on top, small-caps kicker (meta), large serif headline, standfirst in body text, metrics as serif pull-figures, tags as an inline small-caps list separated by middots, "Read case study" as an underlined text link.
 - Hero stats → **"by the numbers" band**: hairline rules above/below, serif numerals, small-caps captions, no boxes.
 - Experience → **masthead list**: serif company names, small-caps dates, hairline rules between roles; stack as plain small-caps lists.
-- Contact → **sign-off**: serif heading, actions as understated outlined buttons with square corners on a hairline rule.
+- Buttons: square corners everywhere; the hero keeps its filled primary CTA.
+- Contact → **sign-off**: serif heading, actions as understated outlined buttons on a hairline rule.
 - Starter kits → teaser cards without boxes, hairline top rule.
