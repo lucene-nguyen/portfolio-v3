@@ -24,3 +24,10 @@ Spec: [docs/specs/ui-round-1.md](../specs/ui-round-1.md). Before = `docs/screens
 - Screenshots: sweep now also saves `mobile-375-menu.png` per theme.
 - Before/after (375px): nav wrapped to 3 lines with "Theme" label and placeholder resume; Terminal/Achievements buttons floated over hero content → one-line header, menu panel, no floating controls.
 - Review: APPROVE; fixed focus loss after menu dialogs, Esc focus, fixed-control check that couldn't fail, comment, screenshots.
+
+## fix/ui-swiss-grid (item 4)
+- 12-column overlay hidden by default; "Show grid" toggle in the nav (`aria-pressed`, ≥ 1024px only where the grid exists), choice saved in localStorage on click. Print CV unaffected (grid rules are screen-only).
+- Tests: `e2e/swiss.spec.ts` (hidden by default, toggle on, remembered after reload, toggle hidden below 1024px).
+- Screenshots: `desktop-1440.png` (grid off), `desktop-1440-grid-on.png`, `mobile-375*.png`.
+- Before/after: grid always drawn over the page → off by default, on demand.
+- Review: APPROVE; saved on click instead of every mount, hover state, screenshots/notes added.

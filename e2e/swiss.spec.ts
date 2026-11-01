@@ -5,7 +5,16 @@ test("12-column grid is visible and aligned with content at 1440px", async ({ pa
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/?theme=swiss-minimal");
   const grid = page.getByTestId("swiss-grid");
+  // Hidden by default; the nav toggle shows it and remembers the choice.
+  await expect(grid).toBeAttached();
+  await expect(grid).toBeHidden();
+  const toggle = page.getByRole("button", { name: "Show grid" });
+  await expect(toggle).toHaveAttribute("aria-pressed", "false");
+  await toggle.click();
+  await expect(toggle).toHaveAttribute("aria-pressed", "true");
   await expect(grid).toBeVisible();
+  await page.reload();
+  await expect(page.getByTestId("swiss-grid")).toBeVisible();
   const cols = grid.locator("span");
   await expect(cols).toHaveCount(12);
   const first = (await cols.first().boundingBox())!;
@@ -22,6 +31,7 @@ test("grid hidden below 1024px", async ({ page }) => {
   await page.setViewportSize({ width: 800, height: 900 });
   await page.goto("/?theme=swiss-minimal");
   await expect(page.getByTestId("swiss-grid")).toBeHidden();
+  await expect(page.getByRole("button", { name: "Show grid" })).toBeHidden();
 });
 
 for (const format of ["A4", "Letter"] as const) {

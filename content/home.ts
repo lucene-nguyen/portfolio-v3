@@ -268,6 +268,8 @@ export const worldCopy = {
   padLabel: "Movement pad",
 };
 
+export const swissCopy = { showGrid: "Show grid" };
+
 export const lab = {
   eyebrow: "02 / live lab",
   title: "Try to break my rate limiter",
