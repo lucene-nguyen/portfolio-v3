@@ -54,7 +54,6 @@
   align-self: flex-start;
   /* Same width for every period chip so the titles line up (beats flex-[0_0_170px]). */
   flex: 0 0 9rem !important;
-  text-align: center;
   padding: 2px 8px;
   border-radius: 4px;
   background: var(--surface2);

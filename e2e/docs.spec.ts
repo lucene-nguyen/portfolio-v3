@@ -132,6 +132,11 @@ test("shared sections are restyled as Notion blocks", async ({ page }) => {
     "background-color",
     rgb(docs.tokens.bgAlt),
   );
+  await expect(page.locator('#work [data-part="eyebrow"]')).toHaveCSS("font-size", "13px");
+  await expect(page.locator('[data-part="kit"] > *').first()).toHaveCSS(
+    "border-top-left-radius",
+    "6px",
+  );
   // Database list: role titles line up regardless of period length.
   const lefts = await page
     .locator('[data-part="role"] h3')
