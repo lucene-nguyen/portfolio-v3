@@ -42,14 +42,13 @@ export const ComposeDialog = forwardRef<HTMLDialogElement, { mail: ComposedMail 
                   {c.intro}
                 </p>
               </div>
-              <form method="dialog">
-                <button
-                  type="submit"
-                  className="min-h-11 rounded-md border border-text-subtle px-3 text-sm"
-                >
-                  {c.close}
-                </button>
-              </form>
+              <button
+                type="button"
+                onClick={(e) => e.currentTarget.closest("dialog")?.close()}
+                className="min-h-11 rounded-md border border-text-subtle px-3 text-sm"
+              >
+                {c.close}
+              </button>
             </div>
             <section aria-label={c.preview}>
               {/* Read-only preview: exactly what Copy puts on the clipboard. */}
@@ -61,6 +60,11 @@ export const ComposeDialog = forwardRef<HTMLDialogElement, { mail: ComposedMail 
                 {mail.text}
               </pre>
             </section>
+            {mail.long && (
+              <p data-part="compose-long" className="text-sm text-warning">
+                {c.long}
+              </p>
+            )}
             <div className="flex flex-wrap gap-3">
               <a
                 href={mail.gmail}

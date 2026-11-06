@@ -9,6 +9,7 @@ vi.stubEnv("UPSTASH_REDIS_REST_URL", "");
 vi.stubEnv("UPSTASH_REDIS_REST_TOKEN", "");
 
 import * as store from "@/lib/rate-limit/store";
+import { features } from "@/lib/features";
 import { DELETE, GET } from "./route";
 
 afterEach(() => vi.restoreAllMocks());
@@ -21,7 +22,15 @@ const req = (ip: string, algo = "token", method = "GET") =>
     headers: { "x-forwarded-for": `${ip}, 10.0.0.1` },
   });
 
-describe("/api/ping", () => {
+it.skipIf(features.lab)("is parked with the lab: 404, no Redis touched", async () => {
+  const spy = vi.spyOn(store, "getLimiter");
+  expect((await GET(new Request("http://x/api/ping"))).status).toBe(404);
+  expect((await DELETE(new Request("http://x/api/ping", { method: "DELETE" }))).status).toBe(404);
+  expect(spy).not.toHaveBeenCalled();
+});
+
+// The lab is parked (LEARNING-188 gate); these run with NEXT_PUBLIC_FEATURE_LAB=on.
+describe.skipIf(!features.lab)("/api/ping", () => {
   it.each(["token", "window"])("%s: 200 within limit, then 429 with headers", async (algo) => {
     const who = ip();
     const statuses = [];

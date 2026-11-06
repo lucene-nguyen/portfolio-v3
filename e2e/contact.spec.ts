@@ -185,6 +185,11 @@ test.describe("send from your own mailbox (LEARNING-188)", () => {
     await page.keyboard.press("Escape");
     await expect(panel).toBeHidden();
     await expect(form(page).getByRole("button", { name: "Send message" })).toBeFocused();
+    // Reopen; the Close button closes without re-submitting the form.
+    await send(page);
+    await expect(panel).toBeVisible();
+    await panel.getByRole("button", { name: "Close" }).click();
+    await expect(panel).toBeHidden();
   });
 
   test("Vietnamese panel and labels", async ({ page }) => {

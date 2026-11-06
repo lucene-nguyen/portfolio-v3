@@ -530,6 +530,7 @@ export const contactCopy = {
     mailto: "Ứng dụng email mặc định",
     copy: "Sao chép tin nhắn",
     copied: "Đã sao chép",
+    long: "Tin nhắn dài: nếu bản nháp bị cắt bớt, hãy dùng Sao chép tin nhắn rồi dán vào email.",
     copyFailed: "Không sao chép được. Hãy chọn đoạn xem trước và sao chép.",
     close: "Đóng",
   },

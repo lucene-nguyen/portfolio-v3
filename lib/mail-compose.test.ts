@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
 import { contents } from "@/content";
-import { composeMail } from "./mail-compose";
+import { composeMail, LINK_LIMIT } from "./mail-compose";
 
 const msg = {
   name: "Lan Tran",
@@ -58,5 +58,17 @@ describe("composeMail", () => {
     expect(m.gmail).not.toMatch(/[ &]on budget/); // "&" and spaces are encoded
     expect(new URL(m.gmail).searchParams.get("body")).toBe(m.body);
     expect(new URL(m.outlook).searchParams.get("subject")).toBe(m.subject);
+  });
+
+  it("flags long links (a 1,500-character Vietnamese message) so the panel suggests Copy", () => {
+    const short = composeMail(msg, contents.en);
+    expect(short.long).toBe(false);
+    const long = composeMail(
+      { ...msg, message: "Đánh giá kiến trúc ".repeat(80).slice(0, 1500) },
+      contents.vi,
+    );
+    expect(long.mailto.length).toBeGreaterThan(LINK_LIMIT);
+    expect(long.long).toBe(true);
+    expect(long.text).toContain(long.body); // Copy always has the full text
   });
 });

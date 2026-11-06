@@ -3,6 +3,7 @@ import type { Algo, Decision } from "@/lib/rate-limit/algorithms";
 import { getStats } from "@/lib/rate-limit/stats";
 import { getLimiter } from "@/lib/rate-limit/store";
 import { visitorId } from "@/lib/rate-limit/visitor";
+import { features } from "@/lib/features";
 
 const ALGOS: readonly Algo[] = ["token", "window"];
 
@@ -52,6 +53,8 @@ const badAlgo = () =>
   );
 
 export async function GET(req: Request) {
+  // Parked with the lab: no Redis, salt or prefix needed in Production.
+  if (!features.lab) return new Response(null, { status: 404 });
   const algo = parseAlgo(req);
   if (!algo) return badAlgo();
   try {
@@ -71,6 +74,8 @@ export async function GET(req: Request) {
 
 /** Resets only the caller's own bucket/window (used by the lab's Reset button). */
 export async function DELETE(req: Request) {
+  // Parked with the lab: no Redis, salt or prefix needed in Production.
+  if (!features.lab) return new Response(null, { status: 404 });
   const algo = parseAlgo(req);
   if (!algo) return badAlgo();
   try {

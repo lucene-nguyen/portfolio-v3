@@ -43,4 +43,8 @@ it("renders every home section and the contact form in production with an empty 
   // The server-delivery guards are lazy: nothing above touched them.
   const { features } = await import("@/lib/features");
   expect(features.contactServer).toBe(false);
+  // …and the env really is empty: the server guards would refuse to run.
+  const { redisKeyPrefix, rlSalt } = await import("@/lib/env");
+  expect(() => rlSalt()).toThrow(/RL_SALT is required/);
+  expect(() => redisKeyPrefix()).toThrow(/REDIS_KEY_PREFIX is required/);
 });

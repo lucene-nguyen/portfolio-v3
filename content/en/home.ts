@@ -793,6 +793,7 @@ export const contactCopy = {
     mailto: "Default email app",
     copy: "Copy message",
     copied: "Copied",
+    long: "Long message: if the draft comes out cut off, use Copy message and paste it into your email.",
     copyFailed: "Couldn't copy. Select the preview text and copy it.",
     close: "Close",
   },
