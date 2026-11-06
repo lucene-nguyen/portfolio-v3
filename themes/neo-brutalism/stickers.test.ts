@@ -16,7 +16,7 @@ it("black sticker text reaches 4.5:1 on every saturated fill", () => {
 it("lists each skill once and filters by it: case studies, or the kits while those are parked", () => {
   expect(new Set(skills).size).toBe(skills.length);
   expect(projectsWith("NestJS").map((p) => p.key)).toEqual(
-    features.caseStudies ? ["pharmacy-inventory", "aws-file-ingestion"] : ["TableTap"],
+    features.caseStudies ? ["pharmacy-inventory", "aws-file-ingestion"] : [],
   );
   expect(projectsWith("Nope")).toEqual([]);
 });
@@ -26,6 +26,9 @@ it.skipIf(features.caseStudies)(
   () => {
     // Unfinished stacks and links never become stickers or dead links.
     expect(skills.some((s) => s.includes("PLACEHOLDER"))).toBe(false);
-    expect(projects.filter((p) => p.href).map((p) => p.key)).toEqual(["rate-limiting-lab"]);
+    expect(projects.filter((p) => p.href).map((p) => p.key)).toEqual([
+      "TableTap",
+      "rate-limiting-lab",
+    ]);
   },
 );

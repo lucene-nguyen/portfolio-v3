@@ -187,3 +187,26 @@ test("Education & Certifications; Work with me parked; contact keeps every type"
     await expect(page.getByRole("radio", { name: t })).toBeVisible();
   await expect(page.locator("#contact")).toContainText("Have a web app project instead?");
 });
+
+test("TableTap kit: repo and live demo links, real stack, no nested links", async ({ page }) => {
+  await page.goto("/");
+  const card = page.locator('#kits [data-part="kit"]').filter({ hasText: "TableTap" });
+  await expect(card).toContainText("Next.js · Supabase · VietQR");
+  await expect(card).not.toContainText("NestJS");
+  await expect(card.getByRole("link", { name: "View on GitHub: TableTap" })).toHaveAttribute(
+    "href",
+    "https://github.com/lucene-nguyen/qr-ordering-starter-kit",
+  );
+  const demo = card.getByRole("link", { name: "Live demo TableTap (opens in a new tab)" });
+  await expect(demo).toHaveAttribute("href", "https://qr-ordering.lucene.cloud");
+  await expect(demo).toHaveAttribute("target", "_blank");
+  await expect(demo).toHaveAttribute("rel", "noopener noreferrer");
+  expect(await page.locator("a a").count()).toBe(0);
+  await page.goto("/vi");
+  await expect(
+    page
+      .locator('#kits [data-part="kit"]')
+      .filter({ hasText: "TableTap" })
+      .getByRole("link", { name: /^Xem demo/ }),
+  ).toHaveAttribute("href", "https://qr-ordering.lucene.cloud");
+});

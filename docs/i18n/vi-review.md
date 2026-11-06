@@ -31,7 +31,7 @@ Still for the owner's next look: `labels.newTab` "(mở trong thẻ mới)".
 ## All strings
 
 <!-- generated from content/en/home.ts and content/vi/home.ts -->
-_533 strings: 280 translated, 253 identical in both languages ("= EN": names, technologies, links, codes, and the English experience)._
+_536 strings: 282 translated, 254 identical in both languages ("= EN": names, technologies, links, codes, and the English experience)._
 
 ### certificates
 
@@ -88,6 +88,7 @@ _533 strings: 280 translated, 253 identical in both languages ("= EN": names, te
 | `labels.linkedin` | LinkedIn | = EN |
 | `labels.resume` | View CV | Xem CV |
 | `labels.contactMe` | Contact me | Liên hệ với tôi |
+| `labels.liveDemo` | Live demo | Xem demo |
 | `labels.newTab` | (opens in a new tab) | (mở trong thẻ mới) |
 
 ### nav
@@ -390,8 +391,9 @@ _533 strings: 280 translated, 253 identical in both languages ("= EN": names, te
 | `kits.items[0].status` | in progress | đang phát triển |
 | `kits.items[0].state` | active | = EN |
 | `kits.items[0].description` | QR-code table ordering starter kit for restaurants and cafés. | Starter kit gọi món tại bàn bằng mã QR cho nhà hàng và quán cà phê. |
-| `kits.items[0].stack` | Next.js · NestJS · PostgreSQL | = EN |
-| `kits.items[0].href` | [PLACEHOLDER] | = EN |
+| `kits.items[0].stack` | Next.js · Supabase · VietQR | = EN |
+| `kits.items[0].href` | https://github.com/lucene-nguyen/qr-ordering-starter-kit | = EN |
+| `kits.items[0].demo` | https://qr-ordering.lucene.cloud | = EN |
 | `kits.items[1].name` | Booking kit | = EN |
 | `kits.items[1].status` | planned | dự kiến |
 | `kits.items[1].state` | planned | = EN |
@@ -673,6 +675,7 @@ _533 strings: 280 translated, 253 identical in both languages ("= EN": names, te
 | `contactCopy.compose.mailto` | Default email app | Ứng dụng email mặc định |
 | `contactCopy.compose.copy` | Copy message | Sao chép tin nhắn |
 | `contactCopy.compose.copied` | Copied | Đã sao chép |
+| `contactCopy.compose.long` | Long message: if the draft comes out cut off, use Copy message and paste it into your email. | Tin nhắn dài: nếu bản nháp bị cắt bớt, hãy dùng Sao chép tin nhắn rồi dán vào email. |
 | `contactCopy.compose.copyFailed` | Couldn't copy. Select the preview text and copy it. | Không sao chép được. Hãy chọn đoạn xem trước và sao chép. |
 | `contactCopy.compose.close` | Close | Đóng |
 | `contactCopy.counter(…)` | 3 / 5 | = EN |

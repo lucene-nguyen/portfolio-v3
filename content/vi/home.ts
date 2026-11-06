@@ -50,6 +50,7 @@ export const labels = {
   linkedin: "LinkedIn",
   resume: "Xem CV",
   contactMe: "Liên hệ với tôi",
+  liveDemo: "Xem demo",
   newTab: "(mở trong thẻ mới)",
 };
 
@@ -366,8 +367,9 @@ export const kits = {
       status: "đang phát triển",
       state: "active",
       description: "Starter kit gọi món tại bàn bằng mã QR cho nhà hàng và quán cà phê.",
-      stack: "Next.js · NestJS · PostgreSQL",
-      href: "[PLACEHOLDER]",
+      stack: "Next.js · Supabase · VietQR",
+      href: "https://github.com/lucene-nguyen/qr-ordering-starter-kit",
+      demo: "https://qr-ordering.lucene.cloud",
     },
     {
       name: "Booking kit",
@@ -401,6 +403,7 @@ export const kits = {
     description: string;
     stack: string;
     href: string;
+    demo?: string;
   }[],
 };
 /** Collaboration types (LEARNING-166/167): Work with me CTAs preselect one in the Contact form. */
