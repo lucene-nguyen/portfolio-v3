@@ -13,7 +13,7 @@ export default defineConfig({
     process.env.NEXT_PUBLIC_FEATURE_THEMES === "on"
       ? []
       : [
-          /(3d-world|anime|bento|blueprint|cyberpunk|dashboard|docs|editorial|ide|neo-brutalism|pixel|swiss)\.spec\.ts$/,
+          /(^|[\/])(3d-world|anime|bento|blueprint|cyberpunk|dashboard|docs|editorial|ide|neo-brutalism|pixel|swiss)\.spec\.ts$/,
         ],
   fullyParallel: true,
   forbidOnly: !!process.env.CI,

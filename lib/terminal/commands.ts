@@ -29,10 +29,15 @@ const HELP = [
 const out = (...text: string[]): Line[] => text.map((t) => ({ kind: "out", text: t }));
 const err = (text: string): Line[] => [{ kind: "err", text: `error: ${text}` }];
 
-// Without public case studies (LEARNING-164) the project commands don't exist.
+// Without public case studies (LEARNING-164) the project commands don't exist;
+// with a single theme (LEARNING-184) there is nothing to switch to.
 const PROJECT_COMMANDS = ["ls", "open"];
 const available = (ctx: TerminalContext) =>
-  COMMANDS.filter((c) => ctx.projects.length > 0 || !PROJECT_COMMANDS.includes(c));
+  COMMANDS.filter(
+    (c) =>
+      (ctx.projects.length > 0 || !PROJECT_COMMANDS.includes(c)) &&
+      (c !== "theme" || ctx.themes.length > 1),
+  );
 
 export function run(input: string, ctx: TerminalContext): Result {
   const [first = "", ...args] = input.trim().split(/\s+/);

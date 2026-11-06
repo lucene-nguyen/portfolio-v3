@@ -34,7 +34,7 @@ test("locked: no switcher; ?theme= and a saved theme are ignored", async ({ page
   await page.keyboard.press("Control+k");
   await page.getByRole("textbox", { name: "$ command" }).fill("theme pixel");
   await page.keyboard.press("Enter");
-  await expect(page.getByRole("log")).toContainText('unknown theme "pixel"');
+  await expect(page.getByRole("log")).toContainText("command not found: theme");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "night-terminal");
 });
 

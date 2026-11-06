@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useMemo, useSyncExternalStore } from "react";
 import { STORAGE_KEY } from "@/lib/theme/css";
-import { defaultTheme, getTheme } from "@/themes/registry";
+import { activeThemes, defaultTheme, getTheme } from "@/themes/registry";
 import type { ThemeDefinition } from "@/themes/types";
 
 interface ThemeContextValue {
@@ -25,7 +25,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const id = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   const setTheme = useCallback((next: string) => {
-    if (!getTheme(next)) return;
+    // Locked themes (LEARNING-184) can't be chosen, whoever asks.
+    if (!activeThemes.some((t) => t.id === next)) return;
     document.documentElement.dataset.theme = next;
     try {
       localStorage.setItem(STORAGE_KEY, next);

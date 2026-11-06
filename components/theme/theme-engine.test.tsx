@@ -42,6 +42,7 @@ vi.mock("@/themes/registry", () => {
   return {
     themes,
     defaultTheme: themes[0],
+    activeThemes: themes,
     getTheme: (id: string) => themes.find((t) => t.id === id),
   };
 });
@@ -83,32 +84,38 @@ describe("theme engine", () => {
     expect(loaders.layout).not.toHaveBeenCalled();
   });
 
-  it("switches theme, persists it, announces it, and keeps content", async () => {
-    renderApp();
-    const before = screen.getByRole("main").textContent;
-    const select = screen.getByLabelText("Theme");
-    select.focus();
+  it(
+    "switches theme, persists it, announces it, and keeps content",
+    async () => {
+      renderApp();
+      const before = screen.getByRole("main").textContent;
+      const select = screen.getByLabelText("Theme");
+      select.focus();
 
-    await pick("beta");
+      await pick("beta");
 
-    expect(await screen.findByTestId("beta-layout")).toBeInTheDocument();
-    expect(await screen.findByText("beta feature")).toBeInTheDocument();
-    expect(document.documentElement.dataset.theme).toBe("beta");
-    expect(localStorage.getItem("theme")).toBe("beta");
-    // After the lazy layout resolved: focus and announcement survive the swap.
-    expect(screen.getByRole("status")).toHaveTextContent("Theme: Beta");
-    expect(document.activeElement).toBe(select);
-    expect(screen.getByRole("main").textContent).toBe(before);
-    expect(loaders.feature).toHaveBeenCalledTimes(1);
-  });
+      expect(await screen.findByTestId("beta-layout")).toBeInTheDocument();
+      expect(await screen.findByText("beta feature")).toBeInTheDocument();
+      expect(document.documentElement.dataset.theme).toBe("beta");
+      expect(localStorage.getItem("theme")).toBe("beta");
+      // After the lazy layout resolved: focus and announcement survive the swap.
+      expect(screen.getByRole("status")).toHaveTextContent("Theme: Beta");
+      expect(document.activeElement).toBe(select);
+      expect(screen.getByRole("main").textContent).toBe(before);
+      expect(loaders.feature).toHaveBeenCalledTimes(1);
+    },
+  );
 
-  it("drops a ?theme override when the visitor picks a theme", async () => {
-    window.history.replaceState(null, "", "/?theme=beta&x=1");
-    document.documentElement.dataset.theme = "beta";
-    renderApp();
-    await pick("alpha");
-    expect(window.location.search).toBe("?x=1");
-  });
+  it(
+    "drops a ?theme override when the visitor picks a theme",
+    async () => {
+      window.history.replaceState(null, "", "/?theme=beta&x=1");
+      document.documentElement.dataset.theme = "beta";
+      renderApp();
+      await pick("alpha");
+      expect(window.location.search).toBe("?x=1");
+    },
+  );
 
   it("ignores unknown ids", async () => {
     function SetUnknown() {
