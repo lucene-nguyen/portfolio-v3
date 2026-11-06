@@ -188,20 +188,36 @@ test("Education & Certifications; Work with me parked; contact keeps every type"
   await expect(page.locator("#contact")).toContainText("Have a web app project instead?");
 });
 
-test("TableTap kit: repo and live demo links, real stack, no nested links", async ({ page }) => {
+test("kit cards: one template, buttons not card links, Coming soon for planned kits", async ({
+  page,
+}) => {
   await page.goto("/");
-  const card = page.locator('#kits [data-part="kit"]').filter({ hasText: "TableTap" });
-  await expect(card).toContainText("Next.js · Supabase · VietQR");
-  await expect(card).not.toContainText("NestJS");
-  await expect(card.getByRole("link", { name: "View on GitHub: TableTap" })).toHaveAttribute(
-    "href",
-    "https://github.com/lucene-nguyen/qr-ordering-starter-kit",
-  );
-  const demo = card.getByRole("link", { name: "Live demo TableTap (opens in a new tab)" });
-  await expect(demo).toHaveAttribute("href", "https://qr-ordering.lucene.cloud");
-  await expect(demo).toHaveAttribute("target", "_blank");
-  await expect(demo).toHaveAttribute("rel", "noopener noreferrer");
+  const card = (name: string) => page.locator('#kits [data-part="kit"]').filter({ hasText: name });
+  const button = (name: string, label: string) =>
+    card(name).getByRole("link", { name: `${label} ${name} (opens in a new tab)` });
+  // The cards themselves are not links.
+  await expect(page.locator('#kits [data-part="kit"] > a')).toHaveCount(0);
   expect(await page.locator("a a").count()).toBe(0);
+  for (const [name, label, href] of [
+    ["TableTap", "GitHub", "https://github.com/lucene-nguyen/qr-ordering-starter-kit"],
+    ["TableTap", "Live demo", "https://qr-ordering.lucene.cloud"],
+    ["rate-limiting-lab", "GitHub", "https://github.com/lucene-nguyen/rate-limiting-lab"],
+  ] as const) {
+    await expect(button(name, label)).toHaveAttribute("href", href);
+    await expect(button(name, label)).toHaveAttribute("target", "_blank");
+    await expect(button(name, label)).toHaveAttribute("rel", "noopener noreferrer");
+  }
+  await expect(card("rate-limiting-lab").getByRole("link", { name: /Live demo/ })).toHaveCount(0);
+  await expect(card("TableTap")).toContainText("Next.js · Supabase · VietQR");
+  for (const name of ["Booking kit", "CRM kit"]) {
+    await expect(card(name).getByRole("link")).toHaveCount(0);
+    await expect(card(name).locator('[data-part="kit-actions"]')).toHaveText("Coming soon");
+  }
+  // Equal card heights within a row.
+  const heights = await page
+    .locator('#kits [data-part="kit"] > *')
+    .evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().height)));
+  expect(new Set(heights).size).toBe(1);
   await page.goto("/vi");
   await expect(
     page
@@ -209,4 +225,15 @@ test("TableTap kit: repo and live demo links, real stack, no nested links", asyn
       .filter({ hasText: "TableTap" })
       .getByRole("link", { name: /^Xem demo/ }),
   ).toHaveAttribute("href", "https://qr-ordering.lucene.cloud");
+  await expect(
+    page
+      .locator('#kits [data-part="kit"]')
+      .filter({ hasText: "CRM kit" })
+      .locator('[data-part="kit-actions"]'),
+  ).toHaveText("Sắp ra mắt");
+  await page.setViewportSize({ width: 375, height: 812 });
+  const overflow = await page.evaluate(
+    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  );
+  expect(overflow).toBeLessThanOrEqual(0);
 });

@@ -3,7 +3,7 @@
 // are identical to content/en/home.ts (checked by content/locales.test.ts).
 import { features } from "@/lib/features";
 import * as en from "../en/home";
-import type { CollabType } from "../collab";
+import type { CollabType, Kit } from "../collab";
 import { shown } from "@/lib/placeholder";
 
 export const certificates = en.certificates;
@@ -51,6 +51,7 @@ export const labels = {
   resume: "Xem CV",
   contactMe: "Liên hệ với tôi",
   liveDemo: "Xem demo",
+  comingSoon: "Sắp ra mắt",
   newTab: "(mở trong thẻ mới)",
 };
 
@@ -368,7 +369,7 @@ export const kits = {
       state: "active",
       description: "Starter kit gọi món tại bàn bằng mã QR cho nhà hàng và quán cà phê.",
       stack: "Next.js · Supabase · VietQR",
-      href: "https://github.com/lucene-nguyen/qr-ordering-starter-kit",
+      repo: "https://github.com/lucene-nguyen/qr-ordering-starter-kit",
       demo: "https://qr-ordering.lucene.cloud",
     },
     {
@@ -377,7 +378,6 @@ export const kits = {
       state: "planned",
       description: "Starter kit đặt lịch hẹn cho phòng khám, salon và studio.",
       stack: "[PLACEHOLDER]",
-      href: "[PLACEHOLDER]",
     },
     {
       name: "CRM kit",
@@ -385,7 +385,6 @@ export const kits = {
       state: "planned",
       description: "Nền tảng CRM gọn nhẹ cho các đội bán hàng nhỏ.",
       stack: "[PLACEHOLDER]",
-      href: "[PLACEHOLDER]",
     },
     {
       name: "rate-limiting-lab",
@@ -394,17 +393,9 @@ export const kits = {
       description:
         "Thực hành các chiến lược rate limiting trên production và những lỗi thường gặp.",
       stack: "Node.js · Redis",
-      href: "https://github.com/lucene-nguyen/rate-limiting-lab",
+      repo: "https://github.com/lucene-nguyen/rate-limiting-lab",
     },
-  ] satisfies {
-    name: string;
-    status: string;
-    state: "active" | "planned";
-    description: string;
-    stack: string;
-    href: string;
-    demo?: string;
-  }[],
+  ] satisfies Kit[] as Kit[],
 };
 /** Collaboration types (LEARNING-166/167): Work with me CTAs preselect one in the Contact form. */
 export const collabTypes: { id: CollabType; label: string }[] = [

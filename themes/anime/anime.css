@@ -58,8 +58,8 @@
   border: 4px solid var(--border);
   box-shadow: 5px 5px 0 var(--border);
 }
-[data-theme="anime"] [data-part="kit"] > a:hover {
-  border-color: var(--accent); /* hover cue on the linked kit */
+[data-theme="anime"] [data-part="kit"] > :is(:hover, :has(:focus-visible)) {
+  border-color: var(--accent); /* hover cue on the kit card */
 }
 /* Meta line: a screentone caption strip, edge to edge (card p-7, 4px border). */
 [data-theme="anime"] [data-part="case-meta"] {
