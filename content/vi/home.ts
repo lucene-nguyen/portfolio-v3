@@ -83,7 +83,7 @@ export const hero = {
   lead: "Kỹ sư phần mềm Fullstack với hơn 5 năm xây dựng ứng dụng web từ đầu đến cuối — React và Next.js cho front end, API Node.js và NestJS cho back end, PostgreSQL, MongoDB và Redis cho dữ liệu, và AWS để vận hành trên môi trường production.",
   workWithMeHref: "#work-with-me",
   stats: [
-    { value: "5+ năm", label: "xây dựng hệ thống backend thực tế", href: "" },
+    { value: "5+ năm", label: "xây dựng hệ thống backend thực tế" },
     { value: "AWS", label: "Certified Developer – Associate (DVA-C02)", href: certificates.aws },
     { value: "Udacity", label: "Cloud Developer", href: certificates.udacity },
   ],

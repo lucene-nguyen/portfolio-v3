@@ -126,7 +126,7 @@ test("shared sections are restyled with depth", async ({ page }) => {
     .toBe("rgb(255, 181, 71)");
   const stats = page.locator('[data-part="stat"]');
   await expect(stats.first()).toHaveCSS("box-shadow", /inset/);
-  await expect(page.locator('[data-part="stat"][data-highlight]')).toHaveCSS(
+  await expect(page.locator('[data-part="stat"][data-highlight]').first()).toHaveCSS(
     "box-shadow",
     /0px 0px 28px/,
   );

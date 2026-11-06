@@ -180,6 +180,8 @@ test("Education & Certifications; Work with me parked; contact keeps every type"
       .locator("a[href]")
       .evaluateAll((els) => els.map((e) => e.getAttribute("href")!));
     expect(hrefs.filter((h) => h.includes("work-with-me"))).toEqual([]);
+    for (const path of ["/vi", "/search-index.json", "/vi/search-index.json"])
+      expect(await (await page.request.get(path)).text(), path).not.toContain("work-with-me");
   }
   for (const t of ["Full-time", "Part-time", "Freelance project", "Consulting"])
     await expect(page.getByRole("radio", { name: t })).toBeVisible();

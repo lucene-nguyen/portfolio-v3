@@ -24,4 +24,4 @@ Per item: /spec → /implement → /test → /review → merge into `develop` �
 
 | Item | Status | Branch |
 |---|---|---|
-| Owner content changes (hero stats, education, Work with me parked, View CV) | doing | `feat/round-4-content` |
+| Owner content changes (hero stats, education, Work with me parked, View CV) | done | `feat/round-4-content` |

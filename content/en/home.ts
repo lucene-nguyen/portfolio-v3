@@ -86,7 +86,7 @@ export const hero = {
   lead: "Fullstack Software Engineer with 5+ years building web apps end to end — React and Next.js on the front end, Node.js and NestJS APIs on the back end, PostgreSQL, MongoDB and Redis for data, and AWS to run it in production.",
   workWithMeHref: "#work-with-me",
   stats: [
-    { value: "5+ yrs", label: "building production backends", href: "" },
+    { value: "5+ yrs", label: "building production backends" },
     { value: "AWS", label: "Certified Developer – Associate (DVA-C02)", href: certificates.aws },
     { value: "Udacity", label: "Cloud Developer", href: certificates.udacity },
   ],

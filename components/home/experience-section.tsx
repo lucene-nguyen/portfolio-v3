@@ -41,7 +41,7 @@ export function ExperienceSection() {
                         </p>
                       </div>
                       <ul
-                        // The one-page print CV (Swiss) is an overview; Download CV has every bullet.
+                        // The one-page print CV (Swiss) is an overview; View CV has every bullet.
                         data-print="hide"
                         className="flex max-w-[70ch] list-disc flex-col gap-3 pl-5 text-[15px] leading-[1.55]"
                       >
