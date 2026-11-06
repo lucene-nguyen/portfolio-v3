@@ -25,6 +25,10 @@ Every feature goes through: `/spec` → `/implement` → `/test` → `/review` �
 - No external accounts needed: rate limiter uses the in-memory fallback; use `docker compose up -d` only when testing real Redis.
 - Owner reviews the UI in the browser and sends feedback per theme; each round of feedback = one branch `fix/ui-<theme>` from develop → /implement → /test → /review → merge into develop.
 - Before reporting a UI change done: run the app, check the theme at 1440px and 375px, and attach screenshots (save to `docs/screenshots/<theme>/`).
+- Speed rules:
+  - During a task run only the unit tests and E2E specs related to the change; run the full suite once, right before merging.
+  - Screenshots only for themes that changed (currently Night terminal only).
+  - Use /compact between backlog items.
 
 ## Autonomous mode (when asked to "run the backlog")
 - Follow `docs/backlog.md` top to bottom; update its Status column as you go. If interrupted, resume from the first non-done row.
