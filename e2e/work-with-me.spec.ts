@@ -1,7 +1,8 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import { kits } from "../content/home";
-import { themes } from "../themes/registry";
+import { activeThemes as themes } from "../themes/registry";
+import { features } from "../lib/features";
 
 const services = [
   ["End-to-end web apps", "Discuss a web app", "freelance"],
@@ -74,6 +75,7 @@ for (const { id } of themes) {
 }
 
 test("dashboard and IDE label the steps, not the career", async ({ page }) => {
+  test.skip(!features.themes, "themes locked (LEARNING-184)");
   const pseudo = (sel: string, which: "::before" | "::after") =>
     page.locator(sel).evaluate((e, w) => getComputedStyle(e, w).content, which);
   await page.goto("/?theme=dashboard");
@@ -87,6 +89,7 @@ test("dashboard and IDE label the steps, not the career", async ({ page }) => {
 });
 
 test("theme card and heading rules reach the service cards and step titles", async ({ page }) => {
+  test.skip(!features.themes, "themes locked (LEARNING-184)");
   await page.goto("/?theme=editorial");
   const step = page.locator('#work-with-me [data-part="role"] h4').first();
   const role = page.locator('#experience [data-part="role"] h3').first();

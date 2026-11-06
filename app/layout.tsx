@@ -6,7 +6,7 @@ import { SiteNav } from "@/components/home/site-nav";
 import { profile } from "@/content/home";
 import { ogBase, siteUrl } from "@/lib/site";
 import { themeScript, themesToCss } from "@/lib/theme/css";
-import { defaultTheme, themes } from "@/themes/registry";
+import { activeThemes, defaultTheme } from "@/themes/registry";
 import "./globals.css";
 // Theme stylesheets are static and scoped by [data-theme]: a stored theme is styled on first paint
 // (no restyle when its lazy chunk loads) and the Swiss print CV works without JS.
@@ -41,9 +41,9 @@ const bodoni = Libre_Bodoni({
   preload: false,
 });
 
-const themeCss = themesToCss(themes, defaultTheme.id);
+const themeCss = themesToCss(activeThemes, defaultTheme.id);
 const initScript = themeScript(
-  themes.map((t) => t.id),
+  activeThemes.map((t) => t.id),
   defaultTheme.id,
 );
 

@@ -1,6 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
-import { themes } from "../themes/registry";
+import { activeThemes as themes } from "../themes/registry";
+import { features } from "../lib/features";
 
 test.use({ viewport: { width: 375, height: 812 } });
 
@@ -15,7 +16,7 @@ for (const { id } of themes) {
     const tops = await Promise.all(
       [
         nav.getByRole("link", { name: "Cuong Nguyen" }),
-        page.getByLabel("Theme"),
+        ...(features.themes ? [page.getByLabel("Theme")] : []),
         nav.getByRole("button", { name: "Menu" }),
       ].map(async (l) => (await l.boundingBox())!),
     );
@@ -55,6 +56,7 @@ test("menu opens and closes; keyboard and screen-reader operable", async ({ page
 });
 
 test("Pixel achievements open from the menu on mobile", async ({ page }) => {
+  test.skip(!features.themes, "themes locked (LEARNING-184)");
   await page.goto("/?theme=pixel");
   const nav = page.getByRole("navigation", { name: "Main" });
   await nav.getByRole("button", { name: "Menu" }).click();

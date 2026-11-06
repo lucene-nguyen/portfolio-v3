@@ -11,3 +11,11 @@ Per item: /spec → /implement → /test → /review → merge into `develop` �
 | LEARNING-166 Work with me | done | `feat/LEARNING-166-work-with-me` |
 | LEARNING-167 Contact form | done | `feat/LEARNING-167-contact-form` |
 | LEARNING-168 English / Vietnamese | todo (owner approval of VI copy before merge) | `feat/LEARNING-168-i18n` |
+
+## Round 3
+
+| Item | Status | Branch |
+|---|---|---|
+| LEARNING-184 Lock themes | doing | `feat/LEARNING-184-theme-lock` |
+| LEARNING-183 Experience, full and verbatim | todo | `feat/LEARNING-183-experience` |
+| LEARNING-168 finish (approved VI copy) | todo | `feat/LEARNING-168-i18n` |

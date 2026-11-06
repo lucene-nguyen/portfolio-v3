@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { themes } from "../themes/registry";
+import { activeThemes as themes } from "../themes/registry";
 
 // Unfinished owner facts ([PLACEHOLDER…]) must never render (production build, flag off).
 const pages = [
