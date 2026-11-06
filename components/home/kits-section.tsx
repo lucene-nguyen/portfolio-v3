@@ -1,7 +1,10 @@
 import { getContent } from "@/lib/i18n-server";
 import { shown } from "@/lib/placeholder";
 import { cn } from "@/lib/utils";
-import { container, kitCard as card, SectionHeader } from "./ui";
+import { container, kitCard, SectionHeader } from "./ui";
+
+const action =
+  "inline-flex min-h-11 items-center gap-1.5 rounded-md border border-text-subtle px-3 text-sm font-semibold text-text transition-colors duration-150 hover:bg-surface-2";
 
 export function KitsSection() {
   const { kits, labels } = getContent();
@@ -11,66 +14,59 @@ export function KitsSection() {
         <SectionHeader id="kits-title" eyebrow={kits.eyebrow} title={kits.title} />
         <ul className="flex flex-wrap gap-4">
           {kits.items.map((k) => {
-            const body = (
-              <>
-                <span
-                  className={cn(
-                    "font-mono text-xs",
-                    k.state === "active" ? "text-accent" : "text-warning",
-                  )}
-                >
-                  <span aria-hidden>{k.state === "active" ? "● " : "○ "}</span>
-                  {k.status}
-                </span>
-                <h3 className="text-xl font-semibold">{k.name}</h3>
-                <span className="text-[15px] leading-normal text-text-muted">{k.description}</span>
-                {shown(k.stack) && (
-                  <span className="mt-auto font-mono text-[13px] text-text-secondary">
-                    {k.stack}
-                  </span>
-                )}
-              </>
-            );
-            // No link until the owner provides one. A kit with a live demo gets two links, not a card link.
+            // One template for every kit: the card is not a link; links are buttons in the action row.
+            const links = [
+              k.repo && { href: k.repo, label: labels.github },
+              k.demo && { href: k.demo, label: labels.liveDemo },
+            ].filter((l): l is { href: string; label: string } => !!l);
             return (
               <li key={k.name} data-part="kit" className="flex min-w-0 flex-[1_1_250px]">
-                {"demo" in k && k.demo ? (
-                  <div className={card}>
-                    {body}
-                    <div className="flex flex-wrap gap-x-5 gap-y-2 text-[15px] font-semibold">
-                      {shown(k.href) && (
-                        <a
-                          href={k.href}
-                          aria-label={`${labels.viewRepo}: ${k.name}`}
-                          className="inline-flex min-h-11 items-center text-accent underline-offset-4 hover:underline"
-                        >
-                          {labels.viewRepo}
-                        </a>
-                      )}
-                      <a
-                        href={k.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex min-h-11 items-center text-accent underline-offset-4 hover:underline"
-                      >
-                        {labels.liveDemo}
-                        <span className="sr-only">
-                          {" "}
-                          {k.name} {labels.newTab}
-                        </span>
-                      </a>
-                    </div>
-                  </div>
-                ) : shown(k.href) ? (
-                  <a
-                    href={k.href}
-                    className={`${card} transition-colors duration-150 hover:border-border-strong`}
+                <div
+                  className={cn(
+                    kitCard,
+                    "transition-colors duration-150 hover:border-border-strong has-[:focus-visible]:border-border-strong",
+                  )}
+                >
+                  <span
+                    className={cn(
+                      "font-mono text-xs",
+                      k.state === "active" ? "text-accent" : "text-warning",
+                    )}
                   >
-                    {body}
-                  </a>
-                ) : (
-                  <div className={card}>{body}</div>
-                )}
+                    <span aria-hidden>{k.state === "active" ? "● " : "○ "}</span>
+                    {k.status}
+                  </span>
+                  <h3 className="text-xl font-semibold">{k.name}</h3>
+                  <span className="text-[15px] leading-normal text-text-muted">
+                    {k.description}
+                  </span>
+                  {shown(k.stack) && (
+                    <span className="font-mono text-[13px] text-text-secondary">{k.stack}</span>
+                  )}
+                  <div data-part="kit-actions" className="mt-auto flex flex-wrap gap-2 pt-2">
+                    {links.length ? (
+                      links.map((l) => (
+                        <a
+                          key={l.href}
+                          href={l.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={action}
+                        >
+                          {l.label} <span aria-hidden>↗</span>
+                          <span className="sr-only">
+                            {" "}
+                            {k.name} {labels.newTab}
+                          </span>
+                        </a>
+                      ))
+                    ) : (
+                      <span className="inline-flex min-h-11 items-center font-mono text-sm text-text-muted">
+                        {labels.comingSoon}
+                      </span>
+                    )}
+                  </div>
+                </div>
               </li>
             );
           })}

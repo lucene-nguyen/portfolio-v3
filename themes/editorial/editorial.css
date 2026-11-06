@@ -134,3 +134,8 @@
 [data-theme="editorial"] #lab :is(.bg-surface, button, [role="meter"], [role="meter"] > div, ol) {
   border-radius: 0;
 }
+
+/* Kit card hover cue (fix/kits-cards): the theme's own border rule hides the shared one. */
+[data-theme="editorial"] [data-part="kit"] > :is(:hover, :has(:focus-visible)) {
+  border-top-color: var(--accent);
+}

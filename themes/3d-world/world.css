@@ -32,8 +32,8 @@
   background: linear-gradient(180deg, var(--surface2), var(--surface) 55%);
   box-shadow: var(--w-e2);
 }
-[data-theme="3d-world"] [data-part="kit"] > a:hover {
-  border-color: var(--border-strong); /* keep the linked kit's hover cue */
+[data-theme="3d-world"] [data-part="kit"] > :is(:hover, :has(:focus-visible)) {
+  border-color: var(--border-strong); /* keep the kit card's hover cue */
 }
 /* Metrics: a recessed well inside the panel. */
 [data-theme="3d-world"] [data-part="case-metrics"] {

@@ -106,7 +106,7 @@ test("shared sections are restyled typographically", async ({ page }) => {
     await expect(card).toHaveCSS("border-left-width", "0px");
     await expect(card).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
   }
-  const kitLink = page.locator('[data-part="kit"] > a').first();
+  const kitLink = page.locator('[data-part="kit"] > *').first();
   await expect(kitLink).toHaveCSS("border-top-width", "4px");
   await kitLink.hover();
   await expect(kitLink).toHaveCSS("border-top-color", "rgb(208, 2, 27)");

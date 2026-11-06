@@ -24,7 +24,7 @@ const SLOTS = [
 ];
 
 export function mapNodesFor({ experience, kits, lab, work }: Content): MapNode[] {
-  const repo = kits.items.find((k) => k.href === lab.repo.href);
+  const repo = kits.items.find((k) => k.repo === lab.repo.href);
   // Case studies parked (LEARNING-164): the map shows the roles and the starter kits instead.
   const careerNodes = [
     ...experience.roles.map((r) => ({
@@ -51,7 +51,7 @@ export function mapNodesFor({ experience, kits, lab, work }: Content): MapNode[]
     ...(repo
       ? [
           {
-            href: repo.href,
+            href: lab.repo.href,
             title: repo.name,
             tech: repo.stack,
             impact: repo.status,

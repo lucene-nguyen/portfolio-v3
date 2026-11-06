@@ -37,7 +37,7 @@
 - Square corners, no shadows, tight negative tracking on headings.
 
 ## Print (one-page CV)
-- `@media print`: no nav, skip link, lab, kits, Work with me, avatar, buttons, selects or dialogs; elements marked `data-print="hide"` are dropped (CTAs, card summaries, tags, card links, contact headline).
+- `@media print`: no nav, skip link, hero stats (they repeat Education & Certifications), lab, kits, Work with me, avatar, buttons, selects or dialogs; elements marked `data-print="hide"` are dropped (CTAs, card summaries, tags, card links, contact headline).
 - Black on white, 9–9.5pt body; case studies in 3 columns; experience and stack side by side; contact links print their URL; placeholders are not printed. Fits one A4 or Letter page (12mm margins).
 
 ## Layout

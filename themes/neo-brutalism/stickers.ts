@@ -34,7 +34,7 @@ export const projectsFor = ({ kits, labels, work }: Content): BoardProject[] =>
         key: k.name,
         title: k.name,
         tags: shown(k.stack)?.split(" · ") ?? [],
-        href: shown(k.href),
+        href: k.repo,
         linkLabel: labels.viewRepo,
       }));
 

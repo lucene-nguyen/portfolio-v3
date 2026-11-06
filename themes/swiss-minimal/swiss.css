@@ -54,8 +54,8 @@
     border-top: 4px solid var(--text);
     background: transparent;
   }
-  [data-theme="swiss-minimal"] [data-part="kit"] > a:is(:hover, :focus-visible) {
-    border-top-color: var(--accent); /* hover cue on the linked kit */
+  [data-theme="swiss-minimal"] [data-part="kit"] > :is(:hover, :has(:focus-visible)) {
+    border-top-color: var(--accent); /* hover cue on the kit card */
   }
   [data-theme="swiss-minimal"] [data-part="case-meta"] {
     font-family: var(--font-sans);
@@ -237,6 +237,10 @@
     display: flex !important;
     flex-wrap: wrap;
     gap: 0 6pt !important;
+  }
+  /* Hero stats repeat Education & Certifications (round 4): left out of the one-page CV. */
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #top [data-part="stats"] {
+    display: none !important;
   }
   /* Contact: keep only the visible addresses. */
   [data-theme="swiss-minimal"]:has(#theme-slot-home) #contact a {

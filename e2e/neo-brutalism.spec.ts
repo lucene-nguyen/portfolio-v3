@@ -21,15 +21,16 @@ test("clicking a sticker filters projects; clicking again clears", async ({ page
 });
 
 test("plain list of filter buttons does the same, by keyboard", async ({ page }) => {
-  const nest = list(page).getByRole("button", { name: "NestJS" });
+  // TableTap's stack (Next.js · Supabase · VietQR) has no NestJS.
+  const nest = list(page).getByRole("button", { name: "Supabase" });
   await nest.focus();
   await page.keyboard.press("Enter");
   await expect(nest).toHaveAttribute("aria-pressed", "true");
-  await expect(board(page).getByRole("button", { name: "NestJS" })).toHaveAttribute(
+  await expect(board(page).getByRole("button", { name: "Supabase" })).toHaveAttribute(
     "aria-pressed",
     "true",
   );
-  await expect(region(page).getByRole("status")).toHaveText("1 project using NestJS");
+  await expect(region(page).getByRole("status")).toHaveText("1 project using Supabase");
   await list(page).getByRole("button", { name: "Show all" }).click();
   await expect(region(page).getByRole("status")).toHaveText("All 4 projects");
 });
@@ -95,12 +96,7 @@ test("shared sections are restyled as stickers", async ({ page }) => {
     expect(meta!.x - card!.x).toBe(3);
     expect(card!.width - meta!.width).toBe(6);
   }
-  const fills = [
-    "rgb(255, 214, 10)",
-    "rgb(124, 242, 156)",
-    "rgb(94, 200, 255)",
-    "rgb(255, 169, 77)",
-  ];
+  const fills = ["rgb(255, 214, 10)", "rgb(124, 242, 156)", "rgb(94, 200, 255)"]; // three hero stats since round 4
   for (const [i, fill] of fills.entries())
     await expect(page.locator('[data-part="stat"]').nth(i)).toHaveCSS("background-color", fill);
   // Case cards are parked (LEARNING-164); checked when they come back.

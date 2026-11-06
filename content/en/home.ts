@@ -1,7 +1,7 @@
 // Source: the owner's approved home page mockup ("Cuong Nguyen Portfolio" canvas, 2026-10-31).
 // Unknown values stay [PLACEHOLDER]; never fill them in without the owner. They don't render (lib/placeholder).
 import { features } from "@/lib/features";
-import type { CollabType } from "../collab";
+import type { CollabType, Kit } from "../collab";
 import { shown } from "@/lib/placeholder";
 
 // Certificate URLs from docs/resume/resume-source.txt (hero stats + Education & Certifications).
@@ -54,6 +54,7 @@ export const labels = {
   resume: "View CV",
   contactMe: "Contact me",
   liveDemo: "Live demo",
+  comingSoon: "Coming soon",
   newTab: "(opens in a new tab)",
 };
 
@@ -366,11 +367,11 @@ export const kits = {
   items: [
     {
       name: "TableTap",
-      status: "in progress",
+      status: "public repo",
       state: "active",
       description: "QR-code table ordering starter kit for restaurants and cafés.",
       stack: "Next.js · Supabase · VietQR",
-      href: "https://github.com/lucene-nguyen/qr-ordering-starter-kit",
+      repo: "https://github.com/lucene-nguyen/qr-ordering-starter-kit",
       demo: "https://qr-ordering.lucene.cloud",
     },
     {
@@ -379,7 +380,6 @@ export const kits = {
       state: "planned",
       description: "Appointment booking starter for clinics, salons and studios.",
       stack: "[PLACEHOLDER]",
-      href: "[PLACEHOLDER]",
     },
     {
       name: "CRM kit",
@@ -387,25 +387,16 @@ export const kits = {
       state: "planned",
       description: "Lightweight CRM foundation for small sales teams.",
       stack: "[PLACEHOLDER]",
-      href: "[PLACEHOLDER]",
     },
     {
       name: "rate-limiting-lab",
-      status: "public repo",
+      status: "in progress",
       state: "active",
       description: "Production rate-limiting strategies and their failure modes, tested hands-on.",
       stack: "Node.js · Redis",
-      href: "https://github.com/lucene-nguyen/rate-limiting-lab",
+      repo: "https://github.com/lucene-nguyen/rate-limiting-lab",
     },
-  ] satisfies {
-    name: string;
-    status: string;
-    state: "active" | "planned";
-    description: string;
-    stack: string;
-    href: string;
-    demo?: string;
-  }[],
+  ] satisfies Kit[] as Kit[],
 };
 /** Collaboration types (LEARNING-166/167): Work with me CTAs preselect one in the Contact form. */
 export const collabTypes: { id: CollabType; label: string }[] = [

@@ -31,7 +31,7 @@ Still for the owner's next look: `labels.newTab` "(mở trong thẻ mới)".
 ## All strings
 
 <!-- generated from content/en/home.ts and content/vi/home.ts -->
-_536 strings: 282 translated, 254 identical in both languages ("= EN": names, technologies, links, codes, and the English experience)._
+_535 strings: 283 translated, 252 identical in both languages ("= EN": names, technologies, links, codes, and the English experience)._
 
 ### certificates
 
@@ -89,6 +89,7 @@ _536 strings: 282 translated, 254 identical in both languages ("= EN": names, te
 | `labels.resume` | View CV | Xem CV |
 | `labels.contactMe` | Contact me | Liên hệ với tôi |
 | `labels.liveDemo` | Live demo | Xem demo |
+| `labels.comingSoon` | Coming soon | Sắp ra mắt |
 | `labels.newTab` | (opens in a new tab) | (mở trong thẻ mới) |
 
 ### nav
@@ -388,30 +389,28 @@ _536 strings: 282 translated, 254 identical in both languages ("= EN": names, te
 | `kits.eyebrow` | 03 / side projects | 03 / dự án cá nhân |
 | `kits.title` | Starter kits & labs | Starter kit & lab |
 | `kits.items[0].name` | TableTap | = EN |
-| `kits.items[0].status` | in progress | đang phát triển |
+| `kits.items[0].status` | public repo | repo công khai |
 | `kits.items[0].state` | active | = EN |
 | `kits.items[0].description` | QR-code table ordering starter kit for restaurants and cafés. | Starter kit gọi món tại bàn bằng mã QR cho nhà hàng và quán cà phê. |
 | `kits.items[0].stack` | Next.js · Supabase · VietQR | = EN |
-| `kits.items[0].href` | https://github.com/lucene-nguyen/qr-ordering-starter-kit | = EN |
+| `kits.items[0].repo` | https://github.com/lucene-nguyen/qr-ordering-starter-kit | = EN |
 | `kits.items[0].demo` | https://qr-ordering.lucene.cloud | = EN |
 | `kits.items[1].name` | Booking kit | = EN |
 | `kits.items[1].status` | planned | dự kiến |
 | `kits.items[1].state` | planned | = EN |
 | `kits.items[1].description` | Appointment booking starter for clinics, salons and studios. | Starter kit đặt lịch hẹn cho phòng khám, salon và studio. |
 | `kits.items[1].stack` | [PLACEHOLDER] | = EN |
-| `kits.items[1].href` | [PLACEHOLDER] | = EN |
 | `kits.items[2].name` | CRM kit | = EN |
 | `kits.items[2].status` | planned | dự kiến |
 | `kits.items[2].state` | planned | = EN |
 | `kits.items[2].description` | Lightweight CRM foundation for small sales teams. | Nền tảng CRM gọn nhẹ cho các đội bán hàng nhỏ. |
 | `kits.items[2].stack` | [PLACEHOLDER] | = EN |
-| `kits.items[2].href` | [PLACEHOLDER] | = EN |
 | `kits.items[3].name` | rate-limiting-lab | = EN |
-| `kits.items[3].status` | public repo | repo công khai |
+| `kits.items[3].status` | in progress | đang phát triển |
 | `kits.items[3].state` | active | = EN |
 | `kits.items[3].description` | Production rate-limiting strategies and their failure modes, tested hands-on. | Thực hành các chiến lược rate limiting trên production và những lỗi thường gặp. |
 | `kits.items[3].stack` | Node.js · Redis | = EN |
-| `kits.items[3].href` | https://github.com/lucene-nguyen/rate-limiting-lab | = EN |
+| `kits.items[3].repo` | https://github.com/lucene-nguyen/rate-limiting-lab | = EN |
 
 ### collabTypes
 

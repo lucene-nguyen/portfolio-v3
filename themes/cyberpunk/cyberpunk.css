@@ -270,3 +270,8 @@
     font-size: 14px;
   }
 }
+
+/* Kit card hover cue (fix/kits-cards): the theme's own border rule hides the shared one. */
+[data-theme="cyberpunk"] [data-part="kit"] > :is(:hover, :has(:focus-visible)) {
+  border-color: var(--accent);
+}
