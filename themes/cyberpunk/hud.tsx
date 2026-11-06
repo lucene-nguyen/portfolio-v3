@@ -100,7 +100,9 @@ export default function CyberpunkHud() {
           io.unobserve(e.target);
         }
       },
-      { threshold: 0.3 },
+      // Crossing the middle of the viewport works for any section height (a ratio can't: the
+      // full Experience is taller than 3 screens, so 30% of it is never visible at once).
+      { rootMargin: "-30% 0px -30% 0px" },
     );
     sections.forEach((s) => io.observe(s));
     return () => {

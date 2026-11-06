@@ -48,10 +48,12 @@ test("the switcher sits next to the theme switcher and swaps languages", async (
 test("Vietnamese links stay on /vi; /en redirects to /", async ({ page, request }) => {
   await page.goto("/vi");
   const hrefs = await page
-    .getByRole("navigation", { name: "Main" })
+    .getByRole("navigation", { name: "Điều hướng chính" })
     .getByRole("link")
     .evaluateAll((els) => els.map((e) => e.getAttribute("href")));
-  expect(hrefs.filter((h) => h?.includes("#")).every((h) => h!.startsWith("/vi#"))).toBe(true);
+  const sectionLinks = hrefs.filter((h) => h?.includes("#"));
+  expect(sectionLinks.length).toBeGreaterThan(3);
+  expect(sectionLinks.every((h) => h!.startsWith("/vi#"))).toBe(true);
   await expect(page.locator("#top").getByRole("link", { name: "Hợp tác với tôi" })).toHaveAttribute(
     "href",
     "#work-with-me",
