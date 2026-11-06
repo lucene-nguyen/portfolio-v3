@@ -8,6 +8,13 @@ const PORT = 3100;
 
 export default defineConfig({
   testDir: "./e2e",
+  // Themes locked (LEARNING-184): only Night terminal is reachable, so the other themes' specs are skipped.
+  testIgnore:
+    process.env.NEXT_PUBLIC_FEATURE_THEMES === "on"
+      ? []
+      : [
+          /(^|[\/])(3d-world|anime|bento|blueprint|cyberpunk|dashboard|docs|editorial|ide|neo-brutalism|pixel|swiss)\.spec\.ts$/,
+        ],
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,

@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { themes } from "../themes/registry";
+import { activeThemes as themes } from "../themes/registry";
 
 // Themes whose signature block lives directly below the shared hero.
 const withBlock = new Set([

@@ -1,3 +1,4 @@
+import { features } from "@/lib/features";
 import { world3d } from "./3d-world";
 import { anime } from "./anime";
 import { bento } from "./bento";
@@ -31,6 +32,9 @@ export const themes: readonly ThemeDefinition[] = [
 ];
 
 export const defaultTheme = themes[0];
+
+/** The themes visitors can use: all of them, or only the default while themes are locked. */
+export const activeThemes: readonly ThemeDefinition[] = features.themes ? themes : [defaultTheme];
 
 export function getTheme(id: string | null | undefined): ThemeDefinition | undefined {
   return themes.find((t) => t.id === id);

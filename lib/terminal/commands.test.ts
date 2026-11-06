@@ -69,3 +69,10 @@ describe("without public case studies", () => {
     expect(run("cat resume", none).lines.length).toBe(2);
   });
 });
+
+it("has no theme command with a single theme (themes locked)", () => {
+  const one = { ...ctx, themes: [ctx.themes[0]] };
+  expect(run("theme pixel", one).lines[0].text).toBe("error: command not found: theme. Try: help");
+  expect(run("help", one).lines.some((l) => l.text.startsWith("theme "))).toBe(false);
+  expect(run("theme", ctx).lines.length).toBe(2);
+});

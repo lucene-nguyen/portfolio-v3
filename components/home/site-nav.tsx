@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { ThemeSwitcher } from "@/components/theme/theme-switcher";
+import { features } from "@/lib/features";
 import { labels, nav, profile } from "@/content/home";
 import { shown } from "@/lib/placeholder";
 import { cn } from "@/lib/utils";
@@ -43,7 +44,7 @@ export function SiteNav() {
           {profile.logo}
         </Link>
         <div className="ml-auto md:order-last md:ml-0">
-          <ThemeSwitcher />
+          {features.themes && <ThemeSwitcher />}
         </div>
         <button
           ref={toggle}

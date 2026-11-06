@@ -1,6 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
-import { themes } from "../themes/registry";
+import { activeThemes as themes } from "../themes/registry";
+import { features } from "../lib/features";
 
 const groups = {
   Frontend: ["React", "Next.js", "TypeScript", "JavaScript", "Tailwind CSS"],
@@ -98,6 +99,7 @@ for (const { id } of themes) {
 }
 
 test("themes keep their chip and heading styles in Skills", async ({ page }) => {
+  test.skip(!features.themes, "themes locked (LEARNING-184)");
   const chip = () => page.locator('#skills [data-part="skill"] span').first();
   await page.goto("/?theme=pixel");
   await expect(chip()).toHaveCSS("border-top-width", "2px");

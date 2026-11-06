@@ -1,22 +1,9 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
+import { activeThemes } from "../themes/registry";
 
 // ui-ux-pro-max pre-delivery checklist, the parts that can be measured (UI round 1, restyled themes).
-const THEMES = [
-  "blueprint",
-  "pixel",
-  "cyberpunk",
-  "editorial",
-  "night-terminal",
-  "dashboard",
-  "ide",
-  "docs",
-  "bento",
-  "neo-brutalism",
-  "anime",
-  "3d-world",
-  "swiss-minimal",
-];
+const THEMES = activeThemes.map((t) => t.id);
 
 const overflow = (page: Page) =>
   page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);

@@ -55,9 +55,10 @@ test("Ctrl+K opens; commands print to the log; tab completion and history", asyn
   await page.keyboard.press("Enter");
   await expect(log).toContainText("error: command not found: sudo");
 
-  await input(page).fill("th");
+  // Tab completes a command ("theme" exists only with unlocked themes, LEARNING-184).
+  await input(page).fill(features.themes ? "th" : "co");
   await page.keyboard.press("Tab");
-  await expect(input(page)).toHaveValue("theme ");
+  await expect(input(page)).toHaveValue(features.themes ? "theme " : "contact ");
   await expect(input(page)).toBeFocused();
   // No completion possible: Tab moves focus instead of trapping it.
   await input(page).fill("help ");

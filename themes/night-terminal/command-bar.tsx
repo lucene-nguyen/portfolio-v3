@@ -9,11 +9,11 @@ import { useTheme } from "@/components/theme/theme-provider";
 import { isTyping, restoreFocus } from "@/lib/dom";
 import { complete, run, type Line, type TerminalContext } from "@/lib/terminal/commands";
 import { experience, profile, publicStudies } from "@/content/home";
-import { themes } from "@/themes/registry";
+import { activeThemes } from "@/themes/registry";
 
 const ctx: TerminalContext = {
   projects: publicStudies.map(({ slug, title }) => ({ slug, title })),
-  themes: themes.map(({ id, name }) => ({ id, name })),
+  themes: activeThemes.map(({ id, name }) => ({ id, name })),
   resume: [
     `${profile.name} — ${profile.title}`,
     ...experience.roles.map((r) => `${r.period}  ${r.company}`),
