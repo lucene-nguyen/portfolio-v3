@@ -43,13 +43,16 @@ export function ExperienceSection() {
                         {e.bullets.map((b) => (
                           <li key={b.text} data-part="bullet">
                             <p className="text-text-2">{b.text}</p>
-                            <p className="text-text-secondary">→ {b.result}</p>
+                            <p className="text-text-secondary">
+                              <span aria-hidden>→ </span>
+                              {b.result}
+                            </p>
                           </li>
                         ))}
                       </ul>
                       <ul
                         className="flex flex-wrap gap-2"
-                        aria-label={`${labels.technologies}: ${e.title}`}
+                        aria-label={`${labels.technologies}: ${r.company}, ${e.title}, ${e.period}`}
                       >
                         {e.tags.map((t) => (
                           <li key={t}>

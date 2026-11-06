@@ -8,6 +8,9 @@ import { experience } from "./home";
 // The resume as one line of text, with only the owner-approved typo fixes (LEARNING-183).
 const source = readFileSync("docs/resume/resume-source.txt", "utf8")
   .replace(/​/g, "")
+  // PDF artifacts: bullet glyphs and page footers (page 3 split Faboshop's bullets from their text).
+  .replace(/●/g, " ")
+  .replace(/Page \d+/g, " ")
   .replace(/\s+/g, " ")
   .replace(/\.\./g, ".")
   .replace(/Nodejs/g, "Node.js")
@@ -33,15 +36,21 @@ describe("experience (verbatim from the resume)", () => {
   it("copies every bullet and result word for word from the resume", () => {
     expect(bullets).toHaveLength(6 + 8 + 9 + 5 + 6);
     for (const b of bullets) {
-      expect(source, b.text).toContain(b.text);
-      expect(source, b.result).toContain(`→ ${b.result}`);
+      // Bullet and result together, and the result ends where the resume's does (no shortening).
+      const pair = `${b.text} → ${b.result}`;
+      const at = source.indexOf(pair);
+      expect(at, b.text).toBeGreaterThanOrEqual(0);
+      expect(source.slice(at + pair.length, at + pair.length + 2), b.result).toMatch(
+        /^( [A-Z(]|$)/,
+      );
     }
   });
 
   it("shows every bullet and result on the page exactly", () => {
     for (const b of bullets) {
       expect(lines.has(b.text), b.text).toBe(true);
-      expect(lines.has(`→ ${b.result}`), b.result).toBe(true);
+      // The arrow is decorative (aria-hidden span), so the result is its own text node.
+      expect(lines.has(b.result), b.result).toBe(true);
     }
   });
 
@@ -57,9 +66,13 @@ describe("experience (verbatim from the resume)", () => {
       ["Software Engineer – FPT Retail – Long Châu Pharmacy", "03/2024 – 09/2025"],
     ]);
     expect(page).not.toMatch(/YMTWMS25|AI1\.SOL\.RENESAS/);
+    expect((html.match(/aria-hidden="true">→ <\/span>/g) ?? []).length).toBe(bullets.length);
     for (const e of entries) {
       const text = e.bullets.map((b) => `${b.text} ${b.result}`).join(" ");
-      for (const t of e.tags) expect(text, `${e.title}: ${t}`).toContain(t);
+      for (const t of e.tags)
+        expect(text, `${e.title}: ${t}`).toMatch(
+          new RegExp(`(^|[^\w])${t.replace(/\./g, "\.")}(?![\w])`),
+        );
     }
   });
 
