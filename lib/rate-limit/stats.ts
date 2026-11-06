@@ -1,4 +1,5 @@
 import { Redis } from "@upstash/redis";
+import { redisKey } from "@/lib/env";
 
 /** Aggregate /api/ping outcomes across all visitors, per second, kept for a short window. */
 export const WINDOW_S = 60;
@@ -19,11 +20,11 @@ const seconds = (nowMs: number) => {
   return Array.from({ length: WINDOW_S }, (_, i) => now - WINDOW_S + 1 + i);
 };
 
-// Keys expire on their own (no setup or cleanup scripts): stats:<second>:<200|429>.
+// Keys expire on their own (no setup or cleanup scripts): <prefix>:stats:<second>:<200|429>.
 export function redisStats(redis: Redis): StatsStore {
   return {
     async record(status, nowMs = Date.now()) {
-      const key = `stats:${Math.floor(nowMs / 1000)}:${status}`;
+      const key = redisKey(`stats:${Math.floor(nowMs / 1000)}:${status}`);
       const p = redis.pipeline();
       p.incr(key);
       p.expire(key, WINDOW_S * 2);
@@ -31,7 +32,7 @@ export function redisStats(redis: Redis): StatsStore {
     },
     async last(nowMs = Date.now()) {
       const ts = seconds(nowMs);
-      const keys = ts.flatMap((t) => [`stats:${t}:200`, `stats:${t}:429`]);
+      const keys = ts.flatMap((t) => [redisKey(`stats:${t}:200`), redisKey(`stats:${t}:429`)]);
       const values = await redis.mget<(number | null)[]>(...keys);
       return ts.map((t, i) => ({
         t,

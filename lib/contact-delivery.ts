@@ -2,6 +2,7 @@
 import { Redis } from "@upstash/redis";
 import { profile } from "@/content/en/home";
 import type { ContactMessage } from "./contact";
+import { redisKey } from "@/lib/env";
 
 export interface StoredMessage extends ContactMessage {
   id: string;
@@ -21,11 +22,11 @@ export function redisMessages(redis: Redis): MessageStore {
   return {
     kind: "redis",
     async save(m) {
-      await redis.lpush(KEY, JSON.stringify(m));
-      await redis.ltrim(KEY, 0, KEEP - 1);
+      await redis.lpush(redisKey(KEY), JSON.stringify(m));
+      await redis.ltrim(redisKey(KEY), 0, KEEP - 1);
     },
     async list() {
-      const rows = await redis.lrange<string | StoredMessage>(KEY, 0, KEEP - 1);
+      const rows = await redis.lrange<string | StoredMessage>(redisKey(KEY), 0, KEEP - 1);
       return rows.map((r) => (typeof r === "string" ? JSON.parse(r) : r));
     },
   };
