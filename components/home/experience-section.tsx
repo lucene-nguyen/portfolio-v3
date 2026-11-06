@@ -1,7 +1,8 @@
-import { experience, labels } from "@/content/home";
+import { getContent } from "@/lib/i18n-server";
 import { container, SectionHeader, Tag } from "./ui";
 
 export function ExperienceSection() {
+  const { experience, labels } = getContent();
   return (
     <section id="experience" aria-labelledby="experience-title" className="border-t border-border">
       <div className={`${container} py-[88px]`}>
@@ -39,7 +40,11 @@ export function ExperienceSection() {
                             .join(" · ")}
                         </p>
                       </div>
-                      <ul className="flex max-w-[70ch] list-disc flex-col gap-3 pl-5 text-[15px] leading-[1.55]">
+                      <ul
+                        // The one-page print CV (Swiss) is an overview; Download CV has every bullet.
+                        data-print="hide"
+                        className="flex max-w-[70ch] list-disc flex-col gap-3 pl-5 text-[15px] leading-[1.55]"
+                      >
                         {e.bullets.map((b) => (
                           <li key={b.text} data-part="bullet">
                             <p className="text-text-2">{b.text}</p>
@@ -51,6 +56,7 @@ export function ExperienceSection() {
                         ))}
                       </ul>
                       <ul
+                        data-print="hide"
                         className="flex flex-wrap gap-2"
                         aria-label={`${labels.technologies}: ${r.company}, ${e.title}, ${e.period}`}
                       >

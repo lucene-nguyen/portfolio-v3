@@ -2,9 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { usePathname } from "next/navigation";
 import { useThemeSlot } from "@/components/theme/use-theme-slot";
-import { readingCopy } from "@/content/home";
+import { useContent, usePublicPathname } from "@/components/i18n/locale-provider";
 
 const SIZE_KEY = "editorial:text-size";
 const SIZES = ["s", "m", "l"] as const;
@@ -21,6 +20,7 @@ function readSize(): Size {
 }
 
 function ReadingTools() {
+  const { readingCopy } = useContent();
   const [size, setSize] = useState<Size>(readSize);
   const radios = useRef<(HTMLButtonElement | null)[]>([]);
   const [{ minutes, toc }] = useState(() => {
@@ -110,6 +110,7 @@ function ReadingTools() {
 }
 
 function ProgressBar() {
+  const { readingCopy } = useContent();
   const [pct, setPct] = useState(0);
   useEffect(() => {
     let frame = 0;
@@ -143,7 +144,7 @@ function ProgressBar() {
 }
 
 export default function EditorialReading() {
-  const pathname = usePathname();
+  const pathname = usePublicPathname();
   const slot = useThemeSlot("theme-slot-article");
 
   if (!pathname.startsWith("/work/") || !slot) return null;

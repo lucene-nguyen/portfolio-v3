@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { lab } from "@/content/home";
+import { useContent } from "@/components/i18n/locale-provider";
 import { recordRateLimited } from "@/lib/achievements";
 import { emitLabResponse } from "@/lib/lab/events";
 import { project, windowResetsIn, type Snapshot } from "@/lib/lab/meter";
@@ -17,10 +17,7 @@ interface LogRow {
 }
 
 const LOG_SIZE = 8;
-const ALGOS: { id: Algo; label: string }[] = [
-  { id: "token", label: lab.ui.token },
-  { id: "window", label: lab.ui.window },
-];
+const ALGOS: Algo[] = ["token", "window"];
 
 let seq = 0;
 const stamp = (d = new Date()) =>
@@ -35,6 +32,7 @@ function mostDrained(rows: LogRow[]): Snapshot | undefined {
 }
 
 export function RateLimitLab() {
+  const { lab } = useContent();
   const [algo, setAlgo] = useState<Algo>("token");
   const [snapshots, setSnapshots] = useState<Partial<Record<Algo, Snapshot>>>({});
   const [counts, setCounts] = useState({ ok: 0, blocked: 0 });
@@ -105,7 +103,7 @@ export function RateLimitLab() {
     // Counters and log cover both algorithms, so reset both limiters.
     const results = await Promise.all(
       ALGOS.map((a) =>
-        fetch(`/api/ping?algo=${a.id}`, { method: "DELETE" }).then(
+        fetch(`/api/ping?algo=${a}`, { method: "DELETE" }).then(
           (r) => r.ok,
           () => false,
         ),
@@ -145,19 +143,19 @@ export function RateLimitLab() {
         >
           {ALGOS.map((a) => (
             <button
-              key={a.id}
+              key={a}
               type="button"
-              aria-pressed={algo === a.id}
+              aria-pressed={algo === a}
               onClick={() => {
-                setAlgo(a.id);
+                setAlgo(a);
                 setNow(Date.now());
               }}
               className={cn(
                 "min-h-11 rounded-[7px] px-3.5 text-sm font-semibold transition-colors duration-150",
-                algo === a.id ? "bg-surface-2 text-text" : "text-text-muted hover:text-text",
+                algo === a ? "bg-surface-2 text-text" : "text-text-muted hover:text-text",
               )}
             >
-              {a.label}
+              {lab.ui[a]}
             </button>
           ))}
         </div>

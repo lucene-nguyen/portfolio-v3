@@ -1,8 +1,9 @@
-import { lab } from "@/content/home";
+import { getContent } from "@/lib/i18n-server";
 import { container, SectionHeader } from "./ui";
 
 /** Intro copy for the live lab; the interactive panel is passed in as children. */
 export function LabSection({ children }: { children?: React.ReactNode }) {
+  const { lab } = getContent();
   return (
     <section id="lab" aria-labelledby="lab-title" className="border-t border-border bg-bg-alt">
       <div className={`${container} flex flex-wrap items-start gap-12 py-[88px]`}>

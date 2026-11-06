@@ -55,7 +55,7 @@ describe("theme registry", () => {
 });
 
 it("imports every theme stylesheet in the root layout (styled on first paint)", () => {
-  const layout = readFileSync("app/layout.tsx", "utf8");
+  const layout = readFileSync("app/[locale]/layout.tsx", "utf8");
   for (const dir of readdirSync("themes", { withFileTypes: true }).filter((d) => d.isDirectory())) {
     for (const css of readdirSync(`themes/${dir.name}`).filter((f) => f.endsWith(".css"))) {
       expect(layout, `${dir.name}/${css}`).toContain(`@/themes/${dir.name}/${css}`);

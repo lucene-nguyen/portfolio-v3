@@ -1,4 +1,4 @@
-import { profile } from "@/content/home";
+import { profile } from "@/content/en/home";
 
 // Dynamic route + in-memory cache of the last *successful* response, so a GitHub outage is never cached.
 export const dynamic = "force-dynamic";

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Trophy } from "lucide-react";
 import { createPortal } from "react-dom";
 import { useThemeSlot } from "@/components/theme/use-theme-slot";
-import { achievementsCopy } from "@/content/home";
+import { useContent } from "@/components/i18n/locale-provider";
 import { CHANGE_EVENT, evaluate, loadProgress, type Achievement } from "@/lib/achievements";
 import { themes } from "@/themes/registry";
 
@@ -41,6 +41,7 @@ function beep() {
 }
 
 export default function PixelAchievements() {
+  const { achievementsCopy } = useContent();
   const navSlot = useThemeSlot("theme-slot-nav");
   const list: Achievement[] = JSON.parse(
     useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot),
@@ -73,7 +74,7 @@ export default function PixelAchievements() {
       .join(", ");
     setToast(`${achievementsCopy.unlocked}: ${names}`);
     if (sound) beep();
-  }, [unlockedKey, sound]);
+  }, [unlockedKey, sound, achievementsCopy]);
 
   useEffect(() => {
     if (!toast) return;

@@ -1,5 +1,6 @@
 // Contact form rules (LEARNING-167). Pure: shared by the Server Action and the unit tests.
-import { collabTypes, contactCopy, type CollabType } from "@/content/home";
+import { COLLAB_TYPE_IDS, type CollabType } from "@/content/collab";
+import type { Content } from "@/content";
 
 export const FIELDS = ["name", "email", "type", "message", "phone"] as const;
 export type Field = (typeof FIELDS)[number];
@@ -23,13 +24,16 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const CONTROL = /[\u0000-\u001f\u007f]/;
 const PHONE = /^\+?[\d\s().-]{7,20}$/;
 
-export const isCollabType = (v: string): v is CollabType => collabTypes.some((t) => t.id === v);
+export const isCollabType = (v: string): v is CollabType =>
+  (COLLAB_TYPE_IDS as readonly string[]).includes(v);
 
-export function validate(form: { get(name: string): FormDataEntryValue | null }): Validation {
+export function validate(
+  form: { get(name: string): FormDataEntryValue | null },
+  e: Content["contactCopy"]["errors"],
+): Validation {
   const values = Object.fromEntries(
     FIELDS.map((f) => [f, String(form.get(f) ?? "").trim()]),
   ) as Record<Field, string>;
-  const e = contactCopy.errors;
   const errors: Partial<Record<Field, string>> = {};
 
   if (!values.name) errors.name = e.nameRequired;

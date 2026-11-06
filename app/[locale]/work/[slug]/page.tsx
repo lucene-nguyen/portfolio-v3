@@ -6,18 +6,22 @@ import { ArrowLeft } from "lucide-react";
 import { container, Tag } from "@/components/home/ui";
 import { TrackCaseStudyRead } from "@/components/work/track-read";
 import { SHOW_PLACEHOLDERS } from "@/lib/placeholder";
-import { labels, profile, work } from "@/content/home";
+import { labels, profile, work } from "@/content/en/home";
+import { setLocale } from "@/lib/i18n-server";
 import { ogBase } from "@/lib/site";
 
 const find = (slug: string) => work.items.find((c) => c.slug === slug);
 
+// The studies are English MDX: no Vietnamese route (LEARNING-168).
 export function generateStaticParams() {
-  return work.items.map(({ slug }) => ({ slug }));
+  return work.items.map(({ slug }) => ({ locale: "en", slug }));
 }
 
 export const dynamicParams = false;
 
-export async function generateMetadata({ params }: PageProps<"/work/[slug]">): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]/work/[slug]">): Promise<Metadata> {
   const study = find((await params).slug);
   if (!study) return {};
   return {
@@ -37,8 +41,9 @@ export async function generateMetadata({ params }: PageProps<"/work/[slug]">): P
   };
 }
 
-export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]">) {
+export default async function CaseStudyPage({ params }: PageProps<"/[locale]/work/[slug]">) {
   const { slug } = await params;
+  setLocale("en");
   const study = find(slug);
   if (!study) notFound();
   const { default: Body } = await import(`@/content/work/${slug}.mdx`);

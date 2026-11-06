@@ -5,15 +5,8 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowUp, GripVertical, RotateCcw } from "lucide-react";
 import { container } from "@/components/home/ui";
-import {
-  bentoCopy as c,
-  hero,
-  lab,
-  labels,
-  profile,
-  publicStudies,
-  skills,
-} from "@/content/home";
+import { useContent } from "@/components/i18n/locale-provider";
+import { contents, type Content } from "@/content";
 import { features } from "@/lib/features";
 import { move, moveTo, sanitizeOrder } from "@/lib/bento";
 import { cn } from "@/lib/utils";
@@ -35,145 +28,148 @@ const tones = {
   accent: "bg-accent text-accent-contrast",
 };
 
-const tiles: Tile[] = [
-  {
-    id: "about",
-    name: c.tiles.about,
-    size: "md:col-span-2 md:row-span-2",
-    tone: "surface",
-    body: (
-      <div className="flex flex-col gap-3">
-        <p className="font-mono text-sm text-accent">{hero.eyebrow}</p>
-        <p className="text-2xl leading-tight font-bold">{hero.headline}</p>
-        <p className="text-text-secondary">{hero.lead}</p>
-      </div>
-    ),
-  },
-  {
-    id: "photo",
-    name: c.tiles.photo,
-    size: "md:row-span-2",
-    tone: "surface2",
-    body: (
-      <Image
-        src={profile.avatar.src}
-        alt="" // decorative: the contact avatar carries the description
-        width={900}
-        height={1200}
-        sizes="(max-width: 768px) 100vw, 300px"
-        className="h-full max-h-80 w-full rounded-2xl object-cover object-[center_20%]"
-      />
-    ),
-  },
-  {
-    id: "stats",
-    name: c.tiles.stats,
-    size: "md:col-span-1",
-    tone: "accent",
-    body: (
-      <dl className="grid grid-cols-2 gap-3">
-        {hero.stats.map((s) => (
-          <div key={s.label} className="flex flex-col-reverse">
-            <dt className="text-xs">{s.label}</dt>
-            <dd className="font-mono text-lg font-bold">{s.value}</dd>
-          </div>
-        ))}
-      </dl>
-    ),
-  },
-  ...publicStudies.map((w) => ({
-    id: `work-${w.slug}`,
-    name: w.title,
-    size: "md:col-span-1",
-    tone: "surface" as const,
-    body: (
-      <div className="flex h-full flex-col gap-2">
-        <p className="font-mono text-xs text-text-muted">{w.meta}</p>
-        <p className="font-semibold">{w.title}</p>
-        {w.metrics[0] && (
-          <>
-            <p className="font-mono text-xl font-bold text-accent">{w.metrics[0].value}</p>
-            <p className="text-xs text-text-muted">{w.metrics[0].label}</p>
-          </>
-        )}
-        <Link
-          href={`/work/${w.slug}`}
-          aria-label={`${labels.readCaseStudy}: ${w.title}`}
-          className="mt-auto text-sm font-semibold text-accent underline underline-offset-2"
-        >
-          {labels.readCaseStudy}
-        </Link>
-      </div>
-    ),
-  })),
-  {
-    id: "stack",
-    name: c.tiles.stack,
-    size: "md:col-span-2",
-    tone: "bgAlt",
-    body: (
-      <ul className="flex flex-wrap gap-1.5">
-        {skills.groups
-          .flatMap((g) => g.items)
-          .map((it) => (
-            <li
-              key={it}
-              className="rounded-full bg-surface px-2.5 py-1 font-mono text-xs text-text-2"
-            >
-              {it}
-            </li>
-          ))}
-      </ul>
-    ),
-  },
-  // The lab is parked (LEARNING-164).
-  ...(features.lab
-    ? ([
-        {
-          id: "lab",
-          name: c.tiles.lab,
-          size: "md:col-span-1",
-          tone: "surface2",
-          body: (
-            <div className="flex h-full flex-col gap-2">
-              <p className="font-semibold">{lab.title}</p>
-              <a
-                href="#lab"
-                className="mt-auto text-sm font-semibold text-accent underline underline-offset-2"
-              >
-                {c.labCta}
-              </a>
+const tilesFor = (content: Content): Tile[] => {
+  const { bentoCopy: c, hero, lab, labels, profile, publicStudies, skills } = content;
+  return [
+    {
+      id: "about",
+      name: c.tiles.about,
+      size: "md:col-span-2 md:row-span-2",
+      tone: "surface",
+      body: (
+        <div className="flex flex-col gap-3">
+          <p className="font-mono text-sm text-accent">{hero.eyebrow}</p>
+          <p className="text-2xl leading-tight font-bold">{hero.headline}</p>
+          <p className="text-text-secondary">{hero.lead}</p>
+        </div>
+      ),
+    },
+    {
+      id: "photo",
+      name: c.tiles.photo,
+      size: "md:row-span-2",
+      tone: "surface2",
+      body: (
+        <Image
+          src={profile.avatar.src}
+          alt="" // decorative: the contact avatar carries the description
+          width={900}
+          height={1200}
+          sizes="(max-width: 768px) 100vw, 300px"
+          className="h-full max-h-80 w-full rounded-2xl object-cover object-[center_20%]"
+        />
+      ),
+    },
+    {
+      id: "stats",
+      name: c.tiles.stats,
+      size: "md:col-span-1",
+      tone: "accent",
+      body: (
+        <dl className="grid grid-cols-2 gap-3">
+          {hero.stats.map((s) => (
+            <div key={s.label} className="flex flex-col-reverse">
+              <dt className="text-xs">{s.label}</dt>
+              <dd className="font-mono text-lg font-bold">{s.value}</dd>
             </div>
-          ),
-        },
-      ] satisfies Tile[])
-    : []),
-  {
-    id: "contact",
-    name: c.tiles.contact,
-    size: "md:col-span-1",
-    tone: "surface",
-    body: (
-      <div className="flex h-full flex-col gap-2">
-        <a
-          href={`mailto:${profile.email}`}
-          className="font-semibold break-all text-accent underline underline-offset-2"
-        >
-          {profile.email}
-        </a>
-        <a
-          href={profile.github}
-          className="text-sm text-text-secondary underline underline-offset-2"
-        >
-          {profile.githubLabel}
-        </a>
-      </div>
-    ),
-  },
-];
+          ))}
+        </dl>
+      ),
+    },
+    ...publicStudies.map((w) => ({
+      id: `work-${w.slug}`,
+      name: w.title,
+      size: "md:col-span-1",
+      tone: "surface" as const,
+      body: (
+        <div className="flex h-full flex-col gap-2">
+          <p className="font-mono text-xs text-text-muted">{w.meta}</p>
+          <p className="font-semibold">{w.title}</p>
+          {w.metrics[0] && (
+            <>
+              <p className="font-mono text-xl font-bold text-accent">{w.metrics[0].value}</p>
+              <p className="text-xs text-text-muted">{w.metrics[0].label}</p>
+            </>
+          )}
+          <Link
+            href={`/work/${w.slug}`}
+            aria-label={`${labels.readCaseStudy}: ${w.title}`}
+            className="mt-auto text-sm font-semibold text-accent underline underline-offset-2"
+          >
+            {labels.readCaseStudy}
+          </Link>
+        </div>
+      ),
+    })),
+    {
+      id: "stack",
+      name: c.tiles.stack,
+      size: "md:col-span-2",
+      tone: "bgAlt",
+      body: (
+        <ul className="flex flex-wrap gap-1.5">
+          {skills.groups
+            .flatMap((g) => g.items)
+            .map((it) => (
+              <li
+                key={it}
+                className="rounded-full bg-surface px-2.5 py-1 font-mono text-xs text-text-2"
+              >
+                {it}
+              </li>
+            ))}
+        </ul>
+      ),
+    },
+    // The lab is parked (LEARNING-164).
+    ...(features.lab
+      ? ([
+          {
+            id: "lab",
+            name: c.tiles.lab,
+            size: "md:col-span-1",
+            tone: "surface2",
+            body: (
+              <div className="flex h-full flex-col gap-2">
+                <p className="font-semibold">{lab.title}</p>
+                <a
+                  href="#lab"
+                  className="mt-auto text-sm font-semibold text-accent underline underline-offset-2"
+                >
+                  {c.labCta}
+                </a>
+              </div>
+            ),
+          },
+        ] satisfies Tile[])
+      : []),
+    {
+      id: "contact",
+      name: c.tiles.contact,
+      size: "md:col-span-1",
+      tone: "surface",
+      body: (
+        <div className="flex h-full flex-col gap-2">
+          <a
+            href={`mailto:${profile.email}`}
+            className="font-semibold break-all text-accent underline underline-offset-2"
+          >
+            {profile.email}
+          </a>
+          <a
+            href={profile.github}
+            className="text-sm text-text-secondary underline underline-offset-2"
+          >
+            {profile.githubLabel}
+          </a>
+        </div>
+      ),
+    },
+  ];
+};
 
-const ids = tiles.map((t) => t.id);
-const byId = new Map(tiles.map((t) => [t.id, t]));
+// Tile ids don't depend on the locale.
+const ids = tilesFor(contents.en).map((t) => t.id);
 
 function loadOrder(): string[] {
   try {
@@ -184,6 +180,9 @@ function loadOrder(): string[] {
 }
 
 export function BentoGrid() {
+  const content = useContent();
+  const { bentoCopy: c } = content;
+  const byId = new Map(tilesFor(content).map((t) => [t.id, t]));
   const [order, setOrder] = useState<string[]>(loadOrder);
   const [announce, setAnnounce] = useState("");
   const [dragging, setDragging] = useState<string | null>(null);

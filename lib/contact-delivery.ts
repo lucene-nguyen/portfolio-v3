@@ -1,6 +1,6 @@
 // Where an accepted contact message goes (LEARNING-167): log + store, and email only when Resend is set up.
 import { Redis } from "@upstash/redis";
-import { profile } from "@/content/home";
+import { profile } from "@/content/en/home";
 import type { ContactMessage } from "./contact";
 
 export interface StoredMessage extends ContactMessage {

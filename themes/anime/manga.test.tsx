@@ -1,10 +1,12 @@
 // @vitest-environment node
 import { renderToStaticMarkup } from "react-dom/server";
 import { expect, it } from "vitest";
-import { experience } from "@/content/home";
+import { experience } from "@/content/en/home";
 import { contrast } from "@/lib/theme/contrast";
 import { anime } from "./index";
-import { chapters, MangaStrip } from "./manga";
+import { chaptersOf, MangaStrip } from "./manga";
+
+const chapters = chaptersOf(experience);
 
 it("one panel per role, oldest first, each with alt text and a quoted bubble", () => {
   expect(chapters.map((c) => c.company)).toEqual(

@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useImperativeHandle, useRef, useState } from "react";
-import { docsCopy } from "@/content/home";
+import { useContent, useLocale } from "@/components/i18n/locale-provider";
 import { isTyping, restoreFocus } from "@/lib/dom";
 import { search, type SearchDoc } from "@/lib/search";
 
@@ -11,6 +11,8 @@ export interface SearchHandle {
 }
 
 export function SearchDialog({ ref }: { ref: React.Ref<SearchHandle> }) {
+  const { docsCopy } = useContent();
+  const locale = useLocale();
   const dialog = useRef<HTMLDialogElement>(null);
   const input = useRef<HTMLInputElement>(null);
   const opener = useRef<HTMLElement | null>(null);
@@ -29,7 +31,7 @@ export function SearchDialog({ ref }: { ref: React.Ref<SearchHandle> }) {
     // Static file generated at build time; fetched on first use, retried on the next open after a failure.
     if (!indexRef.current) {
       setFailed(false);
-      fetch("/search-index.json")
+      fetch(`${locale === "en" ? "" : `/${locale}`}/search-index.json`)
         .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
         .then((docs: SearchDoc[]) => {
           indexRef.current = docs;

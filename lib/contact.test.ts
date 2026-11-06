@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { contactCopy } from "@/content/home";
+import { contactCopy } from "@/content/en/home";
 import { validate } from "./contact";
 import { deliver, memoryMessages, sendEmail, type StoredMessage } from "./contact-delivery";
 
@@ -19,13 +19,14 @@ const e = contactCopy.errors;
 
 describe("validate", () => {
   it("accepts a valid message, trims, and drops an empty phone", () => {
-    const r = validate(form({ ...valid, name: "  Lan Tran ", phone: "" }));
+    const r = validate(form({ ...valid, name: "  Lan Tran ", phone: "" }), e);
     expect(r).toEqual({ ok: true, data: valid });
   });
 
   it("reports every invalid field and keeps the values", () => {
     const r = validate(
       form({ name: "", email: "nope", type: "budget", message: "short", phone: "abc" }),
+      e,
     );
     expect(r.ok).toBe(false);
     if (r.ok) return;
@@ -40,19 +41,19 @@ describe("validate", () => {
   });
 
   it("enforces lengths and accepts phone formats", () => {
-    const long = validate(form({ ...valid, name: "x".repeat(101), message: "x".repeat(4001) }));
+    const long = validate(form({ ...valid, name: "x".repeat(101), message: "x".repeat(4001) }), e);
     expect(long.ok || long.errors).toEqual({ name: e.nameLong, message: e.messageLong });
-    expect(validate(form({ ...valid, phone: "+84 339 696 831" })).ok).toBe(true);
-    expect(validate(form({ ...valid, email: "" })).ok).toBe(false);
+    expect(validate(form({ ...valid, phone: "+84 339 696 831" }), e).ok).toBe(true);
+    expect(validate(form({ ...valid, email: "" }), e).ok).toBe(false);
   });
 
   it("keeps names on one line (they go into the email subject)", () => {
-    const r = validate(form({ ...valid, name: "x\nEmail: evil@example.com" }));
+    const r = validate(form({ ...valid, name: "x\nEmail: evil@example.com" }), e);
     expect(r.ok || r.errors.name).toBe(e.nameInvalid);
   });
 
   it("has no budget field", () => {
-    expect(validate(form({ ...valid, budget: "5000" }))).toEqual({ ok: true, data: valid });
+    expect(validate(form({ ...valid, budget: "5000" }), e)).toEqual({ ok: true, data: valid });
   });
 });
 

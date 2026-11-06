@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { FileCode, FileJson, FileText, Files, X } from "lucide-react";
-import { ideCopy } from "@/content/home";
+import { useContent, useLocale, usePublicPathname } from "@/components/i18n/locale-provider";
 import { restoreFocus } from "@/lib/dom";
-import { basename, fileFor, files, type IdeFile } from "./files";
+import { basename, fileFor, filesFor, homePath, type IdeFile } from "./files";
+
+const useFiles = () => filesFor(useLocale());
 
 const TABS_KEY = "ide:tabs";
 
@@ -16,13 +18,15 @@ const subscribeHash = (cb: () => void) => {
 };
 
 function useCurrentFile(): IdeFile | undefined {
-  const pathname = usePathname();
+  const locale = useLocale();
+  const files = filesFor(locale);
+  const pathname = usePublicPathname();
   const hash = useSyncExternalStore(
     subscribeHash,
     () => window.location.hash,
     () => "",
   );
-  return fileFor(pathname, hash);
+  return fileFor(files, pathname, hash, homePath(locale));
 }
 
 function Icon({ path }: { path: string }) {
@@ -37,6 +41,8 @@ function Explorer({
   current: IdeFile | undefined;
   onOpen: (f: IdeFile) => void;
 }) {
+  const { ideCopy } = useContent();
+  const files = useFiles();
   return (
     <nav aria-label={ideCopy.explorer} className="font-mono text-[13px]">
       <p className="px-3 py-2 text-xs tracking-wide text-text-muted uppercase">{ideCopy.project}</p>
@@ -68,6 +74,8 @@ function Palette({
   dialog: React.RefObject<HTMLDialogElement | null>;
   onOpen: (f: IdeFile) => void;
 }) {
+  const { ideCopy } = useContent();
+  const files = useFiles();
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
   const router = useRouter();
@@ -135,6 +143,8 @@ function Palette({
 }
 
 export default function IdeLayout({ children }: { children: React.ReactNode }) {
+  const { ideCopy } = useContent();
+  const files = useFiles();
   const current = useCurrentFile();
   const [tabs, setTabs] = useState<string[]>(() => {
     try {

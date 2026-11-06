@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useThemeSlot } from "@/components/theme/use-theme-slot";
-import { hudCopy } from "@/content/home";
+import { useContent } from "@/components/i18n/locale-provider";
 import { LAB_RESPONSE, type LabResponseDetail } from "@/lib/lab/events";
 
 // The firewall may light up at most every 400ms: well under 3 flashes per second.
@@ -15,6 +15,7 @@ const STAGGER_MS = 60;
 const TRAVEL_MS = 900;
 
 function PacketStream() {
+  const { hudCopy } = useContent();
   const [packets, setPackets] = useState<{ id: number; status: number; delay: number }[]>([]);
   const [hit, setHit] = useState(false);
   const seq = useRef(0);
@@ -99,7 +100,9 @@ export default function CyberpunkHud() {
           io.unobserve(e.target);
         }
       },
-      { threshold: 0.3 },
+      // Crossing the middle of the viewport works for any section height (a ratio can't: the
+      // full Experience is taller than 3 screens, so 30% of it is never visible at once).
+      { rootMargin: "-30% 0px -30% 0px" },
     );
     sections.forEach((s) => io.observe(s));
     return () => {

@@ -229,6 +229,15 @@
   [data-theme="swiss-minimal"]:has(#theme-slot-home) #skills [data-part="stack"] {
     gap: 4pt !important;
   }
+  /* Experience (LEARNING-183): each project's title and its period/context share one line. */
+  [data-theme="swiss-minimal"]:has(#theme-slot-home)
+    #experience
+    [data-part="role-entry"]
+    > div:first-child {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 0 6pt !important;
+  }
   /* Contact: keep only the visible addresses. */
   [data-theme="swiss-minimal"]:has(#theme-slot-home) #contact a {
     min-height: 0 !important;

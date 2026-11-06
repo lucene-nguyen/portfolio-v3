@@ -1,8 +1,9 @@
-import { skills } from "@/content/home";
+import { getContent } from "@/lib/i18n-server";
 import { SkillIcon } from "./skill-icon";
 import { container, SectionHeader } from "./ui";
 
 export function SkillsSection() {
+  const { skills } = getContent();
   return (
     <section id="skills" aria-labelledby="skills-title" className="border-t border-border">
       <div className={`${container} flex flex-col gap-8 py-[88px]`}>

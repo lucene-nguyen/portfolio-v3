@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { work } from "@/content/home";
+import { work } from "@/content/en/home";
 
 const SECTIONS = [
   "Context",

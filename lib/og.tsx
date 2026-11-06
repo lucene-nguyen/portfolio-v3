@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { profile } from "@/content/home";
+import { profile } from "@/content/en/home";
 import { defaultTheme } from "@/themes/registry";
 
 export const ogSize = { width: 1200, height: 630 };

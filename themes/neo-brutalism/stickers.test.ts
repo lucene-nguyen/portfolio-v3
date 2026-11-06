@@ -1,6 +1,11 @@
 import { expect, it } from "vitest";
 import { contrast } from "@/lib/theme/contrast";
-import { projects, projectsWith, skills, STICKER_FILLS } from "./stickers";
+import { contents } from "@/content";
+import { projectsFor, projectsWith as filterBy, skillsOf, STICKER_FILLS } from "./stickers";
+
+const projects = projectsFor(contents.en);
+const skills = skillsOf(projects);
+const projectsWith = (skill: string) => filterBy(projects, skill);
 import { features } from "@/lib/features";
 
 it("black sticker text reaches 4.5:1 on every saturated fill", () => {

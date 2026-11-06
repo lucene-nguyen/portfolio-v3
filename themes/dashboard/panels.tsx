@@ -3,7 +3,7 @@
 import { features } from "@/lib/features";
 import { useEffect, useState } from "react";
 import { container } from "@/components/home/ui";
-import { dashboardCopy as c, experience, work } from "@/content/home";
+import { useContent } from "@/components/i18n/locale-provider";
 import { stackUsage, timeline } from "@/lib/dashboard";
 import type { SecondBucket } from "@/lib/rate-limit/stats";
 
@@ -22,6 +22,7 @@ function Panel({
   children: React.ReactNode;
   testId?: string;
 }) {
+  const { dashboardCopy: c } = useContent();
   return (
     <section
       aria-label={title}
@@ -66,6 +67,7 @@ function usePolled<T>(url: string, intervalMs?: number) {
 }
 
 function Sparkline({ seconds }: { seconds: SecondBucket[] }) {
+  const { dashboardCopy: c } = useContent();
   const w = 300;
   const h = 64;
   const max = Math.max(1, ...seconds.map((s) => Math.max(s.ok, s.limited)));
@@ -101,6 +103,7 @@ function Sparkline({ seconds }: { seconds: SecondBucket[] }) {
 }
 
 function TrafficPanel() {
+  const { dashboardCopy: c } = useContent();
   const { data, failed } = usePolled<{ seconds: SecondBucket[] }>("/api/stats", POLL_MS);
   const seconds = data?.seconds ?? [];
   const ok = seconds.reduce((a, s) => a + s.ok, 0);
@@ -182,6 +185,7 @@ interface GithubData {
 }
 
 function GithubPanel() {
+  const { dashboardCopy: c } = useContent();
   const { data, failed } = usePolled<GithubData>("/api/github");
   return (
     <Panel title={c.github.title} source={c.github.source} testId="panel-github">
@@ -210,6 +214,7 @@ function GithubPanel() {
 }
 
 export function Panels() {
+  const { dashboardCopy: c, experience, work } = useContent();
   const t = timeline(experience.roles);
   const usage = stackUsage(work.items);
   const top = Math.max(...usage.map((u) => u.count));

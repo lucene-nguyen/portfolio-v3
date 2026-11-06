@@ -1,6 +1,7 @@
 // Source: the owner's approved home page mockup ("Cuong Nguyen Portfolio" canvas, 2026-10-31).
 // Unknown values stay [PLACEHOLDER]; never fill them in without the owner. They don't render (lib/placeholder).
 import { features } from "@/lib/features";
+import type { CollabType } from "../collab";
 import { shown } from "@/lib/placeholder";
 
 export const profile = {
@@ -21,7 +22,19 @@ export const profile = {
   status: "open to work",
 };
 
+// Language switcher (LEARNING-168): links to the other locale.
+export const language = {
+  label: "Tiếng Việt",
+  hrefLang: "vi",
+  href: "/vi",
+  ariaLabel: "Xem trang bằng tiếng Việt",
+};
+
 export const labels = {
+  theme: "Theme",
+  themeChanged: (name: string) => `Theme: ${name}`,
+  mainNav: "Main",
+  skip: "Skip to content",
   menu: "Menu",
   viewWork: "View case studies",
   seeExperience: "See my experience",
@@ -376,16 +389,22 @@ export const kits = {
       stack: "Node.js · Redis",
       href: "https://github.com/lucene-nguyen/rate-limiting-lab",
     },
-  ] as const,
+  ] satisfies {
+    name: string;
+    status: string;
+    state: "active" | "planned";
+    description: string;
+    stack: string;
+    href: string;
+  }[],
 };
 /** Collaboration types (LEARNING-166/167): Work with me CTAs preselect one in the Contact form. */
-export const collabTypes = [
+export const collabTypes: { id: CollabType; label: string }[] = [
   { id: "full-time", label: "Full-time" },
   { id: "part-time", label: "Part-time" },
   { id: "freelance", label: "Freelance project" },
   { id: "consulting", label: "Consulting" },
-] as const;
-export type CollabType = (typeof collabTypes)[number]["id"];
+];
 
 // Service names and steps from the owner; one-line copy via design:ux-copy (no claims, no prices).
 export const workWithMe = {

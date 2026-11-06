@@ -1,6 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
-import { kits } from "../content/home";
+import { kits } from "../content/en/home";
 import { activeThemes as themes } from "../themes/registry";
 import { features } from "../lib/features";
 

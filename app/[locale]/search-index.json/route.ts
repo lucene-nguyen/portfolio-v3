@@ -1,15 +1,7 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import {
-  experience,
-  kits,
-  lab,
-  profile,
-  publicStudies,
-  skills,
-  work,
-  workWithMe,
-} from "@/content/home";
+import { contents } from "@/content";
+import { homeHref, isLocale, locales } from "@/lib/i18n";
 import { features } from "@/lib/features";
 import { SHOW_PLACEHOLDERS, stripPlaceholders } from "@/lib/placeholder";
 import { mdxToDocs, type SearchDoc } from "@/lib/search";
@@ -21,12 +13,19 @@ export const dynamic = "force-static";
 const withoutUnfinishedItems = (mdx: string) =>
   SHOW_PLACEHOLDERS ? mdx : mdx.replace(/^\s*[-*] .*\[PLACEHOLDER.*$/gm, "");
 
-export async function GET() {
+export const generateStaticParams = () => locales.map((locale) => ({ locale }));
+
+export async function GET(_: Request, { params }: RouteContext<"/[locale]/search-index.json">) {
+  const { locale: raw } = await params;
+  const locale = isLocale(raw) ? raw : "en";
+  const { docsCopy, experience, kits, lab, profile, publicStudies, skills, work, workWithMe } =
+    contents[locale];
+  const at = (hash: string) => homeHref(locale, hash);
   const home: SearchDoc[] = [
     {
       title: profile.name,
-      section: "Home",
-      href: "/#top",
+      section: docsCopy.home,
+      href: at("#top"),
       text: `${profile.title}. ${profile.email}`,
     },
     ...publicStudies.map((c) => ({
@@ -41,8 +40,8 @@ export async function GET() {
       ? [
           {
             title: lab.title,
-            section: "Live lab",
-            href: "/#lab",
+            section: lab.title,
+            href: at("#lab"),
             text: [lab.intro, ...lab.facts].join(" "),
           },
         ]
@@ -50,13 +49,13 @@ export async function GET() {
     ...kits.items.map((k) => ({
       title: k.name,
       section: kits.title,
-      href: "/#kits",
+      href: at("#kits"),
       text: `${k.status}. ${k.description} ${k.stack}`,
     })),
     {
       title: workWithMe.title,
       section: workWithMe.title,
-      href: "/#work-with-me",
+      href: at("#work-with-me"),
       text: [
         workWithMe.intro,
         ...workWithMe.services.map((s) => `${s.name}: ${s.description}`),
@@ -66,20 +65,21 @@ export async function GET() {
     ...experience.roles.map((r) => ({
       title: r.company,
       section: experience.title,
-      href: "/#experience",
+      href: at("#experience"),
       text: `${r.period} ${r.summary}`,
     })),
     {
       title: skills.title,
       section: skills.title,
-      href: "/#skills",
+      href: at("#skills"),
       text: [...skills.groups, skills.secondary]
         .map((g) => `${g.name}: ${g.items.join(", ")}`)
         .join(". "),
     },
   ];
   const studies = await Promise.all(
-    publicStudies.map(async (c) =>
+    // Case studies are English only.
+    (locale === "en" ? publicStudies : []).map(async (c) =>
       mdxToDocs(
         withoutUnfinishedItems(
           await readFile(path.join(process.cwd(), "content/work", `${c.slug}.mdx`), "utf8"),
