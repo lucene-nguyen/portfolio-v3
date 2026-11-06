@@ -4,4 +4,6 @@ export const features = {
   lab: process.env.NEXT_PUBLIC_FEATURE_LAB === "on",
   // LEARNING-184: off = Night terminal only (no switcher; ?theme= and saved choices ignored).
   themes: process.env.NEXT_PUBLIC_FEATURE_THEMES === "on",
+  // Round 4: the Work with me section, its nav link and its hero CTA.
+  workWithMe: process.env.NEXT_PUBLIC_FEATURE_WORK_WITH_ME === "on",
 };

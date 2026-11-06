@@ -6,13 +6,15 @@ import * as en from "../en/home";
 import type { CollabType } from "../collab";
 import { shown } from "@/lib/placeholder";
 
+export const certificates = en.certificates;
+
 export const profile = {
   name: "Nguyễn Mạnh Cường",
   handle: "cuong",
   logo: "Cuong Nguyen",
   title: "Kỹ sư phần mềm Fullstack",
   siteDescription:
-    "Kỹ sư phần mềm Fullstack xây dựng ứng dụng web trọn vẹn: React và Next.js, Node.js và NestJS, PostgreSQL, MongoDB, Redis và AWS.",
+    "Kỹ sư phần mềm Fullstack xây dựng ứng dụng web từ đầu đến cuối: React và Next.js, Node.js và NestJS, PostgreSQL, MongoDB, Redis và AWS.",
   email: "manhcuongmvc@gmail.com",
   github: "https://github.com/lucene-nguyen",
   githubLabel: "github.com/lucene-nguyen",
@@ -46,7 +48,8 @@ export const labels = {
   intro: "Giới thiệu",
   github: "GitHub",
   linkedin: "LinkedIn",
-  resume: "Tải CV",
+  resume: "Xem CV",
+  contactMe: "Liên hệ với tôi",
   newTab: "(mở trong thẻ mới)",
 };
 
@@ -57,7 +60,7 @@ const sections = [
   ...(features.caseStudies ? ["work"] : []),
   ...(features.lab ? ["lab"] : []),
   "kits",
-  "work-with-me",
+  ...(features.workWithMe ? ["work-with-me"] : []),
   "contact",
 ];
 const no = (id: string) => String(sections.indexOf(id) + 1).padStart(2, "0");
@@ -68,7 +71,7 @@ export const nav = [
   ...(features.caseStudies ? [{ href: "/vi#work", label: "Dự án" }] : []),
   ...(features.lab ? [{ href: "/vi#lab", label: "Lab trực tiếp" }] : []),
   { href: "/vi#kits", label: "Starter kit" },
-  { href: "/vi#work-with-me", label: "Hợp tác" },
+  ...(features.workWithMe ? [{ href: "/vi#work-with-me", label: "Hợp tác" }] : []),
   { href: "/vi#contact", label: "Liên hệ" },
 ];
 
@@ -80,10 +83,9 @@ export const hero = {
   lead: "Kỹ sư phần mềm Fullstack với hơn 5 năm xây dựng ứng dụng web từ đầu đến cuối — React và Next.js cho front end, API Node.js và NestJS cho back end, PostgreSQL, MongoDB và Redis cho dữ liệu, và AWS để vận hành trên môi trường production.",
   workWithMeHref: "#work-with-me",
   stats: [
-    { value: "5+ năm", label: "xây dựng hệ thống backend thực tế" },
-    { value: "2.500+", label: "cửa hàng dùng dịch vụ tôi phát triển" },
-    { value: "300→20ms", label: "độ trễ API tồn kho", highlight: true },
-    { value: "AWS", label: "Certified Developer – Associate" },
+    { value: "5+ năm", label: "xây dựng hệ thống backend thực tế", href: "" },
+    { value: "AWS", label: "Certified Developer – Associate (DVA-C02)", href: certificates.aws },
+    { value: "Udacity", label: "Cloud Developer", href: certificates.udacity },
   ],
 };
 
@@ -494,7 +496,9 @@ export const experience = {
   ...en.experience,
   eyebrow: `${no("experience")} / kinh nghiệm`,
   title: "Những nơi tôi đã làm việc",
-  certificationsTitle: "Chứng chỉ",
+  certificationsTitle: "Học vấn & Chứng chỉ",
+  education:
+    "Trường Đại học Công nghệ Thông tin (UIT) – ĐHQG-HCM · Công nghệ Thông tin · 2025 – nay",
 };
 
 export const contact = {

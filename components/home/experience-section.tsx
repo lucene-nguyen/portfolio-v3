@@ -74,6 +74,7 @@ export function ExperienceSection() {
           </ol>
           <div data-part="certifications" className="flex flex-col gap-3">
             <h3 className="text-xl font-semibold">{experience.certificationsTitle}</h3>
+            <p className="text-[15px] text-text-2">{experience.education}</p>
             <ul className="flex flex-col gap-2 text-[15px]">
               {experience.certifications.map((c) => (
                 <li key={c.url}>

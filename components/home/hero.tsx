@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import { features } from "@/lib/features";
 import { getContent } from "@/lib/i18n-server";
 import { cn } from "@/lib/utils";
 import { shown } from "@/lib/placeholder";
@@ -29,8 +30,13 @@ export function Hero() {
             {labels.seeExperience}
             <ArrowRight size={18} aria-hidden />
           </a>
-          <a href={hero.workWithMeHref} data-part="button" className={buttonSecondary}>
-            {labels.workWithMe}
+          {/* Work with me is parked (round 4): the secondary CTA goes to Contact. */}
+          <a
+            href={features.workWithMe ? hero.workWithMeHref : "#contact"}
+            data-part="button"
+            className={buttonSecondary}
+          >
+            {features.workWithMe ? labels.workWithMe : labels.contactMe}
           </a>
           {shown(profile.resumeUrl) && (
             <a
@@ -53,15 +59,26 @@ export function Hero() {
             <div
               key={s.label}
               data-part="stat"
-              data-highlight={s.highlight || undefined}
               className={cn(
                 "flex flex-[1_1_140px] flex-col-reverse px-[22px] py-5",
                 i < hero.stats.length - 1 && "border-r border-border",
               )}
             >
               <dt className="mt-1 text-sm text-text-muted">{s.label}</dt>
-              <dd className={cn("font-mono text-[28px] font-bold", s.highlight && "text-accent")}>
-                {s.value}
+              <dd className="font-mono text-[28px] font-bold">
+                {s.href ? (
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${s.value} ${s.label} ${labels.newTab}`}
+                    className="text-accent underline-offset-4 hover:underline"
+                  >
+                    {s.value}
+                  </a>
+                ) : (
+                  s.value
+                )}
               </dd>
             </div>
           ))}

@@ -4,6 +4,8 @@ import { kits } from "../content/en/home";
 import { activeThemes as themes } from "../themes/registry";
 import { features } from "../lib/features";
 
+test.skip(!features.workWithMe, "Work with me parked (round 4)");
+
 const services = [
   ["End-to-end web apps", "Discuss a web app", "freelance"],
   ["Backend, API and AWS", "Discuss a backend", "freelance"],

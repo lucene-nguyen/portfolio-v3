@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { certificates } from "../content/en/home";
 import { features } from "../lib/features";
 
 test("renders sections in the round-2 order; parked sections are absent", async ({ page }) => {
@@ -7,7 +8,14 @@ test("renders sections in the round-2 order; parked sections are absent", async 
   const ids = await page
     .locator("#top, #skills, #work, #lab, #kits, #experience, #work-with-me, #contact")
     .evaluateAll((els) => els.map((e) => e.id));
-  expect(ids).toEqual(["top", "skills", "experience", "kits", "work-with-me", "contact"]);
+  expect(ids).toEqual([
+    "top",
+    "skills",
+    "experience",
+    "kits",
+    ...(features.workWithMe ? ["work-with-me"] : []),
+    "contact",
+  ]);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "I build web products that bring real value to users and businesses.",
   );
@@ -18,7 +26,7 @@ test("renders sections in the round-2 order; parked sections are absent", async 
   await expect(page.locator('#experience [data-part="eyebrow"]')).toHaveText("02 / experience");
 });
 
-test("hero: subline, bio, CTAs, Download CV; no avatar; avatar in contact", async ({ page }) => {
+test("hero: subline, bio, CTAs, View CV; no avatar; avatar in contact", async ({ page }) => {
   await page.goto("/");
   const hero = page.locator("#top");
   await expect(hero).toContainText(
@@ -29,9 +37,12 @@ test("hero: subline, bio, CTAs, Download CV; no avatar; avatar in contact", asyn
     "href",
     "#experience",
   );
-  await expect(hero.getByRole("link", { name: "Work with me" })).toBeVisible();
-  // Download CV (LEARNING-183): the owner's Drive file, in a new tab.
-  const cv = hero.getByRole("link", { name: /Download CV/ });
+  // Work with me is parked (round 4): the secondary CTA goes to Contact.
+  await expect(
+    hero.getByRole("link", { name: features.workWithMe ? "Work with me" : "Contact me" }),
+  ).toHaveAttribute("href", features.workWithMe ? "#work-with-me" : "#contact");
+  // View CV (round 4): the owner's Drive file, in a new tab.
+  const cv = hero.getByRole("link", { name: /View CV/ });
   await expect(cv).toHaveAttribute(
     "href",
     /^https:\/\/drive\.google\.com\/file\/d\/1Cnr0omhnu2RNk_s8fV_rvQoCOqVWIdTX\//,
@@ -132,4 +143,45 @@ test("keyboard: every link and control is reachable and shows a focus ring", asy
     seen.add(info.key);
   }
   expect(seen.size).toBe(expected);
+});
+
+test("hero: three stats; certificates link out in a new tab", async ({ page }) => {
+  await page.goto("/");
+  const stats = page.locator('#top [data-part="stat"]');
+  await expect(stats).toHaveCount(3);
+  await expect(page.locator("#top")).not.toContainText("2,500+");
+  await expect(page.locator("#top")).not.toContainText("300→20ms");
+  for (const [name, url] of [
+    [/^AWS Certified Developer – Associate \(DVA-C02\) \(opens in a new tab\)$/, certificates.aws],
+    [/^Udacity Cloud Developer \(opens in a new tab\)$/, certificates.udacity],
+  ] as const) {
+    const link = stats.getByRole("link", { name });
+    await expect(link).toHaveAttribute("href", url);
+    await expect(link).toHaveAttribute("target", "_blank");
+    await expect(link).toHaveAttribute("rel", "noopener noreferrer");
+  }
+  // The numbers stay in Experience.
+  await expect(page.locator("#experience")).toContainText("more than 2,500 stores");
+  await expect(page.locator("#experience")).toContainText("from 300 ms to 20 ms");
+});
+
+test("Education & Certifications; Work with me parked; contact keeps every type", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const block = page.locator('[data-part="certifications"]');
+  await expect(block.getByRole("heading", { level: 3 })).toHaveText("Education & Certifications");
+  await expect(block).toContainText(
+    "University of Information Technology (UIT) – VNU-HCM · Information Technology · 2025 – Present",
+  );
+  if (!features.workWithMe) {
+    await expect(page.locator("#work-with-me")).toHaveCount(0);
+    const hrefs = await page
+      .locator("a[href]")
+      .evaluateAll((els) => els.map((e) => e.getAttribute("href")!));
+    expect(hrefs.filter((h) => h.includes("work-with-me"))).toEqual([]);
+  }
+  for (const t of ["Full-time", "Part-time", "Freelance project", "Consulting"])
+    await expect(page.getByRole("radio", { name: t })).toBeVisible();
+  await expect(page.locator("#contact")).toContainText("Have a web app project instead?");
 });

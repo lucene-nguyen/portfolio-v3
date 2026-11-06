@@ -18,12 +18,25 @@
    - `workWithMe.services[3].description` and `.cta`
    - `profile.avatarCaption`
 
-Added after approval, for the owner's next look: `labels.resume` "Tải CV", `labels.newTab` "(mở trong thẻ mới)", and `experience.certificationsTitle` "Chứng chỉ".
+Round 4 (owner-provided):
+- `labels.resume` is now "Xem CV" (it opens the Drive viewer), and `labels.contactMe` is "Liên hệ với tôi".
+- `experience.certificationsTitle` is "Học vấn & Chứng chỉ", plus `experience.education`.
+- `profile.siteDescription` now says "từ đầu đến cuối".
+- The hero certificate stats keep their English names.
+
+Still for the owner's next look: `labels.newTab` "(mở trong thẻ mới)".
 
 ## All strings
 
 <!-- generated from content/en/home.ts and content/vi/home.ts -->
-_513 strings: 267 translated, 246 identical in both languages ("= EN": names, technologies, links, codes, and the English experience)._
+_516 strings: 264 translated, 252 identical in both languages ("= EN": names, technologies, links, codes, and the English experience)._
+
+### certificates
+
+| Key | EN | VI |
+|---|---|---|
+| `certificates.aws` | https://www.credly.com/badges/ceb07f06-52f7-4067-850c-83162dc7ee60 | = EN |
+| `certificates.udacity` | https://www.udacity.com/certificate/e/5448d244-6532-11ef-bdfa-8b8c4cf38908 | = EN |
 
 ### profile
 
@@ -33,7 +46,7 @@ _513 strings: 267 translated, 246 identical in both languages ("= EN": names, te
 | `profile.handle` | cuong | = EN |
 | `profile.logo` | Cuong Nguyen | = EN |
 | `profile.title` | Fullstack Software Engineer | Kỹ sư phần mềm Fullstack |
-| `profile.siteDescription` | Fullstack Software Engineer building web apps end to end: React and Next.js, Node.js and NestJS, PostgreSQL, MongoDB, Redis and AWS. | Kỹ sư phần mềm Fullstack xây dựng ứng dụng web trọn vẹn: React và Next.js, Node.js và NestJS, PostgreSQL, MongoDB, Redis và AWS. |
+| `profile.siteDescription` | Fullstack Software Engineer building web apps end to end: React and Next.js, Node.js and NestJS, PostgreSQL, MongoDB, Redis and AWS. | Kỹ sư phần mềm Fullstack xây dựng ứng dụng web từ đầu đến cuối: React và Next.js, Node.js và NestJS, PostgreSQL, MongoDB, Redis và AWS. |
 | `profile.email` | manhcuongmvc@gmail.com | = EN |
 | `profile.github` | https://github.com/lucene-nguyen | = EN |
 | `profile.githubLabel` | github.com/lucene-nguyen | = EN |
@@ -71,7 +84,8 @@ _513 strings: 267 translated, 246 identical in both languages ("= EN": names, te
 | `labels.intro` | Introduction | Giới thiệu |
 | `labels.github` | GitHub | = EN |
 | `labels.linkedin` | LinkedIn | = EN |
-| `labels.resume` | Download CV | Tải CV |
+| `labels.resume` | View CV | Xem CV |
+| `labels.contactMe` | Contact me | Liên hệ với tôi |
 | `labels.newTab` | (opens in a new tab) | (mở trong thẻ mới) |
 
 ### nav
@@ -84,10 +98,8 @@ _513 strings: 267 translated, 246 identical in both languages ("= EN": names, te
 | `nav[1].label` | Experience | Kinh nghiệm |
 | `nav[2].href` | /#kits | /vi#kits |
 | `nav[2].label` | Starter kits | Starter kit |
-| `nav[3].href` | /#work-with-me | /vi#work-with-me |
-| `nav[3].label` | Work with me | Hợp tác |
-| `nav[4].href` | /#contact | /vi#contact |
-| `nav[4].label` | Contact | Liên hệ |
+| `nav[3].href` | /#contact | /vi#contact |
+| `nav[3].label` | Contact | Liên hệ |
 
 ### hero
 
@@ -100,12 +112,13 @@ _513 strings: 267 translated, 246 identical in both languages ("= EN": names, te
 | `hero.workWithMeHref` | #work-with-me | = EN |
 | `hero.stats[0].value` | 5+ yrs | 5+ năm |
 | `hero.stats[0].label` | building production backends | xây dựng hệ thống backend thực tế |
-| `hero.stats[1].value` | 2,500+ | 2.500+ |
-| `hero.stats[1].label` | stores on services I shipped | cửa hàng dùng dịch vụ tôi phát triển |
-| `hero.stats[2].value` | 300→20ms | = EN |
-| `hero.stats[2].label` | inventory API latency | độ trễ API tồn kho |
-| `hero.stats[3].value` | AWS | = EN |
-| `hero.stats[3].label` | Certified Developer – Associate | = EN |
+| `hero.stats[0].href` |  | = EN |
+| `hero.stats[1].value` | AWS | = EN |
+| `hero.stats[1].label` | Certified Developer – Associate (DVA-C02) | = EN |
+| `hero.stats[1].href` | https://www.credly.com/badges/ceb07f06-52f7-4067-850c-83162dc7ee60 | = EN |
+| `hero.stats[2].value` | Udacity | = EN |
+| `hero.stats[2].label` | Cloud Developer | = EN |
+| `hero.stats[2].href` | https://www.udacity.com/certificate/e/5448d244-6532-11ef-bdfa-8b8c4cf38908 | = EN |
 
 ### work
 
@@ -414,7 +427,7 @@ _513 strings: 267 translated, 246 identical in both languages ("= EN": names, te
 
 | Key | EN | VI |
 |---|---|---|
-| `workWithMe.eyebrow` | 04 / work with me | 04 / hợp tác |
+| `workWithMe.eyebrow` | 00 / work with me | 00 / hợp tác |
 | `workWithMe.title` | Work with me | Hợp tác với tôi |
 | `workWithMe.intro` | Need a web app built, a backend scaled, or a second opinion on your architecture? Here's how I can help. | Bạn cần xây dựng một ứng dụng web, mở rộng backend, hay cần thêm góc nhìn về kiến trúc hệ thống? Đây là cách tôi có thể giúp. |
 | `workWithMe.services[0].name` | End-to-end web apps | Ứng dụng web trọn gói |
@@ -621,7 +634,8 @@ _513 strings: 267 translated, 246 identical in both languages ("= EN": names, te
 | `experience.roles[2].entries[0].bullets[4].result` | Improved user engagement and scalable file handling. | = EN |
 | `experience.roles[2].entries[0].bullets[5].text` | Researched and integrated Facebook APIs into the platform to support social commerce features while implementing secure file upload services. | = EN |
 | `experience.roles[2].entries[0].bullets[5].result` | Enhanced platform capabilities and user experience. | = EN |
-| `experience.certificationsTitle` | Certifications | Chứng chỉ |
+| `experience.certificationsTitle` | Education & Certifications | Học vấn & Chứng chỉ |
+| `experience.education` | University of Information Technology (UIT) – VNU-HCM · Information Technology · 2025 – Present | Trường Đại học Công nghệ Thông tin (UIT) – ĐHQG-HCM · Công nghệ Thông tin · 2025 – nay |
 | `experience.certifications[0].name` | Cloud Developer Certificate | = EN |
 | `experience.certifications[0].url` | https://www.udacity.com/certificate/e/5448d244-6532-11ef-bdfa-8b8c4cf38908 | = EN |
 | `experience.certifications[1].name` | AWS Certified Developer – Associate (DVA-C02) | = EN |
@@ -631,7 +645,7 @@ _513 strings: 267 translated, 246 identical in both languages ("= EN": names, te
 
 | Key | EN | VI |
 |---|---|---|
-| `contact.eyebrow` | 05 / contact | 05 / liên hệ |
+| `contact.eyebrow` | 04 / contact | 04 / liên hệ |
 | `contact.title` | Need a fullstack engineer on your team, full-time or part-time? I'd love to hear about it. | Bạn cần một kỹ sư fullstack cho đội ngũ, toàn thời gian hoặc bán thời gian? Hãy cùng trao đổi nhé. |
 | `contact.subline` | Have a web app project instead? Send me a brief. | Hay bạn có dự án ứng dụng web? Gửi tôi vài dòng mô tả nhé. |
 | `contact.zalo.label` | Zalo 0339696831 | = EN |

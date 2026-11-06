@@ -83,5 +83,10 @@ describe("experience (verbatim from the resume)", () => {
       expect(html).toContain(`href="${c.url}"`);
     }
     expect(experience.certifications).toHaveLength(2);
+    // Round 4: the block is "Education & Certifications" and opens with the owner's education line.
+    expect(page).toContain("Education & Certifications");
+    expect(page).toContain(
+      "University of Information Technology (UIT) – VNU-HCM · Information Technology · 2025 – Present",
+    );
   });
 });
