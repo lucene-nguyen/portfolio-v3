@@ -38,13 +38,15 @@ export function KitsSection() {
                   <div className={card}>
                     {body}
                     <div className="flex flex-wrap gap-x-5 gap-y-2 text-[15px] font-semibold">
-                      <a
-                        href={k.href}
-                        aria-label={`${labels.viewRepo}: ${k.name}`}
-                        className="inline-flex min-h-11 items-center text-accent underline-offset-4 hover:underline"
-                      >
-                        {labels.viewRepo}
-                      </a>
+                      {shown(k.href) && (
+                        <a
+                          href={k.href}
+                          aria-label={`${labels.viewRepo}: ${k.name}`}
+                          className="inline-flex min-h-11 items-center text-accent underline-offset-4 hover:underline"
+                        >
+                          {labels.viewRepo}
+                        </a>
+                      )}
                       <a
                         href={k.demo}
                         target="_blank"

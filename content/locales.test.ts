@@ -89,5 +89,8 @@ describe("Vietnamese copy", () => {
     for (const c of [en, vi])
       for (const k of c.kits.items.filter((k) => k.state === "active"))
         expect(k.href, k.name).toMatch(/^https:\/\//);
+    for (const c of [en, vi])
+      for (const k of c.kits.items)
+        if ("demo" in k && k.demo) expect(k.demo, `${k.name} demo`).toMatch(/^https:\/\//);
   });
 });
