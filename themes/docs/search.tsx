@@ -50,7 +50,8 @@ export function SearchDialog({ ref }: { ref: React.Ref<SearchHandle> }) {
     const onKey = (e: KeyboardEvent) => {
       const slash =
         e.key === "/" && !e.ctrlKey && !e.metaKey && !e.altKey && !e.isComposing && !isTyping(e.target);
-      const k = e.key.toLowerCase() === "k" && (e.ctrlKey || e.metaKey);
+      // Autofill fires keydown events without a key.
+      const k = e.key?.toLowerCase() === "k" && (e.ctrlKey || e.metaKey);
       if (slash || k) {
         e.preventDefault();
         openRef.current();
