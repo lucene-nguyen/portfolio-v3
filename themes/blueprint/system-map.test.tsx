@@ -1,7 +1,10 @@
 // @vitest-environment node
 import { renderToStaticMarkup } from "react-dom/server";
 import { expect, it } from "vitest";
-import { mapNodes, SystemMap } from "./system-map";
+import { contents } from "@/content";
+import { mapNodesFor, SystemMap } from "./system-map";
+
+const mapNodes = mapNodesFor(contents.en);
 import { features } from "@/lib/features";
 
 it("renders to static HTML with real links (no JavaScript needed)", () => {

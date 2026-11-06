@@ -1,9 +1,10 @@
-import { kits } from "@/content/home";
+import { getContent } from "@/lib/i18n-server";
 import { shown } from "@/lib/placeholder";
 import { cn } from "@/lib/utils";
 import { container, kitCard as card, SectionHeader } from "./ui";
 
 export function KitsSection() {
+  const { kits } = getContent();
   return (
     <section id="kits" aria-labelledby="kits-title" className="border-t border-border">
       <div className={`${container} flex flex-col gap-10 py-[88px]`}>

@@ -3,14 +3,18 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { container } from "@/components/home/ui";
-import { stickerCopy as c } from "@/content/home";
-import { projects, projectsWith, skills, STICKER_FILLS } from "./stickers";
+import { useContent } from "@/components/i18n/locale-provider";
+import { projectsFor, projectsWith, skillsOf, STICKER_FILLS } from "./stickers";
 
 const DRAG_THRESHOLD = 4;
 // Deterministic scatter so server and client agree and the board looks hand-placed.
 const tilt = (i: number) => ((i * 37) % 13) - 6;
 
 export function StickerBoard() {
+  const content = useContent();
+  const { stickerCopy: c } = content;
+  const projects = projectsFor(content);
+  const skills = skillsOf(projects);
   const [selected, setSelected] = useState<string | null>(null);
   const [offsets, setOffsets] = useState<Record<string, { x: number; y: number }>>({});
   const drag = useRef<{
@@ -24,7 +28,7 @@ export function StickerBoard() {
   const suppressClick = useRef(false);
 
   const toggle = (skill: string) => setSelected((s) => (s === skill ? null : skill));
-  const shown = selected ? projectsWith(selected) : projects;
+  const shown = selected ? projectsWith(projects, selected) : projects;
 
   return (
     <section aria-labelledby="stickers-title" className="border-b-[3px] border-border">

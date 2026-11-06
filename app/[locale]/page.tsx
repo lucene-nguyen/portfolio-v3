@@ -10,15 +10,21 @@ import { RateLimitLab } from "@/components/lab/rate-limit-lab";
 import { WorkSection } from "@/components/home/work-section";
 
 import { features } from "@/lib/features";
+import { homeAlternates, homePath, type Locale } from "@/lib/i18n";
+import { setLocale } from "@/lib/i18n-server";
 import { ogBase } from "@/lib/site";
 
-// Canonical lives here, not in the root layout, so other pages (404, future routes) don't inherit "/".
-export const metadata: Metadata = {
-  alternates: { canonical: "/" },
-  openGraph: { type: "website", url: "/", ...ogBase },
-};
+// Canonical lives here, not in the root layout, so other pages (404, future routes) don't inherit it.
+export async function generateMetadata({ params }: PageProps<"/[locale]">): Promise<Metadata> {
+  const locale = (await params).locale as Locale;
+  return {
+    alternates: { canonical: homePath(locale), languages: homeAlternates },
+    openGraph: { type: "website", url: homePath(locale), ...ogBase },
+  };
+}
 
-export default function Home() {
+export default async function Home({ params }: PageProps<"/[locale]">) {
+  setLocale((await params).locale as Locale);
   return (
     <>
       <main id="main" className="flex-1">

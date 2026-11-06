@@ -4,12 +4,13 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import { Grid3x3 } from "lucide-react";
 import { useThemeSlot } from "@/components/theme/use-theme-slot";
-import { swissCopy } from "@/content/home";
+import { useContent } from "@/components/i18n/locale-provider";
 
 const KEY = "swiss:grid";
 
 /** 12-column grid (decorative), aligned with the 1200px container; hidden until "Show grid". */
 export default function SwissGrid() {
+  const { swissCopy } = useContent();
   const [on, setOn] = useState(() => {
     try {
       return localStorage.getItem(KEY) === "on";

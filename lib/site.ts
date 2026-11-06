@@ -1,4 +1,4 @@
-import { profile } from "@/content/home";
+import { profile } from "@/content/en/home";
 
 /** Open Graph fields every page shares (Next merges `openGraph` shallowly, so pages spread this). */
 export const ogBase = { siteName: profile.name, locale: "en_US" } as const;

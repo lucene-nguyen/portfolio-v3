@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { container } from "@/components/home/ui";
-import { experience, kits, lab, profile, systemMap, work } from "@/content/home";
+import { useContent } from "@/components/i18n/locale-provider";
+import type { Content } from "@/content";
 import { features } from "@/lib/features";
 
 interface MapNode {
@@ -22,42 +23,54 @@ const SLOTS = [
   { x: 810, y: 360 },
 ];
 
-const repo = kits.items.find((k) => k.href === lab.repo.href);
+export function mapNodesFor({ experience, kits, lab, work }: Content): MapNode[] {
+  const repo = kits.items.find((k) => k.href === lab.repo.href);
+  // Case studies parked (LEARNING-164): the map shows the roles and the starter kits instead.
+  const careerNodes = [
+    ...experience.roles.map((r) => ({
+      href: "#experience",
+      title: r.company,
+      tech: r.summary,
+      impact: r.period,
+    })),
+    {
+      href: "#kits",
+      title: kits.title,
+      tech: kits.items.map((k) => k.name).join(" · "),
+      impact: kits.items.map((k) => k.status).join(" · "),
+    },
+  ];
 
-// Case studies parked (LEARNING-164): the map shows the roles and the starter kits instead.
-const careerNodes = [
-  ...experience.roles.map((r) => ({
-    href: "#experience",
-    title: r.company,
-    tech: r.summary,
-    impact: r.period,
-  })),
-  {
-    href: "#kits",
-    title: kits.title,
-    tech: kits.items.map((k) => k.name).join(" · "),
-    impact: kits.items.map((k) => k.status).join(" · "),
-  },
-];
+  const projectNodes = [
+    ...work.items.map((c) => ({
+      href: `/work/${c.slug}`,
+      title: c.title,
+      tech: c.tags.join(" · "),
+      impact: c.metrics[0] ? `${c.metrics[0].value} ${c.metrics[0].label}` : c.meta,
+    })),
+    ...(repo
+      ? [
+          {
+            href: repo.href,
+            title: repo.name,
+            tech: repo.stack,
+            impact: repo.status,
+            external: true,
+          },
+        ]
+      : []),
+  ];
 
-const projectNodes = [
-  ...work.items.map((c) => ({
-    href: `/work/${c.slug}`,
-    title: c.title,
-    tech: c.tags.join(" · "),
-    impact: c.metrics[0] ? `${c.metrics[0].value} ${c.metrics[0].label}` : c.meta,
-  })),
-  ...(repo
-    ? [{ href: repo.href, title: repo.name, tech: repo.stack, impact: repo.status, external: true }]
-    : []),
-];
-
-export const mapNodes: MapNode[] = (features.caseStudies ? projectNodes : careerNodes)
-  .slice(0, SLOTS.length)
-  .map((n, i) => ({ ...n, ...SLOTS[i] }));
+  return (features.caseStudies ? projectNodes : careerNodes)
+    .slice(0, SLOTS.length)
+    .map((n, i) => ({ ...n, ...SLOTS[i] }));
+}
 
 /** Static HTML + SVG: renders and navigates without JavaScript. */
 export function SystemMap() {
+  const content = useContent();
+  const { profile, systemMap } = content;
+  const mapNodes = mapNodesFor(content);
   return (
     <section aria-labelledby="system-map-title" className="border-b border-border">
       <div className={`${container} flex flex-col gap-8 py-16`}>

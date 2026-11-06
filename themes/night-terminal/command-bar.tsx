@@ -8,23 +8,25 @@ import { SquareTerminal } from "lucide-react";
 import { useTheme } from "@/components/theme/theme-provider";
 import { isTyping, restoreFocus } from "@/lib/dom";
 import { complete, run, type Line, type TerminalContext } from "@/lib/terminal/commands";
-import { experience, profile, publicStudies } from "@/content/home";
+import { useContent, useLocale } from "@/components/i18n/locale-provider";
+import { homeHref } from "@/lib/i18n";
 import { activeThemes } from "@/themes/registry";
-
-const ctx: TerminalContext = {
-  projects: publicStudies.map(({ slug, title }) => ({ slug, title })),
-  themes: activeThemes.map(({ id, name }) => ({ id, name })),
-  resume: [
-    `${profile.name} — ${profile.title}`,
-    ...experience.roles.map((r) => `${r.period}  ${r.company}`),
-  ],
-};
 
 const WELCOME: Line[] = [
   { kind: "out", text: 'Type "help" to list commands. Tab completes, ↑/↓ for history.' },
 ];
 
 export default function CommandBar() {
+  const { experience, profile, publicStudies } = useContent();
+  const locale = useLocale();
+  const ctx: TerminalContext = {
+    projects: publicStudies.map(({ slug, title }) => ({ slug, title })),
+    themes: activeThemes.map(({ id, name }) => ({ id, name })),
+    resume: [
+      `${profile.name} — ${profile.title}`,
+      ...experience.roles.map((r) => `${r.period}  ${r.company}`),
+    ],
+  };
   const navSlot = useThemeSlot("theme-slot-nav");
   const dialogRef = useRef<HTMLDialogElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -73,7 +75,9 @@ export default function CommandBar() {
     setLines((l) => [...l, { kind: "out", text: `$ ${input}` }, ...result.lines]);
     if (result.action?.type === "navigate") {
       close();
-      router.push(result.action.href);
+      // Section links ("/#contact") go to this locale's home page.
+      const href = result.action.href;
+      router.push(href.startsWith("/#") ? homeHref(locale, href.slice(1)) : href);
     } else if (result.action?.type === "theme") {
       close();
       setTheme(result.action.id);

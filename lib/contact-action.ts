@@ -1,7 +1,9 @@
 "use server";
 
 import { headers } from "next/headers";
+import { contents } from "@/content";
 import { CONTACT_LIMITS, validate, type Field } from "./contact";
+import { isLocale } from "./i18n";
 import { deliver } from "./contact-delivery";
 import { getLimiter } from "./rate-limit/store";
 import { visitorId } from "./rate-limit/visitor";
@@ -25,7 +27,8 @@ export async function submitContact(_: ContactState, form: FormData): Promise<Co
     return { status: "sent", at };
   }
 
-  const result = validate(form);
+  const locale = String(form.get("locale") ?? "");
+  const result = validate(form, contents[isLocale(locale) ? locale : "en"].contactCopy.errors);
   if (!result.ok) return { status: "invalid", errors: result.errors, values: result.values, at };
 
   try {

@@ -1,7 +1,8 @@
-import { experience, labels } from "@/content/home";
+import { getContent } from "@/lib/i18n-server";
 import { container, SectionHeader, Tag } from "./ui";
 
 export function ExperienceSection() {
+  const { experience, labels } = getContent();
   return (
     <section id="experience" aria-labelledby="experience-title" className="border-t border-border">
       <div className={`${container} py-[88px]`}>

@@ -1,10 +1,11 @@
 import { ArrowRight } from "lucide-react";
-import { hero, labels, profile } from "@/content/home";
+import { getContent } from "@/lib/i18n-server";
 import { cn } from "@/lib/utils";
 import { shown } from "@/lib/placeholder";
 import { buttonPrimary, buttonSecondary, container } from "./ui";
 
 export function Hero() {
+  const { hero, labels, profile } = getContent();
   return (
     <section
       id="top"

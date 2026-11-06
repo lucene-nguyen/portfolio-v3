@@ -1,12 +1,13 @@
 import Image from "next/image";
 import { Suspense } from "react";
 import { Mail, MessageCircle } from "lucide-react";
-import { contact, labels, profile } from "@/content/home";
+import { getContent } from "@/lib/i18n-server";
 import { shown } from "@/lib/placeholder";
 import { ContactForm, ContactFormFromUrl } from "./contact-form";
 import { buttonPrimary, buttonSecondary, container } from "./ui";
 
 export function ContactSection() {
+  const { contact, labels, profile } = getContent();
   return (
     <footer id="contact" aria-labelledby="contact-title" className="border-t border-border">
       <div className={`${container} flex flex-col gap-10 pt-24 pb-12`}>

@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { labels, work } from "@/content/home";
+import { getContent } from "@/lib/i18n-server";
 import { container, SectionHeader, Tag } from "./ui";
 
 export function WorkSection() {
+  const { labels, work } = getContent();
   return (
     <section id="work" aria-labelledby="work-title" className="border-t border-border">
       <div className={`${container} flex flex-col gap-10 py-[88px]`}>

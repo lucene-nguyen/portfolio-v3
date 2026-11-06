@@ -2,7 +2,8 @@
 
 import { useSearchParams } from "next/navigation";
 import { useActionState, useEffect, useRef } from "react";
-import { collabTypes, contactCopy as c } from "@/content/home";
+import { useContent, useLocale } from "@/components/i18n/locale-provider";
+import { COLLAB_TYPE_IDS } from "@/content/collab";
 import { CONTACT_LIMITS, type Field } from "@/lib/contact";
 import { submitContact, type ContactState } from "@/lib/contact-action";
 import { cn } from "@/lib/utils";
@@ -14,7 +15,8 @@ const input =
   "min-h-11 w-full rounded-[10px] border border-text-subtle bg-surface px-3 py-2 text-text aria-[invalid=true]:border-danger";
 
 // The radio group's first option takes focus for a type error.
-const fieldId = (f: Field) => (f === "type" ? `contact-type-${collabTypes[0].id}` : `contact-${f}`);
+const fieldId = (f: Field) =>
+  f === "type" ? `contact-type-${COLLAB_TYPE_IDS[0]}` : `contact-${f}`;
 
 /** Reads the collaboration type preselected by a Work with me CTA (`/?type=…#contact`). */
 export function ContactFormFromUrl() {
@@ -22,6 +24,8 @@ export function ContactFormFromUrl() {
 }
 
 export function ContactForm({ preset = null }: { preset?: string | null }) {
+  const { collabTypes, contactCopy: c } = useContent();
+  const locale = useLocale();
   const [state, action, pending] = useActionState<ContactState, FormData>(submitContact, {
     status: "idle",
   });
@@ -189,6 +193,8 @@ export function ContactForm({ preset = null }: { preset?: string | null }) {
         {error("phone")}
       </div>
 
+      {/* Errors come back in the page's language. */}
+      <input type="hidden" name="locale" value={locale} />
       {/* Honeypot: hidden from people and assistive tech; bots fill it in. */}
       <div aria-hidden className="absolute -left-[9999px] size-px overflow-hidden">
         <label htmlFor="contact-hp">{c.honeypot}</label>

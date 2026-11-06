@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { kits, workWithMe as c } from "@/content/home";
+import { getContent } from "@/lib/i18n-server";
 import { container, kitCard, SectionHeader } from "./ui";
 
 export function WorkWithMeSection() {
+  const { kits, workWithMe: c } = getContent();
   return (
     <section
       id="work-with-me"

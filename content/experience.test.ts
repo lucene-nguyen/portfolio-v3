@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { ExperienceSection } from "@/components/home/experience-section";
-import { experience } from "./home";
+import { experience } from "./en/home";
 
 // The resume as one line of text, with only the owner-approved typo fixes (LEARNING-183).
 const source = readFileSync("docs/resume/resume-source.txt", "utf8")

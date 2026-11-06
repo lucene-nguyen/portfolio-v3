@@ -1,9 +1,10 @@
 import { container } from "@/components/home/ui";
-import { experience, mangaCopy as c } from "@/content/home";
+import { useContent } from "@/components/i18n/locale-provider";
+import type { Content } from "@/content";
 import { shown } from "@/lib/placeholder";
 
 /** Oldest role first: the story reads left to right. */
-export const chapters = [...experience.roles].reverse();
+export const chaptersOf = (experience: Content["experience"]) => [...experience.roles].reverse();
 
 /** Original abstract art (speed lines, halftone, laptop glyph). No characters. */
 function PanelArt({ seed, label }: { seed: number; label: string }) {
@@ -50,6 +51,8 @@ function PanelArt({ seed, label }: { seed: number; label: string }) {
 }
 
 export function MangaStrip() {
+  const { experience, mangaCopy: c } = useContent();
+  const chapters = chaptersOf(experience);
   return (
     <section aria-labelledby="manga-title" className="border-b-4 border-border">
       <div className={`${container} flex flex-col gap-6 py-12`}>

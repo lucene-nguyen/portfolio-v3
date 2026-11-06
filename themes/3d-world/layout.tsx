@@ -6,13 +6,14 @@ import { container } from "@/components/home/ui";
 import { useThemeSlot } from "@/components/theme/use-theme-slot";
 import { zones } from "@/lib/world";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Box } from "lucide-react";
-import { worldCopy as c } from "@/content/home";
+import { useContent } from "@/components/i18n/locale-provider";
 import type { Input, Zone } from "@/lib/world";
 import type { SceneHandle } from "./scene";
 
 const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function World({ onExit }: { onExit: (zone?: Zone["id"]) => void }) {
+  const { worldCopy: c } = useContent();
   const dialog = useRef<HTMLDialogElement>(null);
   const host = useRef<HTMLDivElement>(null);
   const handle = useRef<SceneHandle | null>(null);
@@ -166,6 +167,7 @@ function World({ onExit }: { onExit: (zone?: Zone["id"]) => void }) {
 
 /** The 3D world opens from an entry block below the home hero; closing it returns to the standard page. */
 export default function WorldLayout({ children }: { children: React.ReactNode }) {
+  const { worldCopy: c } = useContent();
   const [open, setOpen] = useState(false);
   const [motionOk] = useState(() => !reducedMotion());
   const slot = useThemeSlot("theme-slot-home");

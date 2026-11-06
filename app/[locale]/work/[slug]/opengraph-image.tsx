@@ -1,4 +1,4 @@
-import { profile, work } from "@/content/home";
+import { profile, work } from "@/content/en/home";
 import { ogImage, ogSize } from "@/lib/og";
 
 export const alt = `Case study by ${profile.name}`;

@@ -1,6 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
-import { experience } from "../content/home";
+import { experience } from "../content/en/home";
 import { features } from "../lib/features";
 
 const strip = (page: Page) => page.getByRole("region", { name: "The story so far" });

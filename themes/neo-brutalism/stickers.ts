@@ -1,4 +1,4 @@
-import { kits, labels, work } from "@/content/home";
+import type { Content } from "@/content";
 import { features } from "@/lib/features";
 import { shown } from "@/lib/placeholder";
 
@@ -21,23 +21,25 @@ export interface BoardProject {
 }
 
 /** What the board filters: the case studies, or the starter kits while those are parked (LEARNING-164). */
-export const projects: BoardProject[] = features.caseStudies
-  ? work.items.map((w) => ({
-      key: w.slug,
-      title: w.title,
-      tags: w.tags,
-      href: `/work/${w.slug}`,
-      linkLabel: labels.readCaseStudy,
-    }))
-  : kits.items.map((k) => ({
-      key: k.name,
-      title: k.name,
-      tags: shown(k.stack)?.split(" · ") ?? [],
-      href: shown(k.href),
-      linkLabel: labels.viewRepo,
-    }));
+export const projectsFor = ({ kits, labels, work }: Content): BoardProject[] =>
+  features.caseStudies
+    ? work.items.map((w) => ({
+        key: w.slug,
+        title: w.title,
+        tags: w.tags,
+        href: `/work/${w.slug}`,
+        linkLabel: labels.readCaseStudy,
+      }))
+    : kits.items.map((k) => ({
+        key: k.name,
+        title: k.name,
+        tags: shown(k.stack)?.split(" · ") ?? [],
+        href: shown(k.href),
+        linkLabel: labels.viewRepo,
+      }));
 
-/** Every technology tag used by a project, in first-seen order. */
-export const skills = [...new Set(projects.flatMap((p) => p.tags))];
+/** Every technology tag used by the projects, in first-seen order. */
+export const skillsOf = (projects: BoardProject[]) => [...new Set(projects.flatMap((p) => p.tags))];
 
-export const projectsWith = (skill: string) => projects.filter((p) => p.tags.includes(skill));
+export const projectsWith = (projects: BoardProject[], skill: string) =>
+  projects.filter((p) => p.tags.includes(skill));

@@ -1,34 +1,32 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useRef } from "react";
 import { Menu, Search } from "lucide-react";
-import {
-  docsCopy,
-  experience,
-  kits,
-  lab,
-  publicStudies,
-  skills,
-  work,
-  workWithMe,
-} from "@/content/home";
+import { useContent, useLocale, usePublicPathname } from "@/components/i18n/locale-provider";
+import { homeHref } from "@/lib/i18n";
 import { features } from "@/lib/features";
 import { SearchDialog, type SearchHandle } from "./search";
 
-const homeLinks = [
-  { href: "/#top", label: docsCopy.home },
-  { href: "/#skills", label: skills.title },
-  { href: "/#experience", label: experience.title },
-  ...(features.caseStudies ? [{ href: "/#work", label: work.title }] : []),
-  ...(features.lab ? [{ href: "/#lab", label: lab.title }] : []),
-  { href: "/#kits", label: kits.title },
-  { href: "/#work-with-me", label: workWithMe.title },
+function useHomeLinks() {
+  const { docsCopy, experience, kits, lab, skills, work, workWithMe } = useContent();
+  const locale = useLocale();
+  const at = (hash: string) => homeHref(locale, hash);
+  return [
+  { href: at("#top"), label: docsCopy.home },
+  { href: at("#skills"), label: skills.title },
+  { href: at("#experience"), label: experience.title },
+  ...(features.caseStudies ? [{ href: at("#work"), label: work.title }] : []),
+  ...(features.lab ? [{ href: at("#lab"), label: lab.title }] : []),
+  { href: at("#kits"), label: kits.title },
+  { href: at("#work-with-me"), label: workWithMe.title },
 ];
+}
 
 function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
-  const pathname = usePathname();
+  const { docsCopy, publicStudies, work } = useContent();
+  const homeLinks = useHomeLinks();
+  const pathname = usePublicPathname();
   return (
     <nav aria-label={docsCopy.sidebar} className="flex flex-col gap-6 text-[15px]">
       <ul className="flex flex-col gap-0.5">
@@ -67,7 +65,8 @@ function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
 }
 
 function Breadcrumbs() {
-  const pathname = usePathname();
+  const { docsCopy, work } = useContent();
+  const pathname = usePublicPathname();
   const study = work.items.find((c) => pathname === `/work/${c.slug}`);
   const trail = study
     ? [{ href: "/", label: docsCopy.home }, ...(features.caseStudies ? [{ href: "/#work", label: work.title }] : []), { label: study.title }]
@@ -96,6 +95,7 @@ function Breadcrumbs() {
 
 export default function DocsLayout({ children }: { children: React.ReactNode }) {
   const drawer = useRef<HTMLDialogElement>(null);
+  const { docsCopy } = useContent();
   const search = useRef<SearchHandle>(null);
   const searchButton = (
     <button
