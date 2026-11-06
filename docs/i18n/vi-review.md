@@ -24,12 +24,14 @@ Round 4 (owner-provided):
 - `profile.siteDescription` now says "từ đầu đến cuối".
 - The hero certificate stats keep their English names.
 
+LEARNING-188 (send from your own mailbox): the `contactCopy.compose.*` panel strings, `contactCopy.counter`, and `messageLong` (now 1,500 characters).
+
 Still for the owner's next look: `labels.newTab` "(mở trong thẻ mới)".
 
 ## All strings
 
 <!-- generated from content/en/home.ts and content/vi/home.ts -->
-_516 strings: 264 translated, 252 identical in both languages ("= EN": names, technologies, links, codes, and the English experience)._
+_533 strings: 280 translated, 253 identical in both languages ("= EN": names, technologies, links, codes, and the English experience)._
 
 ### certificates
 
@@ -112,7 +114,6 @@ _516 strings: 264 translated, 252 identical in both languages ("= EN": names, te
 | `hero.workWithMeHref` | #work-with-me | = EN |
 | `hero.stats[0].value` | 5+ yrs | 5+ năm |
 | `hero.stats[0].label` | building production backends | xây dựng hệ thống backend thực tế |
-| `hero.stats[0].href` |  | = EN |
 | `hero.stats[1].value` | AWS | = EN |
 | `hero.stats[1].label` | Certified Developer – Associate (DVA-C02) | = EN |
 | `hero.stats[1].href` | https://www.credly.com/badges/ceb07f06-52f7-4067-850c-83162dc7ee60 | = EN |
@@ -657,6 +658,24 @@ _516 strings: 264 translated, 252 identical in both languages ("= EN": names, te
 
 | Key | EN | VI |
 |---|---|---|
+| `contactCopy.compose.title` | Send from your email | Gửi từ email của bạn |
+| `contactCopy.compose.intro` | Pick how to send it. You keep a copy in your Sent folder. | Chọn cách gửi. Bạn sẽ giữ một bản trong thư mục Đã gửi. |
+| `contactCopy.compose.preview` | Message preview | Xem trước tin nhắn |
+| `contactCopy.compose.to` | To | Đến |
+| `contactCopy.compose.subject` | Subject | Tiêu đề |
+| `contactCopy.compose.fields.name` | Name | Họ và tên |
+| `contactCopy.compose.fields.email` | Email | = EN |
+| `contactCopy.compose.fields.type` | Collaboration | Hình thức hợp tác |
+| `contactCopy.compose.fields.phone` | Phone or Zalo | Số điện thoại / Zalo |
+| `contactCopy.compose.fields.message` | Message | Nội dung |
+| `contactCopy.compose.gmail` | Open in Gmail | Mở bằng Gmail |
+| `contactCopy.compose.outlook` | Open in Outlook | Mở bằng Outlook |
+| `contactCopy.compose.mailto` | Default email app | Ứng dụng email mặc định |
+| `contactCopy.compose.copy` | Copy message | Sao chép tin nhắn |
+| `contactCopy.compose.copied` | Copied | Đã sao chép |
+| `contactCopy.compose.copyFailed` | Couldn't copy. Select the preview text and copy it. | Không sao chép được. Hãy chọn đoạn xem trước và sao chép. |
+| `contactCopy.compose.close` | Close | Đóng |
+| `contactCopy.counter(…)` | 3 / 5 | = EN |
 | `contactCopy.formTitle` | Send a message | Gửi tin nhắn |
 | `contactCopy.name` | Name | Họ và tên |
 | `contactCopy.email` | Email | = EN |
@@ -679,5 +698,5 @@ _516 strings: 264 translated, 252 identical in both languages ("= EN": names, te
 | `contactCopy.errors.typeRequired` | Choose how you'd like to work together. | Vui lòng chọn hình thức hợp tác. |
 | `contactCopy.errors.messageRequired` | Tell me what you need and your timeline. | Hãy cho tôi biết bạn cần gì và mốc thời gian. |
 | `contactCopy.errors.messageShort` | Add a bit more detail (at least 20 characters). | Hãy thêm chi tiết (ít nhất 20 ký tự). |
-| `contactCopy.errors.messageLong` | Keep it under 4,000 characters. | Vui lòng viết dưới 4.000 ký tự. |
+| `contactCopy.errors.messageLong` | Keep it under 1,500 characters. | Vui lòng viết dưới 1.500 ký tự. |
 | `contactCopy.errors.phoneInvalid` | Enter a phone or Zalo number using digits (spaces, + and dashes are fine). | Vui lòng nhập số điện thoại hoặc Zalo bằng chữ số (được dùng khoảng trắng, + và dấu gạch). |

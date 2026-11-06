@@ -1,12 +1,15 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useActionState, useEffect, useRef } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { useContent, useLocale } from "@/components/i18n/locale-provider";
 import { COLLAB_TYPE_IDS } from "@/content/collab";
-import { CONTACT_LIMITS, type Field } from "@/lib/contact";
+import { CONTACT_LIMITS, MESSAGE_MAX, validate, type Field } from "@/lib/contact";
 import { submitContact, type ContactState } from "@/lib/contact-action";
+import { features } from "@/lib/features";
+import { composeMail, type ComposedMail } from "@/lib/mail-compose";
 import { cn } from "@/lib/utils";
+import { ComposeDialog } from "./compose-dialog";
 import { buttonPrimary } from "./ui";
 
 // Control borders use text-subtle (≥ 4.5:1 on every ground in every theme), like the theme switcher:
@@ -24,20 +27,45 @@ export function ContactFormFromUrl() {
 }
 
 export function ContactForm({ preset = null }: { preset?: string | null }) {
-  const { collabTypes, contactCopy: c } = useContent();
+  const content = useContent();
+  const { collabTypes, contactCopy: c } = content;
   const locale = useLocale();
   const [state, action, pending] = useActionState<ContactState, FormData>(submitContact, {
     status: "idle",
   });
+  // LEARNING-188 (server delivery parked): validate here, then hand the message to the visitor's mailbox.
+  const [check, setCheck] = useState<Pick<ContactState, "errors" | "values" | "at"> | null>(null);
+  const [mail, setMail] = useState<ComposedMail | null>(null);
+  const [length, setLength] = useState(0);
+  const dialog = useRef<HTMLDialogElement>(null);
   const summary = useRef<HTMLDivElement>(null);
-  const errors = state.errors ?? {};
+  const result = features.contactServer ? state : (check ?? {});
+  const errors = result.errors ?? {};
   const count = Object.keys(errors).length;
-  const v = state.values ?? {};
+  const v = result.values ?? {};
 
   // After a failed submit, move focus to the summary so screen-reader and keyboard users land on it.
   useEffect(() => {
-    if (state.status === "invalid") summary.current?.focus();
-  }, [state.at, state.status]);
+    if (count > 0) summary.current?.focus();
+  }, [result.at, count]);
+
+  // Open after the preview has rendered (showModal needs the dialog's content in place).
+  useEffect(() => {
+    if (mail && !dialog.current?.open) dialog.current?.showModal();
+  }, [mail]);
+
+  function compose(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const r = validate(new FormData(e.currentTarget), c.errors);
+    if (!r.ok) {
+      setCheck({ errors: r.errors, values: r.values, at: Date.now() });
+      return;
+    }
+    setCheck(null);
+    const next = composeMail(r.data, content);
+    if (mail?.text === next.text) dialog.current?.showModal();
+    else setMail(next);
+  }
 
   const describe = (f: Field, hint?: string) =>
     [hint, errors[f] && `contact-${f}-error`].filter(Boolean).join(" ") || undefined;
@@ -51,7 +79,8 @@ export function ContactForm({ preset = null }: { preset?: string | null }) {
 
   return (
     <form
-      action={action}
+      action={features.contactServer ? action : undefined}
+      onSubmit={features.contactServer ? undefined : compose}
       noValidate
       aria-labelledby="contact-form-title"
       className="flex flex-col gap-5"
@@ -165,13 +194,21 @@ export function ContactForm({ preset = null }: { preset?: string | null }) {
           name="message"
           required
           minLength={20}
-          maxLength={4000}
+          maxLength={MESSAGE_MAX}
           rows={5}
           defaultValue={v.message}
+          onInput={(e) => setLength(e.currentTarget.value.length)}
           aria-invalid={!!errors.message}
-          aria-describedby={describe("message", "contact-message-hint")}
+          aria-describedby={describe("message", "contact-message-hint contact-message-count")}
           className={cn(input, "resize-y")}
         />
+        <p
+          id="contact-message-count"
+          data-part="counter"
+          className="text-right font-mono text-xs text-text-muted"
+        >
+          {c.counter(length, MESSAGE_MAX)}
+        </p>
         {error("message")}
       </div>
 
@@ -214,6 +251,7 @@ export function ContactForm({ preset = null }: { preset?: string | null }) {
           {state.status === "sent" ? c.sent : ""}
         </p>
       </div>
+      {!features.contactServer && <ComposeDialog ref={dialog} mail={mail} />}
       {/* Present from the first render (sr-only while empty) so the message is announced. */}
       <div role="alert" className="text-danger empty:sr-only">
         {state.status === "limited"

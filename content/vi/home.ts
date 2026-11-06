@@ -512,6 +512,29 @@ export const contact = {
 
 // Form copy written with design:ux-copy: labels say what to enter; errors say what's wrong and how to fix it.
 export const contactCopy = {
+  compose: {
+    title: "Gửi từ email của bạn",
+    intro: "Chọn cách gửi. Bạn sẽ giữ một bản trong thư mục Đã gửi.",
+    preview: "Xem trước tin nhắn",
+    to: "Đến",
+    subject: "Tiêu đề",
+    fields: {
+      name: "Họ và tên",
+      email: "Email",
+      type: "Hình thức hợp tác",
+      phone: "Số điện thoại / Zalo",
+      message: "Nội dung",
+    },
+    gmail: "Mở bằng Gmail",
+    outlook: "Mở bằng Outlook",
+    mailto: "Ứng dụng email mặc định",
+    copy: "Sao chép tin nhắn",
+    copied: "Đã sao chép",
+    copyFailed: "Không sao chép được. Hãy chọn đoạn xem trước và sao chép.",
+    close: "Đóng",
+  },
+  counter: (n: number, max: number) =>
+    `${n.toLocaleString("vi-VN")} / ${max.toLocaleString("vi-VN")}`,
   formTitle: "Gửi tin nhắn",
   name: "Họ và tên",
   email: "Email",
@@ -537,7 +560,7 @@ export const contactCopy = {
     typeRequired: "Vui lòng chọn hình thức hợp tác.",
     messageRequired: "Hãy cho tôi biết bạn cần gì và mốc thời gian.",
     messageShort: "Hãy thêm chi tiết (ít nhất 20 ký tự).",
-    messageLong: "Vui lòng viết dưới 4.000 ký tự.",
+    messageLong: "Vui lòng viết dưới 1.500 ký tự.",
     phoneInvalid:
       "Vui lòng nhập số điện thoại hoặc Zalo bằng chữ số (được dùng khoảng trắng, + và dấu gạch).",
   },
