@@ -10,7 +10,7 @@ Per item: /spec → /implement → /test → /review → merge into `develop` �
 | LEARNING-165 Skills with icons | done | `feat/LEARNING-165-skills` |
 | LEARNING-166 Work with me | done | `feat/LEARNING-166-work-with-me` |
 | LEARNING-167 Contact form | done | `feat/LEARNING-167-contact-form` |
-| LEARNING-168 English / Vietnamese | doing | `feat/LEARNING-168-i18n` |
+| LEARNING-168 English / Vietnamese | done | `feat/LEARNING-168-i18n` |
 
 ## Round 3
 
@@ -18,4 +18,4 @@ Per item: /spec → /implement → /test → /review → merge into `develop` �
 |---|---|---|
 | LEARNING-184 Lock themes | done | `feat/LEARNING-184-theme-lock` |
 | LEARNING-183 Experience, full and verbatim | done | `feat/LEARNING-183-experience` |
-| LEARNING-168 finish (approved VI copy) | doing | `feat/LEARNING-168-i18n` |
+| LEARNING-168 finish (approved VI copy) | done | `feat/LEARNING-168-i18n` |

@@ -1,6 +1,6 @@
 # LEARNING-168: Round 2, English / Vietnamese
 
-Branch: `feat/LEARNING-168-i18n` → `develop` · Spec: [docs/specs/LEARNING-168.md](../specs/LEARNING-168.md) · **Not merged: waiting for the owner to approve [docs/i18n/vi-review.md](../i18n/vi-review.md).**
+Branch: `feat/LEARNING-168-i18n` → `develop` · Spec: [docs/specs/LEARNING-168.md](../specs/LEARNING-168.md) · **Vietnamese copy approved by the owner (2026-11-06):** [docs/i18n/vi-review.md](../i18n/vi-review.md).
 
 ## What changed
 - **Routing**: `/` is English and `/vi` is Vietnamese.
@@ -45,3 +45,25 @@ CHANGES REQUESTED, then fixed:
   - the sitemap lists hreflang alternates both ways;
   - a number-parity test runs over every string.
 - **Nits left for later** (listed in the review doc): the OG alt text, a localized 404 page, the terminal "Command line" label.
+
+## Round 3: approval, rebase, fixes
+- Rebased onto `develop` after LEARNING-184 (theme lock) and LEARNING-183 (full experience), as one commit. The conflicts were resolved by keeping both sides:
+  - the layout uses `activeThemes` and the moved stylesheet path;
+  - the nav keeps the language link and hides the switcher while themes are locked; with the switcher gone, the language link fits in the header on phones too;
+  - the experience section reads `getContent()` and keeps 183's tags and labels;
+  - the terminal builds its context per locale from `activeThemes`.
+- Owner decisions applied:
+  - name "Nguyễn Mạnh Cường";
+  - English tech terms kept;
+  - case studies, the terminal and the Experience bullets stay English (`/vi` reuses the English experience and translates only its headings: "Những nơi tôi đã làm việc", "Chứng chỉ");
+  - all eleven wording fixes in `content/vi/home.ts`.
+- New Vietnamese strings since approval: "Tải CV" and "(mở trong thẻ mới)", flagged in the review doc.
+- Unit tests alias `server-only` to an empty module (`vitest.server-only.ts`); Next still enforces it in the build.
+- Found by running the full suite with themes unlocked: two regressions from LEARNING-183 in locked themes, now fixed.
+  - Cyberpunk's section-entry glitch never fired on the now very tall Experience. The observer now fires when a section crosses the middle of the screen.
+  - Swiss's print CV grew to two pages. It is now an overview (bullets and tags hidden; each project on one line), and Download CV has everything.
+- Tests:
+  - Locked: 65 E2E pass and 14 skip. 280 unit tests pass.
+  - Unlocked: 256 of 257 passed, with 17 skipped. The remaining failure was Swiss's one-page CV on Letter paper; after the one-line print fix, the Swiss and cyberpunk specs pass in full (13 tests).
+  - The review's Should was fixed: the "Vietnamese links stay on /vi" test now finds the Vietnamese nav and asserts links exist; before, it passed without checking anything.
+- **Open question for the owner:** `profile.siteDescription` (meta description) still says "xây dựng ứng dụng web trọn vẹn", while `hero.lead` now says "từ đầu đến cuối". It was left as is because it wasn't in the requested fixes.

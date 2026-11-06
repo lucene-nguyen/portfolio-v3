@@ -31,7 +31,7 @@ Work top to bottom. One task = one branch `feat/<KEY>-<slug>` merged into `devel
 | 24 | LEARNING-165 | Round 2: Skills with icons (replaces stack.json)                        | done |
 | 25 | LEARNING-166 | Round 2: Work with me (services + how I work)                           | done |
 | 26 | LEARNING-167 | Round 2: Contact form (validation, honeypot, rate limit, local delivery)| done |
-| 27 | LEARNING-168 | Round 2: English / Vietnamese (owner approves VI before merge)          | doing |
+| 27 | LEARNING-168 | Round 2: English / Vietnamese (owner approves VI before merge)          | done |
 | 28 | LEARNING-184 | Round 3: lock themes to Night terminal (NEXT_PUBLIC_FEATURE_THEMES) | done |
 | 29 | LEARNING-183 | Round 3: Experience full and verbatim from the resume; Download CV  | done |
 
