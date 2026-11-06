@@ -201,7 +201,8 @@ export default function IdeLayout({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() === "k" && (e.ctrlKey || e.metaKey)) {
+      // Autofill fires keydown events without a key.
+      if (e.key?.toLowerCase() === "k" && (e.ctrlKey || e.metaKey)) {
         e.preventDefault();
         if (palette.current?.open) return;
         opener.current = document.activeElement as HTMLElement | null;

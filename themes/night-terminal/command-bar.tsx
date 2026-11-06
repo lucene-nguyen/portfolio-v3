@@ -51,7 +51,8 @@ export default function CommandBar() {
     const onKey = (e: KeyboardEvent) => {
       const plain = !e.ctrlKey && !e.metaKey && !e.altKey && !e.isComposing;
       const slash = e.key === "/" && plain && !isTyping(e.target);
-      const k = e.key.toLowerCase() === "k" && (e.ctrlKey || e.metaKey);
+      // Autofill fires keydown events without a key.
+      const k = e.key?.toLowerCase() === "k" && (e.ctrlKey || e.metaKey);
       if (slash || k) {
         e.preventDefault();
         open();
