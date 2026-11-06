@@ -1,3 +1,4 @@
+import { redisKey } from "@/lib/env";
 import { Redis } from "@upstash/redis";
 import {
   fixedWindow,
@@ -51,7 +52,7 @@ export function redisLimiter(redis: Redis, now = () => Date.now()): Limiter {
     async hit(algo, key, limits: WindowLimits = { capacity, windowMs }) {
       if (algo === "token") {
         const [allowed, raw] = await bucket.exec(
-          [key],
+          [redisKey(key)],
           [String(capacity), String(refillPerMs), String(now())],
         );
         const tokens = Number(raw);
@@ -63,7 +64,7 @@ export function redisLimiter(redis: Redis, now = () => Date.now()): Limiter {
           resetMs: Math.ceil((capacity - tokens) / refillPerMs),
         };
       }
-      const [count, ttl] = await window.exec([key], [String(limits.windowMs)]);
+      const [count, ttl] = await window.exec([redisKey(key)], [String(limits.windowMs)]);
       const allowed = count <= limits.capacity;
       return {
         allowed,
@@ -75,7 +76,7 @@ export function redisLimiter(redis: Redis, now = () => Date.now()): Limiter {
       };
     },
     async reset(_algo, key) {
-      await redis.del(key);
+      await redis.del(redisKey(key));
     },
   };
 }
