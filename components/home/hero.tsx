@@ -32,8 +32,15 @@ export function Hero() {
             {labels.workWithMe}
           </a>
           {shown(profile.resumeUrl) && (
-            <a href={profile.resumeUrl} data-part="button" className={buttonSecondary}>
+            <a
+              href={profile.resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-part="button"
+              className={buttonSecondary}
+            >
               {labels.resume}
+              <span className="sr-only"> {labels.newTab}</span>
             </a>
           )}
         </div>

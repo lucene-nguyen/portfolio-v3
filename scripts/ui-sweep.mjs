@@ -2,9 +2,14 @@
 // Usage (dev server running): node scripts/ui-sweep.mjs [baseUrl]
 import { chromium } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
+import nextEnv from "@next/env";
+
+// Same flags as the build: while themes are locked (LEARNING-184) only Night terminal is shot,
+// so the locked themes keep their last real screenshots.
+nextEnv.loadEnvConfig(process.cwd());
 
 const BASE = process.argv[2] ?? "http://localhost:3000";
-const THEMES = [
+const ALL_THEMES = [
   "night-terminal",
   "blueprint",
   "pixel",
@@ -19,6 +24,8 @@ const THEMES = [
   "anime",
   "3d-world",
 ];
+const THEMES =
+  process.env.NEXT_PUBLIC_FEATURE_THEMES === "on" ? ALL_THEMES : ["night-terminal"];
 const PAGES = [
   "/",
   "/work/pharmacy-inventory",

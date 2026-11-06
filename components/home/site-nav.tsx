@@ -43,9 +43,7 @@ export function SiteNav() {
         >
           {profile.logo}
         </Link>
-        <div className="ml-auto md:order-last md:ml-0">
-          {features.themes && <ThemeSwitcher />}
-        </div>
+        <div className="ml-auto md:order-last md:ml-0">{features.themes && <ThemeSwitcher />}</div>
         <button
           ref={toggle}
           type="button"
@@ -79,8 +77,14 @@ export function SiteNav() {
             </Link>
           ))}
           {shown(profile.resumeUrl) && (
-            <a href={profile.resumeUrl} className={`${resume} hover:bg-surface`}>
+            <a
+              href={profile.resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${resume} hover:bg-surface`}
+            >
               {labels.resume} <span aria-hidden>↓</span>
+              <span className="sr-only"> {labels.newTab}</span>
             </a>
           )}
           {/* Themes add their nav actions here (e.g. Terminal and Achievements on mobile). */}

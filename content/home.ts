@@ -14,7 +14,8 @@ export const profile = {
   github: "https://github.com/lucene-nguyen",
   githubLabel: "github.com/lucene-nguyen",
   linkedin: "https://www.linkedin.com/in/cuong-m-nguyen/",
-  resumeUrl: "[PLACEHOLDER]",
+  resumeUrl:
+    "https://drive.google.com/file/d/1Cnr0omhnu2RNk_s8fV_rvQoCOqVWIdTX/view?usp=drive_link",
   avatar: { src: "/avatar.jpg", alt: "Nguyen Manh Cuong smiling on a hiking trail" },
   avatarCaption: "// off-duty: on a trail",
   status: "open to work",
@@ -31,7 +32,8 @@ export const labels = {
   intro: "Introduction",
   github: "GitHub",
   linkedin: "LinkedIn",
-  resume: "resume.pdf",
+  resume: "Download CV",
+  newTab: "(opens in a new tab)",
 };
 
 // Home section order (LEARNING-164); eyebrow numbers follow it, so parked sections leave no gaps.
@@ -461,24 +463,275 @@ export const skills = {
 export const experience = {
   eyebrow: `${no("experience")} / experience`,
   title: "Where I've shipped",
+  // Verbatim from docs/resume/resume-source.txt (LEARNING-183): only the owner-listed typo fixes are applied.
+  // Tags list only words that appear in that entry's bullets (checked by content/experience.test.ts).
   roles: [
     {
       period: "03/2024 – 07/2026",
       company: "FPT Software",
       summary:
         "Software Engineer — Long Châu Pharmacy platform, AI image processing (Japan), AWS data workflows (Australia). Mentored junior engineers.",
+      entries: [
+        {
+          title: "Software Engineer",
+          period: "01/2026 – 07/2026",
+          context: "Australian clients (data processing on AWS)",
+          tags: ["NestJS", "AWS S3", "AWS Lambda", "Python", "Node.js", "AWS SES"],
+          bullets: [
+            {
+              text: "Worked directly with Australian clients to gather and clarify business requirements through regular meetings and technical discussions.",
+              result:
+                "Translated client requirements into practical backend solutions and aligned implementation with business needs.",
+            },
+            {
+              text: "Built NestJS services for a file-driven data processing workflow on top of AWS S3.",
+              result:
+                "Centralized JSON-based data access for downstream systems and improved consistency across transformations.",
+            },
+            {
+              text: "Implemented scheduled AWS Lambda jobs in Python, Node.js to scan S3 buckets every five minutes and aggregate multiple CSV files into a single JSON dataset.",
+              result: "Persisted the processed output automatically.",
+            },
+            {
+              text: "Designed asynchronous large-file processing and integrated AWS SES notifications.",
+              result:
+                "Improved throughput and reduced manual intervention in data transformation workflows.",
+            },
+            {
+              text: "Structured the workflow around automated file ingestion, transformation, and notification steps.",
+              result:
+                "Enabled recurring data updates to run reliably with minimal operator involvement.",
+            },
+            {
+              text: "Collaborated with backend and DevOps engineers to integrate NestJS, Lambda, S3, and SES into a stable distributed workflow.",
+              result: "Ensured reliable service-to-service communication.",
+            },
+          ],
+        },
+        {
+          title: "Software Engineer",
+          period: "09/2025 – 12/2025",
+          context: "Japanese clients (AI, Databricks)",
+          tags: [
+            "Databricks",
+            "REST APIs",
+            "Node.js",
+            "Worker Threads",
+            "PostgreSQL",
+            "TypeORM",
+            "WebSocket",
+          ],
+          bullets: [
+            {
+              text: "Worked directly with Japanese clients to gather and clarify business requirements through regular meetings and technical discussions.",
+              result:
+                "Translated client requirements into practical backend solutions and aligned implementation with business needs.",
+            },
+            {
+              text: "Owned backend development from architecture design to production deployment, researching the Databricks platform.",
+              result: "Designed a production-ready solution on Databricks Apps.",
+            },
+            {
+              text: "Designed streaming-based REST APIs for large image uploads, returning job IDs immediately while processing requests asynchronously.",
+              result: "Avoided blocking the Node.js event loop and prevented out-of-memory issues.",
+            },
+            {
+              text: "Designed an event-driven processing pipeline using Worker Threads, job queues, retry policies, and dead-letter queues.",
+              result: "Enabled resilient image preprocessing and AI inference.",
+            },
+            {
+              text: "Implemented CPU-intensive preprocessing with Worker Threads before dispatching jobs to Databricks Model Serving.",
+              result: "Kept backend APIs responsive under heavy workloads.",
+            },
+            {
+              text: "Designed PostgreSQL data models with TypeORM, foreign keys, unique constraints, and cascading relationships.",
+              result:
+                "Ensured data integrity and supported reliable, scalable AI processing workflows.",
+            },
+            {
+              text: "Designed real-time job tracking where AI workers persisted results and published completion events.",
+              result:
+                "Enabled the backend to deliver live status updates and inference results to the frontend through WebSocket.",
+            },
+            {
+              text: "Implemented secure application-level and user-level authorization for Databricks Apps.",
+              result: "Protected shared AI workspaces and customer-facing services.",
+            },
+          ],
+        },
+        {
+          title: "Software Engineer – FPT Retail – Long Châu Pharmacy",
+          period: "03/2024 – 09/2025",
+          context: "",
+          tags: [
+            "Node.js",
+            "NestJS",
+            "TypeScript",
+            "Worker Threads",
+            "Redis",
+            "Elasticsearch",
+            "AWS S3",
+          ],
+          bullets: [
+            {
+              text: "Developed and enhanced backend microservices for Long Châu’s pharmacy retail platform, supporting more than 2,500 stores and millions of users, while mentoring junior engineers.",
+              result:
+                "Consistently delivered complex backend features on schedule under tight business deadlines.",
+            },
+            {
+              text: "Designed and implemented scalable RESTful APIs using Node.js, NestJS, and TypeScript, applying SOLID principles and Clean Architecture.",
+              result: "Built maintainable, extensible, and production-ready backend services.",
+            },
+            {
+              text: "Designed, implemented, and owned a dedicated Worker Service responsible for document generation and large-file processing using Worker Threads and asynchronous processing.",
+              result:
+                "Generated Word reports and handled Excel import/export workflows while keeping APIs responsive under heavy workloads. Published job completion events and delivered generated files through a real-time notification system.",
+            },
+            {
+              text: "Designed and implemented Redis-backed inventory services.",
+              result:
+                "Reduced average API response time from 300 ms to 20 ms, lowered database load by approximately 40%, and optimized infrastructure costs for high-traffic inventory operations.",
+            },
+            {
+              text: "Built Elasticsearch-powered search services and secure AWS S3 file upload/download workflows using Presigned URLs.",
+              result:
+                "Improved search performance, secure file handling, and operational efficiency across multiple business domains.",
+            },
+            {
+              text: "Migrated legacy services to a modern NestJS-based microservice architecture while adopting standardized engineering practices.",
+              result:
+                "Improved maintainability, modularity, production reliability, and long-term scalability.",
+            },
+            {
+              text: "Collaborated closely with backend engineers across multiple microservices, product managers, QA engineers, and cross-functional teams to design scalable technical solutions and define service contracts.",
+              result: "Ensured seamless integration between distributed services.",
+            },
+            {
+              text: "Partnered with the DevOps team to optimize Node.js production environments, including application configuration, resource utilization, deployment strategies, and runtime performance.",
+              result: "Improved service stability and operational efficiency.",
+            },
+            {
+              text: "Supported production operations by monitoring application health, troubleshooting incidents, optimizing system performance, and resolving production issues.",
+              result: "Ensured reliable service delivery.",
+            },
+          ],
+        },
+      ],
     },
     {
       period: "08/2022 – 03/2024",
       company: "NEOX",
       summary:
         "Software Engineer, fintech — GraphQL & REST APIs, NiFi pipelines MongoDB → PostgreSQL, CI/CD with SonarQube.",
+      entries: [
+        {
+          title: "Software Engineer",
+          period: "08/2022 – 03/2024",
+          context: "Fintech",
+          tags: [
+            "NestJS",
+            "Apollo Server",
+            "TypeScript",
+            "GraphQL",
+            "Apache NiFi",
+            "MongoDB",
+            "PostgreSQL",
+            "SonarQube",
+            "ESLint",
+            "Node.js",
+            "Cloudflare",
+            "Mailjet",
+          ],
+          bullets: [
+            {
+              text: "Developed RESTful APIs for internal service communication and GraphQL APIs for frontend applications using NestJS, Apollo Server, and TypeScript.",
+              result: "Provided efficient and flexible data access across fintech platforms.",
+            },
+            {
+              text: "Designed and implemented Apache NiFi data pipelines to continuously synchronize operational data from MongoDB to PostgreSQL.",
+              result:
+                "Enabled complex SQL-based reporting and business analytics without impacting production workloads.",
+            },
+            {
+              text: "Improved software quality and deployment reliability by enhancing CI/CD pipelines, integrating SonarQube, ESLint, and automated testing.",
+              result:
+                "Modernized legacy Node.js services to improve maintainability and code quality.",
+            },
+            {
+              text: "Researched, integrated, and deployed Cloudflare for document uploads and Mailjet for email notifications within the microservice platform.",
+              result:
+                "Enabled secure file upload workflows and reliable email delivery while reducing infrastructure complexity and operational overhead.",
+            },
+            {
+              text: "Collaborated closely with backend engineers, product managers, QA engineers, and business stakeholders to design microservice and event-driven solutions and define API contracts.",
+              result:
+                "Delivered scalable backend architectures aligned with business requirements.",
+            },
+          ],
+        },
+      ],
     },
     {
       period: "01/2021 – 08/2022",
       company: "Faboshop",
       summary:
         "Founding engineer, social commerce — picked the stack, Redis auth & token rotation, APIs for web, iOS and Android.",
+      entries: [
+        {
+          title: "Software Engineer",
+          period: "01/2021 – 08/2022",
+          context: "E-commerce",
+          tags: [
+            "NestJS",
+            "MongoDB",
+            "PostgreSQL",
+            "Node.js",
+            "TypeScript",
+            "Redis",
+            "Firebase Cloud Messaging",
+            "Google Cloud Storage",
+            "Facebook APIs",
+          ],
+          bullets: [
+            {
+              text: "Joined the founding engineering team and played a key role in evaluating and selecting the technology stack, including NestJS and supporting libraries.",
+              result:
+                "Contributed to backend architecture, database schema design, and engineering standards for a social commerce platform built on MongoDB and PostgreSQL.",
+            },
+            {
+              text: "Designed and developed scalable backend APIs using Node.js, NestJS, and TypeScript, supporting Web, Android, iOS, and internal administration systems.",
+              result: "Ensured consistent business logic across multiple client applications.",
+            },
+            {
+              text: "Developed internal administration modules for order management, product management, and operational workflows.",
+              result: "Improved efficiency through centralized business operations.",
+            },
+            {
+              text: "Designed and implemented Redis-based authentication, session management, refresh token rotation, token blacklisting, and caching strategies.",
+              result: "Improved API performance and strengthened application security.",
+            },
+            {
+              text: "Integrated Firebase Cloud Messaging (FCM) and Google Cloud Storage to deliver reliable push notifications and centralized media management.",
+              result: "Improved user engagement and scalable file handling.",
+            },
+            {
+              text: "Researched and integrated Facebook APIs into the platform to support social commerce features while implementing secure file upload services.",
+              result: "Enhanced platform capabilities and user experience.",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  certificationsTitle: "Certifications",
+  certifications: [
+    {
+      name: "Cloud Developer Certificate",
+      url: "https://www.udacity.com/certificate/e/5448d244-6532-11ef-bdfa-8b8c4cf38908",
+    },
+    {
+      name: "AWS Certified Developer – Associate (DVA-C02)",
+      url: "https://www.credly.com/badges/ceb07f06-52f7-4067-850c-83162dc7ee60",
     },
   ],
 };

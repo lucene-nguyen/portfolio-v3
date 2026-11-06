@@ -1,23 +1,6 @@
 {
   "themes": {
-    "night-terminal": [],
-    "blueprint": [],
-    "pixel": [],
-    "cyberpunk": [],
-    "editorial": [],
-    "swiss-minimal": [],
-    "docs": [],
-    "dashboard": [
-      "/ HTTP 503 http://localhost:3000/api/github",
-      "/ console.error: Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
-      "/ HTTP 503 http://localhost:3000/api/github",
-      "/ console.error: Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
-    ],
-    "ide": [],
-    "bento": [],
-    "neo-brutalism": [],
-    "anime": [],
-    "3d-world": []
+    "night-terminal": []
   },
   "api": {
     "/api/ping": {
@@ -28,7 +11,7 @@
       "status": 200
     },
     "/api/github": {
-      "status": 503
+      "status": 200
     },
     "/search-index.json": {
       "status": 200

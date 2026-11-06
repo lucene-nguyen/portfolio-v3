@@ -1,5 +1,5 @@
-import { experience } from "@/content/home";
-import { container, SectionHeader } from "./ui";
+import { experience, labels } from "@/content/home";
+import { container, SectionHeader, Tag } from "./ui";
 
 export function ExperienceSection() {
   return (
@@ -22,13 +22,59 @@ export function ExperienceSection() {
                 <span className="flex-[0_0_170px] font-mono text-sm text-text-muted">
                   {r.period}
                 </span>
-                <div className="flex flex-[1_1_300px] flex-col gap-1.5">
+                <div className="flex min-w-0 flex-[1_1_300px] flex-col gap-6">
                   <h3 className="text-xl font-semibold">{r.company}</h3>
-                  <p className="text-[15px] leading-[1.55] text-text-secondary">{r.summary}</p>
+                  {/* Verbatim from the resume (LEARNING-183): every bullet, no "show more". */}
+                  {r.entries.map((e) => (
+                    <div
+                      key={`${e.title}-${e.period}`}
+                      data-part="role-entry"
+                      className="flex flex-col gap-3"
+                    >
+                      <div>
+                        <h4 className="font-semibold">{e.title}</h4>
+                        <p className="font-mono text-sm text-text-muted">
+                          {[e.period !== r.period && e.period, e.context]
+                            .filter(Boolean)
+                            .join(" · ")}
+                        </p>
+                      </div>
+                      <ul className="flex max-w-[70ch] list-disc flex-col gap-3 pl-5 text-[15px] leading-[1.55]">
+                        {e.bullets.map((b) => (
+                          <li key={b.text} data-part="bullet">
+                            <p className="text-text-2">{b.text}</p>
+                            <p className="text-text-secondary">→ {b.result}</p>
+                          </li>
+                        ))}
+                      </ul>
+                      <ul
+                        className="flex flex-wrap gap-2"
+                        aria-label={`${labels.technologies}: ${e.title}`}
+                      >
+                        {e.tags.map((t) => (
+                          <li key={t}>
+                            <Tag>{t}</Tag>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
                 </div>
               </li>
             ))}
           </ol>
+          <div data-part="certifications" className="flex flex-col gap-3">
+            <h3 className="text-xl font-semibold">{experience.certificationsTitle}</h3>
+            <ul className="flex flex-col gap-2 text-[15px]">
+              {experience.certifications.map((c) => (
+                <li key={c.url}>
+                  <a href={c.url} className="font-medium text-accent underline underline-offset-4">
+                    {c.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>
