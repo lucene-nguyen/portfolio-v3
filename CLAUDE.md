@@ -29,7 +29,7 @@ Every feature goes through: `/spec` → `/implement` → `/test` → `/review` �
   - During a task run only the unit tests and E2E specs related to the change; run the full suite once, right before merging.
   - Screenshots only for themes that changed (currently Night terminal only).
   - Use /compact between backlog items.
-- After changing dependencies, verify `npm ci` in a node:22 Linux container before merging.
+- After changing dependencies, verify `npm ci` in a node:22 Linux container before merging: `docker run --rm -v "$PWD:/app:ro" node:22 sh -c "mkdir /w && cp /app/package*.json /w && cd /w && npm ci --ignore-scripts"`.
 
 ## Autonomous mode (when asked to "run the backlog")
 - Follow `docs/backlog.md` top to bottom; update its Status column as you go. If interrupted, resume from the first non-done row.
