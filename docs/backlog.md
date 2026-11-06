@@ -33,6 +33,6 @@ Work top to bottom. One task = one branch `feat/<KEY>-<slug>` merged into `devel
 | 26 | LEARNING-167 | Round 2: Contact form (validation, honeypot, rate limit, local delivery)| done |
 | 27 | LEARNING-168 | Round 2: English / Vietnamese (owner approves VI before merge)          | todo |
 | 28 | LEARNING-184 | Round 3: lock themes to Night terminal (NEXT_PUBLIC_FEATURE_THEMES) | done |
-| 29 | LEARNING-183 | Round 3: Experience full and verbatim from the resume; Download CV  | doing |
+| 29 | LEARNING-183 | Round 3: Experience full and verbatim from the resume; Download CV  | done |
 
 Acceptance criteria for each task: the Jira issue (copied into its spec in `docs/specs/`).
