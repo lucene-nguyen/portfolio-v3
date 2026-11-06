@@ -18,9 +18,7 @@ test("renders sections in the round-2 order; parked sections are absent", async 
   await expect(page.locator('#experience [data-part="eyebrow"]')).toHaveText("02 / experience");
 });
 
-test("hero: subline, bio, CTAs; no avatar or placeholder resume; avatar in contact", async ({
-  page,
-}) => {
+test("hero: subline, bio, CTAs, Download CV; no avatar; avatar in contact", async ({ page }) => {
   await page.goto("/");
   const hero = page.locator("#top");
   await expect(hero).toContainText(
@@ -32,7 +30,14 @@ test("hero: subline, bio, CTAs; no avatar or placeholder resume; avatar in conta
     "#experience",
   );
   await expect(hero.getByRole("link", { name: "Work with me" })).toBeVisible();
-  await expect(hero.getByRole("link", { name: /resume/i })).toHaveCount(0);
+  // Download CV (LEARNING-183): the owner's Drive file, in a new tab.
+  const cv = hero.getByRole("link", { name: /Download CV/ });
+  await expect(cv).toHaveAttribute(
+    "href",
+    /^https:\/\/drive\.google\.com\/file\/d\/1Cnr0omhnu2RNk_s8fV_rvQoCOqVWIdTX\//,
+  );
+  await expect(cv).toHaveAttribute("target", "_blank");
+  await expect(cv).toHaveAttribute("rel", "noopener noreferrer");
   await expect(hero.locator("img")).toHaveCount(0);
   const avatar = page.locator('#contact [data-part="avatar"]');
   await expect(avatar).toBeVisible();

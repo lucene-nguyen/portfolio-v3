@@ -68,3 +68,7 @@
 ### Contact form (round 2, LEARNING-167)
 - Searches: `"contact form lead capture" --domain landing` (Lead Magnet + Form: minimal fields, show submission progress, so "Sending…" is shown) and `"inline validation error summary" --domain ux` (Focusable Error Summary and Error Placement were applied; validate-on-blur was skipped so the form behaves the same without JavaScript).
 - The form sits left of the direct contacts (`data-part="contact-actions"`, which keeps this theme's rule). Controls use token colours only: `text-subtle` borders (≥ 4.5:1, WCAG 1.4.11), `danger` for errors, and the global accent focus ring. Radios and inputs are at least 44px tall.
+
+### Experience, full (round 3, LEARNING-183)
+- Searches: `"resume experience timeline" --domain landing` returned 0 results. The retry, `"portfolio about career"`, matched only weakly (Portfolio Grid, Content First), so no pattern was adopted from it. ux `"long list readability scanning"`: Line Length (65–75 characters) applied (bullets at most 70ch) and Font Size Scale kept. Truncation was rejected: the owner wants every bullet shown.
+- Each company row (`data-part="role"`) holds its projects (`data-part="role-entry"`): title, period and context, every bullet (`data-part="bullet"`) with its "→" result, and the tags. A `data-part="certifications"` block follows. Theme role rules apply unchanged.
