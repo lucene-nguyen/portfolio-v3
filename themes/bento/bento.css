@@ -1,0 +1,89 @@
+/* Tile language for the shared sections (design-system/portfolio-v3/pages/bento.md › Layout). */
+[data-theme="bento"] [data-part="eyebrow"] {
+  align-self: flex-start;
+  width: fit-content;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--surface2);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+[data-theme="bento"]
+  :is(
+    [data-part="case-card"],
+    [data-part="kit"] > *,
+    [data-part="role"],
+    [data-part="stack"],
+    [data-part="contact-actions"],
+    [data-part="stat"]
+  ) {
+  border: 0 !important; /* beats the shared divider utilities */
+  border-radius: var(--theme-radius);
+  background: var(--surface);
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--text) 6%, transparent),
+    0 8px 24px color-mix(in srgb, var(--text) 6%, transparent);
+}
+
+/* Case studies: 2-column mosaic, the first study is the wide feature tile. */
+[data-theme="bento"] #work [data-print="cards"] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+}
+@media (min-width: 768px) {
+  [data-theme="bento"] #work [data-print="cards"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  [data-theme="bento"] #work [data-part="case-card"]:first-child {
+    grid-column: span 2;
+  }
+}
+[data-theme="bento"] [data-part="case-metrics"] {
+  border: 0;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--bg-alt);
+}
+
+/* Hero key numbers: small tiles instead of a divided strip. */
+[data-theme="bento"] [data-part="stats"] {
+  gap: 12px;
+  border: 0;
+  overflow: visible;
+}
+[data-theme="bento"] [data-part="stat"] {
+  border-radius: 16px;
+}
+
+/* Experience: every role is a tile; the stack column is one bgAlt tile. */
+[data-theme="bento"] [data-part="roles"] {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+[data-theme="bento"] [data-part="role"] {
+  padding: 24px;
+}
+[data-theme="bento"] [data-part="stack"] {
+  align-self: flex-start;
+  padding: 24px;
+  background: var(--bg-alt);
+  box-shadow: none;
+}
+
+[data-theme="bento"] [data-part="kit"] > * {
+  padding: 24px;
+}
+[data-theme="bento"] [data-part="contact-actions"] {
+  width: fit-content;
+  max-width: 100%;
+  padding: 16px;
+}
+
+/* Kit card hover cue (fix/kits-cards): the theme's own border rule hides the shared one. */
+[data-theme="bento"] [data-part="kit"] > :is(:hover, :has(:focus-visible)) {
+  box-shadow: 0 0 0 2px var(--border-strong);
+}

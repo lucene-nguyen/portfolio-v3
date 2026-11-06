@@ -1,0 +1,277 @@
+/* Scoped to the Cyberpunk theme. No glow: contrast comes from the colors alone. */
+[data-theme="cyberpunk"] h1,
+[data-theme="cyberpunk"] h2 {
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* Chamfered HUD frames. */
+[data-theme="cyberpunk"] #work article,
+[data-theme="cyberpunk"] #lab .bg-surface {
+  border-radius: 0;
+  clip-path: polygon(
+    14px 0,
+    100% 0,
+    100% calc(100% - 14px),
+    calc(100% - 14px) 100%,
+    0 100%,
+    0 14px
+  );
+}
+
+/* Packet stream (decorative mirror of the lab log). */
+.cp-hud {
+  position: relative;
+  margin-top: 16px;
+  height: 56px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg);
+  overflow: hidden;
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 11px;
+}
+.cp-hud__label {
+  position: absolute;
+  font-size: 10px;
+  top: 4px;
+  color: var(--text-muted);
+}
+.cp-hud__wall {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 62%;
+  width: 4px;
+  background: var(--border-strong);
+}
+.cp-hud__wall[data-hit="true"] {
+  background: var(--danger);
+}
+.cp-packet {
+  position: absolute;
+  top: 26px;
+  left: 0;
+  padding: 1px 6px;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+}
+.cp-packet[data-ok="true"] {
+  color: var(--meter-fill);
+  animation: cp-pass 900ms linear both;
+}
+.cp-packet[data-ok="false"] {
+  color: var(--danger);
+  animation: cp-block 900ms linear both;
+}
+/* Reduced motion: packets sit still where they end up, so the HUD is never empty. */
+@media (prefers-reduced-motion: reduce) {
+  .cp-packet {
+    animation: none !important;
+  }
+  .cp-packet[data-ok="true"] {
+    left: auto;
+    right: 6px;
+    top: 30px;
+  }
+  .cp-packet[data-ok="false"] {
+    left: calc(62% - 90px);
+  }
+}
+@keyframes cp-pass {
+  to {
+    left: 100%;
+  }
+}
+@keyframes cp-block {
+  80% {
+    left: calc(62% - 90px);
+  }
+  to {
+    left: calc(62% - 90px);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Scanlines: static, behind all content (never over text). */
+  [data-theme="cyberpunk"] body {
+    background-image: repeating-linear-gradient(
+      0deg,
+      color-mix(in srgb, var(--text) 3%, transparent) 0 1px,
+      transparent 1px 3px
+    );
+  }
+  /* One-shot glitch when a section first enters view: movement only, no luminance flash. */
+  [data-theme="cyberpunk"] .cp-glitch h2 {
+    animation: cp-glitch 280ms steps(2, end) 1;
+  }
+}
+@keyframes cp-glitch {
+  0% {
+    transform: translateX(-3px) skewX(-6deg);
+  }
+  50% {
+    transform: translateX(2px) skewX(4deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+/* ---- Shared sections in HUD language (design-system/portfolio-v3/pages/cyberpunk.md › Layout) ---- */
+[data-theme="cyberpunk"] [data-part="eyebrow"]::before {
+  content: "[ " / "";
+}
+[data-theme="cyberpunk"] [data-part="eyebrow"]::after {
+  content: " ]" / "";
+}
+[data-theme="cyberpunk"] [data-part="eyebrow"] {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* Case studies: dossiers. */
+[data-theme="cyberpunk"] [data-part="case-card"] {
+  border-color: var(--border-strong) !important;
+}
+[data-theme="cyberpunk"] [data-part="case-meta"] {
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-strong);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+[data-theme="cyberpunk"] [data-part="case-metrics"] {
+  border-style: dashed;
+  border-color: var(--border-strong);
+}
+/* Readouts in cyan; linked stats (certificates) keep the magenta accent. */
+[data-theme="cyberpunk"] [data-part="case-metrics"] dd,
+[data-theme="cyberpunk"] [data-part="stat"] dd:not(:has(a)) {
+  color: var(--meter-fill);
+}
+[data-theme="cyberpunk"] [data-part="case-card"] ul span::before {
+  content: "[" / "";
+}
+[data-theme="cyberpunk"] [data-part="case-card"] ul span::after {
+  content: "]" / "";
+}
+[data-theme="cyberpunk"] [data-part="case-card"] ul span {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 0;
+}
+
+/* Hero stats: HUD readouts with corner brackets. */
+[data-theme="cyberpunk"] [data-part="stats"] {
+  gap: 10px;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+}
+[data-theme="cyberpunk"] [data-part="stat"] {
+  position: relative;
+  border: 1px solid var(--border) !important;
+  background: var(--surface);
+}
+[data-theme="cyberpunk"] [data-part="stat"]::before,
+[data-theme="cyberpunk"] [data-part="stat"]::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+}
+[data-theme="cyberpunk"] [data-part="stat"]::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid var(--meter-fill);
+  border-left: 2px solid var(--meter-fill);
+}
+[data-theme="cyberpunk"] [data-part="stat"]::after {
+  right: -1px;
+  bottom: -1px;
+  border-right: 2px solid var(--meter-fill);
+  border-bottom: 2px solid var(--meter-fill);
+}
+[data-theme="cyberpunk"] [data-part="stat"] dt {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 13px;
+}
+
+/* Experience: access log. */
+[data-theme="cyberpunk"] [data-part="roles"] {
+  padding: 4px 20px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+}
+[data-theme="cyberpunk"] [data-part="role"] {
+  border-style: dashed !important;
+  border-color: var(--border) !important;
+}
+[data-theme="cyberpunk"] [data-part="role"]:first-child {
+  border-top-width: 0 !important;
+}
+[data-theme="cyberpunk"] [data-part="role"]:last-child {
+  border-bottom-width: 0 !important;
+}
+[data-theme="cyberpunk"] [data-part="role"] > span:first-child::before {
+  content: "> " / "";
+  color: var(--accent);
+}
+[data-theme="cyberpunk"] [data-part="stack"] ul span {
+  border-radius: 0;
+}
+
+/* Contact: UPLINK panel; square mono buttons. */
+[data-theme="cyberpunk"] [data-part="contact-actions"] {
+  position: relative;
+  padding: 34px 20px 20px;
+  border: 1px solid var(--accent);
+  background: var(--surface);
+  clip-path: polygon(
+    16px 0,
+    100% 0,
+    100% calc(100% - 16px),
+    calc(100% - 16px) 100%,
+    0 100%,
+    0 16px
+  );
+}
+[data-theme="cyberpunk"] [data-part="contact-actions"]::before {
+  content: "UPLINK" / "";
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  font:
+    12px var(--font-jetbrains-mono),
+    monospace;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+}
+[data-theme="cyberpunk"] [data-part="button"] {
+  border-radius: 0;
+  font-family: var(--font-jetbrains-mono), monospace;
+}
+/* Email addresses keep their case. */
+[data-theme="cyberpunk"] [data-part="button"]:not([href^="mailto:"]) {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+[data-theme="cyberpunk"] [data-part="kit"] > * {
+  border-radius: 0;
+  border-color: var(--border-strong);
+}
+@media (max-width: 480px) {
+  [data-theme="cyberpunk"] [data-part="contact-actions"] {
+    padding-inline: 12px;
+  }
+  [data-theme="cyberpunk"] [data-part="contact-actions"] a[href^="mailto:"] {
+    font-size: 14px;
+  }
+}
+
+/* Kit card hover cue (fix/kits-cards): the theme's own border rule hides the shared one. */
+[data-theme="cyberpunk"] [data-part="kit"] > :is(:hover, :has(:focus-visible)) {
+  border-color: var(--accent);
+}

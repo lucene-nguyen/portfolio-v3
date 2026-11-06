@@ -1,0 +1,156 @@
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test, type Page } from "@playwright/test";
+import { features } from "../lib/features";
+
+async function ready(page: Page) {
+  await page.goto("/");
+  await expect(page.getByRole("button", { name: "Terminal" })).toHaveAttribute(
+    "data-shortcuts",
+    "on",
+  );
+}
+
+const dialog = (page: Page) => page.getByRole("dialog", { name: "Command line" });
+const input = (page: Page) => page.getByRole("textbox", { name: "$ command" });
+
+test("design rules are persisted", async () => {
+  const fs = await import("node:fs/promises");
+  const md = await fs.readFile("design-system/portfolio-v3/pages/night-terminal.md", "utf8");
+  for (const hex of ["#0B0F14", "#121821", "#1F2A37", "#E6EDF3", "#8B98A9", "#7A8798", "#7EE787"]) {
+    expect(md).toContain(hex);
+  }
+});
+
+test("/ opens, Esc closes and restores focus", async ({ page }) => {
+  await ready(page);
+  const link = page.getByRole("link", { name: "Experience", exact: true });
+  await link.focus();
+  await page.keyboard.press("/");
+  await expect(dialog(page)).toBeVisible();
+  await expect(input(page)).toBeFocused();
+  await expect(input(page)).toHaveCSS("outline-style", "solid");
+  await page.keyboard.press("Escape");
+  await expect(dialog(page)).toBeHidden();
+  await expect(link).toBeFocused();
+});
+
+test("Ctrl+K opens; commands print to the log; tab completion and history", async ({ page }) => {
+  await ready(page);
+  await page.keyboard.press("Control+k");
+  await expect(input(page)).toBeFocused();
+  const log = page.getByRole("log");
+
+  await input(page).fill("ls projects");
+  await page.keyboard.press("Enter");
+  // Without public case studies the project commands don't exist (LEARNING-164).
+  await expect(log).toContainText(
+    features.caseStudies ? "pharmacy-inventory" : "command not found: ls",
+  );
+
+  await input(page).fill("cat resume");
+  await page.keyboard.press("Enter");
+  await expect(log).toContainText("FPT Software");
+
+  await input(page).fill("sudo");
+  await page.keyboard.press("Enter");
+  await expect(log).toContainText("error: command not found: sudo");
+
+  // Tab completes a command ("theme" exists only with unlocked themes, LEARNING-184).
+  await input(page).fill(features.themes ? "th" : "co");
+  await page.keyboard.press("Tab");
+  await expect(input(page)).toHaveValue(features.themes ? "theme " : "contact ");
+  await expect(input(page)).toBeFocused();
+  // No completion possible: Tab moves focus instead of trapping it.
+  await input(page).fill("help ");
+  await page.keyboard.press("Tab");
+  await expect(input(page)).not.toBeFocused();
+  await input(page).focus();
+
+  await input(page).fill("");
+  await page.keyboard.press("ArrowUp");
+  await expect(input(page)).toHaveValue("sudo");
+  await page.keyboard.press("ArrowUp");
+  await expect(input(page)).toHaveValue("cat resume");
+});
+
+test("contact navigates to the contact section", async ({ page }) => {
+  await ready(page);
+  await page.keyboard.press("/");
+  await input(page).fill("contact");
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/#contact$/);
+  await expect(dialog(page)).toBeHidden();
+});
+
+test("open <slug> navigates to the case study", async ({ page }) => {
+  test.skip(!features.caseStudies, "case studies parked (LEARNING-164)");
+  await ready(page);
+  await page.keyboard.press("/");
+  await input(page).fill("open pharmacy-inventory");
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/\/work\/pharmacy-inventory$/);
+});
+
+test("reopens with / after Esc when opened from the page body", async ({ page }) => {
+  await ready(page);
+  await page.keyboard.press("/");
+  await input(page).fill("help");
+  await page.keyboard.press("Escape");
+  await expect(dialog(page)).toBeHidden();
+  await page.keyboard.press("/");
+  await expect(input(page)).toBeFocused();
+});
+
+test("slash inside a text field does not open the terminal", async ({ page }) => {
+  await ready(page);
+  await page.keyboard.press("/");
+  await input(page).fill("a/b");
+  await expect(input(page)).toHaveValue("a/b");
+});
+
+test("375px: Terminal lives in the nav menu (no floating button), opens the command line", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 800 });
+  await page.goto("/");
+  await expect(page.locator("button.fixed")).toBeHidden();
+  await page.getByRole("button", { name: "Menu" }).click();
+  await page
+    .getByRole("navigation", { name: "Main" })
+    .getByRole("button", { name: "Terminal" })
+    .click();
+  await expect(input(page)).toBeFocused();
+  const overflow = await page.evaluate(
+    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  );
+  expect(overflow).toBeLessThanOrEqual(0);
+});
+
+test("open command line has no axe violations", async ({ page }) => {
+  await ready(page);
+  await page.keyboard.press("/");
+  await input(page).fill("help");
+  await page.keyboard.press("Enter");
+  const { violations } = await new AxeBuilder({ page }).analyze();
+  expect(violations.map((v) => v.id)).toEqual([]);
+});
+
+test("shared sections carry terminal accents", async ({ page }) => {
+  await page.goto("/");
+  const pseudo = (sel: string, prop: string) =>
+    page
+      .locator(sel)
+      .first()
+      .evaluate((el, p) => getComputedStyle(el, "::before").getPropertyValue(p), prop);
+  expect(await pseudo('#kits [data-part="eyebrow"]', "content")).toContain("#");
+  // Case cards are parked (LEARNING-164); checked when they come back.
+  if (features.caseStudies) {
+    await expect(page.locator('[data-part="case-meta"]').first()).toHaveCSS(
+      "border-bottom-style",
+      "solid",
+    );
+  }
+  expect(await pseudo('[data-part="roles"]', "border-left-style")).toBe("dashed");
+  expect(await pseudo('[data-part="contact-actions"]', "content")).toContain("$ contact");
+  expect(await pseudo('[data-part="stat"] dt', "content")).toContain("›");
+});

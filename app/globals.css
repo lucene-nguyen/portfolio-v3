@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+/* Token values come from themes/<id>/index.ts, rendered per [data-theme] in the root layout.
+   Components use the Tailwind names below, never raw hex. */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-alt: var(--bg-alt);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-text: var(--text);
+  --color-text-2: var(--text2);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-subtle: var(--text-subtle);
+  --color-accent: var(--accent);
+  --color-accent-contrast: var(--accent-contrast);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-meter: var(--meter-fill, var(--accent));
+  --font-sans:
+    var(--theme-font-sans, var(--font-inter-tight)), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--theme-font-mono, var(--font-jetbrains-mono)), ui-monospace, monospace;
+  --font-heading:
+    var(--theme-font-heading, var(--theme-font-sans, var(--font-inter-tight))), ui-sans-serif,
+    system-ui, sans-serif;
+  --radius-theme: var(--theme-radius, 0.5rem);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Pixel theme heading metrics live here (not in its lazy chunk) so a stored Pixel theme doesn't shift layout.
+   Press Start 2P is very wide: smaller sizes, generous line-height. */
+[data-theme="pixel"] main h1 {
+  font-size: clamp(20px, 4.2vw, 36px);
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+[data-theme="pixel"] main h2,
+[data-theme="pixel"] footer h2 {
+  font-size: clamp(18px, 3.2vw, 26px);
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+[data-theme="pixel"] main :is(h3, h4) {
+  font-size: clamp(14px, 2.4vw, 18px);
+  line-height: 1.5;
+}
+
+/* Editorial reading measure lives here (not in its lazy chunk) so a stored text size never jumps.
+   60–75 characters, line-height ≥ 1.6; size set before first paint by the head script. */
+html[data-reading-size="s"] {
+  --reading-scale: 0.9;
+}
+html[data-reading-size="l"] {
+  --reading-scale: 1.15;
+}
+[data-theme="editorial"] .prose-body :is(p, li) {
+  max-width: 66ch;
+  font-size: calc(19px * var(--reading-scale, 1));
+  line-height: 1.7;
+}
+[data-theme="editorial"] .prose-body h2:first-of-type + p::first-letter {
+  float: left;
+  font-family: var(--font-heading);
+  font-size: 3.4em;
+  line-height: 0.85;
+  padding: 0.08em 0.1em 0 0;
+  color: var(--accent);
+}
+
+/* Headings whose whole section was unfinished ([PLACEHOLDER] content removed) are hidden too. */
+.prose-body[data-placeholders="hidden"] h2:is(:has(+ h2), :last-child),
+.prose-body[data-placeholders="hidden"] h3:is(:has(+ h2), :has(+ h3), :last-child),
+.prose-body[data-placeholders="hidden"] h2:has(+ ul:not(:has(li)) + :is(h2, h3)),
+.prose-body[data-placeholders="hidden"] h3:has(+ ul:not(:has(li)) + :is(h2, h3)),
+.prose-body[data-placeholders="hidden"] ul:not(:has(li)) {
+  display: none;
+}
+
+/* Global reduced-motion switch: no theme animation survives it. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Round 2: the skills panel spans its section in every theme (some themes set align-self: flex-start
+   for the old side column), and the contact avatar stays round even in square-cornered themes. */
+#skills [data-part="stack"] {
+  align-self: stretch;
+}
+#contact [data-part="avatar"] {
+  border-radius: 9999px !important;
+}

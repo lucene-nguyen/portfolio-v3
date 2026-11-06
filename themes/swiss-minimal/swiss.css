@@ -1,0 +1,262 @@
+/* Scoped to the Swiss theme. Flat: no radius, no shadows. */
+[data-theme="swiss-minimal"] * {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+[data-theme="swiss-minimal"] h1,
+[data-theme="swiss-minimal"] h2 {
+  letter-spacing: -0.03em;
+}
+
+/* 12 columns inside the same box as `container` (max 1200px, 24px side padding, 24px gutters). */
+.sw-grid {
+  display: none;
+}
+@media screen and (min-width: 1024px) {
+  .sw-grid[data-on="true"] {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: 24px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .sw-grid > span {
+    background: color-mix(in srgb, var(--accent) 5%, transparent);
+    border-inline: 1px solid color-mix(in srgb, var(--accent) 14%, transparent);
+  }
+}
+
+@media screen {
+  /* Shared sections (design-system/portfolio-v3/pages/swiss-minimal.md › Layout).
+   Typographic style: rules instead of boxes, flush left, big tight numerals. Screen only: the printed CV below is never affected. */
+  [data-theme="swiss-minimal"] [data-part="eyebrow"] {
+    width: fit-content;
+    padding-top: 8px;
+    border-top: 4px solid var(--accent);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  /* Case studies and kits: no box, a heavy black rule on top. */
+  [data-theme="swiss-minimal"] :is([data-part="case-card"], [data-part="kit"] > *) {
+    padding: 20px 0 0;
+    border: 0;
+    border-top: 4px solid var(--text);
+    background: transparent;
+  }
+  [data-theme="swiss-minimal"] [data-part="kit"] > :is(:hover, :has(:focus-visible)) {
+    border-top-color: var(--accent); /* hover cue on the kit card */
+  }
+  [data-theme="swiss-minimal"] [data-part="case-meta"] {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  [data-theme="swiss-minimal"] :is([data-part="case-metrics"], [data-part="stat"]) dd {
+    font-family: var(--font-sans);
+    font-size: 36px;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+
+  /* Hero numbers: a row of big numerals under one heavy rule. */
+  [data-theme="swiss-minimal"] [data-part="stats"] {
+    border: 0;
+    border-top: 4px solid var(--text);
+    overflow: visible;
+  }
+  [data-theme="swiss-minimal"] [data-part="stat"] {
+    padding: 16px 24px 0 0;
+    border: 0;
+  }
+
+  /* Experience: hairline rows, period in tabular sans; the stack under a heavy rule. */
+  [data-theme="swiss-minimal"] [data-part="role"] {
+    border-color: var(--text);
+  }
+  [data-theme="swiss-minimal"] [data-part="role"] > span:first-child {
+    font-family: var(--font-sans);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: var(--text);
+  }
+  [data-theme="swiss-minimal"] [data-part="stack"] {
+    align-self: flex-start; /* the rule spans the stack, not the full row height */
+    padding-top: 20px;
+    border-top: 4px solid var(--text);
+  }
+  [data-theme="swiss-minimal"] [data-part="stack"] h3:not([data-part="skills-secondary"] h3) {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+}
+
+/* One-page CV: home page only (it owns #theme-slot-home). */
+@media print {
+  /* Named page: these margins never apply to other themes or pages. */
+  @page cv {
+    size: auto;
+    margin: 12mm;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) body {
+    page: cv;
+    background: var(--bg) !important;
+    color: var(--text) !important;
+    font-size: 9.5pt;
+    line-height: 1.35;
+  }
+  /* No navigation, interactive or decorative parts. */
+  [data-theme="swiss-minimal"]:has(#theme-slot-home)
+    :is(header, .sw-grid, #lab, #kits, #work-with-me, figure, button, select, dialog),
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) a[href="#main"],
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) [data-print="hide"] {
+    display: none !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) :is(section, footer) {
+    border: 0 !important;
+    background: none !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) :is(section, footer) > div {
+    padding: 0 !important;
+    max-width: none !important;
+    gap: 6pt !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #top {
+    padding: 0 0 8pt !important;
+    gap: 0 !important;
+    max-width: none !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #top > div {
+    gap: 6pt !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) h1 {
+    font-size: 16pt !important;
+    line-height: 1.2 !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) h2 {
+    font-size: 12pt !important;
+    margin: 8pt 0 2pt !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) h3 {
+    font-size: 10pt !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) :is(p, li, span, dd, dt, a) {
+    font-size: 9pt !important;
+    color: var(--text) !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #top dl dd {
+    font-size: 11pt !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #top dl > div {
+    padding: 4pt 6pt !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) [data-print="cards"] {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6pt !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #work article {
+    padding: 0 !important;
+    border: 0 !important;
+    gap: 2pt !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #work article dl {
+    padding: 2pt 0 !important;
+    gap: 8pt !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #work article dd {
+    font-size: 10pt !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #experience > div {
+    display: grid !important;
+    grid-template-columns: 2fr 1fr;
+    gap: 12pt !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #experience li {
+    padding: 3pt 0 !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #experience ul {
+    gap: 2pt !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #experience span[class*="rounded"] {
+    padding: 0 3pt !important;
+    border: 0 !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #experience :is(div, ol, ul) {
+    gap: 3pt !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #experience h4 {
+    margin-top: 2pt;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) footer div {
+    padding-top: 2pt !important;
+    padding-bottom: 0 !important;
+  }
+  /* Skills (LEARNING-165): a compact text list, no chips or icons. */
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #skills [data-part="stack"] > div:first-child {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6pt !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #skills ul {
+    gap: 0 4pt !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #skills [data-part="skill"] {
+    min-height: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: none !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #skills :is(svg, [data-part="eyebrow"]) {
+    display: none !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #skills > div,
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #skills [data-part="stack"] {
+    gap: 4pt !important;
+  }
+  /* Experience (LEARNING-183): each project's title and its period/context share one line. */
+  [data-theme="swiss-minimal"]:has(#theme-slot-home)
+    #experience
+    [data-part="role-entry"]
+    > div:first-child {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 0 6pt !important;
+  }
+  /* Hero stats repeat Education & Certifications (round 4): left out of the one-page CV. */
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #top [data-part="stats"] {
+    display: none !important;
+  }
+  /* Contact: keep only the visible addresses. */
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #contact a {
+    min-height: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: none !important;
+  }
+  /* Paper has no hover: print where links go. */
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #contact a[href^="http"]::after {
+    content: " · " attr(href);
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #contact svg {
+    display: none !important;
+  }
+  [data-theme="swiss-minimal"]:has(#theme-slot-home) #contact > div {
+    padding-top: 8pt !important;
+  }
+}

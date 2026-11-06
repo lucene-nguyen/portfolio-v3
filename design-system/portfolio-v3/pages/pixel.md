@@ -1,0 +1,72 @@
+# Pixel Page Overrides
+
+> **PROJECT:** Portfolio v3
+> **Generated:** 2026-10-31 with ui-ux-pro-max (`"retro pixel game" --design-system --persist --page pixel`; `"pixel art retro 8-bit game" --domain style`; `"pixel retro game" --domain typography`), then reconciled.
+> **Theme id:** `pixel` · **Tokens:** `themes/pixel/index.ts`
+
+> ⚠️ Rules in this file **override** `MASTER.md`.
+
+## Verified from ui-ux-pro-max
+- Style **Pixel Art**: sharp edges, `image-rendering: pixelated`, pixel `box-shadow` borders, limited palette. Accessibility: contrast 4.5, keyboard, visible focus, reduced motion.
+- Font pairing **Pixel Retro**: Press Start 2P for headings ("very wide/large" → reduced sizes, line-height 1.5).
+
+## Rejected suggestions (and why)
+- VT323 body font: the brief requires a readable body font → Inter Tight stays.
+- Marquee text, blinking cursor, frame-by-frame animation: distracting; no motion added.
+
+## Color (exact)
+| Token | Hex | Use |
+|---|---|---|
+| bg | #1A1C2C | ground |
+| bgAlt | #1F2133 | alternate band |
+| surface | #262B44 | dialog boxes, cards |
+| surface2 | #2F3555 | chips |
+| border | #3B4270 | hairlines (decorative) |
+| borderStrong | #8B93C9 | pixel borders and shadows (5.7:1 on bg) |
+| text | #F4F4F4 | headings |
+| text2 | #E0E3F2 | tags |
+| textSecondary | #C8CCE4 | body |
+| textMuted | #AEB4D6 | meta |
+| textSubtle | #A1A8CE | fine print; on bg, bgAlt, surface (project rule: never on surface2) |
+| accent | #A7F070 | XP green: CTA, unlocked, focus ring |
+| accentContrast | #1A1C2C | text on accent |
+| warning | #FFCD75 | planned |
+| danger | #FF9A8A | 429, low mana |
+| mana fill | #5FCDE4 | meter fill (non-text, 9:1 on bg) |
+
+## Features
+- Mana bar: the lab meter, 5 segments, label prefixed "MANA".
+- Achievements: Bookworm (read a case study), Slow down! (trigger a 429), Explorer (try every theme). Status always in words.
+- Sound: square-wave blip on unlock, off by default, checkbox in the dialog.
+- Unlock toasts appear for unlocks that happen while Pixel is active; Explorer may unlock silently on the first Pixel load (recorded before the panel subscribes) and then simply shows as Unlocked.
+- Mana fill is the optional `meterFill` token (#5FCDE4).
+
+## Layout
+> ui-ux-pro-max (UI round 1): `"retro game playful portfolio" --domain landing` and retry `"gaming" --domain landing` → **no verified match**; section order follows the skill's built-in defaults (hero first, proof, work, contact). `"pixel game ui readability" --domain ux` (retry `"game hud dialog"`: no match).
+
+**Section order:** Hero → Case studies → Live lab (mana bar) → Starter kits → Experience + stack → Contact (shared order, hero first).
+- Verified (ux): body line-height 1.5–1.75 (body stays Inter Tight); numbers formatted with separators/abbreviations (2,500+, 300→20ms).
+- Rejected (ux): "glass material and z-offset" depth layering — a spatial-UI rule; pixel art stays flat with hard shadows.
+
+**How the shared sections look** (game UI, decoration only — labels are CSS with empty alt text)
+- Case study cards → **quest dialog boxes**: double 6px border, hard 4px shadow, "QUEST" tab; metrics in the pixel font as rewards; tags as square inventory slots.
+- Hero stats → **character sheet**: double-bordered panel, each stat a row (label left, value right in the pixel font).
+- Experience → **save slots**: each role a bordered box with hard shadow; date in mono.
+- Starter kits → bordered item cards (3px border, hard shadow), like save slots.
+- Contact → **"CONTINUE?" box**: double-bordered actions panel; buttons are pixel buttons (3px border, hard shadow, press = shadow drops via transform, no layout shift).
+
+### Skills section (round 2, LEARNING-165)
+- Searches: `"skills showcase logos grid" --domain landing` (Feature-Rich Showcase and Bento Grid Showcase: scannable groups, a stack on mobile, nothing hidden behind hover) and `"icon with text label" --domain ux` (Compact Label Overflow: chip labels never wrap).
+- The skills panel is `data-part="stack"` and now sits in its own `#skills` section after the hero, not beside Experience, so this theme's stack-panel rule above styles it. The group headings are `h3`s inside that panel. Icons are monochrome (`currentColor`), so they follow the theme's text colour. "Also familiar with" is smaller and muted.
+
+### Work with me section (round 2, LEARNING-166)
+- Searches: `"services offering process steps" --domain landing` and `"call to action specific label" --domain ux` (results in docs/prs/LEARNING-166.md).
+- Service cards are `data-part="kit"` and the "How I work" steps are `data-part="roles"`/`"role"`, so this theme's kit-card and roles/timeline rules above style them. Each CTA is a text link with a verb label and an arrow icon (`aria-hidden`), min 44px tall.
+
+### Contact form (round 2, LEARNING-167)
+- Searches: `"contact form lead capture" --domain landing` (Lead Magnet + Form: minimal fields, show submission progress, so "Sending…" is shown) and `"inline validation error summary" --domain ux` (Focusable Error Summary and Error Placement were applied; validate-on-blur was skipped so the form behaves the same without JavaScript).
+- The form sits left of the direct contacts (`data-part="contact-actions"`, which keeps this theme's rule). Controls use token colours only: `text-subtle` borders (≥ 4.5:1, WCAG 1.4.11), `danger` for errors, and the global accent focus ring. Radios and inputs are at least 44px tall.
+
+### Experience, full (round 3, LEARNING-183)
+- Searches: `"resume experience timeline" --domain landing` returned 0 results. The retry, `"portfolio about career"`, matched only weakly (Portfolio Grid, Content First), so no pattern was adopted from it. ux `"long list readability scanning"`: Line Length (65–75 characters) applied (bullets at most 70ch) and Font Size Scale kept. Truncation was rejected: the owner wants every bullet shown.
+- Each company row (`data-part="role"`) holds its projects (`data-part="role-entry"`): title, period and context, every bullet (`data-part="bullet"`) with its "→" result, and the tags. A `data-part="certifications"` block follows. Theme role rules apply unchanged.

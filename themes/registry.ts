@@ -1,0 +1,41 @@
+import { features } from "@/lib/features";
+import { world3d } from "./3d-world";
+import { anime } from "./anime";
+import { bento } from "./bento";
+import { blueprint } from "./blueprint";
+import { cyberpunk } from "./cyberpunk";
+import { dashboard } from "./dashboard";
+import { docs } from "./docs";
+import { editorial } from "./editorial";
+import { ide } from "./ide";
+import { neoBrutalism } from "./neo-brutalism";
+import { nightTerminal } from "./night-terminal";
+import { pixel } from "./pixel";
+import { swissMinimal } from "./swiss-minimal";
+import type { ThemeDefinition } from "./types";
+
+/** Adding a theme: create `themes/<id>/index.ts` and list it here. The first entry is the default. */
+export const themes: readonly ThemeDefinition[] = [
+  nightTerminal,
+  blueprint,
+  pixel,
+  cyberpunk,
+  editorial,
+  swissMinimal,
+  docs,
+  dashboard,
+  ide,
+  bento,
+  neoBrutalism,
+  anime,
+  world3d,
+];
+
+export const defaultTheme = themes[0];
+
+/** The themes visitors can use: all of them, or only the default while themes are locked. */
+export const activeThemes: readonly ThemeDefinition[] = features.themes ? themes : [defaultTheme];
+
+export function getTheme(id: string | null | undefined): ThemeDefinition | undefined {
+  return themes.find((t) => t.id === id);
+}

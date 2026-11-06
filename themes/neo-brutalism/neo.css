@@ -1,0 +1,131 @@
+/* Scoped to Neo-brutalism: thick black borders, hard offset shadows, no easing. */
+[data-theme="neo-brutalism"] {
+  /* Sticker fills mirror stickers.ts STICKER_FILLS (pink/violet kept for parity); only black text sits on them. */
+  --nb-yellow: #ffd60a;
+  --nb-pink: #ff90e8;
+  --nb-green: #7cf29c;
+  --nb-blue: #5ec8ff;
+  --nb-orange: #ffa94d;
+  --nb-violet: #c4b5fd;
+  --nb-shadow: 6px 6px 0 var(--border);
+}
+[data-theme="neo-brutalism"] * {
+  border-radius: 0 !important;
+  transition: none !important;
+}
+[data-theme="neo-brutalism"] :is(h1, h2, h3, h4) {
+  font-weight: 800;
+}
+[data-theme="neo-brutalism"]
+  :is(#work article, #lab .bg-surface, :is(#kits, #work-with-me) li > *, .nb-card) {
+  border: 3px solid var(--border) !important;
+  box-shadow: var(--nb-shadow);
+}
+[data-theme="neo-brutalism"] :is(a.inline-flex, button) {
+  border-width: 2px;
+}
+[data-theme="neo-brutalism"] :focus-visible {
+  outline-width: 3px;
+  outline-offset: 3px;
+}
+.nb-sticker {
+  border: 3px solid var(--border);
+  box-shadow: 4px 4px 0 var(--border);
+  touch-action: none;
+}
+.nb-sticker[aria-pressed="true"] {
+  box-shadow: none;
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Shared sections (design-system/portfolio-v3/pages/neo-brutalism.md › Layout). */
+[data-theme="neo-brutalism"] [data-part="eyebrow"] {
+  width: fit-content;
+  padding: 2px 10px;
+  border: 2px solid var(--border);
+  background: var(--nb-yellow);
+  color: var(--text);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Case studies: a loud colour header strip per card, edge to edge (card p-7, 3px border). */
+[data-theme="neo-brutalism"] [data-part="case-meta"] {
+  margin: -1.75rem -1.75rem 0; /* the card's p-7; e2e checks the strip stays edge to edge */
+  padding: 10px 1.75rem;
+  border-bottom: 3px solid var(--border);
+  background: var(--nb-yellow);
+  color: var(--text);
+  font-weight: 700;
+}
+[data-theme="neo-brutalism"] [data-part="case-card"]:nth-child(3n + 2) [data-part="case-meta"] {
+  background: var(--nb-green);
+}
+[data-theme="neo-brutalism"] [data-part="case-card"]:nth-child(3n) [data-part="case-meta"] {
+  background: var(--nb-blue);
+}
+[data-theme="neo-brutalism"] [data-part="case-metrics"] {
+  padding: 12px 16px;
+  border: 3px solid var(--border);
+  background: var(--bg-alt);
+}
+
+/* Hero numbers: separate stickers with hard shadows instead of a divided strip. */
+[data-theme="neo-brutalism"] [data-part="stats"] {
+  gap: 16px;
+  padding: 0 6px 6px 0; /* room for the shadows */
+  border: 0;
+  overflow: visible;
+}
+[data-theme="neo-brutalism"] [data-part="stat"] {
+  border: 3px solid var(--border) !important;
+  box-shadow: var(--nb-shadow);
+  background: var(--nb-yellow);
+}
+[data-theme="neo-brutalism"] [data-part="stat"]:nth-child(2) {
+  background: var(--nb-green);
+}
+[data-theme="neo-brutalism"] [data-part="stat"]:nth-child(3) {
+  background: var(--nb-blue);
+}
+[data-theme="neo-brutalism"] [data-part="stat"]:nth-child(4) {
+  background: var(--nb-orange);
+}
+[data-theme="neo-brutalism"] [data-part="stat"] :is(dt, dd) {
+  color: var(--text);
+}
+
+/* Experience: each role is a card with a black period label; the stack is a pink panel. */
+[data-theme="neo-brutalism"] [data-part="roles"] {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+[data-theme="neo-brutalism"] :is([data-part="role"], [data-part="stack"]) {
+  padding: 24px;
+  border: 3px solid var(--border) !important;
+  box-shadow: var(--nb-shadow);
+  background: var(--surface);
+}
+[data-theme="neo-brutalism"] [data-part="role"] > span:first-child {
+  flex: 0 0 auto;
+  align-self: flex-start;
+  padding: 2px 8px;
+  background: var(--text);
+  color: var(--surface);
+}
+[data-theme="neo-brutalism"] [data-part="stack"] {
+  align-self: flex-start;
+  background: var(--surface2);
+}
+[data-theme="neo-brutalism"] [data-part="stack"] h3:not([data-part="skills-secondary"] h3) {
+  color: var(--text);
+  font-weight: 700;
+}
+
+/* Contact: actions get the hard shadow too. */
+[data-theme="neo-brutalism"] [data-part="contact-actions"] [data-part="button"] {
+  border: 3px solid var(--border);
+  box-shadow: 4px 4px 0 var(--border);
+}

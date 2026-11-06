@@ -22,6 +22,11 @@ npm run dev
 | `npm run build` | Production build |
 | `npm run lint` / `npm run typecheck` | Code quality |
 | `npm run test` / `npm run test:e2e` | Unit / E2E tests |
+| `npm run test:perf` | Performance checks (3D world fps), one worker, run alone |
+
+Unfinished content is written `[PLACEHOLDER…]` in `content/` and never renders. To see it while editing: `SHOW_PLACEHOLDERS=1 npm run dev` (dev only).
+
+E2E runs against a production build (as in CI). For quick local iteration on a few specs: `E2E_DEV=1 npx playwright test e2e/<spec>`.
 
 ## Workflow
 Each feature goes through `/spec → /implement → /test → /review → /deploy` (Claude Code skills in `.claude/skills/`).

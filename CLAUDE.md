@@ -18,6 +18,19 @@ Every feature goes through: `/spec` → `/implement` → `/test` → `/review` �
 - One feature = one branch `feat/<feature>`.
 - Never deploy to production without the user's explicit OK.
 
+## Current phase: local-first (UI/UX polish)
+- Everything runs locally: `npm run dev` (http://localhost:3000), themes via `?theme=<id>` when themes are unlocked.
+- Feature flags (build time, `.env.local`, value `on`): `NEXT_PUBLIC_FEATURE_THEMES` (all 13 themes + switcher; off = Night terminal only, `?theme=` and saved choices ignored, other themes' E2E specs skipped), `NEXT_PUBLIC_FEATURE_CASE_STUDIES`, `NEXT_PUBLIC_FEATURE_LAB`, `NEXT_PUBLIC_FEATURE_WORK_WITH_ME` (Work with me section, nav link, hero CTA; off = hero CTA "Contact me"), `NEXT_PUBLIC_FEATURE_CONTACT_SERVER` (server contact delivery; off = visitors send from their own mailbox, and Production needs no Upstash/salt/prefix/Resend). Theme code, tests and design rules stay in the repo while locked.
+- No Vercel, no deploys, no prod env vars, no PR to main. LEARNING-146 (deploy) is on hold until the owner says so.
+- No external accounts needed: rate limiter uses the in-memory fallback; use `docker compose up -d` only when testing real Redis.
+- Owner reviews the UI in the browser and sends feedback per theme; each round of feedback = one branch `fix/ui-<theme>` from develop → /implement → /test → /review → merge into develop.
+- Before reporting a UI change done: run the app, check the theme at 1440px and 375px, and attach screenshots (save to `docs/screenshots/<theme>/`).
+- Speed rules:
+  - During a task run only the unit tests and E2E specs related to the change; run the full suite once, right before merging.
+  - Screenshots only for themes that changed (currently Night terminal only).
+  - Use /compact between backlog items.
+- After changing dependencies, verify `npm ci` in a node:22 Linux container before merging: `docker run --rm -v "$PWD:/app:ro" node:22 sh -c "mkdir /w && cp /app/package*.json /w && cd /w && npm ci --ignore-scripts"`.
+
 ## Autonomous mode (when asked to "run the backlog")
 - Follow `docs/backlog.md` top to bottom; update its Status column as you go. If interrupted, resume from the first non-done row.
 - Specs are self-approved (write the spec, then continue) — this is a low-risk showcase site.

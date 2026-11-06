@@ -1,0 +1,29 @@
+{
+  "themes": {
+    "night-terminal": []
+  },
+  "api": {
+    "/api/ping": {
+      "status": 404
+    },
+    "/api/stats": {
+      "status": 404
+    },
+    "/api/github": {
+      "status": 200
+    },
+    "/search-index.json": {
+      "status": 200
+    },
+    "/sitemap.xml": {
+      "status": 200
+    },
+    "/robots.txt": {
+      "status": 200
+    },
+    "/opengraph-image": {
+      "status": 200
+    }
+  },
+  "lab": "parked"
+}
