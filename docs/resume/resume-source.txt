@@ -1,0 +1,188 @@
+Nguyen Manh Cuong​
+Fullstack Software Engineer
+Email: manhcuongmvc@gmail.com
+Phone: 0339696831
+PROFESSIONAL SUMMARY
+Fullstack Software Engineer with 5+ years of experience building scalable web applications, with strong expertise in
+Node.js, NestJS, TypeScript, SQL/NoSQL databases, AWS, Docker, and microservices. Experienced in developing
+RESTful and GraphQL APIs, distributed and event-driven systems, cloud-native applications, and CI/CD pipelines.
+Currently expanding frontend expertise with React.js and Next.js, with hands-on experience building and integrating
+frontend applications with backend services. Strong background in system design, performance optimization,
+production operations, and end-to-end project ownership, with experience across pharmacy retail, fintech, e-commerce,
+AI, and large-scale data platforms.
+TECHNICAL EXPERTISE
+Backend
+Frontend
+Architecture
+Databases
+Cloud & DevOps
+Tools
+Language
+
+Node.js, NestJS, TypeScript, REST API, GraphQL, WebSocket, RabbitMQ, NATS,
+Kafka.
+React.js, Next.js, JavaScript, HTML5, CSS3, Tailwind CSS
+Microservices, Event-Driven Architecture, Distributed Systems, SOLID, Clean
+Architecture.
+PostgreSQL, MySQL, MongoDB, Redis, Elasticsearch.
+AWS (EC2, ECS, Lambda, S3, CloudWatch, IAM), Docker, Docker Compose, CI/CD,
+GitHub Actions, GitLab CI, Linux, Grafana, CloudWatch, Logging, Performance
+Monitoring, Production Troubleshooting.
+Git, Jira, Postman, Notion, Github Copilot, Claude, AI tools, AI Agents.
+English B2
+
+PROFESSIONAL EXPERIENCE
+FPT Software
+Software Engineer - YMTWMS25 (01/2026 – 07/2026)
+03/2024 – 07/2026.
+●​ Worked directly with Australian clients to gather and clarify business requirements through
+regular meetings and technical discussions.​
+→ Translated client requirements into practical backend solutions and aligned
+implementation with business needs.
+●​ Built NestJS services for a file-driven data processing workflow on top of AWS S3.​
+→ Centralized JSON-based data access for downstream systems and improved consistency
+across transformations.
+●​ Implemented scheduled AWS Lambda jobs in Python, Nodejs to scan S3 buckets every five
+minutes and aggregate multiple CSV files into a single JSON dataset..​
+→ Persisted the processed output automatically.
+●​ Designed asynchronous large-file processing and integrated AWS SES notifications.​
+→ Improved throughput and reduced manual intervention in data transformation workflows.
+●​ Structured the workflow around automated file ingestion, transformation, and notification
+steps.​
+→ Enabled recurring data updates to run reliably with minimal operator involvement.
+
+●​ Collaborated with backend and DevOps engineers to integrate NestJS, Lambda, S3, and SES
+into a stable distributed workflow..​
+→ Ensured reliable service-to-service communication.
+Software Engineer - AI1.SOL.RENESAS (9/2025 – 12/2025)
+●​ Worked directly with Japanese clients to gather and clarify business requirements through
+regular meetings and technical discussions.​
+→ Translated client requirements into practical backend solutions and aligned
+implementation with business needs.
+●​ Owned backend development from architecture design to production deployment,
+researching the Databricks platform.​
+→ Designed a production-ready solution on Databricks Apps.
+●​ Designed streaming-based REST APIs for large image uploads, returning job IDs immediately
+while processing requests asynchronously.​
+→ Avoided blocking the Node.js event loop and prevented out-of-memory issues..
+●​ Designed an event-driven processing pipeline using Worker Threads, job queues, retry
+policies, and dead-letter queues.​
+→ Enabled resilient image preprocessing and AI inference.
+●​ Implemented CPU-intensive preprocessing with Worker Threads before dispatching jobs to
+Databricks Model Serving.​
+→ Kept backend APIs responsive under heavy workloads.
+●​ Designed PostgreSQL data models with TypeORM, foreign keys, unique constraints, and
+cascading relationships.​
+→ Ensured data integrity and supported reliable, scalable AI processing workflows.
+●​ Designed real-time job tracking where AI workers persisted results and published completion
+events.​
+→ Enable the backend to deliver live status updates and inference results to the frontend
+through WebSocket.
+●​ Implemented secure application-level and user-level authorization for Databricks Apps.​
+→ Protected shared AI workspaces and customer-facing services.
+Software Engineer - FPT Retail - Long Châu Pharmacy (03/2024 – 9/2025)
+●​ Developed and enhanced backend microservices for Long Chau’s pharmacy retail platform,
+supporting more than 2,500 stores and millions of users, while mentoring junior engineers.​
+→ Consistently delivered complex backend features on schedule under tight business
+deadlines.
+●​ Designed and implemented scalable RESTful APIs using Node.js, NestJS, and TypeScript,
+applying SOLID principles and Clean Architecture.​
+→ Built maintainable, extensible, and production-ready backend services.
+●​ Designed, implemented, and owned a dedicated Worker Service responsible for document
+generation and large-file processing using Worker Threads and asynchronous processing.​
+→ Generated Word reports and handled Excel import/export workflows while keeping APIs
+responsive under heavy workloads. Published job completion events and delivered generated
+files through a real-time notification system.
+
+Page 2
+
+●​ Designed and implemented Redis-backed inventory services.​
+→ Reduced average API response time from 300 ms to 20 ms, lowered database load by
+approximately 40%, and optimized infrastructure costs for high-traffic inventory operations.
+●​ Built Elasticsearch-powered search services and secure AWS S3 file upload/download
+workflows using Presigned URLs.​
+→ Improved search performance, secure file handling, and operational efficiency across
+multiple business domains.
+●​ Migrated legacy services to a modern NestJS-based microservice architecture while adopting
+standardized engineering practices.​
+→ Improved maintainability, modularity, production reliability, and long-term scalability.
+●​ Collaborated closely with backend engineers across multiple microservices, product
+managers, QA engineers, and cross-functional teams to design scalable technical solutions and
+define service contracts.​
+→ Ensured seamless integration between distributed services.
+●​ Partnered with the DevOps team to optimize Node.js production environments, including
+application configuration, resource utilization, deployment strategies, and runtime
+performance.​
+→ Improved service stability and operational efficiency.
+●​ Supported production operations by monitoring application health, troubleshooting
+incidents, optimizing system performance, and resolving production issues.​
+→ Ensured reliable service delivery.
+NEOX
+08/2022 – 03/2024
+
+Software Engineer.
+Domain: Fintech
+●​ Developed RESTful APIs for internal service communication and GraphQL APIs for
+frontend applications using NestJS, Apollo Server, and TypeScript.​
+→ Provided efficient and flexible data access across fintech platforms.
+●​ Designed and implemented Apache NiFi data pipelines to continuously synchronize
+operational data from MongoDB to PostgreSQL.​
+→ Enabled complex SQL-based reporting and business analytics without impacting
+production workloads.
+●​ Improved software quality and deployment reliability by enhancing CI/CD pipelines,
+integrating SonarQube, ESLint, and automated testing.​
+→ Modernized legacy Node.js services to improve maintainability and code quality.
+●​ Researched, integrated, and deployed Cloudflare for document uploads and Mailjet for
+email notifications within the microservice platform.​
+→ Enabled secure file upload workflows and reliable email delivery while reducing
+infrastructure complexity and operational overhead.
+●​ Collaborated closely with backend engineers, product managers, QA engineers, and business
+stakeholders to design microservice and event-driven solutions and define API contracts.​
+→ Delivered scalable backend architectures aligned with business requirements.
+
+Faboshop
+01/2021 – 08/2022
+
+Software Engineer
+Domain: e-commerce
+●​ Joined the founding engineering team and played a key role in evaluating and selecting the
+technology stack, including NestJS and supporting libraries.​
+
+Page 3
+
+●​
+
+●​
+
+●​
+
+●​
+
+●​
+
+→ Contributed to backend architecture, database schema design, and engineering standards
+for a social commerce platform built on MongoDB and PostgreSQL.
+Designed and developed scalable backend APIs using Node.js, NestJS, and TypeScript,
+supporting Web, Android, IOS, and internal administration systems.​
+→ Ensured consistent business logic across multiple client applications.
+Developed internal administration modules for order management, product management, and
+operational workflows.​
+→ Improved efficiency through centralized business operations.
+Designed and implemented Redis-based authentication, session management, refresh token
+rotation, token blacklisting, and caching strategies.​
+→ Improved API performance and strengthened application security.
+Integrated Firebase Cloud Messaging (FCM) and Google Cloud Storage to deliver reliable
+push notifications and centralized media management.​
+→ Improved user engagement and scalable file handling.
+Researched and integrated Facebook APIs into the platform to support social commerce
+features while implementing secure file upload services.​
+→ Enhanced platform capabilities and user experience.
+
+EDUCATION
+●​ Cloud Developer Certificate https://www.udacity.com/certificate/e/5448d244-6532-11ef-bdfa-8b8c4cf38908
+●​ AWS Certified Developer – Associate (DVA-C02) - Verified via:
+https://www.credly.com/badges/ceb07f06-52f7-4067-850c-83162dc7ee60
+
+Page 4
+
+

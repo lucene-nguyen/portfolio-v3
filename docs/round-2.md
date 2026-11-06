@@ -16,6 +16,6 @@ Per item: /spec → /implement → /test → /review → merge into `develop` �
 
 | Item | Status | Branch |
 |---|---|---|
-| LEARNING-184 Lock themes | doing | `feat/LEARNING-184-theme-lock` |
+| LEARNING-184 Lock themes | done | `feat/LEARNING-184-theme-lock` |
 | LEARNING-183 Experience, full and verbatim | todo | `feat/LEARNING-183-experience` |
 | LEARNING-168 finish (approved VI copy) | todo | `feat/LEARNING-168-i18n` |
