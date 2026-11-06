@@ -128,7 +128,7 @@ test("shared sections are restyled as HUD, not just recolored", async ({ page })
     "text-transform",
     "none",
   );
-  await expect(page.locator('[data-part="stat"] dd.text-accent')).toHaveCSS(
+  await expect(page.locator('[data-part="stat"] dd a').first()).toHaveCSS(
     "color",
     "rgb(255, 92, 219)",
   );

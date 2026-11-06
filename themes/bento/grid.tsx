@@ -66,11 +66,25 @@ const tilesFor = (content: Content): Tile[] => {
       size: "md:col-span-1",
       tone: "accent",
       body: (
-        <dl className="grid grid-cols-2 gap-3">
+        <dl className="grid gap-3">
           {hero.stats.map((s) => (
             <div key={s.label} className="flex flex-col-reverse">
               <dt className="text-xs">{s.label}</dt>
-              <dd className="font-mono text-lg font-bold">{s.value}</dd>
+              <dd className="font-mono text-lg font-bold">
+                {s.href ? (
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${s.value} ${s.label} ${labels.newTab}`}
+                    className="underline underline-offset-4"
+                  >
+                    {s.value}
+                  </a>
+                ) : (
+                  s.value
+                )}
+              </dd>
             </div>
           ))}
         </dl>

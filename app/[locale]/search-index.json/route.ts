@@ -52,16 +52,20 @@ export async function GET(_: Request, { params }: RouteContext<"/[locale]/search
       href: at("#kits"),
       text: `${k.status}. ${k.description} ${k.stack}`,
     })),
-    {
-      title: workWithMe.title,
-      section: workWithMe.title,
-      href: at("#work-with-me"),
-      text: [
-        workWithMe.intro,
-        ...workWithMe.services.map((s) => `${s.name}: ${s.description}`),
-        ...workWithMe.steps.map((s) => `${s.name}: ${s.description}`),
-      ].join(" "),
-    },
+    ...(features.workWithMe
+      ? [
+          {
+            title: workWithMe.title,
+            section: workWithMe.title,
+            href: at("#work-with-me"),
+            text: [
+              workWithMe.intro,
+              ...workWithMe.services.map((s) => `${s.name}: ${s.description}`),
+              ...workWithMe.steps.map((s) => `${s.name}: ${s.description}`),
+            ].join(" "),
+          },
+        ]
+      : []),
     ...experience.roles.map((r) => ({
       title: r.company,
       section: experience.title,

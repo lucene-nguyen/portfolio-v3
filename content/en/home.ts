@@ -4,6 +4,12 @@ import { features } from "@/lib/features";
 import type { CollabType } from "../collab";
 import { shown } from "@/lib/placeholder";
 
+// Certificate URLs from docs/resume/resume-source.txt (hero stats + Education & Certifications).
+export const certificates = {
+  aws: "https://www.credly.com/badges/ceb07f06-52f7-4067-850c-83162dc7ee60",
+  udacity: "https://www.udacity.com/certificate/e/5448d244-6532-11ef-bdfa-8b8c4cf38908",
+};
+
 export const profile = {
   name: "Nguyen Manh Cuong",
   handle: "cuong",
@@ -45,7 +51,8 @@ export const labels = {
   intro: "Introduction",
   github: "GitHub",
   linkedin: "LinkedIn",
-  resume: "Download CV",
+  resume: "View CV",
+  contactMe: "Contact me",
   newTab: "(opens in a new tab)",
 };
 
@@ -56,7 +63,7 @@ const sections = [
   ...(features.caseStudies ? ["work"] : []),
   ...(features.lab ? ["lab"] : []),
   "kits",
-  "work-with-me",
+  ...(features.workWithMe ? ["work-with-me"] : []),
   "contact",
 ];
 const no = (id: string) => String(sections.indexOf(id) + 1).padStart(2, "0");
@@ -67,7 +74,7 @@ export const nav = [
   ...(features.caseStudies ? [{ href: "/#work", label: "Work" }] : []),
   ...(features.lab ? [{ href: "/#lab", label: "Live lab" }] : []),
   { href: "/#kits", label: "Starter kits" },
-  { href: "/#work-with-me", label: "Work with me" },
+  ...(features.workWithMe ? [{ href: "/#work-with-me", label: "Work with me" }] : []),
   { href: "/#contact", label: "Contact" },
 ];
 
@@ -80,9 +87,8 @@ export const hero = {
   workWithMeHref: "#work-with-me",
   stats: [
     { value: "5+ yrs", label: "building production backends" },
-    { value: "2,500+", label: "stores on services I shipped" },
-    { value: "300→20ms", label: "inventory API latency", highlight: true },
-    { value: "AWS", label: "Certified Developer – Associate" },
+    { value: "AWS", label: "Certified Developer – Associate (DVA-C02)", href: certificates.aws },
+    { value: "Udacity", label: "Cloud Developer", href: certificates.udacity },
   ],
 };
 
@@ -742,15 +748,17 @@ export const experience = {
       ],
     },
   ],
-  certificationsTitle: "Certifications",
+  certificationsTitle: "Education & Certifications",
+  education:
+    "University of Information Technology (UIT) – VNU-HCM · Information Technology · 2025 – Present",
   certifications: [
     {
       name: "Cloud Developer Certificate",
-      url: "https://www.udacity.com/certificate/e/5448d244-6532-11ef-bdfa-8b8c4cf38908",
+      url: certificates.udacity,
     },
     {
       name: "AWS Certified Developer – Associate (DVA-C02)",
-      url: "https://www.credly.com/badges/ceb07f06-52f7-4067-850c-83162dc7ee60",
+      url: certificates.aws,
     },
   ],
 };

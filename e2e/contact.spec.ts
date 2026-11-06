@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
+import { features } from "../lib/features";
 
 // Each test is its own visitor, so the contact rate limit never leaks between tests.
 test.beforeEach(async ({ page }, info) => {
@@ -96,6 +97,7 @@ test("rate limit: an alert with the direct email", async ({ page }) => {
 test("type is preselected from the URL and from Work with me CTAs", async ({ page }) => {
   await page.goto("/?type=consulting#contact");
   await expect(form(page).getByRole("radio", { name: "Consulting" })).toBeChecked();
+  if (!features.workWithMe) return; // the CTAs live in the parked Work with me section (round 4)
   await page.goto("/");
   await page.locator("#work-with-me").getByRole("link", { name: "Discuss a web app" }).click();
   await expect(page).toHaveURL(/\?type=freelance#contact$/);

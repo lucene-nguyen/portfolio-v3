@@ -20,7 +20,7 @@ Every feature goes through: `/spec` → `/implement` → `/test` → `/review` �
 
 ## Current phase: local-first (UI/UX polish)
 - Everything runs locally: `npm run dev` (http://localhost:3000), themes via `?theme=<id>` when themes are unlocked.
-- Feature flags (build time, `.env.local`, value `on`): `NEXT_PUBLIC_FEATURE_THEMES` (all 13 themes + switcher; off = Night terminal only, `?theme=` and saved choices ignored, other themes' E2E specs skipped), `NEXT_PUBLIC_FEATURE_CASE_STUDIES`, `NEXT_PUBLIC_FEATURE_LAB`. Theme code, tests and design rules stay in the repo while locked.
+- Feature flags (build time, `.env.local`, value `on`): `NEXT_PUBLIC_FEATURE_THEMES` (all 13 themes + switcher; off = Night terminal only, `?theme=` and saved choices ignored, other themes' E2E specs skipped), `NEXT_PUBLIC_FEATURE_CASE_STUDIES`, `NEXT_PUBLIC_FEATURE_LAB`, `NEXT_PUBLIC_FEATURE_WORK_WITH_ME` (Work with me section, nav link, hero CTA; off = hero CTA "Contact me"). Theme code, tests and design rules stay in the repo while locked.
 - No Vercel, no deploys, no prod env vars, no PR to main. LEARNING-146 (deploy) is on hold until the owner says so.
 - No external accounts needed: rate limiter uses the in-memory fallback; use `docker compose up -d` only when testing real Redis.
 - Owner reviews the UI in the browser and sends feedback per theme; each round of feedback = one branch `fix/ui-<theme>` from develop → /implement → /test → /review → merge into develop.

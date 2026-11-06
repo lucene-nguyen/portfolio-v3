@@ -41,7 +41,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
           </LabSection>
         )}
         <KitsSection />
-        <WorkWithMeSection />
+        {features.workWithMe && <WorkWithMeSection />}
       </main>
       <ContactSection />
     </>

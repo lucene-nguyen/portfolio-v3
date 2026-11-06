@@ -54,10 +54,11 @@ test("Vietnamese links stay on /vi; /en redirects to /", async ({ page, request 
   const sectionLinks = hrefs.filter((h) => h?.includes("#"));
   expect(sectionLinks.length).toBeGreaterThan(3);
   expect(sectionLinks.every((h) => h!.startsWith("/vi#"))).toBe(true);
-  await expect(page.locator("#top").getByRole("link", { name: "Hợp tác với tôi" })).toHaveAttribute(
-    "href",
-    "#work-with-me",
-  );
+  await expect(
+    page
+      .locator("#top")
+      .getByRole("link", { name: features.workWithMe ? "Hợp tác với tôi" : "Liên hệ với tôi" }),
+  ).toHaveAttribute("href", features.workWithMe ? "#work-with-me" : "#contact");
   const res = await request.get("/en", { maxRedirects: 0 });
   expect([307, 308]).toContain(res.status());
   expect(res.headers()["location"]).toMatch(/\/$/);
@@ -116,13 +117,17 @@ test("Vietnamese chrome: theme label and nav name", async ({ page }) => {
   if (features.themes) await expect(page.getByLabel("Giao diện")).toBeVisible();
 });
 
-test("/vi: experience stays English, CV link in Vietnamese", async ({ page }) => {
+test("/vi: experience stays English; education, CV link in Vietnamese", async ({ page }) => {
   await page.goto("/vi");
   await expect(page.locator("#experience h2")).toHaveText("Những nơi tôi đã làm việc");
   await expect(
     page.getByText("Designed and implemented Redis-backed inventory services.", { exact: true }),
   ).toBeVisible();
-  const cv = page.locator("#top").getByRole("link", { name: /Tải CV/ });
+  await expect(page.locator('[data-part="certifications"]')).toContainText(
+    "Trường Đại học Công nghệ Thông tin (UIT) – ĐHQG-HCM · Công nghệ Thông tin · 2025 – nay",
+  );
+  await expect(page.locator('[data-part="certifications"] h3')).toHaveText("Học vấn & Chứng chỉ");
+  const cv = page.locator("#top").getByRole("link", { name: /Xem CV/ });
   await expect(cv).toHaveAttribute("target", "_blank");
   await expect(cv).toHaveAttribute("rel", "noopener noreferrer");
 });

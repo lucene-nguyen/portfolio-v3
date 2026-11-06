@@ -144,9 +144,9 @@
   border-style: dashed;
   border-color: var(--border-strong);
 }
-/* Readouts in cyan; the highlighted stat (content marks it) keeps the magenta accent. */
+/* Readouts in cyan; linked stats (certificates) keep the magenta accent. */
 [data-theme="cyberpunk"] [data-part="case-metrics"] dd,
-[data-theme="cyberpunk"] [data-part="stat"] dd:not(.text-accent) {
+[data-theme="cyberpunk"] [data-part="stat"] dd:not(:has(a)) {
   color: var(--meter-fill);
 }
 [data-theme="cyberpunk"] [data-part="case-card"] ul span::before {

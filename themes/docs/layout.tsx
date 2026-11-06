@@ -19,7 +19,7 @@ function useHomeLinks() {
   ...(features.caseStudies ? [{ href: at("#work"), label: work.title }] : []),
   ...(features.lab ? [{ href: at("#lab"), label: lab.title }] : []),
   { href: at("#kits"), label: kits.title },
-  { href: at("#work-with-me"), label: workWithMe.title },
+  ...(features.workWithMe ? [{ href: at("#work-with-me"), label: workWithMe.title }] : []),
 ];
 }
 

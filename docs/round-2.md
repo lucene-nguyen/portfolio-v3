@@ -19,3 +19,9 @@ Per item: /spec → /implement → /test → /review → merge into `develop` �
 | LEARNING-184 Lock themes | done | `feat/LEARNING-184-theme-lock` |
 | LEARNING-183 Experience, full and verbatim | done | `feat/LEARNING-183-experience` |
 | LEARNING-168 finish (approved VI copy) | done | `feat/LEARNING-168-i18n` |
+
+## Round 4
+
+| Item | Status | Branch |
+|---|---|---|
+| Owner content changes (hero stats, education, Work with me parked, View CV) | done | `feat/round-4-content` |
