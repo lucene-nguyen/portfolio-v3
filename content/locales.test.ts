@@ -35,9 +35,9 @@ describe("Vietnamese copy", () => {
     );
     expect(vi.skills.groups.map((g) => g.items)).toEqual(en.skills.groups.map((g) => g.items));
     expect(vi.skills.secondary.items).toEqual(en.skills.secondary.items);
-    expect(vi.kits.items.map((k) => [k.name, k.state, k.stack, k.href])).toEqual(
-      en.kits.items.map((k) => [k.name, k.state, k.stack, k.href]),
-    );
+    expect(
+      vi.kits.items.map((k) => [k.name, k.state, k.stack, k.href, "demo" in k && k.demo]),
+    ).toEqual(en.kits.items.map((k) => [k.name, k.state, k.stack, k.href, "demo" in k && k.demo]));
     expect(vi.collabTypes.map((t) => t.id)).toEqual(en.collabTypes.map((t) => t.id));
     expect(vi.workWithMe.services.map((s) => [s.type, s.kits])).toEqual(
       en.workWithMe.services.map((s) => [s.type, s.kits]),
@@ -83,5 +83,11 @@ describe("Vietnamese copy", () => {
       (s.replace(/(\d)[.,](\d{3})/g, "$1$2").match(/\d+/g) ?? []).join(" ");
     const vis = strings(vi);
     for (const [path, text] of strings(en)) expect(digits(vis.get(path)!), path).toBe(digits(text));
+  });
+
+  it("never shows an active kit without a real link", () => {
+    for (const c of [en, vi])
+      for (const k of c.kits.items.filter((k) => k.state === "active"))
+        expect(k.href, k.name).toMatch(/^https:\/\//);
   });
 });

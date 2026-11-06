@@ -53,6 +53,7 @@ export const labels = {
   linkedin: "LinkedIn",
   resume: "View CV",
   contactMe: "Contact me",
+  liveDemo: "Live demo",
   newTab: "(opens in a new tab)",
 };
 
@@ -368,8 +369,9 @@ export const kits = {
       status: "in progress",
       state: "active",
       description: "QR-code table ordering starter kit for restaurants and cafés.",
-      stack: "Next.js · NestJS · PostgreSQL",
-      href: "[PLACEHOLDER]",
+      stack: "Next.js · Supabase · VietQR",
+      href: "https://github.com/lucene-nguyen/qr-ordering-starter-kit",
+      demo: "https://qr-ordering.lucene.cloud",
     },
     {
       name: "Booking kit",
@@ -402,6 +404,7 @@ export const kits = {
     description: string;
     stack: string;
     href: string;
+    demo?: string;
   }[],
 };
 /** Collaboration types (LEARNING-166/167): Work with me CTAs preselect one in the Contact form. */

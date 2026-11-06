@@ -4,11 +4,10 @@
   },
   "api": {
     "/api/ping": {
-      "status": 200,
-      "store": "memory"
+      "status": 404
     },
     "/api/stats": {
-      "status": 200
+      "status": 404
     },
     "/api/github": {
       "status": 200
