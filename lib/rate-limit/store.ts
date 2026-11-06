@@ -1,5 +1,5 @@
-import { redisKey } from "@/lib/env";
 import { Redis } from "@upstash/redis";
+import { redisKey } from "@/lib/env";
 import {
   fixedWindow,
   LIMITS,

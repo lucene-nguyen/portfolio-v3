@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { redisKey, redisKeyPrefix, rlSalt } from "./env";
 import { redisMessages } from "./contact-delivery";
 import { redisStats } from "./rate-limit/stats";
+import { redisLimiter } from "./rate-limit/store";
 
 afterEach(() => vi.unstubAllEnvs());
 
@@ -32,6 +33,13 @@ describe("REDIS_KEY_PREFIX", () => {
     expect(() => redisKeyPrefix()).toThrow(/must be "prod" in production/);
     vi.stubEnv("REDIS_KEY_PREFIX", "prod");
     expect(redisKey("rl:token:x")).toBe("prod:rl:token:x");
+  });
+  it('preview defaults to "preview" and can never write "prod" keys', () => {
+    vi.stubEnv("VERCEL_ENV", "preview");
+    vi.stubEnv("REDIS_KEY_PREFIX", "");
+    expect(redisKeyPrefix()).toBe("preview");
+    vi.stubEnv("REDIS_KEY_PREFIX", "prod");
+    expect(() => redisKeyPrefix()).toThrow(/not allowed in preview/);
   });
   it('defaults to "dev" locally and rejects unknown values', () => {
     vi.stubEnv("VERCEL_ENV", "");
@@ -68,6 +76,16 @@ describe("REDIS_KEY_PREFIX", () => {
     await redisMessages(fake).list();
     await redisStats(fake).record(200, 1_000);
     await redisStats(fake).last(1_000);
+    // Rate limiter: Lua script keys and reset.
+    const limiter = redisLimiter({
+      createScript: () => ({ exec: async (k: string[]) => (keys.push(...k), [1, "4"]) }),
+      del: record,
+    } as never);
+    await limiter.hit("token", "rl:token:abc");
+    await limiter.hit("window", "rl:window:abc");
+    await limiter.reset("token", "rl:token:abc");
+    expect(keys).toContain("preview:rl:token:abc");
+    expect(keys).toContain("preview:rl:window:abc");
     expect(keys.length).toBeGreaterThan(4);
     expect(keys.every((k) => k.startsWith("preview:"))).toBe(true);
   });

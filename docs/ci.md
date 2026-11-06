@@ -41,7 +41,6 @@ gh api repos/lucene-nguyen/portfolio-v3/branches/main/protection \
 ## Production guards (env)
 Server code checks two variables when `VERCEL_ENV=production` (see `lib/env.ts`, tests in `lib/env.test.ts`):
 - `RL_SALT`: required. Without it the rate limiter and the contact form fail with a clear error instead of hashing IPs with the public `"dev-salt"` default.
-- `REDIS_KEY_PREFIX`: required and must be `prod`. Every Redis key (rate limits, stats, contact submissions) is prefixed with it, so Production (`prod:`) and Preview (`preview:`) can share one Upstash database.
+- `REDIS_KEY_PREFIX`: required and must be `prod`. On Preview it defaults to `preview` and `prod` is refused. Every Redis key (rate limits, stats, contact submissions) is prefixed with it, so Production (`prod:`) and Preview (`preview:`) can share one Upstash database.
 
 CI and local runs don't set `VERCEL_ENV`, so they keep the defaults (`dev-salt`, prefix `dev`) and need no secrets. Values per Vercel environment are listed in [deploy.md](deploy.md).
-
