@@ -2,6 +2,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { contactCopy } from "@/content/en/home";
 import { validate } from "./contact";
+import { features } from "./features";
 import { deliver, memoryMessages, sendEmail, type StoredMessage } from "./contact-delivery";
 
 const form = (fields: Record<string, string>) => {
@@ -57,7 +58,8 @@ describe("validate", () => {
   });
 });
 
-describe("delivery", () => {
+// Server delivery is parked (LEARNING-188); runs with NEXT_PUBLIC_FEATURE_CONTACT_SERVER=on.
+describe.skipIf(!features.contactServer)("delivery", () => {
   afterEach(() => vi.unstubAllEnvs());
   const msg: StoredMessage = { ...valid, type: "freelance", id: "1", at: "2026-11-01T00:00:00Z" };
 

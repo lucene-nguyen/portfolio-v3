@@ -20,6 +20,9 @@ export type Validation =
 /** Contact-form rate limit per visitor: enough for a person, useless for a flood. */
 export const CONTACT_LIMITS = { capacity: 3, windowMs: 10 * 60_000 };
 
+/** Message length cap (LEARNING-188): fits a mail link and a quick read. */
+export const MESSAGE_MAX = 1500;
+
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const CONTROL = /[\u0000-\u001f\u007f]/;
 const PHONE = /^\+?[\d\s().-]{7,20}$/;
@@ -48,7 +51,7 @@ export function validate(
 
   if (!values.message) errors.message = e.messageRequired;
   else if (values.message.length < 20) errors.message = e.messageShort;
-  else if (values.message.length > 4000) errors.message = e.messageLong;
+  else if (values.message.length > MESSAGE_MAX) errors.message = e.messageLong;
 
   if (values.phone && !PHONE.test(values.phone)) errors.phone = e.phoneInvalid;
 

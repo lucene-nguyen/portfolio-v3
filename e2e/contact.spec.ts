@@ -66,6 +66,7 @@ test("invalid submit: inline errors, focused summary, values kept; axe clean", a
 });
 
 test("valid submit: success status, form cleared", async ({ page }) => {
+  test.skip(!features.contactServer, "server delivery parked (LEARNING-188)");
   await open(page);
   await fill(page);
   await form(page).getByLabel("Phone or Zalo (optional)").fill("+84 339 696 831");
@@ -76,6 +77,7 @@ test("valid submit: success status, form cleared", async ({ page }) => {
 });
 
 test("honeypot: looks sent, nothing else happens", async ({ page }) => {
+  test.skip(!features.contactServer, "server delivery parked (LEARNING-188)");
   await open(page);
   await page.locator("#contact-hp").evaluate((el: HTMLInputElement) => (el.value = "spam"));
   await send(page); // even empty: bots get the same success
@@ -84,6 +86,7 @@ test("honeypot: looks sent, nothing else happens", async ({ page }) => {
 });
 
 test("rate limit: an alert with the direct email", async ({ page }) => {
+  test.skip(!features.contactServer, "server delivery parked (LEARNING-188)");
   await open(page);
   for (let i = 0; i < 6; i++) {
     await fill(page);
@@ -107,9 +110,105 @@ test("type is preselected from the URL and from Work with me CTAs", async ({ pag
 test.describe("without JavaScript", () => {
   test.use({ javaScriptEnabled: false });
   test("the server renders the errors", async ({ page }) => {
+    test.skip(!features.contactServer, "server delivery parked (LEARNING-188)");
     await open(page);
     await send(page);
     await expect(page.locator('[data-part="form-summary"]')).toContainText("highlighted fields");
     await expect(page.locator("#contact-name-error")).toHaveText("Enter your name.");
+  });
+});
+
+test.describe("send from your own mailbox (LEARNING-188)", () => {
+  test.skip(features.contactServer, "server delivery is on");
+
+  test("empty required fields: inline errors, no panel", async ({ page }) => {
+    await open(page);
+    await send(page);
+    await expect(page.locator('[data-part="form-summary"]')).toBeFocused();
+    await expect(page.locator("#contact-name-error")).toHaveText("Enter your name.");
+    await expect(page.getByRole("dialog", { name: "Send from your email" })).toBeHidden();
+  });
+
+  test("the panel previews the message; each option links to its composer; Copy copies it", async ({
+    page,
+    context,
+  }) => {
+    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+    await open(page);
+    await fill(page, "Consulting");
+    await form(page)
+      .getByLabel("What do you need, and by when?")
+      .fill("Review our NestJS API before launch.\nTwo services, one database.");
+    const typed = "Review our NestJS API before launch.\nTwo services, one database.";
+    await expect(page.locator('[data-part="counter"]')).toHaveText(`${typed.length} / 1,500`);
+    await send(page);
+    const panel = page.getByRole("dialog", { name: "Send from your email" });
+    await expect(panel).toBeVisible();
+    const expected = [
+      "To: manhcuongmvc@gmail.com",
+      "Subject: [Portfolio] Consulting — Lan Tran",
+      "",
+      "Name: Lan Tran",
+      "Email: lan@example.com",
+      "Collaboration: Consulting",
+      "",
+      "Message:",
+      "Review our NestJS API before launch.",
+      "Two services, one database.",
+    ].join("\n");
+    await expect(panel.locator('[data-part="compose-preview"]')).toHaveText(expected);
+    const body = expected.split("\n").slice(3).join("\n");
+    const subject = encodeURIComponent("[Portfolio] Consulting — Lan Tran");
+    await expect(panel.getByRole("link", { name: /Open in Gmail/ })).toHaveAttribute(
+      "href",
+      `https://mail.google.com/mail/?view=cm&fs=1&to=manhcuongmvc%40gmail.com&su=${subject}&body=${encodeURIComponent(body)}`,
+    );
+    await expect(panel.getByRole("link", { name: /Open in Outlook/ })).toHaveAttribute(
+      "href",
+      `https://outlook.live.com/mail/0/deeplink/compose?to=manhcuongmvc%40gmail.com&subject=${subject}&body=${encodeURIComponent(body)}`,
+    );
+    await expect(panel.getByRole("link", { name: /Open in Gmail/ })).toHaveAttribute(
+      "target",
+      "_blank",
+    );
+    await expect(panel.getByRole("link", { name: "Default email app" })).toHaveAttribute(
+      "href",
+      `mailto:manhcuongmvc@gmail.com?subject=${subject}&body=${encodeURIComponent(body.replace(/\n/g, "\r\n"))}`,
+    );
+    await panel.getByRole("button", { name: "Copy message" }).click();
+    await expect(panel.getByRole("status")).toHaveText("Copied");
+    // Windows' clipboard stores CRLF; the copied text is the same.
+    const copied = await page.evaluate(() => navigator.clipboard.readText());
+    expect(copied.replace(/\r\n/g, "\n")).toBe(expected);
+    const { violations } = await new AxeBuilder({ page }).include("dialog").analyze();
+    expect(violations.map((v) => v.id)).toEqual([]);
+    await page.keyboard.press("Escape");
+    await expect(panel).toBeHidden();
+    await expect(form(page).getByRole("button", { name: "Send message" })).toBeFocused();
+    // Reopen; the Close button closes without re-submitting the form.
+    await send(page);
+    await expect(panel).toBeVisible();
+    await panel.getByRole("button", { name: "Close" }).click();
+    await expect(panel).toBeHidden();
+  });
+
+  test("Vietnamese panel and labels", async ({ page }) => {
+    await open(page, "/vi#contact");
+    const f = page.getByRole("form", { name: "Gửi tin nhắn" });
+    await f.getByLabel("Họ và tên").fill("Lan Tran");
+    await f.getByLabel("Email").fill("lan@example.com");
+    await f.getByLabel("Tư vấn").check();
+    await f
+      .getByLabel("Bạn cần gì, và cần khi nào?")
+      .fill("Đánh giá kiến trúc NestJS trước khi ra mắt.");
+    await f.getByRole("button", { name: "Gửi tin nhắn" }).click();
+    const panel = page.getByRole("dialog", { name: "Gửi từ email của bạn" });
+    await expect(panel.locator('[data-part="compose-preview"]')).toContainText(
+      "Tiêu đề: [Portfolio] Tư vấn — Lan Tran",
+    );
+    await expect(panel.getByRole("link", { name: "Ứng dụng email mặc định" })).toHaveAttribute(
+      "href",
+      /^mailto:manhcuongmvc@gmail\.com\?subject=/,
+    );
   });
 });

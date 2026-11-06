@@ -1,7 +1,10 @@
 import { getStats } from "@/lib/rate-limit/stats";
+import { features } from "@/lib/features";
 
 /** Last 60 s of /api/ping outcomes across all visitors. */
 export async function GET() {
+  // Parked with the lab: no Redis, salt or prefix needed in Production.
+  if (!features.lab) return new Response(null, { status: 404 });
   try {
     const seconds = await getStats().last();
     // Many open dashboards share one Redis read every ~2 s via the CDN.

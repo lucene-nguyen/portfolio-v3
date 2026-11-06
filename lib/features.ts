@@ -6,4 +6,6 @@ export const features = {
   themes: process.env.NEXT_PUBLIC_FEATURE_THEMES === "on",
   // Round 4: the Work with me section, its nav link and its hero CTA.
   workWithMe: process.env.NEXT_PUBLIC_FEATURE_WORK_WITH_ME === "on",
+  // LEARNING-188: server-side contact delivery (action, Redis, Resend). Off = visitors send from their own mailbox.
+  contactServer: process.env.NEXT_PUBLIC_FEATURE_CONTACT_SERVER === "on",
 };

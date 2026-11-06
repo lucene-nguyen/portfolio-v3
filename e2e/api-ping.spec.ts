@@ -1,4 +1,7 @@
 import { expect, test } from "@playwright/test";
+import { features } from "../lib/features";
+
+test.skip(!features.lab, "lab APIs parked with the lab (404)");
 
 test("burst of 6 against /api/ping returns one 429", async ({ request }) => {
   const headers = { "x-forwarded-for": `198.51.100.${Date.now() % 250}` };

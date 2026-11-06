@@ -3,6 +3,7 @@
 import { headers } from "next/headers";
 import { contents } from "@/content";
 import { CONTACT_LIMITS, validate, type Field } from "./contact";
+import { features } from "./features";
 import { isLocale } from "./i18n";
 import { deliver } from "./contact-delivery";
 import { getLimiter } from "./rate-limit/store";
@@ -21,6 +22,8 @@ export interface ContactState {
 
 export async function submitContact(_: ContactState, form: FormData): Promise<ContactState> {
   const at = Date.now();
+  // Parked (LEARNING-188): visitors send from their own mailbox; nothing reaches the server.
+  if (!features.contactServer) return { status: "error", at };
   // Honeypot: bots fill every field. Pretend it worked; store and send nothing.
   if (String(form.get(HONEYPOT) ?? "")) {
     console.info("contact honeypot hit");

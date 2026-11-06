@@ -775,6 +775,30 @@ export const contact = {
 
 // Form copy written with design:ux-copy: labels say what to enter; errors say what's wrong and how to fix it.
 export const contactCopy = {
+  compose: {
+    title: "Send from your email",
+    intro: "Pick how to send it. You keep a copy in your Sent folder.",
+    preview: "Message preview",
+    to: "To",
+    subject: "Subject",
+    fields: {
+      name: "Name",
+      email: "Email",
+      type: "Collaboration",
+      phone: "Phone or Zalo",
+      message: "Message",
+    },
+    gmail: "Open in Gmail",
+    outlook: "Open in Outlook",
+    mailto: "Default email app",
+    copy: "Copy message",
+    copied: "Copied",
+    long: "Long message: if the draft comes out cut off, use Copy message and paste it into your email.",
+    copyFailed: "Couldn't copy. Select the preview text and copy it.",
+    close: "Close",
+  },
+  counter: (n: number, max: number) =>
+    `${n.toLocaleString("en-US")} / ${max.toLocaleString("en-US")}`,
   formTitle: "Send a message",
   name: "Name",
   email: "Email",
@@ -799,7 +823,7 @@ export const contactCopy = {
     typeRequired: "Choose how you'd like to work together.",
     messageRequired: "Tell me what you need and your timeline.",
     messageShort: "Add a bit more detail (at least 20 characters).",
-    messageLong: "Keep it under 4,000 characters.",
+    messageLong: "Keep it under 1,500 characters.",
     phoneInvalid: "Enter a phone or Zalo number using digits (spaces, + and dashes are fine).",
   },
 };
