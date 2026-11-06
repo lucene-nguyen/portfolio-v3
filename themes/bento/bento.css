@@ -82,3 +82,8 @@
   max-width: 100%;
   padding: 16px;
 }
+
+/* Kit card hover cue (fix/kits-cards): the theme's own border rule hides the shared one. */
+[data-theme="bento"] [data-part="kit"] > :is(:hover, :has(:focus-visible)) {
+  box-shadow: 0 0 0 2px var(--border-strong);
+}

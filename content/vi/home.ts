@@ -365,7 +365,7 @@ export const kits = {
   items: [
     {
       name: "TableTap",
-      status: "đang phát triển",
+      status: "repo công khai",
       state: "active",
       description: "Starter kit gọi món tại bàn bằng mã QR cho nhà hàng và quán cà phê.",
       stack: "Next.js · Supabase · VietQR",
@@ -388,7 +388,7 @@ export const kits = {
     },
     {
       name: "rate-limiting-lab",
-      status: "repo công khai",
+      status: "đang phát triển",
       state: "active",
       description:
         "Thực hành các chiến lược rate limiting trên production và những lỗi thường gặp.",
