@@ -78,7 +78,7 @@ export const nav = [
 ];
 
 export const hero = {
-  eyebrow: `> whoami — ${profile.name}`,
+  eyebrow: `> whoami — ${profile.name} . ${profile.title}`,
   headline: "Tôi xây dựng những sản phẩm web mang lại giá trị thật cho người dùng và doanh nghiệp.",
   subline:
     "Mục tiêu của tôi là trở thành chuyên gia về phát triển web, vì vậy tôi không ngừng học hỏi và cải thiện mỗi ngày.",
@@ -501,7 +501,7 @@ export const contact = {
     "Bạn cần một kỹ sư fullstack cho đội ngũ, toàn thời gian hoặc bán thời gian? Hãy cùng trao đổi nhé.",
   subline: "Hay bạn có dự án ứng dụng web? Gửi tôi vài dòng mô tả nhé.",
   zalo: { label: "Zalo 0339696831", href: "https://zalo.me/0339696831" },
-  footer: [`© 2026 ${profile.name}`, "xây dựng bằng Next.js · triển khai trên Vercel"],
+  footer: [`© 2026 ${profile.name}`, '$ echo "cảm ơn bạn đã ghé thăm"'],
 };
 
 // Form copy written with design:ux-copy: labels say what to enter; errors say what's wrong and how to fix it.
