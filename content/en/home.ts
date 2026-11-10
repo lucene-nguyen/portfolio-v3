@@ -81,7 +81,7 @@ export const nav = [
 ];
 
 export const hero = {
-  eyebrow: `> whoami — ${profile.name}`,
+  eyebrow: `> whoami — ${profile.name} . ${profile.title}`,
   headline: "I build web products that bring real value to users and businesses.",
   subline:
     "My goal is to become an expert in web development, so I keep learning and improving every day.",
@@ -764,7 +764,7 @@ export const contact = {
     "Need a fullstack engineer on your team, full-time or part-time? I'd love to hear about it.",
   subline: "Have a web app project instead? Send me a brief.",
   zalo: { label: "Zalo 0339696831", href: "https://zalo.me/0339696831" },
-  footer: [`© 2026 ${profile.name}`, "built with Next.js · deployed on Vercel"],
+  footer: [`© 2026 ${profile.name}`, '$ echo "thanks for stopping by"'],
 };
 
 // Form copy written with design:ux-copy: labels say what to enter; errors say what's wrong and how to fix it.
