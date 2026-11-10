@@ -109,7 +109,7 @@ _535 strings: 283 translated, 252 identical in both languages ("= EN": names, te
 
 | Key | EN | VI |
 |---|---|---|
-| `hero.eyebrow` | > whoami — Nguyen Manh Cuong | > whoami — Nguyễn Mạnh Cường |
+| `hero.eyebrow` | > whoami — Nguyen Manh Cuong . Fullstack Software Engineer | > whoami — Nguyễn Mạnh Cường . Kỹ sư phần mềm Fullstack |
 | `hero.headline` | I build web products that bring real value to users and businesses. | Tôi xây dựng những sản phẩm web mang lại giá trị thật cho người dùng và doanh nghiệp. |
 | `hero.subline` | My goal is to become an expert in web development, so I keep learning and improving every day. | Mục tiêu của tôi là trở thành chuyên gia về phát triển web, vì vậy tôi không ngừng học hỏi và cải thiện mỗi ngày. |
 | `hero.lead` | Fullstack Software Engineer with 5+ years building web apps end to end — React and Next.js on the front end, Node.js and NestJS APIs on the back end, PostgreSQL, MongoDB and Redis for data, and AWS to run it in production. | Kỹ sư phần mềm Fullstack với hơn 5 năm xây dựng ứng dụng web từ đầu đến cuối — React và Next.js cho front end, API Node.js và NestJS cho back end, PostgreSQL, MongoDB và Redis cho dữ liệu, và AWS để vận hành trên môi trường production. |
@@ -653,7 +653,7 @@ _535 strings: 283 translated, 252 identical in both languages ("= EN": names, te
 | `contact.zalo.label` | Zalo 0339696831 | = EN |
 | `contact.zalo.href` | https://zalo.me/0339696831 | = EN |
 | `contact.footer[0]` | © 2026 Nguyen Manh Cuong | © 2026 Nguyễn Mạnh Cường |
-| `contact.footer[1]` | built with Next.js · deployed on Vercel | xây dựng bằng Next.js · triển khai trên Vercel |
+| `contact.footer[1]` | $ echo "thanks for stopping by" | $ echo "cảm ơn bạn đã ghé thăm" |
 
 ### contactCopy
 
