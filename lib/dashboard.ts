@@ -1,7 +1,12 @@
 // Metrics derived only from content/ (no invented numbers).
 
-// Expects "MM/YYYY"; an end month counts from its 1st (roles appear ~1 month shorter).
+// Expects "MM/YYYY" or "Present" (the current month); an end month counts from its 1st
+// (roles appear ~1 month shorter).
 const parseMonth = (mmYYYY: string) => {
+  if (!/^\d{1,2}\/\d{4}$/.test(mmYYYY.trim())) {
+    const now = new Date();
+    return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
+  }
   const [m, y] = mmYYYY.trim().split("/").map(Number);
   return new Date(Date.UTC(y, m - 1, 1));
 };

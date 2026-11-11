@@ -486,14 +486,14 @@ export const experience = {
   // Tags list only words that appear in that entry's bullets (checked by content/experience.test.ts).
   roles: [
     {
-      period: "03/2024 – 07/2026",
+      period: "03/2024 – Present",
       company: "FPT Software",
       summary:
         "Software Engineer — Long Châu Pharmacy platform, AI image processing (Japan), AWS data workflows (Australia). Mentored junior engineers.",
       entries: [
         {
           title: "Software Engineer",
-          period: "01/2026 – 07/2026",
+          period: "01/2026 – Present",
           context: "Australian clients (data processing on AWS)",
           tags: ["NestJS", "AWS S3", "AWS Lambda", "Python", "Node.js", "AWS SES"],
           bullets: [
