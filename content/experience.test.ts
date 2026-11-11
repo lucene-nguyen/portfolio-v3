@@ -56,12 +56,12 @@ describe("experience (verbatim from the resume)", () => {
 
   it("has the owner's structure, no project codes, and tags from the entry's own bullets", () => {
     expect(experience.roles.map((r) => [r.company, r.period])).toEqual([
-      ["FPT Software", "03/2024 – 07/2026"],
+      ["FPT Software", "03/2024 – Present"],
       ["NEOX", "08/2022 – 03/2024"],
       ["Faboshop", "01/2021 – 08/2022"],
     ]);
     expect(experience.roles[0].entries.map((e) => [e.title, e.period])).toEqual([
-      ["Software Engineer", "01/2026 – 07/2026"],
+      ["Software Engineer", "01/2026 – Present"],
       ["Software Engineer", "09/2025 – 12/2025"],
       ["Software Engineer – FPT Retail – Long Châu Pharmacy", "03/2024 – 09/2025"],
     ]);
