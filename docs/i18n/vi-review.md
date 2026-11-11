@@ -503,11 +503,11 @@ _535 strings: 283 translated, 252 identical in both languages ("= EN": names, te
 |---|---|---|
 | `experience.eyebrow` | 02 / experience | 02 / kinh nghiệm |
 | `experience.title` | Where I've shipped | Những nơi tôi đã làm việc |
-| `experience.roles[0].period` | 03/2024 – 07/2026 | = EN |
+| `experience.roles[0].period` | 03/2024 – Present | = EN |
 | `experience.roles[0].company` | FPT Software | = EN |
 | `experience.roles[0].summary` | Software Engineer — Long Châu Pharmacy platform, AI image processing (Japan), AWS data workflows (Australia). Mentored junior engineers. | = EN |
 | `experience.roles[0].entries[0].title` | Software Engineer | = EN |
-| `experience.roles[0].entries[0].period` | 01/2026 – 07/2026 | = EN |
+| `experience.roles[0].entries[0].period` | 01/2026 – Present | = EN |
 | `experience.roles[0].entries[0].context` | Australian clients (data processing on AWS) | = EN |
 | `experience.roles[0].entries[0].tags[0]` | NestJS | = EN |
 | `experience.roles[0].entries[0].tags[1]` | AWS S3 | = EN |

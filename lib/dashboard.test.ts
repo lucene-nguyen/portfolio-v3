@@ -19,3 +19,11 @@ it("counts stack usage across case studies", () => {
     { tag: "Redis", count: 1 },
   ]);
 });
+
+it('treats "Present" as the current month', () => {
+  const t = timeline([{ period: "03/2024 – Present", company: "FPT" }]);
+  const now = new Date();
+  expect(t.end.getUTCFullYear()).toBe(now.getUTCFullYear());
+  expect(t.end.getUTCMonth()).toBe(now.getUTCMonth());
+  expect(Number.isNaN(+t.end)).toBe(false);
+});
